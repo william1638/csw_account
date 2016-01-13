@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.std.account.dao.IBankCardDAO">
+	<resultMap id="bankCard_DB_Result" type="bankCard">
+		<result column="user_id" property="userId" />
+		<result column="bank_code" property="bankCode" />
+		<result column="bank_name" property="bankName" />
+		<result column="bankcard_no" property="bankCardNo" />
+		<result column="subbranch" property="subbranch" />
+		<result column="bind_mobile" property="bindMobile" />
+		<result column="status" property="status" />
+		<result column="create_datetime" property="createDatetime" />
+		<result column="update_datetime" property="updateDatetime" />
+	</resultMap>
+	<sql id="where_condition">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="userId != null and userId != '' ">
+				AND t.user_id = #{userId}
+			</if>
+			<if test="bankCode != null and bankCode != '' ">
+				AND t.bank_code = #{bankCode}
+			</if>
+			<if test="bankCardNo != null and bankCardNo != '' ">
+				AND t.bankcard_no = #{bankCardNo}
+			</if>
+			<if test="status != null and status != '' ">
+				AND t.status = #{status}
+			</if>
+			<if test="createDatetimeStart != null and createDatetimeStart != '' ">
+				<![CDATA[AND t.create_datetime >= #{createDatetimeStart}]]>
+			</if>
+			<if test="createDatetimeEnd != null and createDatetimeEnd != '' ">
+				<![CDATA[AND t.create_datetime <= #{createDatetimeEnd}]]>
+			</if>	
+		</trim>
+	</sql>
+	<select id="select_bankcard" parameterType="bankCard" resultMap="bankCard_DB_Result">
+		SELECT
+		user_id,
+		bank_code,
+		bank_name,
+		bankcard_no,
+		subbranch,
+		bind_mobile,
+		status,
+		create_datetime,
+		update_datetime
+		FROM
+		tpz_bankcard t
+		<include refid="where_condition" />
+		ORDER BY t.create_datetime DESC	
+	</select>
+
+	<select id="select_bankcard_count" parameterType="bankCard"
+		resultType="java.lang.Long">
+		SELECT count(1) FROM tpz_bankcard t
+		<include refid="where_condition" />
+	</select>
+
+	<insert id="insert_bankcard" parameterType="bankCard">
+		INSERT INTO
+		tpz_bankcard(
+		user_id
+		,bank_code
+		,bank_name
+		,bankcard_no
+		,subbranch
+		,bind_mobile
+		,status
+		,create_datetime
+		)
+		VALUES(
+		#{userId}
+		,#{bankCode}
+		,#{bankName}
+		,#{bankCardNo}
+		,#{subbranch}
+		,#{bindMobile}
+		,#{status}
+		,#{createDatetime}
+		)
+	</insert>
+
+	<update id="update_status" parameterType="bankCard">
+		UPDATE tpz_bankcard
+		SET
+		status= #{status},
+		update_datetime = #{updateDatetime}
+		WHERE 
+		bank_code= #{bankCode} 
+		AND
+		bankcard_no= #{bankCardNo}
+	</update>
+	
+	<update id="update" parameterType="bankCard">
+		UPDATE tpz_bankcard
+		SET
+		bank_code= #{bankCode},
+		bank_name= #{bankName},
+		bankcard_no= #{bankCardNo},
+		subbranch= #{subbranch},
+		bind_mobile = #{bindMobile},
+		status= #{status},
+		update_datetime = #{updateDatetime}
+		WHERE user_id = #{userId}
+	</update>
+</mapper>

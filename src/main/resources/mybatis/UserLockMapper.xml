@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.std.account.dao.IUserLockDAO">
+	<resultMap id="userLock_DB_Result" type="userLock">
+		<result column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="lock_direction" property="lockDirection" />		
+		<result column="remark" property="remark" />			
+	</resultMap>
+	<sql id="where_condition">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">	
+			<if test="id != null and id != '' ">
+				AND t.id = #{id}
+			</if>			
+			<if test="userId != null and userId != '' ">
+				AND t.user_id = #{userId}
+			</if>	
+			<if test="lockDirection != null and lockDirection != '' ">
+				AND t.lock_direction = #{lockDirection}
+			</if>			
+		</trim>
+	</sql>
+	<select id="select_userLock" parameterType="userLock" resultMap="userLock_DB_Result">
+		SELECT 
+		id
+		,user_id
+		,lock_direction
+		,remark			
+		FROM
+		tpz_user_lock t
+		<include refid="where_condition"/>
+		ORDER BY t.id DESC	
+	</select>
+
+	<select id="select_userLock_count" parameterType="userLock" resultType="java.lang.Long">
+		SELECT count(1) FROM tpz_user_lock t
+		<include refid="where_condition"/>
+	</select>
+
+	<insert id="insert_userLock" parameterType="userLock">
+		INSERT INTO tpz_user_lock(
+		user_id
+		,lock_direction
+		,remark		
+		)
+		VALUES(
+		#{userId}
+		,#{lockDirection}
+		,#{remark}		
+		)
+	</insert>
+
+	<update id="update_lock_direction" parameterType="userLock">
+		UPDATE tpz_user_lock
+		SET
+		 lock_direction= #{lockDirection}
+		,remark = #{remark}		
+		WHERE
+		id = #{id}			
+	</update>
+	
+</mapper>

@@ -1,0 +1,30 @@
+/**
+ * @Title IAccountJour.java 
+ * @Package com.ibis.account.dao 
+ * @Description 
+ * @author miyb  
+ * @date 2015-2-14 下午2:08:28 
+ * @version V1.0   
+ */
+package com.std.account.dao;
+
+import com.std.account.dao.base.IBaseDAO;
+import com.std.account.domain.AccountJour;
+
+/** 
+ * @author: miyb 
+ * @since: 2015-2-14 下午2:08:28 
+ * @history:
+ */
+public interface IAJourDAO extends IBaseDAO<AccountJour> {
+    String NAMESPACE = IAJourDAO.class.getName().concat(".");
+
+    /** 
+     * 对账
+     * @param data
+     * @return 
+     * @create: 2015-2-23 下午4:28:41 miyb
+     * @history: 
+     */
+    public int updateCheckInfo(AccountJour data);
+}

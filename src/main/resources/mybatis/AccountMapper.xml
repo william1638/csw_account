@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.std.account.dao.IAccountDAO">
+	<resultMap id="account_DB_Result" type="account">
+		<result column="account_number" property="accountNumber" />
+		<result column="status" property="status" />
+		<result column="amount" property="amount" />
+		<result column="frozen_amount" property="frozenAmount" />
+		<result column="currency" property="currency" />		
+
+		<result column="create_datetime" property="createDatetime" />
+		<result column="user_id" property="userId" />
+		<result column="mobile" property="mobile" />	
+		<result column="real_name" property="realName" />		
+	</resultMap>
+	<sql id="where_condition">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">			
+			<if test="accountNumber != null and accountNumber != '' ">
+				AND t.account_number = #{accountNumber}
+			</if>
+			<if test="status != null and status != '' ">
+				AND t.status = #{status}
+			</if>	
+			<if test="userId != null and userId != '' ">
+				AND t.user_id = #{userId}
+			</if>
+			<if test="createDatetimeStart != null and createDatetimeStart != '' ">
+				<![CDATA[AND t.create_datetime >= #{createDatetimeStart}]]>
+			</if>
+			<if test="createDatetimeEnd != null and createDatetimeEnd != '' ">
+				<![CDATA[AND t.create_datetime <= #{createDatetimeEnd}]]>
+			</if>
+			<if test="mobile != null and mobile != '' ">
+				AND tu.mobile = #{mobile}
+			</if>
+			<if test="realName != null and realName != '' ">
+				AND tu.real_name = #{realName}
+			</if>
+		</trim>
+	</sql>
+	
+	<select id="select_account" parameterType="account" resultMap="account_DB_Result">
+		SELECT 
+		t.account_number
+		,t.status
+		,t.amount
+		,t.frozen_amount
+		,t.currency
+		
+		,t.create_datetime
+		,t.user_id
+		,tu.mobile
+		,tu.real_name
+		FROM
+		tli_account t inner join tpz_user tu on t.user_id = tu.user_id
+		<include refid="where_condition"/>
+		<trim prefix="ORDER BY ">
+			<if test="order != null and order != '' ">
+				t.${order}
+			</if>
+		</trim>
+	</select>
+
+	<select id="select_account_count" parameterType="account" resultType="java.lang.Long">
+		SELECT count(1) FROM tli_account t inner join tpz_user tu on t.user_id = tu.user_id
+		<include refid="where_condition"/>
+	</select>
+
+	<insert id="insert_account" parameterType="account">
+		INSERT INTO tli_account(
+		account_number
+		,amount
+		,frozen_amount
+		,currency
+		,status
+		
+		,md5
+		,create_datetime
+		,user_id	
+		)
+		VALUES(
+		#{accountNumber}
+		,#{amount}
+		,#{frozenAmount}
+		,#{currency}
+		,#{status}
+		
+		,#{md5}
+		,#{createDatetime}
+		,#{userId}
+		)
+	</insert>
+	<update id="update_amount" parameterType="account">
+		UPDATE tli_account
+		SET
+		 amount= #{amount}
+		,md5 = #{md5}
+		,update_datetime = #{updateDatetime}
+		WHERE
+		account_number = #{accountNumber}			
+	</update>
+	<update id="update_frozen_amount" parameterType="account">
+		UPDATE tli_account
+		SET
+		 amount= #{amount}
+		,frozen_amount = #{frozenAmount}
+		,md5 = #{md5}
+		,update_datetime = #{updateDatetime}
+		WHERE
+		account_number = #{accountNumber}			
+	</update>
+	<update id="update_status" parameterType="account">
+		UPDATE tli_account
+		SET
+		 status= #{status}
+		,update_datetime = #{updateDatetime}
+		WHERE
+		account_number = #{accountNumber}		
+	</update>
+</mapper>

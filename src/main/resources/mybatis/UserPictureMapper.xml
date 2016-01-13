@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.std.account.dao.IUserPictureDAO">
+	<resultMap id="userPicture_DB_Result" type="userPicture">
+		<result column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="real_name" property="realName" />
+		<result column="id_kind" property="idKind" />
+		<result column="id_no" property="idNo" />
+		
+		<result column="id_pic1" property="idPic1" />
+		<result column="id_pic2" property="idPic2" />
+		<result column="id_user_pic" property="idUserPic" />		
+		<result column="create_datetime" property="createDatetime" />
+		
+		<result column="verify_datetime" property="verifyDatetime" />
+		<result column="verify_status" property="verifyStatus" />
+		<result column="verify_user" property="verifyUser" />
+		<result column="remark" property="remark" />
+	</resultMap>
+	<sql id="where_condition">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">	
+			<if test="id != null and id != '' ">
+				AND t.id = #{id}
+			</if>		
+			<if test="userId != null and userId != '' ">
+				AND t.user_id = #{userId}
+			</if>
+			<if test="verifyStatus != null and verifyStatus != '' ">
+				AND t.verify_status = #{verifyStatus}
+			</if>	
+			<if test="verifyUser != null and verifyUser != '' ">
+				AND t.verify_user = #{verifyUser}
+			</if>	
+			<if test="createDatetimeStart != null and createDatetimeStart != '' ">
+				<![CDATA[AND t.create_datetime >= #{createDatetimeStart}]]>
+			</if>
+			<if test="createDatetimeEnd != null and createDatetimeEnd != '' ">
+				<![CDATA[AND t.create_datetime <= #{createDatetimeEnd}]]>
+			</if>	
+		</trim>
+	</sql>
+	<select id="select_userPicture" parameterType="userPicture" resultMap="userPicture_DB_Result">
+		SELECT 
+		id,
+		user_id,
+		real_name,
+		id_kind,
+		id_no,
+		id_pic1,
+		id_pic2,
+		id_user_pic,
+		create_datetime,
+		verify_datetime,
+		verify_status,
+		verify_user,
+		remark	
+		FROM
+		tpz_user_picture t
+		<include refid="where_condition"/>
+		ORDER BY t.id
+	</select>
+
+	<select id="select_userPicture_count" parameterType="userPicture" resultType="java.lang.Long">
+		SELECT count(1) FROM tpz_user_picture t
+		<include refid="where_condition"/>
+	</select>
+
+	<insert id="insert_userPicture" parameterType="userPicture">
+		INSERT INTO tpz_user_picture(
+		user_id,
+		real_name,
+		id_kind,
+		id_no,
+		
+		id_pic1,
+		id_pic2,
+		id_user_pic,
+		create_datetime,
+		
+		verify_status,
+		remark	
+		)
+		VALUES(
+		#{userId}
+		,#{realName}
+		,#{idKind}
+		,#{idNo}
+		
+		,#{idPic1}
+		,#{idPic2}
+		,#{idUserPic}
+		,#{createDatetime}
+		
+		
+		,#{verifyStatus}
+		,#{remark}
+		)
+	</insert>
+
+	<delete id="delete_userPicture" parameterType="userPicture">
+		DELETE FROM tpz_user_picture
+		WHERE
+		id = #{id}			
+	</delete>
+	<update id="update_VerifyUserPicture" parameterType="userPicture">
+		UPDATE tpz_user_picture
+		SET
+		verify_status= #{verifyStatus}
+		,verify_user= #{verifyUser}
+		,verify_datetime= #{verifyDatetime}
+		,remark= #{remark}
+		WHERE
+		id = #{id}				
+	</update>
+</mapper>

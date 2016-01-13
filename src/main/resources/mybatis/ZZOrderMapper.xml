@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.std.account.dao.IZZOrderDAO">
+	<resultMap id="zzOrder_DB_Result" type="zzOrder">
+		<result column="zz_no" property="zzNo" />
+		<result column="status" property="status" />
+		<result column="direction" property="direction" />
+		<result column="amount" property="amount" />
+		<result column="create_datetime" property="createDatetime" />
+					
+		
+		<result column="opposite_system" property="oppositeSystem" />
+		<result column="opposite_account" property="oppositeAccount" />	
+		<result column="remark" property="remark" />
+		<result column="account_number" property="accountNumber" />
+	</resultMap>
+	
+	<resultMap id="Dvalue_DB_Result" type="zzOrder">
+		<result column="account_number" property="accountNumber" />
+		<result column="opposite_system" property="oppositeSystem" />
+		<result column="amount" property="amount" />	
+	</resultMap>
+	
+	<sql id="where_condition">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">			
+			<if test="zzNo != null and zzNo != '' ">
+				AND t.zz_no = #{zzNo}
+			</if>
+			<if test="status != null and status != '' ">
+				AND t.status = #{status}
+			</if>	
+			<if test="direction != null and direction != '' ">
+				AND t.direction = #{direction}
+			</if>	
+			<if test="oppositeSystem != null and oppositeSystem != '' ">
+				AND t.opposite_system = #{oppositeSystem}
+			</if>				
+			<if test="accountNumber != null and accountNumber != '' ">
+				AND t.account_number = #{accountNumber}
+			</if>	
+			<if test="createDatetimeStart != null and createDatetimeStart != '' ">
+				<![CDATA[AND t.create_datetime >= #{createDatetimeStart}]]>
+			</if>
+			<if test="createDatetimeEnd != null and createDatetimeEnd != '' ">
+				<![CDATA[AND t.create_datetime <= #{createDatetimeEnd}]]>
+			</if>						
+		</trim>
+	</sql>
+	<select id="select_zzOrder" parameterType="zzOrder" resultMap="zzOrder_DB_Result">
+		SELECT 
+		zz_no
+		,status
+		,direction
+		,amount
+		,create_datetime	
+			
+		
+		,opposite_system		
+		,opposite_account
+		,remark			
+		,account_number	
+		FROM
+		tli_zzorder t
+		<include refid="where_condition"/>
+		ORDER BY t.create_datetime
+	</select>
+
+	<select id="select_zzOrder_count" parameterType="zzOrder" resultType="java.lang.Long">
+		SELECT count(1) FROM tli_zzorder t
+		<include refid="where_condition"/>
+	</select>
+
+	<insert id="insert_zzOrder" parameterType="zzOrder">
+		INSERT INTO tli_zzorder(
+		zz_no
+		,status
+		,direction
+		,amount
+		,create_datetime				
+
+		,opposite_system		
+		,opposite_account
+		,remark			
+		,account_number	
+		)
+		VALUES(
+		#{zzNo}
+		,#{status}	
+		,#{direction}
+		,#{amount}		
+		,#{createDatetime}		
+		
+		,#{oppositeSystem}		
+		,#{oppositeAccount}
+		,#{remark}	
+		,#{accountNumber}
+		)
+	</insert>	
+	
+	
+	<select id="select_doStatisticsDvalue" parameterType="zzOrder" resultMap="Dvalue_DB_Result">
+		SELECT 
+		account_number
+		,opposite_system		
+		,sum(amount) amount
+		FROM
+		tli_zzorder t
+		WHERE t.account_number = #{accountNumber}
+		GROUP BY t.opposite_system;
+	</select>
+</mapper>

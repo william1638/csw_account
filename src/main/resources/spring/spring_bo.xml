@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc-4.0.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd">
+
+	
+	<!-- 分页BO层注入paginableDao -->
+	<bean id="accountBO" class="com.std.account.bo.impl.AccountBOImpl">
+		<property name="paginableDAO" ref="accountDAOImpl" />
+	</bean>
+	<bean id="aJourBO" class="com.std.account.bo.impl.AJourBOImpl">
+		<property name="paginableDAO" ref="aJourDAOImpl" />
+	</bean>
+	<bean id="afJourBO" class="com.std.account.bo.impl.AFJourBOImpl">
+		<property name="paginableDAO" ref="afJourDAOImpl" />
+	</bean>
+	<bean id="cqOrderBO" class="com.std.account.bo.impl.CQOrderBOImpl">
+		<property name="paginableDAO" ref="cqOrderDAOImpl" />
+	</bean>
+	<bean id="hlOrderBO" class="com.std.account.bo.impl.HLOrderBOImpl">
+		<property name="paginableDAO" ref="hlOrderDAOImpl" />
+	</bean>
+	<bean id="xnbOrderBO" class="com.std.account.bo.impl.XNBOrderBOImpl">
+		<property name="paginableDAO" ref="xnbOrderDAOImpl" />
+	</bean>
+	<bean id="zzOrderBO" class="com.std.account.bo.impl.ZZOrderBOImpl">
+		<property name="paginableDAO" ref="zzOrderDAOImpl" />
+	</bean>
+	<bean id="ytOrderBO" class="com.std.account.bo.impl.YTOrderBOImpl">
+		<property name="paginableDAO" ref="ytOrderDAOImpl" />
+	</bean>
+	
+	<bean id="bankBO" class="com.std.account.bo.impl.BankBOImpl">
+		<property name="paginableDAO" ref="bankDAOImpl" />
+	</bean>
+	<bean id="channelBO" class="com.std.account.bo.impl.ChannelBOImpl">
+		<property name="paginableDAO" ref="channelDAOImpl" />
+	</bean>
+	<bean id="bankCardBO" class="com.std.account.bo.impl.BankCardBOImpl">
+		<property name="paginableDAO" ref="bankCardDAOImpl" />
+	</bean>
+	<bean id="userBO" class="com.std.account.bo.impl.UserBOImpl">
+		<property name="paginableDAO" ref="userDAOImpl" />
+	</bean>
+	<bean id="userLockBO" class="com.std.account.bo.impl.UserLockBOImpl">
+		<property name="paginableDAO" ref="userLockDAOImpl"/>
+	</bean>	
+	<bean id="userIdentifyBO" class="com.std.account.bo.impl.UserIdentifyBOImpl">
+		<property name="paginableDAO" ref="userIdentifyDAOImpl" />
+	</bean>
+	<bean id="userLoginLogBO" class="com.std.account.bo.impl.UserLoginLogBOImpl">
+		<property name="paginableDAO" ref="userLoginLogDAOImpl" />
+	</bean>
+	<bean id="userPictureBO" class="com.std.account.bo.impl.UserPictureBOImpl">
+		<property name="paginableDAO" ref="userPictureDAOImpl" />
+	</bean>
+	<bean id="userExtBO" class="com.std.account.bo.impl.UserExtBOImpl">
+		<property name="paginableDAO" ref="userExtDAOImpl" />
+	</bean>
+	
+	
+	<bean id="smsCaptchaBO" class="com.std.account.bo.impl.SmsCaptchaBOImpl">
+		<property name="paginableDAO" ref="smsCaptchaDAOImpl" />
+	</bean>
+	<bean id="dictBO" class="com.std.account.bo.impl.DictBOImpl">
+		<property name="paginableDAO" ref="dictDAOImpl" />
+	</bean>
+	
+	<bean id="navigationBO" class="com.std.account.cms.bo.impl.NavigationBOImpl">
+		<property name="paginableDAO" ref="navigationDAOImpl" />
+	</bean>
+	<bean id="articleBO" class="com.std.account.cms.bo.impl.ArticleBOImpl">
+		<property name="paginableDAO" ref="articleDAOImpl" />
+	</bean>
+</beans>

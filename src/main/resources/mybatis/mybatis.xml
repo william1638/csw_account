@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<typeAliases>	
+	
+		<typeAlias alias="smsCaptcha" type="com.std.account.domain.SmsCaptcha" />	
+		<typeAlias alias="dict" type="com.std.account.domain.Dict" />
+		
+		<typeAlias alias="account" type="com.std.account.domain.Account" />
+		<typeAlias alias="afJour" type="com.std.account.domain.AccountFrozenJour" />
+		<typeAlias alias="accountJour" type="com.std.account.domain.AccountJour" />
+		<typeAlias alias="cqOrder" type="com.std.account.domain.CQOrder" />
+		<typeAlias alias="hlOrder" type="com.std.account.domain.HLOrder" />
+		<typeAlias alias="xnbOrder" type="com.std.account.domain.XNBOrder" />
+		<typeAlias alias="zzOrder" type="com.std.account.domain.ZZOrder" />
+		<typeAlias alias="ytOrder" type="com.std.account.domain.YTOrder" />
+		<typeAlias alias="channel" type="com.std.account.domain.Channel" />
+		<typeAlias alias="bank" type="com.std.account.domain.Bank" />
+	
+		
+		<typeAlias alias="user" type="com.std.account.domain.User" />
+		<typeAlias alias="userLock" type="com.std.account.domain.UserLock" />		
+		<typeAlias alias="userLoginLog" type="com.std.account.domain.UserLoginLog" />
+		<typeAlias alias="userExt" type="com.std.account.domain.UserExt" />		
+		<typeAlias alias="userIdentify" type="com.std.account.domain.UserIdentify" />
+		<typeAlias alias="userPicture" type="com.std.account.domain.UserPicture" />
+		<typeAlias alias="bankCard" type="com.std.account.domain.BankCard" />
+		
+		<typeAlias alias="navigation" type="com.std.account.cms.domain.Navigation" />
+		<typeAlias alias="article" type="com.std.account.cms.domain.Article" />
+	</typeAliases>	
+</configuration>	

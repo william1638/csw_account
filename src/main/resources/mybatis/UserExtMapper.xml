@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.std.account.dao.IUserExtDAO">
+	<resultMap id="userExt_DB_Result" type="userExt">
+		<result column="user_id" property="userId" />
+		<result column="photo" property="photo" />
+		<result column="comefrom" property="comefrom" />
+		<result column="birthday" property="birthday" />		
+		<result column="qq" property="qq" />
+		<result column="email" property="email" />
+		<result column="occupation" property="occupation" />
+		<result column="education" property="education" />
+	</resultMap>
+	<sql id="where_condition">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">			
+			<if test="userId != null and userId != '' ">
+				AND t.user_id = #{userId}
+			</if>
+			<if test="photo != null and photo != '' ">
+				AND t.photo = #{photo}
+			</if>
+			<if test="comefrom != null and comefrom != '' ">
+				AND t.comefrom = #{comefrom}
+			</if>
+			<if test="birthday != null and birthday != '' ">
+				AND t.birthday = #{birthday}
+			</if>
+			<if test="qq != null and qq != '' ">
+				AND t.qq = #{qq}
+			</if>	
+			<if test="email != null and email != '' ">
+				AND t.email = #{email}
+			</if>	
+			<if test="occupation != null and occupation != '' ">
+				AND t.occupation = #{occupation}
+			</if>	
+			<if test="education != null and education != '' ">
+				AND t.education = #{education}
+			</if>		
+		</trim>
+	</sql>
+	<select id="select_userExt" parameterType="userExt" resultMap="userExt_DB_Result">
+		SELECT 
+		user_id,
+		photo,
+		comefrom,
+		birthday,
+		qq,
+		email,
+		occupation,
+		education	
+		FROM
+		tpz_user_ext t
+		<include refid="where_condition"/>
+		<trim prefix="ORDER BY ">
+			<if test="order != null and order != '' ">
+				#{order}
+			</if>
+		</trim>
+	</select>
+
+	<select id="select_userExt_count" parameterType="userExt" resultType="java.lang.Long">
+		SELECT count(1) FROM tpz_user_ext t
+		<include refid="where_condition"/>
+	</select>
+
+	<insert id="insert_userExt" parameterType="userExt">
+		INSERT INTO tpz_user_ext(
+		user_id,
+		photo,
+		comefrom,
+		birthday,
+		qq,
+		email,
+		occupation,
+		education
+		)
+		VALUES(
+		#{userId}
+		,#{photo}
+		,#{comefrom}
+		,#{birthday}
+		,#{qq}
+		,#{email}
+		,#{occupation}
+		,#{education}
+		)
+	</insert>
+	
+	<update id="update_userExt" parameterType="userExt">
+		UPDATE tpz_user_ext
+		SET		
+		comefrom=#{comefrom},
+		birthday=#{birthday},
+		qq=#{qq},
+		email=#{email},
+		occupation=#{occupation},
+		education=#{education}
+		WHERE
+		user_id = #{userId}
+	</update>
+	<update id="update_photo" parameterType="userExt">
+		UPDATE tpz_user_ext
+		SET		
+		photo=#{photo}
+		WHERE
+		user_id = #{userId}
+	</update>
+
+	<delete id="delete_userExt" parameterType="userExt">
+		DELETE FROM tpz_user_ext
+		WHERE
+		user_id = #{userId}			
+	</delete>
+</mapper>
