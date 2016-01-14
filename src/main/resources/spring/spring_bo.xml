@@ -79,4 +79,8 @@
 	<bean id="articleBO" class="com.std.account.cms.bo.impl.ArticleBOImpl">
 		<property name="paginableDAO" ref="articleDAOImpl" />
 	</bean>
+	
+	<bean id="companyBO" class="com.std.account.bo.impl.CompanyBOImpl">
+		<property name="paginableDAO" ref="companyDAOImpl" />
+	</bean>
 </beans>

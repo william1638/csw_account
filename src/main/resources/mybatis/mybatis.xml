@@ -28,5 +28,7 @@
 		
 		<typeAlias alias="navigation" type="com.std.account.cms.domain.Navigation" />
 		<typeAlias alias="article" type="com.std.account.cms.domain.Article" />
+		
+		<typeAlias alias="company" type="com.std.account.domain.Company" />
 	</typeAliases>	
 </configuration>	
