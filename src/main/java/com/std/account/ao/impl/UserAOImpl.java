@@ -90,8 +90,8 @@ public class UserAOImpl implements IUserAO {
 
     @Override
     @Transactional
-    public String doRegister(String mobile, String loginPwd, String registerIp,
-            String userReferee, String smsCaptcha) {
+    public String doRegister(String mobile, String smsCaptcha, String loginPwd,
+            String registerIp, String userReferee) {
         // 验证手机号
         userBO.isMobileExist(mobile);
         // 验证推荐人是否是平台的已注册用户
@@ -105,7 +105,6 @@ public class UserAOImpl implements IUserAO {
         // 记录注册日志
         userLoginLogBO.saveUserLoginLogBO(userId, registerIp,
             ELoginStatus.REGISTERSUCCESS.getCode());
-
         // 分配账号
         accountBO.distributeAccount(userId, ECurrency.CNY.getCode());
         // 发送短信
@@ -150,8 +149,7 @@ public class UserAOImpl implements IUserAO {
 
     @Override
     @Transactional
-    public boolean doSetTradePwd(String userId, String tradePwd,
-            String smsCaptcha) {
+    public void doSetTradePwd(String userId, String tradePwd, String smsCaptcha) {
         // 判断是否和登录密码重复
         User user = this.doGetUser(userId);
         // 短信验证码是否正确
@@ -164,7 +162,6 @@ public class UserAOImpl implements IUserAO {
                 + "用户，您的交易密码设置成功。请妥善保管您的账户相关信息。",
             ESmsBizType.SETTRADEPWD.getCode(),
             ESmsBizType.SETTRADEPWD.getValue());
-        return true;
     }
 
     @Override

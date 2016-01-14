@@ -1,13 +1,13 @@
 package com.std.account.dto.res;
 
-public class XN702004Res {
+public class XN801204Res {
     // 是否成功
     private boolean isSuccess;
 
-    public XN702004Res() {
+    public XN801204Res() {
     };
 
-    public XN702004Res(boolean isSuccess) {
+    public XN801204Res(boolean isSuccess) {
         this.isSuccess = isSuccess;
     }
 

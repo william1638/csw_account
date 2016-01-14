@@ -23,15 +23,15 @@ public interface IIdentityAO {
     /**
      * 三方实名认证
      * @param userId
-     * @param realName
      * @param idKind
      * @param idNo
+     * @param realName
      * @return 
-     * @create: 2015年8月23日 下午2:12:17 myb858
+     * @create: 2016年1月13日 下午9:00:53 myb858
      * @history:
      */
-    public boolean doIdentify(String userId, String realName, String idKind,
-            String idNo);
+    public void doIdentify(String userId, String idKind, String idNo,
+            String realName);
 
     /**
      * 

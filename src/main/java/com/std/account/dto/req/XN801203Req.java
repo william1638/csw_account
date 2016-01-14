@@ -1,6 +1,6 @@
 package com.std.account.dto.req;
 
-public class XN702005Req {
+public class XN801203Req {
     // userId（必填）
     private String userId;
 

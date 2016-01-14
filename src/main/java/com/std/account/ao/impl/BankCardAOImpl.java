@@ -34,9 +34,8 @@ public class BankCardAOImpl implements IBankCardAO {
 
     @Override
     @Transactional
-    public boolean doBindBandCard(String userId, String bankCode,
-            String bankName, String bankCardNo, String subbranch,
-            String bindMobile) {
+    public void doBindBandCard(String userId, String bankCode, String bankName,
+            String bankCardNo, String subbranch, String bindMobile) {
         BankCard dbBankCard = bankCardBO.getBankCard(userId);
         if (dbBankCard != null) {// 银行卡已经绑定
             // 更新银行卡信息
@@ -48,7 +47,6 @@ public class BankCardAOImpl implements IBankCardAO {
             bankCardBO.saveBankCard(userId, bankCode, bankName, bankCardNo,
                 subbranch, bindMobile);
         }
-        return true;
     }
 
     @Override

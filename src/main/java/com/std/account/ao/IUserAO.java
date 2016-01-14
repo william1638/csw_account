@@ -35,16 +35,16 @@ public interface IUserAO {
     /**
      * 注册
      * @param mobile
+     * @param smsCaptcha
      * @param loginPwd
      * @param registerIp
      * @param userReferee
-     * @param smsCaptcha
      * @return 
-     * @create: 2015年9月19日 上午10:19:57 myb858
+     * @create: 2016年1月13日 下午8:55:32 myb858
      * @history:
      */
-    public String doRegister(String mobile, String loginPwd, String registerIp,
-            String userReferee, String smsCaptcha);
+    public String doRegister(String mobile, String smsCaptcha, String loginPwd,
+            String registerIp, String userReferee);
 
     /**
      * 用户登陆
@@ -77,8 +77,7 @@ public interface IUserAO {
      * @create: 2015年9月19日 上午11:03:29 myb858
      * @history:
      */
-    public boolean doSetTradePwd(String userId, String tradePwd,
-            String smsCaptcha);
+    public void doSetTradePwd(String userId, String tradePwd, String smsCaptcha);
 
     /**
      * 找回登录密码

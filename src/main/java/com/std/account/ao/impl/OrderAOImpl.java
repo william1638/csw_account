@@ -26,7 +26,6 @@ import com.std.account.common.PhoneUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.domain.Account;
 import com.std.account.domain.CQOrder;
-import com.std.account.domain.CalculationUtil;
 import com.std.account.domain.HLOrder;
 import com.std.account.domain.User;
 import com.std.account.enums.EBankCardStatus;
@@ -38,6 +37,7 @@ import com.std.account.enums.EOrderType;
 import com.std.account.enums.ESmsBizType;
 import com.std.account.enums.EUser;
 import com.std.account.exception.BizException;
+import com.std.account.util.CalculationUtil;
 
 /** 
  * @author: miyb 

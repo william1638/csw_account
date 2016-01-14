@@ -41,7 +41,7 @@ public interface IBankCardAO {
             BankCard condition);
 
     /**
-     * 绑定/修改银行卡
+     * 绑定银行卡
      * @param userId
      * @param bankCode
      * @param bankName
@@ -52,8 +52,7 @@ public interface IBankCardAO {
      * @create: 2015年12月6日 下午12:13:07 myb858
      * @history:
      */
-    public boolean doBindBandCard(String userId, String bankCode,
-            String bankName, String bankCardNo, String subbranch,
-            String bindMobile);
+    public void doBindBandCard(String userId, String bankCode, String bankName,
+            String bankCardNo, String subbranch, String bindMobile);
 
 }

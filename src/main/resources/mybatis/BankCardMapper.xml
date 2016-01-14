@@ -3,7 +3,9 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.std.account.dao.IBankCardDAO">
 	<resultMap id="bankCard_DB_Result" type="bankCard">
+		<result column="id" property="id" />
 		<result column="user_id" property="userId" />
+		<result column="type" property="type" />
 		<result column="bank_code" property="bankCode" />
 		<result column="bank_name" property="bankName" />
 		<result column="bankcard_no" property="bankCardNo" />
@@ -15,6 +17,9 @@
 	</resultMap>
 	<sql id="where_condition">
 		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="id != null and id != '' ">
+				AND t.id = #{id}
+			</if>
 			<if test="userId != null and userId != '' ">
 				AND t.user_id = #{userId}
 			</if>
@@ -37,30 +42,31 @@
 	</sql>
 	<select id="select_bankcard" parameterType="bankCard" resultMap="bankCard_DB_Result">
 		SELECT
-		user_id,
-		bank_code,
-		bank_name,
-		bankcard_no,
-		subbranch,
-		bind_mobile,
-		status,
-		create_datetime,
-		update_datetime
+		id
+		,user_id
+		,bank_code
+		,bank_name
+		,bankcard_no
+		,subbranch
+		,bind_mobile
+		,status
+		,create_datetime
+		,update_datetime
 		FROM
-		tpz_bankcard t
+		tstd_bankcard t
 		<include refid="where_condition" />
 		ORDER BY t.create_datetime DESC	
 	</select>
 
 	<select id="select_bankcard_count" parameterType="bankCard"
 		resultType="java.lang.Long">
-		SELECT count(1) FROM tpz_bankcard t
+		SELECT count(1) FROM tstd_bankcard t
 		<include refid="where_condition" />
 	</select>
 
 	<insert id="insert_bankcard" parameterType="bankCard">
 		INSERT INTO
-		tpz_bankcard(
+		tstd_bankcard(
 		user_id
 		,bank_code
 		,bank_name
@@ -81,28 +87,32 @@
 		,#{createDatetime}
 		)
 	</insert>
-
-	<update id="update_status" parameterType="bankCard">
-		UPDATE tpz_bankcard
-		SET
-		status= #{status},
-		update_datetime = #{updateDatetime}
-		WHERE 
-		bank_code= #{bankCode} 
-		AND
-		bankcard_no= #{bankCardNo}
-	</update>
+	<delete id="delete_bankcard" parameterType="bankcard">
+		DELETE FROM
+		tstd_bankcard
+		WHERE
+		id = #{id}
+	</delete>
+	
 	
 	<update id="update" parameterType="bankCard">
-		UPDATE tpz_bankcard
+		UPDATE tstd_bankcard
 		SET
-		bank_code= #{bankCode},
-		bank_name= #{bankName},
-		bankcard_no= #{bankCardNo},
-		subbranch= #{subbranch},
-		bind_mobile = #{bindMobile},
-		status= #{status},
-		update_datetime = #{updateDatetime}
-		WHERE user_id = #{userId}
+		bank_code= #{bankCode}
+		,bank_name= #{bankName}
+		,bankcard_no= #{bankCardNo}
+		,subbranch= #{subbranch}
+		,bind_mobile = #{bindMobile}
+		,status= #{status}
+		,update_datetime = #{updateDatetime}
+		WHERE id = #{id}
+	</update>
+	
+	<update id="update_status" parameterType="bankCard">
+		UPDATE tstd_bankcard
+		SET
+		status= #{status}
+		,update_datetime = #{updateDatetime}
+		WHERE id = #{id}
 	</update>
 </mapper>

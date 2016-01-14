@@ -23,8 +23,13 @@ public class BankCard extends ABaseDO {
     private Date createDatetimeEnd;
 
     // ---------db properties start--------------------------
+    private Long id;
+
     // 用户编号
     private String userId;
+
+    // 类型(对公对私)
+    private String type;
 
     // 银行行号
     private String bankCode;
@@ -32,11 +37,11 @@ public class BankCard extends ABaseDO {
     // 银行名称
     private String bankName;
 
-    // 银行卡编号
-    private String bankCardNo;
-
     // 开户支行
     private String subbranch;
+
+    // 银行卡编号
+    private String bankCardNo;
 
     // 银行预留手机号
     private String bindMobile;
@@ -66,6 +71,14 @@ public class BankCard extends ABaseDO {
         this.createDatetimeEnd = createDatetimeEnd;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
     public String getUserId() {
         return userId;
     }
@@ -90,20 +103,20 @@ public class BankCard extends ABaseDO {
         this.bankName = bankName;
     }
 
-    public String getBankCardNo() {
-        return bankCardNo;
-    }
-
-    public void setBankCardNo(String bankCardNo) {
-        this.bankCardNo = bankCardNo;
-    }
-
     public String getSubbranch() {
         return subbranch;
     }
 
     public void setSubbranch(String subbranch) {
         this.subbranch = subbranch;
+    }
+
+    public String getBankCardNo() {
+        return bankCardNo;
+    }
+
+    public void setBankCardNo(String bankCardNo) {
+        this.bankCardNo = bankCardNo;
     }
 
     public String getBindMobile() {

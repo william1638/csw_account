@@ -43,8 +43,8 @@ public class IdentityAOImpl implements IIdentityAO {
 
     @Override
     @Transactional
-    public boolean doIdentify(String userId, String realName, String idKind,
-            String idNo) {
+    public void doIdentify(String userId, String idKind, String idNo,
+            String realName) {
         userIdentifyBO.isChecked(realName, idKind, idNo);
         // 三方认证
         dentifyBO.doIdentify(userId, realName, idKind, idNo);
@@ -54,7 +54,6 @@ public class IdentityAOImpl implements IIdentityAO {
         // 保存用户认证记录
         userIdentifyBO.saveUserIdentify(userId, realName,
             EIDKind.IDCard.getCode(), idNo, "0", "success");
-        return true;
     }
 
     @Override

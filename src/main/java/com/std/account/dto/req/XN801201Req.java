@@ -1,6 +1,6 @@
 package com.std.account.dto.req;
 
-public class XN702002Req {
+public class XN801201Req {
     // 登陆名（必填）
     private String loginName;
 

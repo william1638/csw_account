@@ -4,8 +4,8 @@ import com.std.account.ao.IUserAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
-import com.std.account.dto.req.XN702005Req;
-import com.std.account.dto.res.XN702005Res;
+import com.std.account.dto.req.XN801203Req;
+import com.std.account.dto.res.XN801203Res;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -19,19 +19,20 @@ import com.std.account.spring.SpringContextHolder;
 public class XN801203 extends AProcessor {
     private IUserAO userAO = SpringContextHolder.getBean(IUserAO.class);
 
-    private XN702005Req xn702005Req = null;
+    private XN801203Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
-        return new XN702005Res(userAO.doSetTradePwd(xn702005Req.getUserId(),
-            xn702005Req.getTradePwd(), xn702005Req.getSmsCaptcha()));
+        userAO.doSetTradePwd(req.getUserId(), req.getTradePwd(),
+            req.getSmsCaptcha());
+        return new XN801203Res(true);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        xn702005Req = JsonUtil.json2Bean(inputparams, XN702005Req.class);
-        StringValidater.validateBlank(xn702005Req.getUserId(),
-            xn702005Req.getTradePwd(), xn702005Req.getSmsCaptcha());
+        req = JsonUtil.json2Bean(inputparams, XN801203Req.class);
+        StringValidater.validateBlank(req.getUserId(), req.getTradePwd(),
+            req.getSmsCaptcha());
     }
 
 }

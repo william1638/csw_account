@@ -5,8 +5,8 @@ import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.common.PhoneUtil;
 import com.std.account.core.StringValidater;
-import com.std.account.dto.req.XN702002Req;
-import com.std.account.dto.res.XN702002Res;
+import com.std.account.dto.req.XN801201Req;
+import com.std.account.dto.res.XN801201Res;
 import com.std.account.enums.EBoolean;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
@@ -21,26 +21,25 @@ import com.std.account.spring.SpringContextHolder;
 public class XN801201 extends AProcessor {
     private IUserAO userAO = SpringContextHolder.getBean(IUserAO.class);
 
-    private XN702002Req xn702002Req = null;
+    private XN801201Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
-        return new XN702002Res(userAO.doLogin(xn702002Req.getLoginName(),
-            xn702002Req.getLoginPwd(), xn702002Req.getLoginType(),
-            xn702002Req.getLoginIp()));
+        return new XN801201Res(userAO.doLogin(req.getLoginName(),
+            req.getLoginPwd(), req.getLoginType(), req.getLoginIp()));
 
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        xn702002Req = JsonUtil.json2Bean(inputparams, XN702002Req.class);
-        StringValidater.validateBlank(xn702002Req.getLoginName(),
-            xn702002Req.getLoginPwd(), xn702002Req.getLoginType());
+        req = JsonUtil.json2Bean(inputparams, XN801201Req.class);
+        StringValidater.validateBlank(req.getLoginName(), req.getLoginPwd(),
+            req.getLoginType());
         // 当loginType=1时，loginIp必填；当loginType！=1时，loginIp选填
-        if (EBoolean.YES.getCode().equalsIgnoreCase(xn702002Req.getLoginType())) {
-            StringValidater.validateBlank(xn702002Req.getLoginIp());
+        if (EBoolean.YES.getCode().equalsIgnoreCase(req.getLoginType())) {
+            StringValidater.validateBlank(req.getLoginIp());
         }
         // 判断格式
-        PhoneUtil.checkMobile(xn702002Req.getLoginName());
+        PhoneUtil.checkMobile(req.getLoginName());
     }
 }

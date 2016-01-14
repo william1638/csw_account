@@ -1,8 +1,11 @@
 package com.std.account.dto.req;
 
-public class XN702001Req {
+public class XN801200Req {
     // 手机号（必填）
     private String mobile;
+
+    // 手机验证码（必填）
+    private String smsCaptcha;
 
     // 注册密码（必填）
     private String loginPwd;
@@ -12,9 +15,6 @@ public class XN702001Req {
 
     // 推荐人（非必填）
     private String userReferee;
-
-    // 手机验证码（必填）
-    private String smsCaptcha;
 
     public String getMobile() {
         return mobile;

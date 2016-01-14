@@ -1,13 +1,12 @@
 package com.std.account.dto.res;
 
-public class XN702002Res {
-    // userId
+public class XN801201Res {
     private String userId;
 
-    public XN702002Res() {
+    public XN801201Res() {
     }
 
-    public XN702002Res(String userId) {
+    public XN801201Res(String userId) {
         this.userId = userId;
     }
 
