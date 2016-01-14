@@ -43,7 +43,7 @@ public class User extends ABaseDO {
     // 登陆密码强度
     private String loginPwdStrength;
 
-    // 身份标识（Admin/操作员）
+    // 身份标识
     private String userKind;
 
     // 推荐人

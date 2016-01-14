@@ -1,13 +1,19 @@
 package com.std.account.dto.req;
 
-public class XN702301Req {
+public class XN801701Req {
+    // 创建起始时间(YYYY-MM-DD)
+    private String dateStart;
+
+    // 创建终止时间(YYYY-MM-DD)
+    private String dateEnd;
+
     // userId
     private String userId;
 
     // 手机号
     private String mobile;
 
-    // 身份[身份位（一位）+等级（三位，999级高于1级）：1001表示1级借资人；2010表示10级免注册借资人；3001表示1级既是借资又是金主人；4100表示100级纯金主；9001表示1级平台人员]
+    // 身份标识
     private String userKind;
 
     // 推荐人
@@ -24,6 +30,25 @@ public class XN702301Req {
 
     // 状态
     private String status;
+
+    // 用户等级
+    private String level;
+
+    public String getDateStart() {
+        return dateStart;
+    }
+
+    public void setDateStart(String dateStart) {
+        this.dateStart = dateStart;
+    }
+
+    public String getDateEnd() {
+        return dateEnd;
+    }
+
+    public void setDateEnd(String dateEnd) {
+        this.dateEnd = dateEnd;
+    }
 
     public String getUserId() {
         return userId;
@@ -88,4 +113,13 @@ public class XN702301Req {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
 }

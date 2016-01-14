@@ -1,13 +1,18 @@
 package com.std.account.dto.req;
 
-public class XN702306Req extends APageReq {
+public class XN801703Req extends APageReq {
     /** 
      * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
      */
     private static final long serialVersionUID = 742953306489763588L;
 
+    private String id;
+
     // 用户编号
     private String userId;
+
+    // 类型(对公对私)
+    private String type;
 
     // 银行行号
     private String bankCode;
@@ -48,6 +53,22 @@ public class XN702306Req extends APageReq {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 }

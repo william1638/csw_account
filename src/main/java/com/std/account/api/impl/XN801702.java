@@ -7,7 +7,7 @@ import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.domain.UserExt;
-import com.std.account.dto.req.XN702307Req;
+import com.std.account.dto.req.XN801702Req;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -22,7 +22,7 @@ public class XN801702 extends AProcessor {
     private IUserExtAO userExtAO = SpringContextHolder
         .getBean(IUserExtAO.class);
 
-    private XN702307Req req = null;
+    private XN801702Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
@@ -41,7 +41,7 @@ public class XN801702 extends AProcessor {
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN702307Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN801702Req.class);
         StringValidater.validateNumber(req.getStart(), req.getLimit());
 
     }
