@@ -151,4 +151,12 @@ public class BankCard extends ABaseDO {
         this.updateDatetime = updateDatetime;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
 }

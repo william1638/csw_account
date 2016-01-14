@@ -4,10 +4,10 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.std.account.bo.ISmsOutBO;
-import com.std.account.common.PhoneUtil;
 import com.std.account.dto.req.XN799001Req;
+import com.std.account.dto.req.XN799002Req;
 import com.std.account.dto.res.XN799001Res;
-import com.std.account.enums.ESmsBizType;
+import com.std.account.dto.res.XN799002Res;
 import com.std.account.http.BizConnecter;
 import com.std.account.http.JsonUtils;
 
@@ -22,12 +22,7 @@ public class SmsOutBOImpl implements ISmsOutBO {
         try {
             XN799001Req req = new XN799001Req();
             req.setMobile(mobile);
-            if (ESmsBizType.YZM.getCode().equalsIgnoreCase(bizType)) {
-                req.setContent("尊敬的" + PhoneUtil.hideMobile(mobile)
-                        + "用户, 您的验证码为" + content + "，请妥善保管此验证码，切勿泄露给他人。");
-            } else {
-                req.setContent(content);
-            }
+            req.setContent(content);
             req.setBizType(bizType);
             req.setRemark(remark);
             res = BizConnecter.getBizData("799001", JsonUtils.object2Json(req),
@@ -39,6 +34,21 @@ public class SmsOutBOImpl implements ISmsOutBO {
             return true;
         } else {
             return false;
+        }
+
+    }
+
+    @Override
+    public void checkSmsCaptcha(String mobile, String smsCaptcha, String bizType) {
+        try {
+            XN799002Req req = new XN799002Req();
+            req.setMobile(mobile);
+            req.setCaptcha(smsCaptcha);
+            req.setBizType(bizType);
+            BizConnecter.getBizData("799002", JsonUtils.object2Json(req),
+                XN799002Res.class);
+        } catch (Exception e) {
+            logger.error("调用短信验证服务异常");
         }
 
     }

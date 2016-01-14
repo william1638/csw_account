@@ -16,6 +16,15 @@ public class XN702305Req extends APageReq {
     // 验证人
     private String verifyUser;
 
+    // 证件类型
+    private String idKind;
+
+    // 证件号码
+    private String idNo;
+
+    // 真实姓名
+    private String realName;
+
     public String getId() {
         return id;
     }
@@ -46,6 +55,30 @@ public class XN702305Req extends APageReq {
 
     public void setVerifyUser(String verifyUser) {
         this.verifyUser = verifyUser;
+    }
+
+    public String getIdKind() {
+        return idKind;
+    }
+
+    public void setIdKind(String idKind) {
+        this.idKind = idKind;
+    }
+
+    public String getIdNo() {
+        return idNo;
+    }
+
+    public void setIdNo(String idNo) {
+        this.idNo = idNo;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 
 }

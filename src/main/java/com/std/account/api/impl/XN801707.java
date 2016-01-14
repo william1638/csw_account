@@ -31,6 +31,10 @@ public class XN801707 extends AProcessor {
         UserPicture condition = new UserPicture();
         condition.setId(StringValidater.toLong(req.getId()));
         condition.setUserId(req.getUserId());
+        condition.setUserId(req.getUserId());
+        condition.setIdKind(req.getIdKind());
+        condition.setIdNo(req.getIdNo());
+        condition.setRealName(req.getRealName());
         condition.setVerifyStatus(req.getVerifyStatus());
         condition.setVerifyUser(req.getVerifyUser());
         condition.setCreateDatetimeStart(DateUtil.getFrontDate(

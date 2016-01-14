@@ -8,7 +8,7 @@ import com.std.account.common.DateUtil;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.domain.BankCard;
-import com.std.account.dto.req.XN702306Req;
+import com.std.account.dto.req.XN801703Req;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -23,12 +23,14 @@ public class XN801703 extends AProcessor {
     private IBankCardAO bankCardAO = SpringContextHolder
         .getBean(IBankCardAO.class);
 
-    private XN702306Req req = null;
+    private XN801703Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
         BankCard condition = new BankCard();
+        condition.setId(StringValidater.toLong(req.getId()));
         condition.setUserId(req.getUserId());
+        condition.setType(req.getType());
         condition.setBankCode(req.getBankCode());
         condition.setBankCardNo(req.getBankCardNo());
         condition.setStatus(req.getStatus());
@@ -48,7 +50,7 @@ public class XN801703 extends AProcessor {
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN702306Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN801703Req.class);
         StringValidater.validateNumber(req.getStart(), req.getLimit());
 
     }

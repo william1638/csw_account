@@ -12,4 +12,14 @@ public interface ISmsOutBO {
      */
     public boolean sendSmsOut(String mobile, String content, String bizType,
             String remark);
+
+    /**
+     * 验证短信码
+     * @param mobile
+     * @param smsCaptcha
+     * @param bizType 
+     * @create: 2016年1月14日 下午3:49:54 myb858
+     * @history:
+     */
+    public void checkSmsCaptcha(String mobile, String smsCaptcha, String bizType);
 }

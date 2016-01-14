@@ -2,9 +2,10 @@ package com.std.account.api.impl;
 
 import com.std.account.ao.IUserAO;
 import com.std.account.api.AProcessor;
+import com.std.account.common.DateUtil;
 import com.std.account.common.JsonUtil;
 import com.std.account.domain.User;
-import com.std.account.dto.req.XN702301Req;
+import com.std.account.dto.req.XN801701Req;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -19,7 +20,7 @@ public class XN801701 extends AProcessor {
 
     private IUserAO userAO = SpringContextHolder.getBean(IUserAO.class);
 
-    private XN702301Req req = null;
+    private XN801701Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
@@ -32,12 +33,17 @@ public class XN801701 extends AProcessor {
         condition.setIdNo(req.getIdNo());
         condition.setRealName(req.getRealName());
         condition.setStatus(req.getStatus());
+        condition.setLevel(req.getLevel());
+        condition.setCreateDatetimeStart(DateUtil.getFrontDate(
+            req.getDateStart(), false));
+        condition.setCreateDatetimeEnd(DateUtil.getFrontDate(req.getDateEnd(),
+            true));
         return userAO.queryUserList(condition);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN702301Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN801701Req.class);
     }
 
 }

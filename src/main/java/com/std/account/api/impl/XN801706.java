@@ -8,7 +8,7 @@ import com.std.account.common.DateUtil;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.domain.UserIdentify;
-import com.std.account.dto.req.XN702304Req;
+import com.std.account.dto.req.XN801706Req;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -24,13 +24,17 @@ public class XN801706 extends AProcessor {
     private IIdentityAO identityAO = SpringContextHolder
         .getBean(IIdentityAO.class);
 
-    private XN702304Req req = null;
+    private XN801706Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
         UserIdentify condition = new UserIdentify();
         condition.setUserId(req.getUserId());
+        condition.setIdKind(req.getIdKind());
+        condition.setIdNo(req.getIdNo());
+        condition.setRealName(req.getRealName());
         condition.setErrorCode(req.getErrorCode());
+
         condition.setCreateDatetimeStart(DateUtil.getFrontDate(
             req.getDateStart(), false));
         condition.setCreateDatetimeEnd(DateUtil.getFrontDate(req.getDateEnd(),
@@ -47,7 +51,7 @@ public class XN801706 extends AProcessor {
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN702304Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN801706Req.class);
         StringValidater.validateNumber(req.getStart(), req.getLimit());
         StringValidater.validateBlank(req.getUserId());
     }

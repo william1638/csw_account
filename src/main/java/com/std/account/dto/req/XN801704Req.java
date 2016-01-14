@@ -1,6 +1,7 @@
 package com.std.account.dto.req;
 
-public class XN702302Req extends APageReq {
+
+public class XN801704Req extends APageReq {
     /** 
      * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
      */
