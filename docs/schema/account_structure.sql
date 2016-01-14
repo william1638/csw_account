@@ -48,7 +48,7 @@ CREATE TABLE `tstd_company` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS  `tstd_user_company`;
-CREATE TABLE `tstd_company` (
+CREATE TABLE `tstd_user_company` (
   `id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT '编号',
   `company_id` varchar(32) NOT NULL COMMENT '公司编号',
   `user_id` varchar(32) NOT NULL COMMENT '用户编号',
@@ -56,30 +56,10 @@ CREATE TABLE `tstd_company` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-
-
-DROP TABLE IF EXISTS  `tpz_sms_captcha`;
-CREATE TABLE `tpz_sms_captcha` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `mobile` varchar(16) DEFAULT NULL,
-  `biz_type` varchar(2) DEFAULT NULL,
-  `sms_captcha` varchar(8) DEFAULT NULL,
-  `status` varchar(1) DEFAULT NULL,
-  `create_datetime` datetime NOT NULL,
-  `sent_datetime` datetime  DEFAULT NULL,
-  `invalid_datetime` datetime  DEFAULT NULL,
-  `check_datetime` datetime  DEFAULT NULL,
-  `check_times` int(11) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
-DROP TABLE IF EXISTS  `tpz_user_ext`;
-CREATE TABLE `tpz_user_ext` (
+DROP TABLE IF EXISTS  `tstd_user_ext`;
+CREATE TABLE `tstd_user_ext` (
   `user_id` varchar(32) NOT NULL,
-  `photo` varchar(256) DEFAULT NULL,
+  `photo` varchar(255) DEFAULT NULL,
   `comefrom` varchar(64) DEFAULT NULL,
   `birthday` varchar(8) DEFAULT NULL,
   `qq` varchar(16) DEFAULT NULL,
@@ -89,19 +69,19 @@ CREATE TABLE `tpz_user_ext` (
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS  `tpz_user_identify_log`;
-CREATE TABLE `tpz_user_identify_log` (
+DROP TABLE IF EXISTS  `tstd_user_identify_log`;
+CREATE TABLE `tstd_user_identify_log` (
   `user_id` varchar(32) DEFAULT NULL,
-  `real_name` varchar(16) DEFAULT NULL,
   `id_kind` varchar(1) DEFAULT NULL,
   `id_no` varchar(32) DEFAULT NULL,
+  `real_name` varchar(16) DEFAULT NULL,
   `error_code` varchar(1) DEFAULT NULL,
   `error_info` varchar(256) DEFAULT NULL,
   `create_datetime` datetime NULL 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS  `tpz_user_lock`;
-CREATE TABLE `tpz_user_lock` (
+DROP TABLE IF EXISTS  `tstd_user_lock`;
+CREATE TABLE `tstd_user_lock` (
   `id` bigint(32) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(32) NOT NULL,
   `lock_direction` char(1) NOT NULL,
@@ -109,16 +89,16 @@ CREATE TABLE `tpz_user_lock` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS  `tpz_user_login_log`;
-CREATE TABLE `tpz_user_login_log` (
+DROP TABLE IF EXISTS  `tstd_user_login_log`;
+CREATE TABLE `tstd_user_login_log` (
   `user_id` varchar(32) NOT NULL,
-  `login_datetime` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP,
+  `login_datetime` datetime NOT NULL,
   `login_ip` varchar(64) NOT NULL,
   `is_success` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS  `tpz_user_picture`;
-CREATE TABLE `tpz_user_picture` (
+DROP TABLE IF EXISTS  `tstd_user_picture`;
+CREATE TABLE `tstd_user_picture` (
   `id` bigint(32) NOT NULL AUTO_INCREMENT,
   `user_id` varchar(32) NOT NULL,
   `id_pic1` varchar(255) DEFAULT NULL,
