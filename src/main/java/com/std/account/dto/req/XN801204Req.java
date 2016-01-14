@@ -5,6 +5,9 @@ public class XN801204Req {
     // userId（必填）
     private String userId;
 
+    // 类型(对公对私)（必填）
+    private String type;
+
     // 银行代号（必填）
     private String bankCode;
 
@@ -66,6 +69,14 @@ public class XN801204Req {
 
     public void setBindMobile(String bindMobile) {
         this.bindMobile = bindMobile;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 }

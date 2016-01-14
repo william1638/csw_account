@@ -4,8 +4,8 @@ import com.std.account.ao.IIdentityAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
-import com.std.account.dto.req.XN702380Req;
-import com.std.account.dto.res.XN702380Res;
+import com.std.account.dto.req.XN801600Req;
+import com.std.account.dto.res.XN801600Res;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -21,18 +21,18 @@ public class XN801600 extends AProcessor {
     private IIdentityAO identityAO = SpringContextHolder
         .getBean(IIdentityAO.class);
 
-    private XN702380Req req = null;
+    private XN801600Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
-        return new XN702380Res(identityAO.doVerifyUserPicture(
+        return new XN801600Res(identityAO.doVerifyUserPicture(
             StringValidater.toLong(req.getId()), req.getVerifyUser(),
             req.getVerifyStatus(), req.getRemark()));
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN702380Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN801600Req.class);
         StringValidater.validateBlank(req.getId(), req.getVerifyUser(),
             req.getVerifyStatus());
         StringValidater.validateNumber(req.getId());

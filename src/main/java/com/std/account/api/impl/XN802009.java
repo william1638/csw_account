@@ -5,8 +5,8 @@ import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.domain.Bank;
-import com.std.account.dto.req.XN702459Req;
-import com.std.account.dto.res.XN702459Res;
+import com.std.account.dto.req.XN802009Req;
+import com.std.account.dto.res.XN802009Res;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -20,28 +20,27 @@ import com.std.account.spring.SpringContextHolder;
 public class XN802009 extends AProcessor {
     private IBankAO bankAO = SpringContextHolder.getBean(IBankAO.class);
 
-    private XN702459Req xn702459Req = null;
+    private XN802009Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
         Bank data = new Bank();
-        data.setId(StringValidater.toLong(xn702459Req.getId()));
-        data.setBankName(xn702459Req.getBankName());
-        data.setBankNo(xn702459Req.getBankNo());
-        data.setBankType(xn702459Req.getBankType());
-        data.setChannelNo(xn702459Req.getChannelNo());
-        data.setIsEnable(xn702459Req.getIsEnable());
-        data.setQuickType(xn702459Req.getQuickType());
-        return new XN702459Res(bankAO.editBank(data));
+        data.setId(StringValidater.toLong(req.getId()));
+        data.setBankName(req.getBankName());
+        data.setBankNo(req.getBankNo());
+        data.setBankType(req.getBankType());
+        data.setChannelNo(req.getChannelNo());
+        data.setIsEnable(req.getIsEnable());
+        data.setQuickType(req.getQuickType());
+        return new XN802009Res(bankAO.editBank(data));
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        xn702459Req = JsonUtil.json2Bean(inputparams, XN702459Req.class);
-        StringValidater.validateBlank(xn702459Req.getId(),
-            xn702459Req.getBankName(), xn702459Req.getBankNo(),
-            xn702459Req.getBankType(), xn702459Req.getChannelNo(),
-            xn702459Req.getIsEnable(), xn702459Req.getQuickType());
+        req = JsonUtil.json2Bean(inputparams, XN802009Req.class);
+        StringValidater.validateBlank(req.getId(), req.getBankName(),
+            req.getBankNo(), req.getBankType(), req.getChannelNo(),
+            req.getIsEnable(), req.getQuickType());
     }
 
 }

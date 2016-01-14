@@ -6,8 +6,8 @@ import com.std.account.common.JsonUtil;
 import com.std.account.common.PropertiesUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.domain.UserExt;
-import com.std.account.dto.req.XN702201Req;
-import com.std.account.dto.res.XN702201Res;
+import com.std.account.dto.req.XN801401Req;
+import com.std.account.dto.res.XN801401Res;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -22,12 +22,12 @@ public class XN801401 extends AProcessor {
     private IUserExtAO userExtAO = SpringContextHolder
         .getBean(IUserExtAO.class);
 
-    private XN702201Req req = null;
+    private XN801401Req req = null;
 
     @Override
-    public XN702201Res doBusiness() throws BizException {
+    public XN801401Res doBusiness() throws BizException {
         UserExt userExt = userExtAO.doGetUserExt(req.getUserId());
-        XN702201Res res = new XN702201Res();
+        XN801401Res res = new XN801401Res();
         res.setPhoto(PropertiesUtil.getProperty("PHOTO_URL"));
         if (userExt != null) {
             res.setUserId(userExt.getUserId());
@@ -44,7 +44,7 @@ public class XN801401 extends AProcessor {
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN702201Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN801401Req.class);
         StringValidater.validateBlank(req.getUserId());
 
     }

@@ -5,8 +5,8 @@ import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.domain.UserLoginLog;
-import com.std.account.dto.req.XN702203Req;
-import com.std.account.dto.res.XN702203Res;
+import com.std.account.dto.req.XN801403Req;
+import com.std.account.dto.res.XN801403Res;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -20,12 +20,12 @@ import com.std.account.spring.SpringContextHolder;
 public class XN801403 extends AProcessor {
     private IUserAO userAO = SpringContextHolder.getBean(IUserAO.class);
 
-    private XN702203Req req = null;
+    private XN801403Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
         UserLoginLog log = userAO.doGetLatestUserLoginLog(req.getUserId());
-        XN702203Res res = new XN702203Res();
+        XN801403Res res = new XN801403Res();
         if (log != null) {
             res.setIsSuccess(log.getIsSuccess());
             res.setLoginDatetime(log.getLoginDatetime());
@@ -37,7 +37,7 @@ public class XN801403 extends AProcessor {
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN702203Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN801403Req.class);
         StringValidater.validateBlank(req.getUserId());
 
     }

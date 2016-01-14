@@ -8,6 +8,8 @@
  */
 package com.std.account.bo;
 
+import java.util.List;
+
 import com.std.account.bo.base.IPaginableBO;
 import com.std.account.domain.BankCard;
 import com.std.account.enums.EBankCardStatus;
@@ -18,17 +20,21 @@ import com.std.account.enums.EBankCardStatus;
  * @history:
  */
 public interface IBankCardBO extends IPaginableBO<BankCard> {
+    public boolean isBankCardExist(Long id);
 
-    public void saveBankCard(String userId, String bankCode, String bankName,
-            String bankCardNo, String subbranch, String bindMobile);
-
-    public void refreshBankCard(BankCard dbBankCard, String bankCode,
+    public void saveBankCard(String userId, String type, String bankCode,
             String bankName, String bankCardNo, String subbranch,
             String bindMobile);
 
-    public BankCard getBankCard(String userId);
+    public void refreshBankCard(Long id, String userId, String bankCode,
+            String bankName, String bankCardNo, String subbranch,
+            String bindMobile);
 
     public void refreshStatus(String bankCode, String bankcardNo,
             EBankCardStatus status);
+
+    public void removeBankCard(Long id);
+
+    public List<BankCard> queryBankCardList(String userId);
 
 }

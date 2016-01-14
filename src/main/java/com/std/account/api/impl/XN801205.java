@@ -4,8 +4,8 @@ import com.std.account.ao.IUserExtAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
-import com.std.account.dto.req.XN702019Req;
-import com.std.account.dto.res.XN702019Res;
+import com.std.account.dto.req.XN801205Req;
+import com.std.account.dto.res.XN801205Res;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -20,19 +20,18 @@ public class XN801205 extends AProcessor {
     private IUserExtAO userExtAO = SpringContextHolder
         .getBean(IUserExtAO.class);
 
-    private XN702019Req xn702019Req = null;
+    private XN801205Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
-        return new XN702019Res(userExtAO.doRichPhoto(xn702019Req.getUserId(),
-            xn702019Req.getPhoto()));
+        return new XN801205Res(userExtAO.doRichPhoto(req.getUserId(),
+            req.getPhoto()));
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        xn702019Req = JsonUtil.json2Bean(inputparams, XN702019Req.class);
-        StringValidater.validateBlank(xn702019Req.getUserId(),
-            xn702019Req.getPhoto());
+        req = JsonUtil.json2Bean(inputparams, XN801205Req.class);
+        StringValidater.validateBlank(req.getUserId(), req.getPhoto());
 
     }
 

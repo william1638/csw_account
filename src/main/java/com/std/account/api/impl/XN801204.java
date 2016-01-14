@@ -11,7 +11,7 @@ import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 绑定银行卡（一人多卡）
+ * 绑定银行卡（多卡）
  * @author: myb858 
  * @since: 2015年8月23日 下午2:36:52 
  * @history:
@@ -24,9 +24,9 @@ public class XN801204 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        bankCardAO.doBindBandCard(req.getUserId(), req.getBankCode(),
-            req.getBankName(), req.getBankCardNo(), req.getSubbranch(),
-            req.getBindMobile());
+        bankCardAO.doBindBandCard(req.getUserId(), req.getType(),
+            req.getBankCode(), req.getBankName(), req.getBankCardNo(),
+            req.getSubbranch(), req.getBindMobile());
         return new XN801204Res(true);
 
     }
@@ -34,8 +34,8 @@ public class XN801204 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN801204Req.class);
-        StringValidater.validateBlank(req.getUserId(), req.getBankCode(),
-            req.getBankName(), req.getBankCardNo());
+        StringValidater.validateBlank(req.getUserId(), req.getType(),
+            req.getBankCode(), req.getBankName(), req.getBankCardNo());
     }
 
 }

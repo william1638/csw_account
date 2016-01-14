@@ -3,7 +3,9 @@ package com.std.account.api.impl;
 import com.std.account.ao.IBankCardAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
+import com.std.account.core.StringValidater;
 import com.std.account.dto.req.XN801213Req;
+import com.std.account.dto.res.XN801213Res;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -22,16 +24,15 @@ public class XN801213 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        // TODO Auto-generated method stub
-        return null;
+        Long id = StringValidater.toLong(req.getId());
+        bankCardAO.dropBankCard(id);
+        return new XN801213Res(true);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN801213Req.class);
-        // StringValidater.validateBlank(req.getUserId(), req.getBankCode(),
-        // req.getBankName(), req.getBankCardNo());
-
+        StringValidater.validateBlank(req.getId());
     }
 
 }
