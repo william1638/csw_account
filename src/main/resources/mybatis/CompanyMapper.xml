@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.std.account.dao.ICompanyDAO">
+	<resultMap id="company_DB_Result" type="company">
+		<result column="company_id" property="companyId" />
+		<result column="company_name" property="companyName" />
+		<result column="licence_no" property="licenceNo" />
+		<result column="id_kind" property="idKind" />		
+		<result column="id_no" property="idNo" />
+		<result column="real_name" property="realName" />		
+		<result column="capital" property="capital" />
+		<result column="province" property="province" />
+		<result column="city" property="city" />
+		<result column="address" property="address" />
+		<result column="gsyyzz_picture" property="gsyyzzPicture" />		
+		<result column="zzjgdmz_picture" property="zzjgdmzPicture" />
+		<result column="swdjz_Picture" property="swdjzPicture" />
+		<result column="dzz_picture" property="dzzPicture" />
+		<result column="sqgh_picture" property="sqghPicture" />
+		<result column="fr_picture" property="frPicture" />
+		<result column="other_picture" property="otherPicture" />
+		<result column="apply_datetime" property="applyDatetime" />
+		<result column="kyc_datetime" property="kycDatetime" />
+		<result column="status" property="status" />
+		<result column="remark" property="remark" />		
+	</resultMap>
+	<sql id="where_condition">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">			
+			<if test="companyId != null and companyId != '' ">
+				AND t.company_id = #{companyId}
+			</if>
+			<if test="companyName != null and companyName != '' ">
+				AND t.company_name = #{companyName}
+			</if>
+			<if test="licenceNo != null and licenceNo != '' ">
+				AND t.licence_no = #{licenceNo}
+			</if>	
+			<if test="idKind != null and idKind != '' ">
+				AND t.id_kind = #{idKind}
+			</if>	
+			<if test="idNo != null and idNo != '' ">
+				AND t.id_no = #{idNo}
+			</if>
+			<if test="realName != null and realName != '' ">
+				AND t.real_name = #{realName}
+			</if>
+			<if test="capital != null and capital != '' ">
+				AND t.capital = #{capital}
+			</if>
+			<if test="province != null and province != '' ">
+				AND t.province = #{province}
+			</if>
+			<if test="city != null and city != '' ">
+				AND t.city = #{city}
+			</if>
+			<if test="status != null and status != '' ">
+				AND t.status = #{status}
+			</if>
+			<if test="applyDatetimeStart != null and applyDatetimeStart != '' ">
+				<![CDATA[AND t.apply_datetime >= #{applyDatetimeStart}]]>
+			</if>
+			<if test="applyDatetimeEnd != null and applyDatetimeEnd != '' ">
+				<![CDATA[AND t.apply_datetime <= #{applyDatetimeEnd}]]>
+			</if>
+			<if test="kycDatetimeStart != null and kycDatetimeStart != '' ">
+				<![CDATA[AND t.kyc_datetime >= #{kycDatetimeStart}]]>
+			</if>
+			<if test="kycDatetimeEnd != null and kycDatetimeEnd != '' ">
+				<![CDATA[AND t.kyc_datetime <= #{kycDatetimeEnd}]]>
+			</if>
+		</trim>
+	</sql>
+	<select id="select_company" parameterType="company" resultMap="company_DB_Result">
+		SELECT 
+		company_id
+		,company_name
+		,licence_no
+		,id_kind	
+		,id_no		
+		,real_name
+		,capital
+		,province
+		,city
+		,address		
+		,gsyyzz_picture
+		,zzjgdmz_picture
+		,swdjz_picture
+		,dzz_picture
+		,sqgh_picture
+		,fr_picture
+		,other_picture
+		,apply_datetime
+		,kyc_datetime
+		,status
+		,remark	
+		FROM
+		tstd_company t
+		<include refid="where_condition"/>
+		<trim prefix="ORDER BY ">
+			<if test="order != null and order != '' ">
+				${order}
+			</if>
+		</trim>
+	</select>
+
+	<select id="select_company_count" parameterType="company" resultType="java.lang.Long">
+		SELECT count(1) FROM tstd_company t
+		<include refid="where_condition"/>
+	</select>
+
+	<insert id="insert_company" parameterType="company">
+		INSERT INTO tstd_company(
+		company_id
+		,company_name
+		,licence_no
+		,id_kind	
+		,id_no		
+		,real_name
+		,capital
+		,province
+		,city
+		,address		
+		,gsyyzz_picture
+		,zzjgdmz_picture
+		,swdjz_picture
+		,dzz_picture
+		,sqgh_picture
+		,fr_picture
+		,other_picture
+		,apply_datetime
+		,kyc_datetime
+		,status
+		,remark	
+		)
+		VALUES(
+		#{companyId}
+		,#{companyName}
+		,#{licenceNo}
+		,#{idKind}
+		,#{idNo}		
+		,#{realName}
+		,#{capital}
+		,#{province}
+		,#{city}
+		,#{address}
+		,#{gsyyzzPicture}
+		,#{zzjgdmzPicture}
+		,#{swdjzPicture}
+		,#{dzzPicture}
+		,#{sqghPicture}
+		,#{frPicture}
+		,#{otherPicture}
+		,#{applyDatetime}
+		,#{kycDatetime}
+		,#{status}
+		,#{remark}
+		)
+	</insert> 
+	
+<update id="update_company" parameterType="company">
+		UPDATE tstd_company set
+		,company_name=#{companyName}
+		,licence_no=#{licenceNo}
+		,id_kind=#{idKind}	
+		,id_no=#{idNo}	
+		,real_name=#{realName}
+		,capital=#{capital}
+		,province=#{province}
+		,city=#{city}
+		,address=#{address}		
+		,gsyyzz_picture=#{gsyyzzPicture}
+		,zzjgdmz_picture=#{zzjgdmzPicture}
+		,swdjz_picture=#{swdjzPicture}
+		,dzz_picture=#{dzzPicture}
+		,sqgh_picture=#{sqghPicture}
+		,fr_picture=#{frPicture}
+		,other_picture=#{otherPicture}
+		,apply_datetime=#{applyDatetime}
+		,kyc_datetime=#{kycDatetime}
+		,status=#{status}
+		,remark=#{remark}
+		WHERE
+		company_id = #{companyId}
+	</update>
+
+	<delete id="delete_company" parameterType="company">
+		DELETE FROM
+		tstd_company
+		WHERE
+		company_id = #{companyId}
+	</delete>
+</mapper>

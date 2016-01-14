@@ -2,9 +2,25 @@ package com.std.account.domain;
 
 import java.util.Date;
 
-public class Company {
+import com.std.account.dao.base.ABaseDO;
 
-    private Long companyId;
+public class Company extends ABaseDO {
+
+    // 申请起始时间
+    private Date applyDatetimeStart;
+
+    // 申请终止时间
+    private Date applyDatetimeEnd;
+
+    // 通过起始时间
+    private Date kycDatetimeStart;
+
+    // 通过终止时间
+    private Date kycDatetimeEnd;
+
+    /* ************* db company start *************** */
+
+    private String companyId;
 
     // 公司名字
     private String companyName;
@@ -66,13 +82,7 @@ public class Company {
     // 备注
     private String remark;
 
-    public Long getCompanyId() {
-        return companyId;
-    }
-
-    public void setCompanyId(Long companyId) {
-        this.companyId = companyId;
-    }
+    /* ************* db company end *************** */
 
     public String getCompanyName() {
         return companyName;
@@ -232,6 +242,46 @@ public class Company {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getCompanyId() {
+        return companyId;
+    }
+
+    public void setCompanyId(String companyId) {
+        this.companyId = companyId;
+    }
+
+    public Date getApplyDatetimeStart() {
+        return applyDatetimeStart;
+    }
+
+    public void setApplyDatetimeStart(Date applyDatetimeStart) {
+        this.applyDatetimeStart = applyDatetimeStart;
+    }
+
+    public Date getApplyDatetimeEnd() {
+        return applyDatetimeEnd;
+    }
+
+    public void setApplyDatetimeEnd(Date applyDatetimeEnd) {
+        this.applyDatetimeEnd = applyDatetimeEnd;
+    }
+
+    public Date getKycDatetimeStart() {
+        return kycDatetimeStart;
+    }
+
+    public void setKycDatetimeStart(Date kycDatetimeStart) {
+        this.kycDatetimeStart = kycDatetimeStart;
+    }
+
+    public Date getKycDatetimeEnd() {
+        return kycDatetimeEnd;
+    }
+
+    public void setKycDatetimeEnd(Date kycDatetimeEnd) {
+        this.kycDatetimeEnd = kycDatetimeEnd;
     }
 
 }
