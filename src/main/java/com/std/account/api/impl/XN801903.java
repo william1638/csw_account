@@ -4,8 +4,8 @@ import com.std.account.ao.ISmsOutAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
-import com.std.account.dto.req.XN702986Req;
-import com.std.account.dto.res.XN702986Res;
+import com.std.account.dto.req.XN801903Req;
+import com.std.account.dto.res.XN801903Res;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -19,19 +19,19 @@ import com.std.account.spring.SpringContextHolder;
 public class XN801903 extends AProcessor {
     private ISmsOutAO smsOutAO = SpringContextHolder.getBean(ISmsOutAO.class);
 
-    private XN702986Req xn702986Req = null;
+    private XN801903Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
-        return new XN702986Res(smsOutAO.sendAppSms(xn702986Req.getUserId(),
-            xn702986Req.getContent()));
+        return new XN801903Res(smsOutAO.sendAppSms(req.getUserId(),
+            req.getContent()));
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        xn702986Req = JsonUtil.json2Bean(inputparams, XN702986Req.class);
-        StringValidater.validateBlank(xn702986Req.getTokenId(),
-            xn702986Req.getUserId(), xn702986Req.getContent());
+        req = JsonUtil.json2Bean(inputparams, XN801903Req.class);
+        StringValidater.validateBlank(req.getTokenId(), req.getUserId(),
+            req.getContent());
 
     }
 

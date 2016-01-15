@@ -8,7 +8,7 @@ import com.std.account.common.DateUtil;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.domain.AccountJour;
-import com.std.account.dto.req.XN702601Req;
+import com.std.account.dto.req.XN802401Req;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -22,7 +22,7 @@ import com.std.account.spring.SpringContextHolder;
 public class XN802401 extends AProcessor {
     private IAJourAO aJourAO = SpringContextHolder.getBean(IAJourAO.class);
 
-    private XN702601Req req = null;
+    private XN802401Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
@@ -46,7 +46,7 @@ public class XN802401 extends AProcessor {
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN702601Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN802401Req.class);
         StringValidater.validateNumber(req.getStart(), req.getLimit());
         StringValidater.validateBlank(req.getAccountNumber());
 

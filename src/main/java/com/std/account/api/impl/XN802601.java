@@ -4,8 +4,8 @@ import com.std.account.ao.IOrderAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
-import com.std.account.dto.req.XN702803Req;
-import com.std.account.dto.res.XN702803Res;
+import com.std.account.dto.req.XN802601Req;
+import com.std.account.dto.res.XN802601Res;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -19,18 +19,18 @@ import com.std.account.spring.SpringContextHolder;
 public class XN802601 extends AProcessor {
     private IOrderAO orderAO = SpringContextHolder.getBean(IOrderAO.class);
 
-    private XN702803Req req = null;
+    private XN802601Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
         orderAO.doApprove(req.getOrderType(), req.getOrderNo(),
             req.getApproveUser(), req.getApproveResult(), req.getRemark());
-        return new XN702803Res(true);
+        return new XN802601Res(true);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN702803Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN802601Req.class);
         StringValidater.validateBlank(req.getOrderType(), req.getOrderNo(),
             req.getApproveUser(), req.getApproveResult(), req.getRemark());
     }

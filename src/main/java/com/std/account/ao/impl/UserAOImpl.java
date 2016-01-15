@@ -359,7 +359,7 @@ public class UserAOImpl implements IUserAO {
         userIdentifyBO.saveUserIdentify(userId, realName,
             EIDKind.IDCard.getCode(), idNo, "0", "success");
         // 绑定银行卡信息
-        bankCardBO.saveBankCard(userId, bankCode, bankName, bankCardNo,
+        bankCardBO.saveBankCard(userId, "1", bankCode, bankName, bankCardNo,
             subbranch, bindMobile);
         // 分配账号
         accountBO.distributeAccount(userId, ECurrency.CNY.getCode());

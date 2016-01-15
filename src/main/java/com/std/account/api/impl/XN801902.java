@@ -4,8 +4,8 @@ import com.std.account.ao.IUserAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
-import com.std.account.dto.req.XN702985Req;
-import com.std.account.dto.res.XN702985Res;
+import com.std.account.dto.req.XN801902Req;
+import com.std.account.dto.res.XN801902Res;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -20,19 +20,19 @@ public class XN801902 extends AProcessor {
 
     private IUserAO userAO = SpringContextHolder.getBean(IUserAO.class);
 
-    private XN702985Req xn702985Req = null;
+    private XN801902Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
-        return new XN702985Res(userAO.checkTradePwd(xn702985Req.getUserId(),
-            xn702985Req.getTradePwd()));
+        return new XN801902Res(userAO.checkTradePwd(req.getUserId(),
+            req.getTradePwd()));
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        xn702985Req = JsonUtil.json2Bean(inputparams, XN702985Req.class);
-        StringValidater.validateBlank(xn702985Req.getTokenId(),
-            xn702985Req.getUserId(), xn702985Req.getTradePwd());
+        req = JsonUtil.json2Bean(inputparams, XN801902Req.class);
+        StringValidater.validateBlank(req.getTokenId(), req.getUserId(),
+            req.getTradePwd());
 
     }
 

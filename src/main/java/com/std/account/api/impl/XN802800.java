@@ -10,8 +10,8 @@ import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.domain.ZZOrder;
-import com.std.account.dto.req.XN702900Req;
-import com.std.account.dto.res.XN702900Res;
+import com.std.account.dto.req.XN802800Req;
+import com.std.account.dto.res.XN802800Res;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -28,16 +28,16 @@ public class XN802800 extends AProcessor {
     private IZZOrderAO zzOrderAO = SpringContextHolder
         .getBean(IZZOrderAO.class);
 
-    private XN702900Req xn702900Req = null;
+    private XN802800Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
-        List<XN702900Res> res = new ArrayList<XN702900Res>();
-        String accountNumber = xn702900Req.getAccountNumber();
+        List<XN802800Res> res = new ArrayList<XN802800Res>();
+        String accountNumber = req.getAccountNumber();
         List<ZZOrder> list = zzOrderAO.doStatisticsDvalue(accountNumber);
         if (CollectionUtils.isNotEmpty(list)) {
             for (ZZOrder ele : list) {
-                XN702900Res tem = new XN702900Res();
+                XN802800Res tem = new XN802800Res();
                 tem.setAccountNumber(accountNumber);
                 tem.setAmount(ele.getAmount());
                 tem.setOppositeSystem(ele.getOppositeSystem());
@@ -49,8 +49,8 @@ public class XN802800 extends AProcessor {
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        xn702900Req = JsonUtil.json2Bean(inputparams, XN702900Req.class);
-        StringValidater.validateBlank(xn702900Req.getAccountNumber());
+        req = JsonUtil.json2Bean(inputparams, XN802800Req.class);
+        StringValidater.validateBlank(req.getAccountNumber());
     }
 
 }

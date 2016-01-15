@@ -9,7 +9,7 @@ import com.std.account.common.DateUtil;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.domain.ZZOrder;
-import com.std.account.dto.req.XN702704Req;
+import com.std.account.dto.req.XN802705Req;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -24,7 +24,7 @@ public class XN802705 extends AProcessor {
     private IZZOrderAO zzOrderAO = SpringContextHolder
         .getBean(IZZOrderAO.class);
 
-    private XN702704Req req = null;
+    private XN802705Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
@@ -51,7 +51,7 @@ public class XN802705 extends AProcessor {
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN702704Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN802705Req.class);
         StringValidater.validateNumber(req.getStart(), req.getLimit());
 
     }

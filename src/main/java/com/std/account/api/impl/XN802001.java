@@ -7,7 +7,7 @@ import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.domain.Channel;
-import com.std.account.dto.req.XN702451Req;
+import com.std.account.dto.req.XN802001Req;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -22,29 +22,28 @@ public class XN802001 extends AProcessor {
     private IChannelAO channelAO = SpringContextHolder
         .getBean(IChannelAO.class);
 
-    private XN702451Req xn702451Req = null;
+    private XN802001Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
         Channel condition = new Channel();
-        condition.setChannelNo(xn702451Req.getChannelNo());
-        condition.setChannelStatus(xn702451Req.getChannelStatus());
+        condition.setChannelNo(req.getChannelNo());
+        condition.setChannelStatus(req.getChannelStatus());
 
-        String column = xn702451Req.getOrderColumn();
+        String column = req.getOrderColumn();
         if (StringUtils.isBlank(column)) {
             column = IChannelAO.DEFAULT_ORDER_COLUMN;
         }
-        condition.setOrder(column, xn702451Req.getOrderDir());
-        int start = Integer.valueOf(xn702451Req.getStart());
-        int limit = Integer.valueOf(xn702451Req.getLimit());
+        condition.setOrder(column, req.getOrderDir());
+        int start = Integer.valueOf(req.getStart());
+        int limit = Integer.valueOf(req.getLimit());
         return channelAO.queryChannelPage(start, limit, condition);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        xn702451Req = JsonUtil.json2Bean(inputparams, XN702451Req.class);
-        StringValidater.validateNumber(xn702451Req.getStart(),
-            xn702451Req.getLimit());
+        req = JsonUtil.json2Bean(inputparams, XN802001Req.class);
+        StringValidater.validateNumber(req.getStart(), req.getLimit());
 
     }
 

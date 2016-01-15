@@ -4,8 +4,8 @@ import com.std.account.ao.IZZOrderAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
-import com.std.account.dto.req.XN702983Req;
-import com.std.account.dto.res.XN702983Res;
+import com.std.account.dto.req.XN802901Req;
+import com.std.account.dto.res.XN802901Res;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -20,7 +20,7 @@ public class XN802901 extends AProcessor {
     private IZZOrderAO zzOrderAO = SpringContextHolder
         .getBean(IZZOrderAO.class);
 
-    private XN702983Req req = null;
+    private XN802901Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
@@ -28,7 +28,7 @@ public class XN802901 extends AProcessor {
         String zzNo = zzOrderAO.doTransfer(userId,
             StringValidater.toLong(req.getAmount()), req.getOppositeSystem(),
             req.getOppositeAccount(), req.getRemark());
-        XN702983Res res = new XN702983Res();
+        XN802901Res res = new XN802901Res();
         res.setUserId(userId);
         res.setZzNo(zzNo);
         return res;
@@ -36,7 +36,7 @@ public class XN802901 extends AProcessor {
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN702983Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN802901Req.class);
         StringValidater.validateBlank(req.getTokenId(), req.getUserId(),
             req.getOppositeSystem());
         StringValidater.validateAmount(req.getAmount());

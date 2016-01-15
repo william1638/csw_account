@@ -8,6 +8,8 @@
  */
 package com.std.account.ao;
 
+import java.util.List;
+
 import com.std.account.bo.base.Paginable;
 import com.std.account.domain.BankCard;
 
@@ -26,7 +28,7 @@ public interface IBankCardAO {
      * @create: 2015-5-16 下午8:49:28 miyb
      * @history:
      */
-    public BankCard getBankCard(String userId);
+    public List<BankCard> queryBankCardList(String userId);
 
     /**
      * 
@@ -43,16 +45,23 @@ public interface IBankCardAO {
     /**
      * 绑定银行卡
      * @param userId
+     * @param type
      * @param bankCode
      * @param bankName
      * @param bankCardNo
      * @param subbranch
-     * @param bindMobile
-     * @return 
-     * @create: 2015年12月6日 下午12:13:07 myb858
+     * @param bindMobile 
+     * @create: 2016年1月14日 下午8:40:57 myb858
      * @history:
      */
-    public void doBindBandCard(String userId, String bankCode, String bankName,
-            String bankCardNo, String subbranch, String bindMobile);
+    public void doBindBandCard(String userId, String type, String bankCode,
+            String bankName, String bankCardNo, String subbranch,
+            String bindMobile);
+
+    public void dropBankCard(Long id);
+
+    public void doRebindBankCard(Long id, String userId, String bankCode,
+            String bankName, String bankCardNo, String subbranch,
+            String bindMobile);
 
 }

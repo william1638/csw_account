@@ -4,8 +4,8 @@ import com.std.account.ao.IUserAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
-import com.std.account.dto.req.XN702012Req;
-import com.std.account.dto.res.XN702012Res;
+import com.std.account.dto.req.XN801209Req;
+import com.std.account.dto.res.XN801209Res;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -19,19 +19,19 @@ import com.std.account.spring.SpringContextHolder;
 public class XN801209 extends AProcessor {
     private IUserAO userAO = SpringContextHolder.getBean(IUserAO.class);
 
-    private XN702012Req xn702012Req = null;
+    private XN801209Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
-        return new XN702012Res(userAO.doResetLoginPwd(xn702012Req.getUserId(),
-            xn702012Req.getOldLoginPwd(), xn702012Req.getNewLoginPwd()));
+        return new XN801209Res(userAO.doResetLoginPwd(req.getUserId(),
+            req.getOldLoginPwd(), req.getNewLoginPwd()));
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        xn702012Req = JsonUtil.json2Bean(inputparams, XN702012Req.class);
-        StringValidater.validateBlank(xn702012Req.getUserId(),
-            xn702012Req.getOldLoginPwd(), xn702012Req.getNewLoginPwd());
+        req = JsonUtil.json2Bean(inputparams, XN801209Req.class);
+        StringValidater.validateBlank(req.getUserId(), req.getOldLoginPwd(),
+            req.getNewLoginPwd());
 
     }
 

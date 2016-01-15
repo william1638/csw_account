@@ -1,5 +1,8 @@
 package com.std.account.api.impl;
 
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.std.account.ao.IBankCardAO;
@@ -10,8 +13,8 @@ import com.std.account.common.PropertiesUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.domain.BankCard;
 import com.std.account.domain.User;
-import com.std.account.dto.req.XN702981Req;
-import com.std.account.dto.res.XN702981Res;
+import com.std.account.dto.req.XN801901Req;
+import com.std.account.dto.res.XN801901Res;
 import com.std.account.enums.EBoolean;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
@@ -29,13 +32,13 @@ public class XN801901 extends AProcessor {
     private IBankCardAO bankCardAO = SpringContextHolder
         .getBean(IBankCardAO.class);
 
-    private XN702981Req req = null;
+    private XN801901Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
         String userId = req.getUserId();
         User user = userAO.doGetUser(userId);
-        XN702981Res res = new XN702981Res();
+        XN801901Res res = new XN801901Res();
         if (user != null) {
             res.setUserId(userId);
             res.setPhoto(PropertiesUtil.getProperty("PHOTO_URL"));
@@ -57,9 +60,8 @@ public class XN801901 extends AProcessor {
             } else {
                 res.setIdentityFlag(EBoolean.NO.getCode());
             }
-            BankCard bankcard = bankCardAO.getBankCard(userId);
-            if (bankcard != null
-                    && StringUtils.isNotBlank(bankcard.getBankCardNo())) {
+            List<BankCard> bankcardList = bankCardAO.queryBankCardList(userId);
+            if (CollectionUtils.isNotEmpty(bankcardList)) {
                 res.setBankcardFlag(EBoolean.YES.getCode());
             } else {
                 res.setBankcardFlag(EBoolean.NO.getCode());
@@ -73,7 +75,7 @@ public class XN801901 extends AProcessor {
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN702981Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN801901Req.class);
         StringValidater.validateBlank(req.getTokenId(), req.getUserId());
     }
 

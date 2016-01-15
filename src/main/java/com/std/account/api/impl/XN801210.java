@@ -5,8 +5,8 @@ import com.std.account.api.AProcessor;
 import com.std.account.common.IdCardChecker;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
-import com.std.account.dto.req.XN702010Req;
-import com.std.account.dto.res.XN702010Res;
+import com.std.account.dto.req.XN801210Req;
+import com.std.account.dto.res.XN801210Res;
 import com.std.account.enums.EIDKind;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
@@ -22,18 +22,18 @@ public class XN801210 extends AProcessor {
     private IIdentityAO dentityAO = SpringContextHolder
         .getBean(IIdentityAO.class);
 
-    private XN702010Req req = null;
+    private XN801210Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
-        return new XN702010Res(dentityAO.doSaveUserPicture(req.getUserId(),
+        return new XN801210Res(dentityAO.doSaveUserPicture(req.getUserId(),
             req.getRealName(), req.getIdKind(), req.getIdNo(), req.getIdPic1(),
             req.getIdPic2(), req.getIdUserPic()));
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN702010Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN801210Req.class);
         StringValidater.validateBlank(req.getUserId(), req.getRealName(),
             req.getIdKind(), req.getIdNo(), req.getIdPic1(), req.getIdPic2(),
             req.getIdUserPic());

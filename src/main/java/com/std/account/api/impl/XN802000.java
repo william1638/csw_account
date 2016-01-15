@@ -4,7 +4,7 @@ import com.std.account.ao.IChannelAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.domain.Channel;
-import com.std.account.dto.req.XN702450Req;
+import com.std.account.dto.req.XN802000Req;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -19,19 +19,19 @@ public class XN802000 extends AProcessor {
     private IChannelAO channelAO = SpringContextHolder
         .getBean(IChannelAO.class);
 
-    private XN702450Req xn702450Req = null;
+    private XN802000Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
         Channel condition = new Channel();
-        condition.setChannelNo(xn702450Req.getChannelNo());
-        condition.setChannelStatus(xn702450Req.getChannelStatus());
+        condition.setChannelNo(req.getChannelNo());
+        condition.setChannelStatus(req.getChannelStatus());
         return channelAO.queryChannelList(condition);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        xn702450Req = JsonUtil.json2Bean(inputparams, XN702450Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN802000Req.class);
 
     }
 
