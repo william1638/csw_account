@@ -34,7 +34,7 @@ public class AccountFrozenJour extends ABaseDO {
     // 流水号
     private Long afjNo;
 
-    // 业务类型（1取现申请2借款申请）
+    // 业务类型
     private String bizType;
 
     // 关联单号
