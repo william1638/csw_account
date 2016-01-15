@@ -24,7 +24,7 @@ import com.std.account.domain.Bank;
  * @history:
  */
 @Component
-public class BankBOImpl extends PaginableBOImpl<Bank> implements IBankBO {
+public class BankBOImpl extends PaginableBOImpl<Bank>implements IBankBO {
     @Autowired
     private IBankDAO bankDAO;
 
@@ -82,6 +82,16 @@ public class BankBOImpl extends PaginableBOImpl<Bank> implements IBankBO {
     public boolean isBankExist(Long id) {
         Bank bank = new Bank();
         bank.setId(id);
+        if (bankDAO.selectTotalCount(bank) == 1) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isBankNoExist(String bankNo) {
+        Bank bank = new Bank();
+        bank.setBankNo(bankNo);
         if (bankDAO.selectTotalCount(bank) == 1) {
             return true;
         }

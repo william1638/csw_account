@@ -21,6 +21,8 @@ import com.std.account.domain.Bank;
 public interface IBankBO extends IPaginableBO<Bank> {
     public boolean isBankExist(Long id);
 
+    public boolean isBankNoExist(String bankNo);
+
     public int saveBank(Bank data);
 
     public int removeBank(Long id);

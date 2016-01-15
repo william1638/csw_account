@@ -34,7 +34,7 @@ public class BankAOImpl implements IBankAO {
      */
     @Override
     public String addBank(Bank data) {
-        if (data != null && !bankBO.isBankExist(data.getId())) {
+        if (data != null && !bankBO.isBankNoExist(data.getBankNo())) {
             bankBO.saveBank(data);
         } else {
             throw new BizException("li01006", "银行编号已经存在！");
