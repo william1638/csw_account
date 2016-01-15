@@ -34,17 +34,6 @@ public class IChannelDAOTest extends ADAOTest {
         data.setChannelName("易宝支付");
         data.setChannelStatus(EBoolean.YES.getCode());
         data.setRemark("测试");
-        data.setMerchantId("1");
-
-        data.setSignType("1");
-        data.setSignKey("1");
-        data.setCerPath("1");
-        data.setPoundageType("1");
-        data.setChannelVersion("1");
-
-        data.setBusinessWebGateway("1");
-        data.setBusinessWapGateway("1");
-        data.setBusinessFileGateway("1");
         int lineNum = channelDAO.insert(data);
         logger.info("insert : {}", lineNum);
     }

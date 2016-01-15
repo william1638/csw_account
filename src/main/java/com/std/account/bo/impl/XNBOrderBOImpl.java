@@ -22,7 +22,6 @@ import com.std.account.dao.IXNBOrderDAO;
 import com.std.account.domain.XNBOrder;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EOrderStatus;
-import com.std.account.enums.EOrderType;
 import com.std.account.enums.EScoreType;
 import com.std.account.exception.BizException;
 
@@ -50,7 +49,7 @@ public class XNBOrderBOImpl extends PaginableBOImpl<XNBOrder> implements
                 throw new BizException("li779001", "type不在程序所能支持种类");
             }
             XNBOrder data = new XNBOrder();
-            xnbNo = OrderNoGenerater.generate(EOrderType.XNB.getCode());
+            xnbNo = OrderNoGenerater.generate("XNB");
             data.setXnbNo(xnbNo);
             data.setStatus(status);
             data.setType(type);

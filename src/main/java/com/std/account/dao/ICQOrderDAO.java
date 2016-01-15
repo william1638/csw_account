@@ -38,7 +38,7 @@ public interface ICQOrderDAO extends IBaseDAO<CQOrder> {
     public int updatePayOrder(CQOrder data);
 
     /** 
-     * 对账
+     * 三方自动对账
      * @param data
      * @return 
      * @create: 2015-5-4 下午4:23:13 miyb
@@ -46,12 +46,4 @@ public interface ICQOrderDAO extends IBaseDAO<CQOrder> {
      */
     public int updateCheckOrder(CQOrder data);
 
-    /**
-     * 易宝充值
-     * @param data
-     * @return 
-     * @create: 2015年10月22日 下午3:59:01 myb858
-     * @history:
-     */
-    public int insertChargeOrderYeepay(CQOrder data);
 }

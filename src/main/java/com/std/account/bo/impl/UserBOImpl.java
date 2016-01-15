@@ -215,7 +215,7 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
             user.setMobile(mobile);
             user.setLoginPwd(MD5Util.md5(loginPwd));
             user.setLoginPwdStrength(PwdUtil.calculateSecurityLevel(loginPwd));
-            user.setUserKind(EUserKind.C_USER.getCode());
+            user.setUserKind(EUserKind.Admin.getCode());
             user.setUserReferee(userReferee);
             user.setCreateDatetime(now);
             user.setStatus(EAccountStatus.NORMAL.getCode());// 0正常;1程序锁定;2人工锁定
@@ -267,7 +267,7 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
             user.setMobile(mobile);
             user.setLoginPwd(MD5Util.md5(loginPsd));
             user.setLoginPwdStrength(PwdUtil.calculateSecurityLevel(loginPsd));
-            user.setUserKind(EUserKind.B_USER.getCode());
+            user.setUserKind(EUserKind.Admin.getCode());
             user.setUserReferee(userReferee);
             user.setIdKind(idKind);
             user.setIdNo(idNo);
@@ -275,7 +275,7 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
             user.setTradePwd(MD5Util.md5(tradePsd));
             user.setTradePwdStrength(PwdUtil.calculateSecurityLevel(tradePsd));
             user.setCreateDatetime(new Date());
-            user.setRemark(EUserKind.B_USER.getValue());
+            user.setRemark(EUserKind.Admin.getValue());
             user.setStatus(EAccountStatus.NORMAL.getCode());// 0正常;1程序锁定;2人工锁定
             userDAO.insertFaRen(user);
         }

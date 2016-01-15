@@ -22,7 +22,6 @@ import com.std.account.dao.IYTOrderDAO;
 import com.std.account.domain.YTOrder;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EOrderStatus;
-import com.std.account.enums.EOrderType;
 
 /** 
  * @author: miyb 
@@ -46,7 +45,7 @@ public class YTOrderBOImpl extends PaginableBOImpl<YTOrder> implements
                 && StringUtils.isNotBlank(status)
                 && StringUtils.isNotBlank(bizType) && amount != 0) {
             YTOrder data = new YTOrder();
-            ytNo = OrderNoGenerater.generate(EOrderType.YT.getCode());
+            ytNo = OrderNoGenerater.generate("YT");
             data.setYtNo(ytNo);
             data.setStatus(status);
             data.setBizType(bizType);

@@ -5,18 +5,18 @@
 	<resultMap id="userPicture_DB_Result" type="userPicture">
 		<result column="id" property="id" />
 		<result column="user_id" property="userId" />
-		<result column="real_name" property="realName" />
+		<result column="status" property="status" />
 		<result column="id_kind" property="idKind" />
 		<result column="id_no" property="idNo" />
 		
+		<result column="real_name" property="realName" />
 		<result column="id_pic1" property="idPic1" />
 		<result column="id_pic2" property="idPic2" />
 		<result column="id_user_pic" property="idUserPic" />		
 		<result column="create_datetime" property="createDatetime" />
 		
-		<result column="verify_datetime" property="verifyDatetime" />
-		<result column="verify_status" property="verifyStatus" />
 		<result column="verify_user" property="verifyUser" />
+		<result column="verify_datetime" property="verifyDatetime" />
 		<result column="remark" property="remark" />
 	</resultMap>
 	<sql id="where_condition">
@@ -27,9 +27,18 @@
 			<if test="userId != null and userId != '' ">
 				AND t.user_id = #{userId}
 			</if>
-			<if test="verifyStatus != null and verifyStatus != '' ">
-				AND t.verify_status = #{verifyStatus}
+			<if test="status != null and status != '' ">
+				AND t.status = #{status}
 			</if>	
+			<if test="idKind != null and idKind != '' ">
+				AND t.id_kind = #{idKind}
+			</if>
+			<if test="idNo != null and idNo != '' ">
+				AND t.id_no = #{idNo}
+			</if>
+			<if test="realName != null and realName != '' ">
+				AND t.real_name = #{realName}
+			</if>
 			<if test="verifyUser != null and verifyUser != '' ">
 				AND t.verify_user = #{verifyUser}
 			</if>	
@@ -43,19 +52,21 @@
 	</sql>
 	<select id="select_userPicture" parameterType="userPicture" resultMap="userPicture_DB_Result">
 		SELECT 
-		id,
-		user_id,
-		real_name,
-		id_kind,
-		id_no,
-		id_pic1,
-		id_pic2,
-		id_user_pic,
-		create_datetime,
-		verify_datetime,
-		verify_status,
-		verify_user,
-		remark	
+		id
+		,user_id
+		,status
+		,id_kind
+		,id_no
+		
+		,real_name
+		,id_pic1
+		,id_pic2
+		,id_user_pic
+		,create_datetime
+		
+		,verify_user
+		,verify_datetime
+		,remark	
 		FROM
 		tpz_user_picture t
 		<include refid="where_condition"/>
@@ -69,41 +80,34 @@
 
 	<insert id="insert_userPicture" parameterType="userPicture">
 		INSERT INTO tpz_user_picture(
-		user_id,
-		real_name,
-		id_kind,
-		id_no,
+		user_id
+		,status
+		,id_kind
+		,id_no
+		,real_name
 		
-		id_pic1,
-		id_pic2,
-		id_user_pic,
-		create_datetime,
-		
-		verify_status,
-		remark	
+		,id_pic1
+		,id_pic2
+		,id_user_pic
+		,create_datetime
+		,remark	
 		)
 		VALUES(
 		#{userId}
-		,#{realName}
+		,#{status}
 		,#{idKind}
 		,#{idNo}
+		,#{realName}
 		
 		,#{idPic1}
 		,#{idPic2}
 		,#{idUserPic}
 		,#{createDatetime}
-		
-		
-		,#{verifyStatus}
 		,#{remark}
 		)
 	</insert>
 
-	<delete id="delete_userPicture" parameterType="userPicture">
-		DELETE FROM tpz_user_picture
-		WHERE
-		id = #{id}			
-	</delete>
+	
 	<update id="update_VerifyUserPicture" parameterType="userPicture">
 		UPDATE tpz_user_picture
 		SET

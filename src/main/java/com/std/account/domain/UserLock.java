@@ -8,6 +8,8 @@
  */
 package com.std.account.domain;
 
+import java.util.Date;
+
 import com.std.account.dao.base.ABaseDO;
 
 /** 
@@ -22,8 +24,11 @@ public class UserLock extends ABaseDO {
      */
     private static final long serialVersionUID = 3343732723909565641L;
 
-    private Long id;
+    private Date createDatetimeStart;
 
+    private Date createDatetimeEnd;
+
+    // ***************** db propertity ******************
     // userId
     private String userId;
 
@@ -33,12 +38,23 @@ public class UserLock extends ABaseDO {
     // 备注
     private String remark;
 
-    public Long getId() {
-        return id;
+    // 验证时间
+    private Date createDatetime;
+
+    public Date getCreateDatetimeStart() {
+        return createDatetimeStart;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setCreateDatetimeStart(Date createDatetimeStart) {
+        this.createDatetimeStart = createDatetimeStart;
+    }
+
+    public Date getCreateDatetimeEnd() {
+        return createDatetimeEnd;
+    }
+
+    public void setCreateDatetimeEnd(Date createDatetimeEnd) {
+        this.createDatetimeEnd = createDatetimeEnd;
     }
 
     public String getUserId() {
@@ -65,11 +81,12 @@ public class UserLock extends ABaseDO {
         this.remark = remark;
     }
 
-    @Override
-    public String toString() {
-        return "UserLockDO [id=" + id + ", userId=" + userId
-                + ", lockDirection=" + lockDirection + ", remark=" + remark
-                + "]";
+    public Date getCreateDatetime() {
+        return createDatetime;
+    }
+
+    public void setCreateDatetime(Date createDatetime) {
+        this.createDatetime = createDatetime;
     }
 
 }

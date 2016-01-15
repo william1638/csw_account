@@ -16,6 +16,7 @@ import org.unitils.spring.annotation.SpringBeanByType;
 
 import com.std.account.dao.IAJourDAO;
 import com.std.account.domain.AccountJour;
+import com.std.account.enums.EAccountJourStatus;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EOrderStatus;
 import com.std.account.enums.EUser;
@@ -83,15 +84,15 @@ public class IAJourDAOTest extends ADAOTest {
     }
 
     @Test
-    public void updateCheckInfo() {
+    public void doCheckAccount() {
         AccountJour data = new AccountJour();
         data.setAjNo(1L);
-        data.setStatus(EOrderStatus.CHECKED_YES.getCode());
+        data.setStatus(EAccountJourStatus.todoCheck.getCode());
         data.setCheckUser(EUser.LI.getCode());
         data.setCheckDatetime(new Date());
         data.setRemark("test check");
-        int count = aJourDAO.updateCheckInfo(data);
-        logger.info("updateCheckInfo : {}", count);
+        int count = aJourDAO.doCheckAccount(data);
+        logger.info("doCheckAccount : {}", count);
     }
 
 }

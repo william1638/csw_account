@@ -33,7 +33,7 @@ public class CQOrder extends ABaseDO {
     // 订单号
     private String cqNo;
 
-    // 状态（ 1待审批;2审批不通过;3审批通过-待支付;4不用审批-待支付;5支付失败-待对账;6支付成功-待对账;7已对账）
+    // 状态
     private String status;
 
     // 方向：充值=1,取现=0

@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.std.account.bo.base.IPaginableBO;
 import com.std.account.domain.Account;
+import com.std.account.enums.EAccountStatus;
 import com.std.account.enums.EBizType;
 
 /** 
@@ -105,7 +106,7 @@ public interface IAccountBO extends IPaginableBO<Account> {
      * @create: 2015-5-4 下午5:35:31 miyb
      * @history:
      */
-    public int refreshStatus(String accountNumber, String status);
+    public int refreshStatus(String accountNumber, EAccountStatus status);
 
     // 合账
     public void checkAccount();

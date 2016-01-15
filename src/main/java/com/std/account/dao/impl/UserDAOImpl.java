@@ -109,8 +109,8 @@ public class UserDAOImpl extends AMybatisTemplate implements IUserDAO {
     }
 
     @Override
-    public int insertFaRen(User user) {
-        return super.insert(NAMESPACE.concat("insert_faren"), user);
+    public int insertFaRen(User data) {
+        return super.insert(NAMESPACE.concat("insert_faren"), data);
     }
 
 }

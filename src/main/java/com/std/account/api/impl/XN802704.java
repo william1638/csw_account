@@ -36,8 +36,6 @@ public class XN802704 extends AProcessor {
         condition.setApproveUser(req.getApproveUser());
 
         condition.setAccountNumber(req.getAccountNumber());
-        condition.setMobile(req.getMobile());
-        condition.setRealName(req.getRealName());
         condition.setCreateDatetimeStart(DateUtil.getFrontDate(
             req.getDateStart(), false));
         condition.setCreateDatetimeEnd(DateUtil.getFrontDate(req.getDateEnd(),

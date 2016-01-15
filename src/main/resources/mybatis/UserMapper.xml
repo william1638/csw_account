@@ -7,16 +7,20 @@
 		<result column="mobile" property="mobile" />
 		<result column="login_pwd_strength" property="loginPwdStrength" />		
 		<result column="user_kind" property="userKind" />
-		<result column="user_referee" property="userReferee" />
 		
+		<result column="user_referee" property="userReferee" />
 		<result column="id_kind" property="idKind" />
 		<result column="id_no" property="idNo" />
 		<result column="real_name" property="realName" />
 		<result column="trade_pwd_strength" property="tradePwdStrength" />
-		<result column="create_datetime" property="createDatetime" />
 		
+		<result column="create_datetime" property="createDatetime" />
 		<result column="remark" property="remark" />
-		<result column="status" property="status" />		
+		<result column="status" property="status" />	
+		<result column="serve_list" property="serveList" />
+		<result column="quote_list" property="quoteList" />
+		
+		<result column="level" property="level" />		
 	</resultMap>
 	<sql id="where_condition">
 		<trim prefix="WHERE" prefixOverrides="AND | OR">			
@@ -68,8 +72,11 @@
 		
 		,remark
 		,status		
+		,serve_list
+		,quote_list
+		,level
 		FROM
-		tpz_user t
+		tstd_user t
 		<include refid="where_condition"/>
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
@@ -79,12 +86,12 @@
 	</select>
 
 	<select id="select_user_count" parameterType="user" resultType="java.lang.Long">
-		SELECT count(1) FROM tpz_user t
+		SELECT count(1) FROM tstd_user t
 		<include refid="where_condition"/>
 	</select>
 
 	<insert id="insert_user" parameterType="user">
-		INSERT INTO tpz_user(
+		INSERT INTO tstd_user(
 		user_id
 		,mobile
 		,login_pwd
@@ -108,7 +115,7 @@
 		)
 	</insert>
     <insert id="insert_faren" parameterType="user">
-		INSERT INTO tpz_user(
+		INSERT INTO tstd_user(
 		user_id
 		,mobile
 		,login_pwd
@@ -148,7 +155,7 @@
 	 
 	
 	<update id="update_identity" parameterType="user">
-		UPDATE tpz_user
+		UPDATE tstd_user
 		SET
 		 real_name= #{realName}
 		,id_kind = #{idKind}
@@ -158,7 +165,7 @@
 	</update>
 	
 	<update id="update_trade_pwd" parameterType="user">
-		UPDATE tpz_user
+		UPDATE tstd_user
 		SET
 		 trade_pwd = #{tradePwd}
 		,trade_pwd_strength = #{tradePwdStrength}
@@ -167,7 +174,7 @@
 	</update>
 	
 	<update id="update_login_pwd" parameterType="user">
-		UPDATE tpz_user
+		UPDATE tstd_user
 		SET
 		 login_pwd = #{loginPwd}
 		,login_pwd_strength = #{loginPwdStrength}
@@ -177,7 +184,7 @@
 	
 	
 	<update id="update_mobile" parameterType="user">
-		UPDATE tpz_user
+		UPDATE tstd_user
 		SET
 		 mobile = #{mobile}
 		WHERE
@@ -185,7 +192,7 @@
 	</update>
 	
 	<delete id="delete_user" parameterType="user">
-		DELETE FROM tpz_user
+		DELETE FROM tstd_user
 		WHERE
 		user_id = #{userId}			
 	</delete>

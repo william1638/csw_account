@@ -21,7 +21,6 @@ import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.IZZOrderDAO;
 import com.std.account.domain.ZZOrder;
 import com.std.account.enums.EOrderStatus;
-import com.std.account.enums.EOrderType;
 
 /** 
  * @author: miyb 
@@ -68,7 +67,7 @@ public class ZZOrderBOImpl extends PaginableBOImpl<ZZOrder> implements
                 && StringUtils.isNotBlank(direction) && amount != 0
                 && StringUtils.isNotBlank(oppositeSystem)) {
             ZZOrder data = new ZZOrder();
-            zzNo = OrderNoGenerater.generate(EOrderType.ZZ.getCode());
+            zzNo = OrderNoGenerater.generate("ZZ");
             data.setZzNo(zzNo);
             data.setStatus(EOrderStatus.PAY_YES.getCode());
             data.setDirection(direction);

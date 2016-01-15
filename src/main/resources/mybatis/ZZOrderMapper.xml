@@ -8,8 +8,7 @@
 		<result column="direction" property="direction" />
 		<result column="amount" property="amount" />
 		<result column="create_datetime" property="createDatetime" />
-					
-		
+				
 		<result column="opposite_system" property="oppositeSystem" />
 		<result column="opposite_account" property="oppositeAccount" />	
 		<result column="remark" property="remark" />
@@ -61,18 +60,18 @@
 		,remark			
 		,account_number	
 		FROM
-		tli_zzorder t
+		tstd_zzorder t
 		<include refid="where_condition"/>
 		ORDER BY t.create_datetime
 	</select>
 
 	<select id="select_zzOrder_count" parameterType="zzOrder" resultType="java.lang.Long">
-		SELECT count(1) FROM tli_zzorder t
+		SELECT count(1) FROM tstd_zzorder t
 		<include refid="where_condition"/>
 	</select>
 
 	<insert id="insert_zzOrder" parameterType="zzOrder">
-		INSERT INTO tli_zzorder(
+		INSERT INTO tstd_zzorder(
 		zz_no
 		,status
 		,direction
@@ -105,7 +104,7 @@
 		,opposite_system		
 		,sum(amount) amount
 		FROM
-		tli_zzorder t
+		tstd_zzorder t
 		WHERE t.account_number = #{accountNumber}
 		GROUP BY t.opposite_system;
 	</select>

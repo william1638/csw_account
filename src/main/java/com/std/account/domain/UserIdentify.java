@@ -24,14 +24,14 @@ public class UserIdentify extends ABaseDO {
     // ***************** db propertity ******************
     private String userId;
 
-    // 真实姓名
-    private String realName;
-
     // 证件类型
     private String idKind;
 
     // 证件号码
     private String idNo;
+
+    // 真实姓名
+    private String realName;
 
     // 错误代码
     private String errorCode;

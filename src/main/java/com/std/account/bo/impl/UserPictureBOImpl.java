@@ -63,7 +63,7 @@ public class UserPictureBOImpl extends PaginableBOImpl<UserPicture> implements
             data.setIdUserPic(idUserPic);
             data.setCreateDatetime(new Date());
 
-            data.setVerifyStatus(EOrderStatus.UNAPPROVE.getCode());
+            data.setStatus(EOrderStatus.UNAPPROVE.getCode());
             data.setRemark("待人工审批");
             count = userPictureDAO.insert(data);
         }
@@ -79,9 +79,9 @@ public class UserPictureBOImpl extends PaginableBOImpl<UserPicture> implements
             UserPicture data = new UserPicture();
             data.setId(id);
             if (EBoolean.YES.getCode().equalsIgnoreCase(verifyStatus)) {
-                data.setVerifyStatus(EOrderStatus.APPROVE_YES.getCode());
+                data.setStatus(EOrderStatus.APPROVE_YES.getCode());
             } else {
-                data.setVerifyStatus(EOrderStatus.APPROVE_NO.getCode());
+                data.setStatus(EOrderStatus.APPROVE_NO.getCode());
             }
             data.setVerifyUser(verifyUser);
             data.setVerifyDatetime(new Date());
