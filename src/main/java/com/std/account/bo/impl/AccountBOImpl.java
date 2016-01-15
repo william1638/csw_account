@@ -25,9 +25,9 @@ import com.std.account.dao.IAccountDAO;
 import com.std.account.domain.Account;
 import com.std.account.domain.AccountFrozenJour;
 import com.std.account.domain.AccountJour;
+import com.std.account.enums.EAccountJourStatus;
 import com.std.account.enums.EAccountStatus;
 import com.std.account.enums.EBizType;
-import com.std.account.enums.EOrderStatus;
 import com.std.account.exception.BizException;
 
 /** 
@@ -70,22 +70,17 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         return accountNumber;
     }
 
-    /** 
-     * @see com.ibis.account.bo.IAccountBO#refreshStatus(java.lang.String, java.lang.String)
-     */
     @Override
-    public int refreshStatus(String accountNumber, String status) {
+    public int refreshStatus(String accountNumber, EAccountStatus status) {
         int count = 0;
         if (StringUtils.isNotBlank(accountNumber)) {
-            EAccountStatus as = EAccountStatus.getAccountStatusMap()
-                .get(status);
-            if (as != null) {
-                Account data = new Account();
-                data.setAccountNumber(accountNumber);
-                data.setStatus(as.getCode());
-                data.setUpdateDatetime(new Date());
-                count = accountDAO.updateStatus(data);
-            }
+
+            Account data = new Account();
+            data.setAccountNumber(accountNumber);
+            data.setStatus(status.getCode());
+            data.setUpdateDatetime(new Date());
+            count = accountDAO.updateStatus(data);
+
         }
         return count;
     }
@@ -159,7 +154,7 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
             count = accountDAO.updateAmount(account);
             // 记录流水
             AccountJour accountJour = new AccountJour();
-            accountJour.setStatus(EOrderStatus.PAY_YES.getCode());
+            accountJour.setStatus(EAccountJourStatus.todoCheck.getCode());
             accountJour.setBizType(bizType);
             accountJour.setRefNo(refNo);
             accountJour.setTransAmount(transAmount);
@@ -201,7 +196,7 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
             accountDAO.updateFrozenAmount(account);
             // 记录资金流水
             AccountJour accountJour = new AccountJour();
-            accountJour.setStatus(EOrderStatus.PAY_YES.getCode());
+            accountJour.setStatus(EAccountJourStatus.todoCheck.getCode());
             accountJour.setBizType(bizType.getCode());
             accountJour.setRefNo(refNo);
             accountJour.setTransAmount(-freezeAmount);
@@ -254,7 +249,7 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
                 accountDAO.updateFrozenAmount(account);
                 // 记录资金流水
                 AccountJour accountJour = new AccountJour();
-                accountJour.setStatus(EOrderStatus.PAY_YES.getCode());
+                accountJour.setStatus(EAccountJourStatus.todoCheck.getCode());
                 accountJour.setBizType(bizType.getCode());
                 accountJour.setRefNo(refNo);
                 accountJour.setTransAmount(unfreezeAmount);

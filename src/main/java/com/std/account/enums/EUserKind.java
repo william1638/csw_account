@@ -14,7 +14,7 @@ package com.std.account.enums;
  * @history:
  */
 public enum EUserKind {
-    C_USER("1001", "1级C端用户"), B_USER("2001", "1级免注册公司法人");
+    Admin("9", "管理员"), Operator("1", "操作员");
 
     EUserKind(String code, String value) {
         this.code = code;

@@ -100,9 +100,4 @@ public class CQOrderDAOImpl extends AMybatisTemplate implements ICQOrderDAO {
         return super.update(NAMESPACE.concat("update_check_order"), data);
     }
 
-    @Override
-    public int insertChargeOrderYeepay(CQOrder data) {
-        return super.insert(NAMESPACE.concat("insert_chargeOrderYeepay"), data);
-    }
-
 }

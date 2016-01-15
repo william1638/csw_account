@@ -115,7 +115,7 @@ public class ICQOrderDAOTest extends ADAOTest {
         data.setCqNo("1L");
         data.setCheckUser(EUser.LI.getCode());
         data.setCheckDatetime(new Date());
-        data.setStatus(EOrderStatus.CHECKED_NO.getCode());
+        data.setStatus("1");
         data.setRemark("test check");
         int count = cqOrderDAO.updateCheckOrder(data);
         logger.info("updatePayOrder : {}", count);

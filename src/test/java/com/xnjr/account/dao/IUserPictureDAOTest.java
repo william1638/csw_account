@@ -28,7 +28,7 @@ public class IUserPictureDAOTest extends ADAOTest {
         data.setIdUserPic("picture3");
         data.setCreateDatetime(new Date());
         data.setVerifyDatetime(new Date());
-        data.setVerifyStatus("1");
+        data.setStatus("1");
         data.setVerifyUser("罗启");
         data.setRemark("备注信息");
         int lineNum = userPictureDao.insert(data);
@@ -50,7 +50,7 @@ public class IUserPictureDAOTest extends ADAOTest {
         data.setIdPic1("picture1");
         data.setIdPic2("picture2");
         data.setIdUserPic("picture3");
-        data.setVerifyStatus("1");
+        data.setStatus("1");
         data.setVerifyUser("罗启");
         data.setRemark("备注信息");
         data = userPictureDao.select(data);
@@ -64,7 +64,7 @@ public class IUserPictureDAOTest extends ADAOTest {
         data.setIdPic1("picture1");
         data.setIdPic2("picture2");
         data.setIdUserPic("picture3");
-        data.setVerifyStatus("1");
+        data.setStatus("1");
         data.setVerifyUser("罗启");
         data.setRemark("备注信息");
         long id = userPictureDao.selectTotalCount(data);
@@ -78,7 +78,7 @@ public class IUserPictureDAOTest extends ADAOTest {
         data.setIdPic1("picture1");
         data.setIdPic2("picture2");
         data.setIdUserPic("picture3");
-        data.setVerifyStatus("1");
+        data.setStatus("1");
         data.setVerifyUser("罗启");
         data.setRemark("备注信息");
         List<UserPicture> dataList = userPictureDao.selectList(data);
@@ -92,7 +92,7 @@ public class IUserPictureDAOTest extends ADAOTest {
         data.setIdPic1("picture1");
         data.setIdPic2("picture2");
         data.setIdUserPic("picture3");
-        data.setVerifyStatus("1");
+        data.setStatus("1");
         data.setVerifyUser("罗启");
         data.setRemark("备注信息");
         List<UserPicture> dataList = userPictureDao.selectList(data, 0, 1);

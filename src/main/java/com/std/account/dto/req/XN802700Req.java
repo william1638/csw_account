@@ -15,9 +15,6 @@ public class XN802700Req extends APageReq {
     // userid
     private String userId;
 
-    // 手机号
-    private String mobile;
-
     // 真实姓名
     private String realName;
 
@@ -43,14 +40,6 @@ public class XN802700Req extends APageReq {
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
     }
 
     public String getRealName() {

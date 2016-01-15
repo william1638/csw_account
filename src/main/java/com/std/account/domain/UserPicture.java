@@ -25,14 +25,17 @@ public class UserPicture extends ABaseDO {
 
     private String userId;
 
-    // 真实姓名
-    private String realName;
+    // 状态
+    private String status;
 
     // 证件类型
     private String idKind;
 
     // 证件号码
     private String idNo;
+
+    // 真实姓名
+    private String realName;
 
     // 证件照正面
     private String idPic1;
@@ -46,14 +49,11 @@ public class UserPicture extends ABaseDO {
     // 上传日期
     private Date createDatetime;
 
-    // 验证日期
-    private Date verifyDatetime;
-
-    // 验证状态
-    private String verifyStatus;
-
     // 验证人
     private String verifyUser;
+
+    // 验证日期
+    private Date verifyDatetime;
 
     // 备注
     private String remark;
@@ -90,12 +90,12 @@ public class UserPicture extends ABaseDO {
         this.userId = userId;
     }
 
-    public String getRealName() {
-        return realName;
+    public String getStatus() {
+        return status;
     }
 
-    public void setRealName(String realName) {
-        this.realName = realName;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getIdKind() {
@@ -112,6 +112,14 @@ public class UserPicture extends ABaseDO {
 
     public void setIdNo(String idNo) {
         this.idNo = idNo;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 
     public String getIdPic1() {
@@ -146,28 +154,20 @@ public class UserPicture extends ABaseDO {
         this.createDatetime = createDatetime;
     }
 
-    public Date getVerifyDatetime() {
-        return verifyDatetime;
-    }
-
-    public void setVerifyDatetime(Date verifyDatetime) {
-        this.verifyDatetime = verifyDatetime;
-    }
-
-    public String getVerifyStatus() {
-        return verifyStatus;
-    }
-
-    public void setVerifyStatus(String verifyStatus) {
-        this.verifyStatus = verifyStatus;
-    }
-
     public String getVerifyUser() {
         return verifyUser;
     }
 
     public void setVerifyUser(String verifyUser) {
         this.verifyUser = verifyUser;
+    }
+
+    public Date getVerifyDatetime() {
+        return verifyDatetime;
+    }
+
+    public void setVerifyDatetime(Date verifyDatetime) {
+        this.verifyDatetime = verifyDatetime;
     }
 
     public String getRemark() {

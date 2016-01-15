@@ -21,9 +21,5 @@ import com.std.account.domain.UserLock;
 public interface IUserLockBO extends IPaginableBO<UserLock> {
     public int saveUserLock(UserLock data);
 
-    public int refreshLockDirection(UserLock data);
-
-    public UserLock getUserLock(Long id);
-
     public List<UserLock> queryUserLockList(UserLock data);
 }

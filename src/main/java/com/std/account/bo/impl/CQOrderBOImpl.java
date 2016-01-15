@@ -21,9 +21,7 @@ import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.ICQOrderDAO;
 import com.std.account.domain.CQOrder;
 import com.std.account.enums.EBoolean;
-import com.std.account.enums.EDirection;
 import com.std.account.enums.EOrderStatus;
-import com.std.account.enums.EOrderType;
 
 /** 
  * @author: miyb 
@@ -46,7 +44,7 @@ public class CQOrderBOImpl extends PaginableBOImpl<CQOrder> implements
                 && StringUtils.isNotBlank(bankcardNo)
                 && StringUtils.isNotBlank(channel)) {
             CQOrder data = new CQOrder();
-            cqNo = OrderNoGenerater.generate(EOrderType.CQ.getCode());
+            cqNo = OrderNoGenerater.generate("CQ");
             data.setCqNo(cqNo);
             data.setStatus(EOrderStatus.UNAPPROVE.getCode());
             data.setChannel(channel);
@@ -114,30 +112,6 @@ public class CQOrderBOImpl extends PaginableBOImpl<CQOrder> implements
     }
 
     /** 
-     * @see com.ibis.account.bo.ICQOrderBO#refreshCheckOrder(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
-     */
-    @Override
-    public int refreshCheckOrder(String cqNo, String checkUser,
-            String checkResult, String remark) {
-        int count = 0;
-        if (StringUtils.isNotBlank(cqNo) && StringUtils.isNotBlank(checkUser)
-                && StringUtils.isNotBlank(checkResult)) {
-            CQOrder data = new CQOrder();
-            data.setCqNo(cqNo);
-            if (EBoolean.YES.getCode().equalsIgnoreCase(checkResult)) {
-                data.setStatus(EOrderStatus.CHECKED_YES.getCode());
-            } else {
-                data.setStatus(EOrderStatus.CHECKED_NO.getCode());
-            }
-            data.setCheckUser(checkUser);
-            data.setCheckDatetime(new Date());
-            data.setRemark(remark);
-            count = cqOrderDAO.updateCheckOrder(data);
-        }
-        return count;
-    }
-
-    /** 
      * @see com.ibis.account.bo.ICQOrderBO#getCQOrder(java.lang.String)
      */
     @Override
@@ -157,53 +131,6 @@ public class CQOrderBOImpl extends PaginableBOImpl<CQOrder> implements
     @Override
     public List<CQOrder> queryCQOrderList(CQOrder condition) {
         return cqOrderDAO.selectList(condition);
-    }
-
-    @Override
-    public String saveChargeOrderYeepay(String accountNumber, Long amount,
-            Long fee, String bankCode, String p1MerId, String channel) {
-        String cqNo = null;
-        if (StringUtils.isNotBlank(accountNumber) && amount != 0
-                && StringUtils.isNotBlank(bankCode)
-                && StringUtils.isNotBlank(p1MerId)
-                && StringUtils.isNotBlank(channel)) {
-            CQOrder data = new CQOrder();
-            cqNo = OrderNoGenerater.generate(EOrderType.CQ.getCode());
-            data.setCqNo(cqNo);
-            data.setStatus(EOrderStatus.UNAPPROVE.getCode());
-            data.setChannel(channel);
-            data.setDirection(EDirection.PLUS.getCode());
-            data.setAmount(amount);
-
-            data.setBankCode(bankCode);
-            data.setBankcardNo(p1MerId);
-            data.setCreateDatetime(new Date());
-            data.setRemark("易宝在线充值--待回调中，还没有充值成功");
-            data.setPayFee(fee);
-
-            data.setAccountNumber(accountNumber);
-            cqOrderDAO.insertChargeOrderYeepay(data);
-        }
-        return cqNo;
-    }
-
-    @Override
-    public int refreshChargeOrderYeepay(String cqNo, boolean flag) {
-        int count = 0;
-        if (StringUtils.isNotBlank(cqNo)) {
-            CQOrder data = new CQOrder();
-            data.setCqNo(cqNo);
-            if (flag) {
-                data.setStatus(EOrderStatus.APPROVE_YES.getCode());
-            } else {
-                data.setStatus(EOrderStatus.APPROVE_NO.getCode());
-            }
-            data.setApproveUser("Yeepay");
-            data.setApproveDatetime(new Date());
-            data.setRemark("Yeepay auto callback");
-            count = cqOrderDAO.updateApproveOrder(data);
-        }
-        return count;
     }
 
 }

@@ -62,6 +62,6 @@ public interface IUserDAO extends IBaseDAO<User> {
      * @create: 2015年11月10日 下午2:18:42 myb858
      * @history:
      */
-    public int insertFaRen(User user);
+    public int insertFaRen(User data);
 
 }

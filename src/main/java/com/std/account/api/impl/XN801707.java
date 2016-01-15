@@ -35,7 +35,7 @@ public class XN801707 extends AProcessor {
         condition.setIdKind(req.getIdKind());
         condition.setIdNo(req.getIdNo());
         condition.setRealName(req.getRealName());
-        condition.setVerifyStatus(req.getVerifyStatus());
+        condition.setStatus(req.getStatus());
         condition.setVerifyUser(req.getVerifyUser());
         condition.setCreateDatetimeStart(DateUtil.getFrontDate(
             req.getDateStart(), false));

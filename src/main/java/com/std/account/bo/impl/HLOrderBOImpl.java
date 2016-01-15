@@ -23,7 +23,6 @@ import com.std.account.domain.HLOrder;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EDirection;
 import com.std.account.enums.EOrderStatus;
-import com.std.account.enums.EOrderType;
 
 /** 
  * @author: miyb 
@@ -47,7 +46,7 @@ public class HLOrderBOImpl extends PaginableBOImpl<HLOrder> implements
                 && StringUtils.isNotBlank(applyUser)
                 && StringUtils.isNotBlank(applyNote)) {
             HLOrder data = new HLOrder();
-            hlNo = OrderNoGenerater.generate(EOrderType.HL.getCode());
+            hlNo = OrderNoGenerater.generate("HL");
             data.setHlNo(hlNo);
             data.setStatus(EOrderStatus.UNAPPROVE.getCode());
             if (amount > 0) {

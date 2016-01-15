@@ -336,16 +336,16 @@ DROP TABLE IF EXISTS `tstd_user_picture`;
 CREATE TABLE `tstd_user_picture` (
   `id` bigint(32) NOT NULL AUTO_INCREMENT,
   `user_id` varchar(32) NOT NULL,
-  `id_pic1` varchar(255) NOT NULL,
-  `id_pic2` varchar(255) NOT NULL,
-  `id_user_pic` varchar(255) NOT NULL,
+  `status` varchar(1) DEFAULT NULL,
   `id_kind` varchar(1) NOT NULL,
   `id_no` varchar(32) NOT NULL,
   `real_name` varchar(16) NOT NULL,
+  `id_pic1` varchar(255) NOT NULL,
+  `id_pic2` varchar(255) NOT NULL,
+  `id_user_pic` varchar(255) NOT NULL,
   `create_datetime` datetime NOT NULL COMMENT '创建时间',
-  `verify_datetime` datetime DEFAULT NULL COMMENT '认证时间',
-  `verify_status` varchar(1) DEFAULT NULL,
   `verify_user` varchar(32) DEFAULT NULL,
+  `verify_datetime` datetime DEFAULT NULL COMMENT '认证时间',
   `remark` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

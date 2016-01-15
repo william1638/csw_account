@@ -47,7 +47,7 @@ public class AJourBOImpl extends PaginableBOImpl<AccountJour>
                 data.setCheckUser(checkUser);
                 data.setCheckDatetime(new Date());
                 data.setRemark(remark);
-                count = aJourDAO.updateCheckInfo(data);
+                count = aJourDAO.doCheckAccount(data);
             }
         }
         return count;

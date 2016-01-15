@@ -34,7 +34,7 @@ public class YTOrder extends ABaseDO {
     // 订单号
     private String ytNo;
 
-    // 状态（1待审批;2审批通过；3审批不通过；9不需要审批直接减掉账户余额）
+    // 状态
     private String status;
 
     // 业务类型

@@ -65,15 +65,6 @@ public class HLOrder extends ABaseDO {
 
     // ---------db properties end--------------------------
 
-    // -----show properties start-----------
-    // 手机号
-    private String mobile;
-
-    // 真实姓名
-    private String realName;
-
-    // -----show properties end-----------
-
     public String getHlNo() {
         return hlNo;
     }
@@ -178,19 +169,4 @@ public class HLOrder extends ABaseDO {
         this.createDatetimeEnd = createDatetimeEnd;
     }
 
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getRealName() {
-        return realName;
-    }
-
-    public void setRealName(String realName) {
-        this.realName = realName;
-    }
 }

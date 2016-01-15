@@ -71,18 +71,9 @@ public class UserLockDAOImpl extends AMybatisTemplate implements IUserLockDAO {
      * @see com.ibis.pz.base.IBaseDAO#selectList(java.lang.Object, int, int)
      */
     @Override
-    public List<UserLock> selectList(UserLock condition, int start,
-            int count) {
+    public List<UserLock> selectList(UserLock condition, int start, int count) {
         return super.selectList(NAMESPACE.concat("select_userLock"), start,
             count, condition, UserLock.class);
-    }
-
-    /** 
-     * @see com.xnjr.account.dao.ibis.pz.IUserLockDAO#updateLockDirection(com.UserLock.pz.domain.UserLockDO)
-     */
-    @Override
-    public int updateLockDirection(UserLock data) {
-        return super.update(NAMESPACE.concat("update_lock_direction"), data);
     }
 
 }

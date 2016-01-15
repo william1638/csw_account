@@ -64,19 +64,6 @@ public interface ICQOrderBO extends IPaginableBO<CQOrder> {
             String remark, String payNo, Long payFee, String workDate);
 
     /**
-     * 
-     * @param cqNo
-     * @param checkUser
-     * @param checkResult
-     * @param remark
-     * @return 
-     * @create: 2015-5-5 下午1:57:07 miyb
-     * @history:
-     */
-    public int refreshCheckOrder(String cqNo, String checkUser,
-            String checkResult, String remark);
-
-    /**
      * 获取单条订单
      * @param cqNo
      * @return 
@@ -93,30 +80,5 @@ public interface ICQOrderBO extends IPaginableBO<CQOrder> {
      * @history:
      */
     public List<CQOrder> queryCQOrderList(CQOrder condition);
-
-    /**
-     * 易宝充值订单保存
-     * @param accountNumber
-     * @param amount
-     * @param fee 手续费存放在payFee
-     * @param bankCode
-     * @param p1MerId，商户号暂时存放在bankCardNo
-     * @param channel
-     * @return 
-     * @create: 2015年10月22日 下午2:32:22 myb858
-     * @history:
-     */
-    public String saveChargeOrderYeepay(String accountNumber, Long amount,
-            Long fee, String bankCode, String p1MerId, String channel);
-
-    /**
-     * 易宝充值回调结果落地
-     * @param cqNo 订单号
-     * @param flag 是否充值成功
-     * @return 
-     * @create: 2015年10月22日 下午3:40:36 myb858
-     * @history:
-     */
-    public int refreshChargeOrderYeepay(String cqNo, boolean flag);
 
 }

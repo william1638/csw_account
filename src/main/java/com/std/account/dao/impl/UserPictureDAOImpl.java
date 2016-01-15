@@ -30,7 +30,7 @@ public class UserPictureDAOImpl extends AMybatisTemplate implements
      */
     @Override
     public int delete(UserPicture data) {
-        return super.delete(NAMESPACE.concat("delete_userPicture"), data);
+        return 0;
     }
 
     /**

@@ -8,11 +8,13 @@
 		<result column="type" property="type" />
 		<result column="bank_code" property="bankCode" />
 		<result column="bank_name" property="bankName" />
-		<result column="bankcard_no" property="bankCardNo" />
+		
 		<result column="subbranch" property="subbranch" />
+		<result column="bankcard_no" property="bankCardNo" />
 		<result column="bind_mobile" property="bindMobile" />
 		<result column="status" property="status" />
 		<result column="create_datetime" property="createDatetime" />
+		
 		<result column="update_datetime" property="updateDatetime" />
 	</resultMap>
 	<sql id="where_condition">
@@ -22,6 +24,9 @@
 			</if>
 			<if test="userId != null and userId != '' ">
 				AND t.user_id = #{userId}
+			</if>
+			<if test="type != null and type != '' ">
+				AND t.type = #{type}
 			</if>
 			<if test="bankCode != null and bankCode != '' ">
 				AND t.bank_code = #{bankCode}
@@ -44,13 +49,16 @@
 		SELECT
 		id
 		,user_id
+		,type
 		,bank_code
 		,bank_name
-		,bankcard_no
+		
 		,subbranch
+		,bankcard_no
 		,bind_mobile
 		,status
 		,create_datetime
+		
 		,update_datetime
 		FROM
 		tstd_bankcard t
@@ -68,20 +76,24 @@
 		INSERT INTO
 		tstd_bankcard(
 		user_id
+		,type
 		,bank_code
 		,bank_name
-		,bankcard_no
+		
 		,subbranch
+		,bankcard_no
 		,bind_mobile
 		,status
 		,create_datetime
 		)
 		VALUES(
 		#{userId}
+		,#{type}
 		,#{bankCode}
 		,#{bankName}
-		,#{bankCardNo}
+		
 		,#{subbranch}
+		,#{bankCardNo}
 		,#{bindMobile}
 		,#{status}
 		,#{createDatetime}
@@ -100,9 +112,10 @@
 		SET
 		bank_code= #{bankCode}
 		,bank_name= #{bankName}
-		,bankcard_no= #{bankCardNo}
 		,subbranch= #{subbranch}
+		,bankcard_no= #{bankCardNo}
 		,bind_mobile = #{bindMobile}
+		
 		,status= #{status}
 		,update_datetime = #{updateDatetime}
 		WHERE id = #{id}

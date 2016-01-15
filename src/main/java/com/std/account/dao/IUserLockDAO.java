@@ -19,12 +19,4 @@ import com.std.account.domain.UserLock;
 public interface IUserLockDAO extends IBaseDAO<UserLock> {
     String NAMESPACE = IUserLockDAO.class.getName().concat(".");
 
-    /** 
-     * 更改锁方向
-     * @param data
-     * @return 
-     * @create: 2015-2-23 下午4:28:41 miyb
-     * @history: 
-     */
-    public int updateLockDirection(UserLock data);
 }

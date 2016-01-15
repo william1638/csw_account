@@ -10,24 +10,22 @@
 		<result column="amount" property="amount" />
 
 		<result column="bank_code" property="bankCode" />	
-		<result column="subbranch" property="subbranch" />		
 		<result column="bankcard_no" property="bankcardNo" />
+		<result column="subbranch" property="subbranch" />		
 		<result column="create_datetime" property="createDatetime" />	
 		<result column="approve_user" property="approveUser" />	
-		<result column="approve_datetime" property="approveDatetime" />			
 		
+		<result column="approve_datetime" property="approveDatetime" />
 		<result column="pay_user" property="payUser" />	
 		<result column="pay_datetime" property="payDatetime" />				
 		<result column="pay_no" property="payNo" />		
-		<result column="pay_fee" property="payFee" />			
-		<result column="work_date" property="workDate" />
-			
+		<result column="pay_fee" property="payFee" />	
+				
+		<result column="work_date" property="workDate" />	
 		<result column="check_user" property="checkUser" />	
 		<result column="check_datetime" property="checkDatetime" />		
 		<result column="remark" property="remark" />		
 		<result column="account_number" property="accountNumber" />
-		<result column="mobile" property="mobile" />
-		<result column="real_name" property="realName" />
 	</resultMap>
 	<sql id="where_condition">
 		<trim prefix="WHERE" prefixOverrides="AND | OR">			
@@ -66,13 +64,7 @@
 			</if>
 			<if test="createDatetimeEnd != null and createDatetimeEnd != '' ">
 				<![CDATA[AND t.create_datetime <= #{createDatetimeEnd}]]>
-			</if>
-			<if test="mobile != null and mobile != '' ">
-				AND tu.mobile = #{mobile}
-			</if>
-			<if test="realName != null and realName != '' ">
-				AND tu.real_name = #{realName}
-			</if>				
+			</if>			
 		</trim>
 	</sql>
 	<select id="select_cqOrder" parameterType="cqOrder" resultMap="cqOrder_DB_Result">
@@ -88,22 +80,20 @@
 		,t.bankcard_no
 		,t.create_datetime
 		,t.approve_user
-		,t.approve_datetime
 		
+		,t.approve_datetime
 		,t.pay_user
 		,t.pay_datetime			
 		,t.pay_no
 		,t.pay_fee	
-		,t.work_date
-			
+		
+		,t.work_date	
 		,t.check_user
 		,t.check_datetime	
 		,t.remark
 		,t.account_number
-		,tu.mobile
-		,tu.real_name
 		FROM
-		tli_cqorder t inner join tli_account ta on t.account_number = ta.account_number inner join tpz_user tu on ta.user_id = tu.user_id
+		tstd_cqorder t 
 		<include refid="where_condition"/>
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
@@ -113,12 +103,12 @@
 	</select>
 
 	<select id="select_cqOrder_count" parameterType="cqOrder" resultType="java.lang.Long">
-		SELECT count(1) FROM tli_cqorder t inner join tli_account ta on t.account_number = ta.account_number inner join tpz_user tu on ta.user_id = tu.user_id
+		SELECT count(1) FROM tstd_cqorder t 
 		<include refid="where_condition"/>
 	</select>
 
 	<insert id="insert_cqOrder" parameterType="cqOrder">
-		INSERT INTO tli_cqorder(
+		INSERT INTO tstd_cqorder(
 		cq_no
 		,status
 		,direction
@@ -149,7 +139,7 @@
 	</insert>
 	
 	<insert id="insert_chargeOrderYeepay" parameterType="cqOrder">
-		INSERT INTO tli_cqorder(
+		INSERT INTO tstd_cqorder(
 		cq_no
 		,status
 		,direction
@@ -182,7 +172,7 @@
 	</insert>
 
 	<update id="update_approve_order" parameterType="cqOrder">
-		UPDATE tli_cqorder
+		UPDATE tstd_cqorder
 		SET
 		status= #{status}
 		,approve_user= #{approveUser}
@@ -193,7 +183,7 @@
 	</update>
 	
 	<update id="update_pay_order" parameterType="cqOrder">
-		UPDATE tli_cqorder
+		UPDATE tstd_cqorder
 		SET
 		status= #{status}
 		,pay_user= #{payUser}
@@ -208,7 +198,7 @@
 	</update>
 	
 	<update id="update_check_order" parameterType="cqOrder">
-		UPDATE tli_cqorder
+		UPDATE tstd_cqorder
 		SET
 		status= #{status}
 		,check_user= #{checkUser}

@@ -29,7 +29,7 @@ public class UserExtDAOImpl extends AMybatisTemplate implements IUserExtDAO {
      */
     @Override
     public int delete(UserExt data) {
-        return super.delete(NAMESPACE.concat("delete_userExt"), data);
+        return 0;
     }
 
     /**

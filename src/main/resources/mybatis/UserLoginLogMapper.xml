@@ -34,7 +34,7 @@
 		,login_ip
 		,is_success		
 		FROM
-		tpz_user_login_log t
+		tstd_user_login_log t
 		<include refid="where_condition"/>
 		ORDER BY t.login_datetime DESC	
 	</select>
@@ -46,7 +46,7 @@
 		,login_ip
 		,is_success		
 		FROM
-		tpz_user_login_log t
+		tstd_user_login_log t
 		WHERE 
 		t.user_id = #{userId}
 		ORDER BY t.login_datetime DESC 
@@ -54,12 +54,12 @@
 	</select>
 
 	<select id="select_userLoginLog_count" parameterType="userLoginLog" resultType="java.lang.Long">
-		SELECT count(1) FROM tpz_user_login_log t
+		SELECT count(1) FROM tstd_user_login_log t
 		<include refid="where_condition"/>
 	</select>
 
 	<insert id="insert_userLoginLog" parameterType="userLoginLog">
-		INSERT INTO tpz_user_login_log(
+		INSERT INTO tstd_user_login_log(
 		user_id
 		,login_datetime
 		,login_ip

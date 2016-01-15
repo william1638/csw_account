@@ -52,18 +52,18 @@
 		,approve_datetime		
 		,account_number
 		FROM
-		tli_ytorder t
+		tstd_ytorder t
 		<include refid="where_condition"/>
 		ORDER BY t.create_datetime
 	</select>
 
 	<select id="select_ytOrder_count" parameterType="ytOrder" resultType="java.lang.Long">
-		SELECT count(1) FROM tli_ytorder t
+		SELECT count(1) FROM tstd_ytorder t
 		<include refid="where_condition"/>
 	</select>
 
 	<insert id="insert_ytOrder" parameterType="ytOrder">
-		INSERT INTO tli_ytorder(
+		INSERT INTO tstd_ytorder(
 		yt_no
 		,status
 		,biz_type
@@ -85,7 +85,7 @@
 		)
 	</insert>	
 	<update id="update_approve_order" parameterType="ytOrder">
-		UPDATE tli_ytorder
+		UPDATE tstd_ytorder
 		SET
 		status= #{status}
 		,approve_user= #{approveUser}

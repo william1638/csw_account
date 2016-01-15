@@ -16,8 +16,6 @@
 		<result column="remark" property="remark" />	
 	
 		<result column="account_number" property="accountNumber" />
-		<result column="mobile" property="mobile" />
-		<result column="real_name" property="realName" />
 	</resultMap>
 	<sql id="where_condition">
 		<trim prefix="WHERE" prefixOverrides="AND | OR">			
@@ -30,14 +28,14 @@
 			<if test="direction != null and direction != '' ">
 				AND t.direction = #{direction}
 			</if>
-			<if test="accountNumber != null and accountNumber != '' ">
-				AND t.account_number = #{accountNumber}
-			</if>	
 			<if test="applyUser != null and applyUser != '' ">
 				AND t.apply_user = #{applyUser}
 			</if>
 			<if test="approveUser != null and approveUser != '' ">
 				AND t.approve_user = #{approveUser}
+			</if>	
+			<if test="accountNumber != null and accountNumber != '' ">
+				AND t.account_number = #{accountNumber}
 			</if>		
 			<if test="createDatetimeStart != null and createDatetimeStart != '' ">
 				<![CDATA[AND t.create_datetime >= #{createDatetimeStart}]]>
@@ -45,12 +43,6 @@
 			<if test="createDatetimeEnd != null and createDatetimeEnd != '' ">
 				<![CDATA[AND t.create_datetime <= #{createDatetimeEnd}]]>
 			</if>		
-			<if test="mobile != null and mobile != '' ">
-				AND tu.mobile = #{mobile}
-			</if>
-			<if test="realName != null and realName != '' ">
-				AND tu.real_name = #{realName}
-			</if>			
 		</trim>
 	</sql>
 	<select id="select_hlOrder" parameterType="hlOrder" resultMap="hlOrder_DB_Result">
@@ -68,10 +60,8 @@
 		,t.remark
 
 		,t.account_number
-		,tu.mobile
-		,tu.real_name
 		FROM
-		tli_hlorder t inner join tli_account ta on t.account_number = ta.account_number inner join tpz_user tu on ta.user_id = tu.user_id
+		tstd_hlorder t 
 		<include refid="where_condition"/>
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
@@ -81,12 +71,12 @@
 	</select>
 
 	<select id="select_hlOrder_count" parameterType="hlOrder" resultType="java.lang.Long">
-		SELECT count(1) FROM tli_hlorder t inner join tli_account ta on t.account_number = ta.account_number inner join tpz_user tu on ta.user_id = tu.user_id
+		SELECT count(1) FROM tstd_hlorder t 
 		<include refid="where_condition"/>
 	</select>
 
 	<insert id="insert_hlOrder" parameterType="hlOrder">
-		INSERT INTO tli_hlorder(
+		INSERT INTO tstd_hlorder(
 		hl_no
 		,status
 		,direction
@@ -113,7 +103,7 @@
 	</insert>
 
 	<update id="update_approve_order" parameterType="hlOrder">
-		UPDATE tli_hlorder
+		UPDATE tstd_hlorder
 		SET
 		status= #{status}
 		,approve_user= #{approveUser}
