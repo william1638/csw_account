@@ -28,5 +28,6 @@
 		<typeAlias alias="article" type="com.std.account.cms.domain.Article" /> -->
 		
 		<typeAlias alias="company" type="com.std.account.domain.Company" />
+		<typeAlias alias="userCompany" type="com.std.account.domain.UserCompany" />
 	</typeAliases>	
 </configuration>	

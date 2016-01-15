@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.std.account.dao.IUserCompanyDAO">
+	<resultMap id="userCompany_DB_Result" type="userCompany">
+		<result column="id" property="id" />
+		<result column="user_id" property="userId" />
+		<result column="company_id" property="companyId" />
+		<result column="remark" property="remark" />
+	</resultMap>
+	<sql id="where_condition">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="id != null and id != '' ">
+				AND t.id = #{id}
+			</if>
+			<if test="userId != null and userId != '' ">
+				AND t.user_id = #{userId}
+			</if>
+			<if test="companyId != null and companyId != '' ">
+				AND t.company_id = #{companyId}
+			</if>
+		</trim>
+	</sql>
+	<select id="select_userCompany" parameterType="userCompany" resultMap="userCompany_DB_Result">
+		SELECT
+		id
+		,user_id
+		,company_id
+		,remark
+		FROM
+		tstd_userCompany t
+		<include refid="where_condition" />
+		<trim prefix="ORDER BY ">
+			<if test="order != null and order != '' ">
+				#{order}
+			</if>
+		</trim>
+	</select>
+
+	<select id="select_userCompany_count" parameterType="userCompany"
+		resultType="java.lang.Long">
+		SELECT count(1) FROM tstd_userCompany t
+		<include refid="where_condition" />
+	</select>
+
+	<insert id="insert_userCompany" parameterType="userCompany">
+		INSERT INTO
+		tstd_userCompany(
+		user_id
+		,company_id
+		,remark
+		)
+		VALUES(
+		#{userId}
+		,#{companyId}
+		,#{remark}
+		)
+	</insert>
+	
+	<update id="update_userCompany" parameterType="userCompany">
+		UPDATE tstd_userCompany
+		SET
+		user_id= #{userId}
+		,company_id= #{companyId}
+		,remark= #{remark}
+		WHERE id = #{id}
+	</update>
+
+	<delete id="delete_userCompany" parameterType="userCompany">
+		DELETE FROM
+		tstd_userCompany
+		WHERE
+		id = #{id}
+	</delete>
+</mapper>

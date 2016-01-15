@@ -79,4 +79,7 @@
 	<bean id="companyBO" class="com.std.account.bo.impl.CompanyBOImpl">
 		<property name="paginableDAO" ref="companyDAOImpl" />
 	</bean>
+	<bean id="userCompanyBO" class="com.std.account.bo.impl.UserCompanyBOImpl">
+		<property name="paginableDAO" ref="userCompanyDAOImpl" />
+	</bean>
 </beans>
