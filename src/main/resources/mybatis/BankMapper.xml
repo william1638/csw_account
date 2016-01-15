@@ -44,7 +44,7 @@
 		,is_enable		
 		,channel_no
 		FROM
-		tli_bank t
+		tstd_bank t
 		<include refid="where_condition" />
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
@@ -55,13 +55,13 @@
 
 	<select id="select_bank_count" parameterType="bank"
 		resultType="java.lang.Long">
-		SELECT count(1) FROM tli_bank t
+		SELECT count(1) FROM tstd_bank t
 		<include refid="where_condition" />
 	</select>
 
 	<insert id="insert_bank" parameterType="bank">
 		INSERT INTO
-		tli_bank(
+		tstd_bank(
 		bank_no
 		,bank_name
 		,bank_type
@@ -80,7 +80,7 @@
 	</insert>
 	
 	<update id="update_bank" parameterType="bank">
-		UPDATE tli_bank
+		UPDATE tstd_bank
 		SET
 		bank_no= #{bankNo}
 		,bank_name= #{bankName}
@@ -93,7 +93,7 @@
 
 	<delete id="delete_bank" parameterType="bank">
 		DELETE FROM
-		tli_bank
+		tstd_bank
 		WHERE
 		id = #{id}
 	</delete>

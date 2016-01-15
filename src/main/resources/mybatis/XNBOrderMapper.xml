@@ -54,18 +54,18 @@
 		,approve_datetime
 		,account_number	
 		FROM
-		tli_xnborder t
+		tstd_xnborder t
 		<include refid="where_condition"/>
 		ORDER BY t.create_datetime
 	</select>
 
 	<select id="select_xnbOrder_count" parameterType="xnbOrder" resultType="java.lang.Long">
-		SELECT count(1) FROM tli_xnborder t
+		SELECT count(1) FROM tstd_xnborder t
 		<include refid="where_condition"/>
 	</select>
 
 	<insert id="insert_xnbOrder" parameterType="xnbOrder">
-		INSERT INTO tli_xnborder(
+		INSERT INTO tstd_xnborder(
 		xnb_no
 		,status
 		,type
@@ -90,7 +90,7 @@
 	</insert>
 
 	<update id="update_approve_order" parameterType="xnbOrder">
-		UPDATE tli_xnborder
+		UPDATE tstd_xnborder
 		SET
 		 status= #{status}
 		,approve_user= #{approveUser}

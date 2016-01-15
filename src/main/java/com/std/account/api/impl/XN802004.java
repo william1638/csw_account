@@ -31,17 +31,6 @@ public class XN802004 extends AProcessor {
         data.setChannelStatus(req.getChannelStatus());
         data.setRemark(req.getRemark());
 
-        data.setMerchantId(req.getMerchantId());
-        data.setSignKey(req.getSignKey());
-        data.setSignType(req.getSignType());
-        data.setCerPath(req.getCerPath());
-        data.setPoundageType(req.getPoundageType());
-        data.setChannelVersion(req.getChannelVersion());
-
-        data.setBusinessFileGateway(req.getBusinessFileGateway());
-        data.setBusinessWapGateway(req.getBusinessWapGateway());
-        data.setBusinessWebGateway(req.getBusinessWebGateway());
-
         return new XN802004Res(channelAO.editChannel(data));
     }
 

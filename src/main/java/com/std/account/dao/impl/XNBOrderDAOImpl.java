@@ -1,6 +1,6 @@
 /**
  * @Title XNBOrderDAOImpl.java 
- * @Package com.ibis.account.dao.impl 
+ * @Package com.std.account.dao.impl 
  * @Description 
  * @author miyb  
  * @date 2015-2-14 下午2:19:36 
@@ -25,7 +25,7 @@ import com.std.account.domain.XNBOrder;
 public class XNBOrderDAOImpl extends AMybatisTemplate implements IXNBOrderDAO {
 
     /** 
-     * @see com.ibis.account.dao.base.IBaseDAO#insert(java.lang.Object)
+     * @see com.std.account.dao.base.IBaseDAO#insert(java.lang.Object)
      */
     @Override
     public int insert(XNBOrder data) {
@@ -33,7 +33,7 @@ public class XNBOrderDAOImpl extends AMybatisTemplate implements IXNBOrderDAO {
     }
 
     /** 
-     * @see com.ibis.account.dao.base.IBaseDAO#delete(java.lang.Object)
+     * @see com.std.account.dao.base.IBaseDAO#delete(java.lang.Object)
      */
     @Override
     public int delete(XNBOrder data) {
@@ -41,7 +41,7 @@ public class XNBOrderDAOImpl extends AMybatisTemplate implements IXNBOrderDAO {
     }
 
     /** 
-     * @see com.ibis.account.dao.base.IBaseDAO#select(java.lang.Object)
+     * @see com.std.account.dao.base.IBaseDAO#select(java.lang.Object)
      */
     @Override
     public XNBOrder select(XNBOrder condition) {
@@ -50,16 +50,16 @@ public class XNBOrderDAOImpl extends AMybatisTemplate implements IXNBOrderDAO {
     }
 
     /** 
-     * @see com.ibis.account.dao.base.IBaseDAO#selectTotalCount(java.lang.Object)
+     * @see com.std.account.dao.base.IBaseDAO#selectTotalCount(java.lang.Object)
      */
     @Override
     public long selectTotalCount(XNBOrder condition) {
-        return super.selectTotalCount(
-            NAMESPACE.concat("select_xnbOrder_count"), condition);
+        return super.selectTotalCount(NAMESPACE.concat("select_xnbOrder_count"),
+            condition);
     }
 
     /** 
-     * @see com.ibis.account.dao.base.IBaseDAO#selectList(java.lang.Object)
+     * @see com.std.account.dao.base.IBaseDAO#selectList(java.lang.Object)
      */
     @Override
     public List<XNBOrder> selectList(XNBOrder condition) {
@@ -68,7 +68,7 @@ public class XNBOrderDAOImpl extends AMybatisTemplate implements IXNBOrderDAO {
     }
 
     /** 
-     * @see com.ibis.account.dao.base.IBaseDAO#selectList(java.lang.Object, int, int)
+     * @see com.std.account.dao.base.IBaseDAO#selectList(java.lang.Object, int, int)
      */
     @Override
     public List<XNBOrder> selectList(XNBOrder condition, int start, int count) {
@@ -77,7 +77,7 @@ public class XNBOrderDAOImpl extends AMybatisTemplate implements IXNBOrderDAO {
     }
 
     /** 
-     * @see com.xnjr.account.dao.ibis.account.dao.IXNBOrderDAO#updateApproveOrder(com.ibis.account.domain.XNBOrder)
+     * @see com.xnjr.account.dao.std.account.dao.IXNBOrderDAO#updateApproveOrder(com.std.account.domain.XNBOrder)
      */
     @Override
     public int updateApproveOrder(XNBOrder data) {

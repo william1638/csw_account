@@ -1,6 +1,6 @@
 /**
  * @Title IXNBOrderBO.java 
- * @Package com.ibis.account.bo 
+ * @Package com.std.account.bo 
  * @Description 
  * @author miyb  
  * @date 2015-3-15 下午3:27:36 
@@ -31,8 +31,8 @@ public interface IXNBOrderBO extends IPaginableBO<XNBOrder> {
      * @create: 2015-5-8 上午9:12:19 miyb
      * @history: 
      */
-    public String saveXNBOrder(String accountNumber, String status,
-            String type, Long score, Long amount, String remark);
+    public String saveXNBOrder(String accountNumber, String status, String type,
+            Long score, Long amount, String remark);
 
     /**
      * 

@@ -1,6 +1,6 @@
 /**
  * @Title XNBOrderBOImpl.java 
- * @Package com.ibis.account.bo.impl 
+ * @Package com.std.account.bo.impl 
  * @Description 
  * @author miyb  
  * @date 2015-3-15 下午3:22:46 
@@ -32,17 +32,17 @@ import com.std.account.exception.BizException;
  * @history:
  */
 @Component
-public class XNBOrderBOImpl extends PaginableBOImpl<XNBOrder> implements
-        IXNBOrderBO {
+public class XNBOrderBOImpl extends PaginableBOImpl<XNBOrder>
+        implements IXNBOrderBO {
     @Autowired
     private IXNBOrderDAO xnbOrderDAO;
 
     /** 
-     * @see com.ibis.account.bo.IXNBOrderBO#saveXNBOrder(java.lang.String, java.lang.String, java.lang.String, java.lang.Long, java.lang.Long, java.lang.String)
+     * @see com.std.account.bo.IXNBOrderBO#saveXNBOrder(java.lang.String, java.lang.String, java.lang.String, java.lang.Long, java.lang.Long, java.lang.String)
      */
     @Override
-    public String saveXNBOrder(String accountNumber, String status,
-            String type, Long score, Long amount, String remark) {
+    public String saveXNBOrder(String accountNumber, String status, String type,
+            Long score, Long amount, String remark) {
         String xnbNo = null;
         if (StringUtils.isNotBlank(accountNumber)
                 && StringUtils.isNotBlank(type) && amount > 0 && score > 0) {
@@ -65,14 +65,13 @@ public class XNBOrderBOImpl extends PaginableBOImpl<XNBOrder> implements
     }
 
     /** 
-     * @see com.ibis.account.bo.IXNBOrderBO#refreshApproveOrder(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     * @see com.std.account.bo.IXNBOrderBO#refreshApproveOrder(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
     public int refreshApproveOrder(String xnbNo, String approveUser,
             String approveResult, String remark) {
         int count = 0;
-        if (StringUtils.isNotBlank(xnbNo)
-                && StringUtils.isNotBlank(approveUser)
+        if (StringUtils.isNotBlank(xnbNo) && StringUtils.isNotBlank(approveUser)
                 && StringUtils.isNotBlank(approveResult)) {
             XNBOrder data = new XNBOrder();
             data.setXnbNo(xnbNo);
@@ -91,7 +90,7 @@ public class XNBOrderBOImpl extends PaginableBOImpl<XNBOrder> implements
     }
 
     /** 
-     * @see com.ibis.account.bo.IXNBOrderBO#getXNBOrder(java.lang.String)
+     * @see com.std.account.bo.IXNBOrderBO#getXNBOrder(java.lang.String)
      */
     @Override
     public XNBOrder getXNBOrder(String xnbNo) {
@@ -105,7 +104,7 @@ public class XNBOrderBOImpl extends PaginableBOImpl<XNBOrder> implements
     }
 
     /** 
-     * @see com.ibis.account.bo.IXNBOrderBO#queryXNBOrderList(com.ibis.account.domain.XNBOrder)
+     * @see com.std.account.bo.IXNBOrderBO#queryXNBOrderList(com.std.account.domain.XNBOrder)
      */
     @Override
     public List<XNBOrder> queryXNBOrderList(XNBOrder condition) {
