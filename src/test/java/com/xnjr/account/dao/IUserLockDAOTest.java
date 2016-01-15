@@ -38,27 +38,9 @@ public class IUserLockDAOTest extends ADAOTest {
     }
 
     @Test
-    public void delete() {
-        UserLock data = new UserLock();
-        data.setId(1L);
-        int lineNum = userLockDAO.delete(data);
-        logger.info("delete : {}", lineNum);
-    }
-
-    @Test
-    public void updateLockDirection() {
-        UserLock data = new UserLock();
-        data.setId(1L);
-        data.setLockDirection("0");
-        data.setRemark(new Date() + "因为某原因用户" + 12345 + "进行了解锁");
-        int lineNum = userLockDAO.updateLockDirection(data);
-        logger.info("update : {}", lineNum);
-    }
-
-    @Test
     public void select() {
         UserLock data = new UserLock();
-        data.setId(1L);
+        data.setUserId("1");
         data = userLockDAO.select(data);
         logger.info("select : {}", data);
     }
@@ -66,7 +48,7 @@ public class IUserLockDAOTest extends ADAOTest {
     @Test
     public void selectTotalCount() {
         UserLock data = new UserLock();
-        data.setId(1L);
+        data.setUserId("1");
         long id = userLockDAO.selectTotalCount(data);
         logger.info("selectTotalCount : {}", id);
     }

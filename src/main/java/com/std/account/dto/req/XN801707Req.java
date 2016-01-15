@@ -10,8 +10,8 @@ public class XN801707Req extends APageReq {
 
     private String userId;
 
-    // 验证状态
-    private String verifyStatus;
+    // 状态
+    private String status;
 
     // 验证人
     private String verifyUser;
@@ -41,12 +41,12 @@ public class XN801707Req extends APageReq {
         this.userId = userId;
     }
 
-    public String getVerifyStatus() {
-        return verifyStatus;
+    public String getStatus() {
+        return status;
     }
 
-    public void setVerifyStatus(String verifyStatus) {
-        this.verifyStatus = verifyStatus;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getVerifyUser() {
