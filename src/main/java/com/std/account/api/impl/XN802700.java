@@ -31,7 +31,6 @@ public class XN802700 extends AProcessor {
         condition.setAccountNumber(req.getAccountNumber());
         condition.setStatus(req.getStatus());
         condition.setUserId(req.getUserId());
-        condition.setMobile(req.getMobile());
         condition.setRealName(req.getRealName());
         condition.setCreateDatetimeStart(DateUtil.getFrontDate(
             req.getDateStart(), false));
