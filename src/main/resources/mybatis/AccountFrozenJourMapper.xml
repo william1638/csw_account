@@ -49,18 +49,18 @@
 		,create_datetime
 		,account_number	
 		FROM
-		tli_account_frozen_jour t
+		tstd_account_frozen_jour t
 		<include refid="where_condition"/>
 		ORDER BY t.afj_no DESC
 	</select>
 
 	<select id="select_afJour_count" parameterType="afJour" resultType="java.lang.Long">
-		SELECT count(1) FROM tli_account_frozen_jour t
+		SELECT count(1) FROM tstd_account_frozen_jour t
 		<include refid="where_condition"/>
 	</select>
 
 	<insert id="insert_afJour" parameterType="afJour">
-		INSERT INTO tli_account_frozen_jour(
+		INSERT INTO tstd_account_frozen_jour(
 		afj_no
 		,biz_type		
 		,ref_no

@@ -68,18 +68,18 @@
 		,check_datetime
 		,account_number
 		FROM
-		tli_account_jour t
+		tstd_account_jour t
 		<include refid="where_condition"/>
 		ORDER BY t.aj_no DESC	
 	</select>
 
 	<select id="select_accountJour_count" parameterType="accountJour" resultType="java.lang.Long">
-		SELECT count(1) FROM tli_account_jour t
+		SELECT count(1) FROM tstd_account_jour t
 		<include refid="where_condition"/>
 	</select>
 
 	<insert id="insert_accountJour" parameterType="accountJour">
-		INSERT INTO tli_account_jour(
+		INSERT INTO tstd_account_jour(
 		aj_no
 		,status
 		,biz_type
@@ -111,8 +111,8 @@
 		)
 	</insert>
 	
-	<update id="update_check_info" parameterType="accountJour">
-		UPDATE tli_account_jour
+	<update id="update_check_account" parameterType="accountJour">
+		UPDATE tstd_account_jour
 		SET
 		status= #{status}
 		,check_user= #{checkUser}

@@ -20,11 +20,11 @@ public interface IAJourDAO extends IBaseDAO<AccountJour> {
     String NAMESPACE = IAJourDAO.class.getName().concat(".");
 
     /** 
-     * 对账
+     * 对账结果录入
      * @param data
      * @return 
      * @create: 2015-2-23 下午4:28:41 miyb
      * @history: 
      */
-    public int updateCheckInfo(AccountJour data);
+    public int doCheckAccount(AccountJour data);
 }

@@ -32,15 +32,16 @@ public class IAccountDAOTest extends ADAOTest {
     @Test
     public void insert() {
         Account data = new Account();
+        data.setUserId("miyb");
+        data.setUserId("宓永宝");
         data.setAccountNumber("1");
         data.setStatus(EAccountStatus.NORMAL.getCode());
         data.setAmount(0L);
+
         data.setFrozenAmount(0L);
         data.setCurrency("CNY");
-
         data.setMd5(AccountUtil.md5(data.getAmount()));
         data.setCreateDatetime(new Date());
-        data.setUserId("miyb");
         int lineNum = accountDAO.insert(data);
         logger.info("insert : {}", lineNum);
     }

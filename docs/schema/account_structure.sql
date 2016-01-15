@@ -23,6 +23,8 @@ DROP TABLE IF EXISTS `tstd_account`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_account` (
+  `user_id` varchar(32) NOT NULL,
+  `real_name` varchar(16) DEFAULT NULL COMMENT '真实姓名',
   `account_number` varchar(32) NOT NULL,
   `status` char(1) NOT NULL,
   `amount` bigint(32) NOT NULL,
@@ -31,7 +33,6 @@ CREATE TABLE `tstd_account` (
   `md5` varchar(32) NOT NULL,
   `create_datetime` datetime NOT NULL,
   `update_datetime` datetime DEFAULT NULL,
-  `user_id` varchar(32) NOT NULL,
   PRIMARY KEY (`account_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -373,26 +374,17 @@ CREATE TABLE `tstd_xnborder` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Table structure for table `tstd_yeepay_channel`
+-- Table structure for table `tstd_channel`
 --
 
-DROP TABLE IF EXISTS `tstd_yeepay_channel`;
+DROP TABLE IF EXISTS `tstd_channel`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tstd_yeepay_channel` (
+CREATE TABLE `tstd_channel` (
   `channel_no` varchar(4) NOT NULL,
   `channel_name` varchar(16) NOT NULL,
   `channel_status` char(1) NOT NULL,
   `remark` varchar(255) DEFAULT NULL,
-  `merchant_id` varchar(8) DEFAULT NULL,
-  `sign_type` varchar(8) DEFAULT NULL,
-  `sign_key` varchar(8) DEFAULT NULL,
-  `cer_path` varchar(8) DEFAULT NULL,
-  `poundage_type` varchar(8) DEFAULT NULL,
-  `channel_version` varchar(8) DEFAULT NULL,
-  `business_web_gateway` varchar(8) DEFAULT NULL,
-  `business_wap_gateway` varchar(8) DEFAULT NULL,
-  `business_file_gateway` varchar(8) DEFAULT NULL,
   PRIMARY KEY (`channel_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

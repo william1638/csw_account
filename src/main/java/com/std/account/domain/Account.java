@@ -30,16 +30,22 @@ public class Account extends ABaseDO {
     private Date createDatetimeEnd;
 
     // -----db properties start---------------
+    // userid
+    private String userId;
+
+    // 真实姓名
+    private String realName;
+
     // 账号
     private String accountNumber;
 
     // 状态(0正常,1程序锁定,2人工锁定)
     private String status;
 
-    // 账户余额(精确到厘,且永远大于等于0）
+    // 账户余额(精确到厘）
     private Long amount;
 
-    // 冻结金额（精确到厘,且永远大于等于0）
+    // 冻结金额（精确到厘）
     private Long frozenAmount;
 
     // 币种（默认CNY）
@@ -54,19 +60,38 @@ public class Account extends ABaseDO {
     // 记录更新时间
     private Date updateDatetime;
 
-    // userid
-    private String userId;
-
     // -----db properties end---------------
+    public Date getCreateDatetimeStart() {
+        return createDatetimeStart;
+    }
 
-    // -----show properties start-----------
-    // 手机号
-    private String mobile;
+    public void setCreateDatetimeStart(Date createDatetimeStart) {
+        this.createDatetimeStart = createDatetimeStart;
+    }
 
-    // 真实姓名
-    private String realName;
+    public Date getCreateDatetimeEnd() {
+        return createDatetimeEnd;
+    }
 
-    // -----show properties end-----------
+    public void setCreateDatetimeEnd(Date createDatetimeEnd) {
+        this.createDatetimeEnd = createDatetimeEnd;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
 
     public String getAccountNumber() {
         return accountNumber;
@@ -74,6 +99,14 @@ public class Account extends ABaseDO {
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Long getAmount() {
@@ -100,14 +133,6 @@ public class Account extends ABaseDO {
         this.currency = currency;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public String getMd5() {
         return md5;
     }
@@ -132,43 +157,4 @@ public class Account extends ABaseDO {
         this.updateDatetime = updateDatetime;
     }
 
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
-    public Date getCreateDatetimeStart() {
-        return createDatetimeStart;
-    }
-
-    public void setCreateDatetimeStart(Date createDatetimeStart) {
-        this.createDatetimeStart = createDatetimeStart;
-    }
-
-    public Date getCreateDatetimeEnd() {
-        return createDatetimeEnd;
-    }
-
-    public void setCreateDatetimeEnd(Date createDatetimeEnd) {
-        this.createDatetimeEnd = createDatetimeEnd;
-    }
-
-    public String getMobile() {
-        return mobile;
-    }
-
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
-    }
-
-    public String getRealName() {
-        return realName;
-    }
-
-    public void setRealName(String realName) {
-        this.realName = realName;
-    }
 }

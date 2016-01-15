@@ -19,8 +19,17 @@ import com.std.account.domain.AccountJour;
  * @history:
  */
 public interface IAJourBO extends IPaginableBO<AccountJour> {
-
-    public int refreshCheckJour(Long aJourNo, String checkUser,
+    /**
+     * 对账结果录入
+     * @param aJourNo
+     * @param checkUser
+     * @param checkResult
+     * @param remark
+     * @return 
+     * @create: 2016年1月15日 下午2:44:53 myb858
+     * @history:
+     */
+    public int doCheckAccount(Long aJourNo, String checkUser,
             String checkResult, String remark);
 
     /**
