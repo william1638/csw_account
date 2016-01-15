@@ -31,4 +31,9 @@ public class CompanyAOImpl implements ICompanyAO {
     public List<Company> queryCompanyList(Company condition) {
         return companyBO.queryCompanyList(condition);
     }
+
+    @Override
+    public Company doGetCompany(String companyId) {
+        return companyBO.getCompany(companyId);
+    }
 }

@@ -43,4 +43,13 @@ public interface ICompanyAO {
      * @history:
      */
     public List<Company> queryCompanyList(Company condition);
+
+    /**
+     * 查询企业详情
+     * @param companyId
+     * @return 
+     * @create: 2016年1月15日 上午10:11:58 wuql
+     * @history:
+     */
+    public Company doGetCompany(String companyId);
 }

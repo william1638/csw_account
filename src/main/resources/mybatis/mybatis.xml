@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
-	<typeAliases>	
-	
-		<typeAlias alias="smsCaptcha" type="com.std.account.domain.SmsCaptcha" />	
+	<typeAliases>		
 		<typeAlias alias="dict" type="com.std.account.domain.Dict" />
 		
 		<typeAlias alias="account" type="com.std.account.domain.Account" />
@@ -26,8 +24,8 @@
 		<typeAlias alias="userPicture" type="com.std.account.domain.UserPicture" />
 		<typeAlias alias="bankCard" type="com.std.account.domain.BankCard" />
 		
-		<typeAlias alias="navigation" type="com.std.account.cms.domain.Navigation" />
-		<typeAlias alias="article" type="com.std.account.cms.domain.Article" />
+		<!-- <typeAlias alias="navigation" type="com.std.account.cms.domain.Navigation" />
+		<typeAlias alias="article" type="com.std.account.cms.domain.Article" /> -->
 		
 		<typeAlias alias="company" type="com.std.account.domain.Company" />
 	</typeAliases>	

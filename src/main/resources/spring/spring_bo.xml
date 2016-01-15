@@ -64,21 +64,17 @@
 	<bean id="userExtBO" class="com.std.account.bo.impl.UserExtBOImpl">
 		<property name="paginableDAO" ref="userExtDAOImpl" />
 	</bean>
-	
-	
-	<bean id="smsCaptchaBO" class="com.std.account.bo.impl.SmsCaptchaBOImpl">
-		<property name="paginableDAO" ref="smsCaptchaDAOImpl" />
-	</bean>
+
 	<bean id="dictBO" class="com.std.account.bo.impl.DictBOImpl">
 		<property name="paginableDAO" ref="dictDAOImpl" />
 	</bean>
 	
-	<bean id="navigationBO" class="com.std.account.cms.bo.impl.NavigationBOImpl">
+	<!-- <bean id="navigationBO" class="com.std.account.cms.bo.impl.NavigationBOImpl">
 		<property name="paginableDAO" ref="navigationDAOImpl" />
 	</bean>
 	<bean id="articleBO" class="com.std.account.cms.bo.impl.ArticleBOImpl">
 		<property name="paginableDAO" ref="articleDAOImpl" />
-	</bean>
+	</bean> -->
 	
 	<bean id="companyBO" class="com.std.account.bo.impl.CompanyBOImpl">
 		<property name="paginableDAO" ref="companyDAOImpl" />
