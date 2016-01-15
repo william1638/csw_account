@@ -34,10 +34,10 @@ public class AccountJour extends ABaseDO {
     // 流水号
     private Long ajNo;
 
-    // 是否已经对账（0未对账;2表示对账（已对账）；3表示错账（已对账）;9不需要对账）
+    // 状态
     private String status;
 
-    // 业务类型（0虚拟币兑换;1充值-1取现;2转入-2转出;9蓝补-9红冲）
+    // 业务类型
     private String bizType;
 
     // 关联单号

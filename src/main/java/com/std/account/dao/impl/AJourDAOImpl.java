@@ -81,8 +81,8 @@ public class AJourDAOImpl extends AMybatisTemplate implements IAJourDAO {
      * @see com.xnjr.account.dao.ibis.account.dao.IAJourDAO#updateCheckInfo(com.ibis.account.domain.AccountJour)
      */
     @Override
-    public int updateCheckInfo(AccountJour data) {
-        return super.update(NAMESPACE.concat("update_check_info"), data);
+    public int doCheckAccount(AccountJour data) {
+        return super.update(NAMESPACE.concat("update_check_account"), data);
     }
 
 }
