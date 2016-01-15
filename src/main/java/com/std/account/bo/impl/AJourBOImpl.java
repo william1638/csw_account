@@ -27,8 +27,8 @@ import com.std.account.enums.EBoolean;
  * @history:
  */
 @Component
-public class AJourBOImpl extends PaginableBOImpl<AccountJour> implements
-        IAJourBO {
+public class AJourBOImpl extends PaginableBOImpl<AccountJour>
+        implements IAJourBO {
     @Autowired
     private IAJourDAO aJourDAO;
 
