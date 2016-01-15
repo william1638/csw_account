@@ -18,37 +18,23 @@
   
 2，打包
   rm -rf account.tar.gz
-  tar zcvf account.tar.gz xn-account/
-  scp -P54012 ./xn-account.tar.gz root@121.42.196.238:/home/
-  scp -P57652 ./xn-account.war root@121.43.101.148:/home/
-  scp -P53422 ./xn-account.war root@115.29.140.31:/home/
-  
-  scp -P 53422 xn-account.war root@115.29.140.31:/home/tomcat_GJS_account_biz/webapps
-  scp -P 57652 xn-account.war root@121.43.101.148:/home/tomcat_GJS_account_biz/webapps
-  scp -P 54012 xn-account.war root@121.42.196.238:/home/tomcat_GJS_account_biz/webapps
+  tar zcvf account.tar.gz std-account/
+  scp -P57652 ./account.tar.gz root@120.55.113.192:/home/
   
 3，部署
-  ssh root@121.42.196.238 -p 54012
-  ssh root@121.43.101.148 -p 57652
-  ssh root@115.29.140.31 -p 53422
-  
-  cd /home/tomcat_GJS_account_biz/webapps
-  rm -rf xn-account.war
-  cp ./xn-account/WEB-INF/classes/application.properties .
-  cp ./xn-account/WEB-INF/classes/config.properties .
-  cp ./xn-account/WEB-INF/classes/merchantInfo.properties .
-  rm -rf xn-account/
-  mv /home/xn-account.war .
-  
-  mv -f application.properties ./xn-account/WEB-INF/classes/
-  mv -f config.properties ./xn-account/WEB-INF/classes/
-  mv -f merchantInfo.properties ./xn-account/WEB-INF/classes/
+  ssh root@120.55.113.192 -p 57652
+
+  cd /home/tomcat_STD_account/webapps
+  rm -rf account.tar.gz
+  cp ./std-account/WEB-INF/classes/application.properties .
+  cp ./std-account/WEB-INF/classes/config.properties .
+  rm -rf std-account/
+  mv /home/account.tar.gz .
+  tar zxvf account.tar.gz
+  mv -f application.properties ./std-account/WEB-INF/classes/
+  mv -f config.properties ./std-account/WEB-INF/classes/
   
 4,起停tomcat_develop_account
-  ../bin/shutdown.sh
-  ../bin/startup.sh
   
-
-http://121.43.101.148:8702/xn-account/api
-http://115.29.140.31:8702/xn-account/api
+http://120.55.113.192:7102/std-account/api
 
