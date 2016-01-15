@@ -10,6 +10,7 @@ import com.std.account.bo.ICompanyBO;
 import com.std.account.bo.base.PaginableBOImpl;
 import com.std.account.dao.ICompanyDAO;
 import com.std.account.domain.Company;
+import com.std.account.exception.BizException;
 
 /** 
  * 公司列表
@@ -84,7 +85,10 @@ public class CompanyBOImpl extends PaginableBOImpl<Company>
             condition.setCompanyId(companyId);
             companyDO = companyDAO.select(condition);
         }
-        return companyDO;
+        if (companyDO != null) {
+            return companyDO;
+        }
+        throw new BizException("xn000001", "公司信息不存在！");
     }
 
     /**

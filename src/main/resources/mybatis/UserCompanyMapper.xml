@@ -28,7 +28,7 @@
 		,company_id
 		,remark
 		FROM
-		tstd_userCompany t
+		tstd_user_company t
 		<include refid="where_condition" />
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
@@ -39,13 +39,13 @@
 
 	<select id="select_userCompany_count" parameterType="userCompany"
 		resultType="java.lang.Long">
-		SELECT count(1) FROM tstd_userCompany t
+		SELECT count(1) FROM tstd_user_company t
 		<include refid="where_condition" />
 	</select>
 
 	<insert id="insert_userCompany" parameterType="userCompany">
 		INSERT INTO
-		tstd_userCompany(
+		tstd_user_company(
 		user_id
 		,company_id
 		,remark
@@ -58,7 +58,7 @@
 	</insert>
 	
 	<update id="update_userCompany" parameterType="userCompany">
-		UPDATE tstd_userCompany
+		UPDATE tstd_user_company
 		SET
 		user_id= #{userId}
 		,company_id= #{companyId}
@@ -68,7 +68,7 @@
 
 	<delete id="delete_userCompany" parameterType="userCompany">
 		DELETE FROM
-		tstd_userCompany
+		tstd_user_company
 		WHERE
 		id = #{id}
 	</delete>

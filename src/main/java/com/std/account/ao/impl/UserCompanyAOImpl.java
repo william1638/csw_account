@@ -104,6 +104,8 @@ public class UserCompanyAOImpl implements IUserCompanyAO {
             for (UserCompany userCompany : userCompanyList) {
                 companyIdList.add(userCompany.getCompanyId());
             }
+        } else {
+            throw new BizException("xn000001", "该用户尚未关联任何公司！");
         }
         if (companyIdList != null && companyIdList.size() > 0) {
             for (String companyId : companyIdList) {

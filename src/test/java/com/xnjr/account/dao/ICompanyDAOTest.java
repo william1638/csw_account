@@ -22,7 +22,7 @@ public class ICompanyDAOTest extends ADAOTest {
     @Test
     public void insert() {
         Company data = new Company();
-        data.setCompanyId("11111112");
+        data.setCompanyId("11111113");
         data.setCompanyName("公司名称");
         data.setLicenceNo("11");
         data.setIdKind("1");
