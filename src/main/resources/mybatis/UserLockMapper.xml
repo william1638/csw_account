@@ -31,18 +31,18 @@
 		,remark	
 		,create_datetime			
 		FROM
-		tpz_user_lock t
+		tstd_user_lock t
 		<include refid="where_condition"/>
 		ORDER BY t.create_datetime DESC	
 	</select>
 
 	<select id="select_userLock_count" parameterType="userLock" resultType="java.lang.Long">
-		SELECT count(1) FROM tpz_user_lock t
+		SELECT count(1) FROM tstd_user_lock t
 		<include refid="where_condition"/>
 	</select>
 
 	<insert id="insert_userLock" parameterType="userLock">
-		INSERT INTO tpz_user_lock(
+		INSERT INTO tstd_user_lock(
 		user_id
 		,lock_direction
 		,remark	
