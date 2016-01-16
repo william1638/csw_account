@@ -33,6 +33,7 @@ public class IUserLockDAOTest extends ADAOTest {
         data.setUserId("1");
         data.setLockDirection("1");// 1用锁;0解锁
         data.setRemark(new Date() + "因为某原因用锁3分钟");
+        data.setCreateDatetime(new Date());
         int lineNum = userLockDAO.insert(data);
         logger.info("insert : {}", lineNum);
     }
