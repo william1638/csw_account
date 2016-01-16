@@ -70,7 +70,7 @@ public interface IIdentityAO {
      * @create: 2015年10月28日 下午4:00:03 myb858
      * @history:
      */
-    public boolean doSaveUserPicture(String userId, String realName,
+    public void doSaveUserPicture(String userId, String realName,
             String idKind, String idNo, String idPic1, String idPic2,
             String idUserPic);
 
@@ -78,13 +78,13 @@ public interface IIdentityAO {
      * 人工看身份证照片审批实名认证
      * @param id
      * @param verifyUser
-     * @param verifyStatus
+     * @param verifyResult
      * @param remark
      * @return 
      * @create: 2015年10月28日 下午3:28:00 myb858
      * @history:
      */
-    public boolean doVerifyUserPicture(Long id, String verifyUser,
-            String verifyStatus, String remark);
+    public void doVerifyUserPicture(Long id, String verifyUser,
+            String verifyResult, String remark);
 
 }

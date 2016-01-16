@@ -2,6 +2,7 @@ package com.std.account.bo.impl;
 
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -17,41 +18,10 @@ import com.std.account.domain.UserCompany;
  * @history:
  */
 @Component
-public class UserCompanyBOImpl extends PaginableBOImpl<UserCompany>
-        implements IUserCompanyBO {
+public class UserCompanyBOImpl extends PaginableBOImpl<UserCompany> implements
+        IUserCompanyBO {
     @Autowired
     private IUserCompanyDAO userCompanyDAO;
-
-    /**
-     * @see com.std.account.bo.IUserCompanyBO#saveUserCompany(com.std.account.domain.UserCompany)
-     */
-    @Override
-    public int saveUserCompany(UserCompany data) {
-        int count = 0;
-        if (data != null) {
-            count = userCompanyDAO.insert(data);
-        }
-        return count;
-    }
-
-    @Override
-    public int removeUserCompany(Long id) {
-        int count = 0;
-        if (id > 0) {
-            UserCompany data = new UserCompany();
-            data.setId(id);
-            count = userCompanyDAO.delete(data);
-        }
-        return count;
-    }
-
-    /** 
-     * @see com.ibis.account.bo.IUserCompanyBO#refreshUserCompany(com.ibis.account.domain.UserCompany)
-     */
-    @Override
-    public int refreshUserCompany(UserCompany data) {
-        return userCompanyDAO.update(data);
-    }
 
     @Override
     public UserCompany getUserCompany(Long id) {
@@ -84,13 +54,24 @@ public class UserCompanyBOImpl extends PaginableBOImpl<UserCompany>
     }
 
     @Override
-    public boolean isUserCompanyIdExist(Long id) {
-        UserCompany condition = new UserCompany();
-        condition.setId(id);
-        if (userCompanyDAO.selectTotalCount(condition) == 1) {
-            return true;
+    public int removeUserCompany(String userId, String companyId) {
+        int count = 0;
+        if (StringUtils.isNotBlank(userId) && StringUtils.isNotBlank(companyId)) {
+            UserCompany data = new UserCompany();
+            data.setUserId(userId);
+            data.setCompanyId(companyId);
+            count = userCompanyDAO.delete(data);
         }
-        return false;
+        return count;
+    }
+
+    @Override
+    public void saveUserCompany(String userId, String companyId, String remark) {
+        UserCompany data = new UserCompany();
+        data.setUserId(userId);
+        data.setCompanyId(companyId);
+        data.setRemark(remark);
+        userCompanyDAO.insert(data);
     }
 
 }

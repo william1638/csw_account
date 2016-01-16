@@ -52,4 +52,17 @@ public interface ICompanyAO {
      * @history:
      */
     public Company doGetCompany(String companyId);
+
+    public String addCompany(String companyName, String licenceNo,
+            String idKind, String idNo, String realName, Long capital,
+            String province, String city, String applyUser, String address);
+
+    public void editPicture(String companyId, String gsyyzzPicture,
+            String zzjgdmzPicture, String swdjzPicture, String dzzPicture,
+            String sqghPicture, String frPicture, String otherPicture);
+
+    public void editCompany(String companyId, String companyName,
+            String licenceNo, String idKind, String idNo, String realName,
+            Long capital, String province, String city, String applyUser,
+            String address);
 }

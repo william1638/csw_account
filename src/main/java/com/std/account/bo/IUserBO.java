@@ -86,8 +86,7 @@ public interface IUserBO extends IPaginableBO<User> {
 
     public List<User> queryUserList(User data);
 
-    public String doAddFaRen(String mobile, String loginPsd,
-            String userReferee, String realName, String idKind, String idNo,
-            String tradePsd);
+    public String doAddUser(String mobile, String loginPsd, String userReferee,
+            String realName, String idKind, String idNo, String tradePsd);
 
 }

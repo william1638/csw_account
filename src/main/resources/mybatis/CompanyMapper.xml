@@ -8,20 +8,27 @@
 		<result column="licence_no" property="licenceNo" />
 		<result column="id_kind" property="idKind" />		
 		<result column="id_no" property="idNo" />
+		
 		<result column="real_name" property="realName" />		
 		<result column="capital" property="capital" />
 		<result column="province" property="province" />
 		<result column="city" property="city" />
 		<result column="address" property="address" />
+		
 		<result column="gsyyzz_picture" property="gsyyzzPicture" />		
 		<result column="zzjgdmz_picture" property="zzjgdmzPicture" />
 		<result column="swdjz_Picture" property="swdjzPicture" />
 		<result column="dzz_picture" property="dzzPicture" />
 		<result column="sqgh_picture" property="sqghPicture" />
+		
 		<result column="fr_picture" property="frPicture" />
 		<result column="other_picture" property="otherPicture" />
+		<result column="apply_user" property="applyUser" />
 		<result column="apply_datetime" property="applyDatetime" />
+		<result column="kyc_user" property="kycUser" />
+		
 		<result column="kyc_datetime" property="kycDatetime" />
+		<result column="kyc_note" property="kycNote" />
 		<result column="status" property="status" />
 		<result column="remark" property="remark" />		
 	</resultMap>
@@ -77,21 +84,28 @@
 		,company_name
 		,licence_no
 		,id_kind	
-		,id_no		
+		,id_no	
+			
 		,real_name
 		,capital
 		,province
 		,city
-		,address		
+		,address	
+			
 		,gsyyzz_picture
 		,zzjgdmz_picture
 		,swdjz_picture
 		,dzz_picture
 		,sqgh_picture
+		
 		,fr_picture
 		,other_picture
+		,apply_user
 		,apply_datetime
+		,kyc_user
+		
 		,kyc_datetime
+		,kyc_note
 		,status
 		,remark	
 		FROM
@@ -115,21 +129,16 @@
 		,company_name
 		,licence_no
 		,id_kind	
-		,id_no		
+		,id_no	
+			
 		,real_name
 		,capital
 		,province
 		,city
-		,address		
-		,gsyyzz_picture
-		,zzjgdmz_picture
-		,swdjz_picture
-		,dzz_picture
-		,sqgh_picture
-		,fr_picture
-		,other_picture
+		,address	
+			
+		,apply_user
 		,apply_datetime
-		,kyc_datetime
 		,status
 		,remark	
 		)
@@ -138,56 +147,51 @@
 		,#{companyName}
 		,#{licenceNo}
 		,#{idKind}
-		,#{idNo}		
+		,#{idNo}	
+			
 		,#{realName}
 		,#{capital}
 		,#{province}
 		,#{city}
 		,#{address}
-		,#{gsyyzzPicture}
-		,#{zzjgdmzPicture}
-		,#{swdjzPicture}
-		,#{dzzPicture}
-		,#{sqghPicture}
-		,#{frPicture}
-		,#{otherPicture}
+		
+		
+		,#{applyUser}
 		,#{applyDatetime}
-		,#{kycDatetime}
 		,#{status}
 		,#{remark}
 		)
 	</insert> 
 	
-<update id="update_company" parameterType="company">
+	<update id="update_picture" parameterType="company">
 		UPDATE tstd_company set
-		,company_name=#{companyName}
-		,licence_no=#{licenceNo}
-		,id_kind=#{idKind}	
-		,id_no=#{idNo}	
-		,real_name=#{realName}
-		,capital=#{capital}
-		,province=#{province}
-		,city=#{city}
-		,address=#{address}		
-		,gsyyzz_picture=#{gsyyzzPicture}
+		gsyyzz_picture=#{gsyyzzPicture}
 		,zzjgdmz_picture=#{zzjgdmzPicture}
 		,swdjz_picture=#{swdjzPicture}
 		,dzz_picture=#{dzzPicture}
 		,sqgh_picture=#{sqghPicture}
+		
 		,fr_picture=#{frPicture}
 		,other_picture=#{otherPicture}
-		,apply_datetime=#{applyDatetime}
-		,kyc_datetime=#{kycDatetime}
-		,status=#{status}
-		,remark=#{remark}
+		WHERE
+		company_id = #{companyId}
+	</update>
+	
+	<update id="update_company" parameterType="company">
+		UPDATE tstd_company set
+		company_name=#{companyName}
+		,licence_no=#{licenceNo}
+		,id_kind=#{idKind}	
+		,id_no=#{idNo}	
+		
+		,real_name=#{realName}
+		,capital=#{capital}
+		,province=#{province}
+		,city=#{city}
+		,address=#{address}	
 		WHERE
 		company_id = #{companyId}
 	</update>
 
-	<delete id="delete_company" parameterType="company">
-		DELETE FROM
-		tstd_company
-		WHERE
-		company_id = #{companyId}
-	</delete>
+	
 </mapper>

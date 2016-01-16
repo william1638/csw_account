@@ -70,20 +70,18 @@ public class IdentityAOImpl implements IIdentityAO {
 
     @Override
     @Transactional
-    public boolean doSaveUserPicture(String userId, String realName,
+    public void doSaveUserPicture(String userId, String realName,
             String idKind, String idNo, String idPic1, String idPic2,
             String idUserPic) {
         userPictureBO.saveUserPicture(userId, realName, idKind, idNo, idPic1,
             idPic2, idUserPic);
-        return true;
     }
 
     @Override
     @Transactional
-    public boolean doVerifyUserPicture(Long id, String verifyUser,
-            String verifyStatus, String remark) {
-        userPictureBO.refreshVerifyUserPicture(id, verifyUser, verifyStatus,
+    public void doVerifyUserPicture(Long id, String verifyUser,
+            String verifyResult, String remark) {
+        userPictureBO.refreshVerifyUserPicture(id, verifyUser, verifyResult,
             remark);
-        return true;
     }
 }

@@ -21,7 +21,7 @@ import com.std.account.bo.base.PaginableBOImpl;
 import com.std.account.common.MD5Util;
 import com.std.account.common.PhoneUtil;
 import com.std.account.common.PwdUtil;
-import com.std.account.core.UserIdGenerater;
+import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.IUserDAO;
 import com.std.account.dao.IUserLoginLogDAO;
 import com.std.account.domain.User;
@@ -210,7 +210,7 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
                 && StringUtils.isNotBlank(registerIp)) {
             Date now = new Date();
             User user = new User();
-            userId = UserIdGenerater.generate();
+            userId = OrderNoGenerater.generate("U");
             user.setUserId(userId);
             user.setMobile(mobile);
             user.setLoginPwd(MD5Util.md5(loginPwd));
@@ -256,13 +256,12 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
     }
 
     @Override
-    public String doAddFaRen(String mobile, String loginPsd,
-            String userReferee, String realName, String idKind, String idNo,
-            String tradePsd) {
+    public String doAddUser(String mobile, String loginPsd, String userReferee,
+            String realName, String idKind, String idNo, String tradePsd) {
         String userId = null;
         if (StringUtils.isNotBlank(mobile)) {
             User user = new User();
-            userId = UserIdGenerater.generate();
+            userId = OrderNoGenerater.generate("U");
             user.setUserId(userId);
             user.setMobile(mobile);
             user.setLoginPwd(MD5Util.md5(loginPsd));
@@ -276,7 +275,7 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
             user.setTradePwdStrength(PwdUtil.calculateSecurityLevel(tradePsd));
             user.setCreateDatetime(new Date());
             user.setRemark(EUserKind.Admin.getValue());
-            user.setStatus(EAccountStatus.NORMAL.getCode());// 0正常;1程序锁定;2人工锁定
+            user.setStatus(EAccountStatus.NORMAL.getCode());
             userDAO.insertFaRen(user);
         }
         return userId;

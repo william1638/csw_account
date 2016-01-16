@@ -26,9 +26,10 @@ public class XN801210 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        return new XN801210Res(dentityAO.doSaveUserPicture(req.getUserId(),
-            req.getRealName(), req.getIdKind(), req.getIdNo(), req.getIdPic1(),
-            req.getIdPic2(), req.getIdUserPic()));
+        dentityAO.doSaveUserPicture(req.getUserId(), req.getRealName(),
+            req.getIdKind(), req.getIdNo(), req.getIdPic1(), req.getIdPic2(),
+            req.getIdUserPic());
+        return new XN801210Res(true);
     }
 
     @Override

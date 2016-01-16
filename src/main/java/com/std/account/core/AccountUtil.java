@@ -8,9 +8,6 @@
  */
 package com.std.account.core;
 
-import java.util.Random;
-
-import com.std.account.common.DateUtil;
 import com.std.account.common.MD5Util;
 
 /** 
@@ -19,9 +16,7 @@ import com.std.account.common.MD5Util;
  * @history:
  */
 public class AccountUtil {
-    /*
-     * @Value("${account.md5.key}") private String key;
-     */
+
     private static String key = "123";
 
     public static String md5(Long amount) {
@@ -30,14 +25,4 @@ public class AccountUtil {
         return MD5Util.md5(bf.toString());
     }
 
-    public static String generateAccountNumber() {
-        int random = Math.abs(new Random().nextInt()) % 10;
-        String today = DateUtil.getToday(DateUtil.DATA_TIME_PATTERN_3);
-        return today + String.valueOf(random);
-    }
-
-    public static void main(String[] args) {
-        String a = AccountUtil.generateAccountNumber();
-        System.out.println(a);
-    }
 }

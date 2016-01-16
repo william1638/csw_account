@@ -6,6 +6,11 @@ import com.std.account.dao.base.ABaseDO;
 
 public class Company extends ABaseDO {
 
+    /** 
+     * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
+     */
+    private static final long serialVersionUID = 6587428813123728490L;
+
     // 申请起始时间
     private Date applyDatetimeStart;
 
@@ -70,11 +75,18 @@ public class Company extends ABaseDO {
     // 其他照片
     private String otherPicture;
 
+    // 申请提交人
+    private String applyUser;
+
     // 申请时间(重新提交也要更新)
     private Date applyDatetime;
 
+    private String kycUser;
+
     // KYC（通过）时间
     private Date kycDatetime;
+
+    private String kycNote;
 
     // 状态
     private String status;
@@ -282,6 +294,30 @@ public class Company extends ABaseDO {
 
     public void setKycDatetimeEnd(Date kycDatetimeEnd) {
         this.kycDatetimeEnd = kycDatetimeEnd;
+    }
+
+    public String getApplyUser() {
+        return applyUser;
+    }
+
+    public void setApplyUser(String applyUser) {
+        this.applyUser = applyUser;
+    }
+
+    public String getKycUser() {
+        return kycUser;
+    }
+
+    public void setKycUser(String kycUser) {
+        this.kycUser = kycUser;
+    }
+
+    public String getKycNote() {
+        return kycNote;
+    }
+
+    public void setKycNote(String kycNote) {
+        this.kycNote = kycNote;
     }
 
 }

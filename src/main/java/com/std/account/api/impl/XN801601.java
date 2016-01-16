@@ -26,17 +26,17 @@ public class XN801601 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        return new XN801601Res(userAO.doAddFaRen(req.getMobile(),
-            req.getUserReferee(), req.getRealName(), req.getIdKind(),
-            req.getIdNo(), req.getBankCode(), req.getBankName(),
-            req.getBankCardNo(), req.getSubbranch(), req.getBindMobile()));
+        return new XN801601Res(userAO.doAddUser(req.getMobile(),
+            req.getIdKind(), req.getIdNo(), req.getRealName(),
+            req.getBankCode(), req.getBankName(), req.getBankCardNo(),
+            req.getSubbranch(), req.getBindMobile(), req.getUserReferee()));
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN801601Req.class);
-        StringValidater.validateBlank(req.getMobile(), req.getRealName(),
-            req.getIdKind(), req.getIdNo(), req.getBankCode(),
+        StringValidater.validateBlank(req.getMobile(), req.getIdKind(),
+            req.getIdNo(), req.getRealName(), req.getBankCode(),
             req.getBankName(), req.getBankCardNo());
         // 判断格式
         PhoneUtil.checkMobile(req.getMobile());

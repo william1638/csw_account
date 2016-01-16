@@ -34,6 +34,7 @@ import com.std.account.common.PwdUtil;
 import com.std.account.domain.User;
 import com.std.account.domain.UserLock;
 import com.std.account.domain.UserLoginLog;
+import com.std.account.enums.EBankCardType;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.ECurrency;
 import com.std.account.enums.EIDKind;
@@ -339,16 +340,16 @@ public class UserAOImpl implements IUserAO {
 
     @Override
     @Transactional
-    public String doAddFaRen(String mobile, String userReferee,
-            String realName, String idKind, String idNo, String bankCode,
-            String bankName, String bankCardNo, String subbranch,
-            String bindMobile) {
+    public String doAddUser(String mobile, String idKind, String idNo,
+            String realName, String bankCode, String bankName,
+            String bankCardNo, String subbranch, String bindMobile,
+            String userReferee) {
         // 验证手机号
         userBO.isMobileExist(mobile);
         // 插入用户信息
         String loginPsd = RandomUtil.generate6();
         String tradePsd = RandomUtil.generate6();
-        String userId = userBO.doAddFaRen(mobile, loginPsd, userReferee,
+        String userId = userBO.doAddUser(mobile, loginPsd, userReferee,
             realName, idKind, idNo, tradePsd);
         // 记录注册日志
         userLoginLogBO.saveUserLoginLogBO(userId, "255.255.255.0",
@@ -359,15 +360,22 @@ public class UserAOImpl implements IUserAO {
         userIdentifyBO.saveUserIdentify(userId, realName,
             EIDKind.IDCard.getCode(), idNo, "0", "success");
         // 绑定银行卡信息
-        bankCardBO.saveBankCard(userId, "1", bankCode, bankName, bankCardNo,
-            subbranch, bindMobile);
+        bankCardBO.saveBankCard(userId, EBankCardType.User.getCode(), bankCode,
+            bankName, bankCardNo, subbranch, bindMobile);
         // 分配账号
         accountBO.distributeAccount(userId, ECurrency.CNY.getCode());
-        // 发送短信
-        smsOutBO.sendSmsOut(mobile, "尊敬的" + PhoneUtil.hideMobile(mobile)
-                + "用户，您已成功被添加为法人。您的登录密码为" + loginPsd + ";交易密码为" + tradePsd
-                + "，请及时登录个金所网站修改密码。如有疑问，请联系客服：400-0008-139。",
-            ESmsBizType.FAREN_ADD.getCode(), ESmsBizType.FAREN_ADD.getValue());
+        // // 发送短信
+        // smsOutBO.sendSmsOut(mobile, "尊敬的" + PhoneUtil.hideMobile(mobile)
+        // + "用户，您已成功注册。您的登录密码为" + loginPsd + ";交易密码为" + tradePsd
+        // + "，请及时登录个金所网站修改密码。如有疑问，请联系客服：400-0008-139。",
+        // ESmsBizType.FAREN_ADD.getCode(), ESmsBizType.FAREN_ADD.getValue());
         return userId;
+    }
+
+    @Override
+    public void doKYC(String companyId, String kycUser, String kycResult,
+            String kycNote, String serveList, String quoteList, String level) {
+        // TODO Auto-generated method stub
+
     }
 }

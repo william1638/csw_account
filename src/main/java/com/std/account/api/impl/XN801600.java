@@ -25,16 +25,16 @@ public class XN801600 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        return new XN801600Res(identityAO.doVerifyUserPicture(
-            StringValidater.toLong(req.getId()), req.getVerifyUser(),
-            req.getVerifyStatus(), req.getRemark()));
+        identityAO.doVerifyUserPicture(StringValidater.toLong(req.getId()),
+            req.getVerifyUser(), req.getVerifyResult(), req.getRemark());
+        return new XN801600Res(true);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN801600Req.class);
         StringValidater.validateBlank(req.getId(), req.getVerifyUser(),
-            req.getVerifyStatus());
+            req.getVerifyResult());
         StringValidater.validateNumber(req.getId());
     }
 

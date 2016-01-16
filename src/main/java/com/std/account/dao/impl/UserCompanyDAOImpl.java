@@ -15,8 +15,8 @@ import com.std.account.domain.UserCompany;
  * @history:
  */
 @Repository("userCompanyDAOImpl")
-public class UserCompanyDAOImpl extends AMybatisTemplate
-        implements IUserCompanyDAO {
+public class UserCompanyDAOImpl extends AMybatisTemplate implements
+        IUserCompanyDAO {
 
     /**
      * @see com.std.account.dao.base.IBaseDAO#insert(java.lang.Object)
@@ -72,11 +72,4 @@ public class UserCompanyDAOImpl extends AMybatisTemplate
             count, condition, UserCompany.class);
     }
 
-    /** 
-     * @see com.std.account.dao.IUserCompanyDAO#update(com.std.account.domain.UserCompany)
-     */
-    @Override
-    public int update(UserCompany data) {
-        return super.update(NAMESPACE.concat("update_userCompany"), data);
-    }
 }

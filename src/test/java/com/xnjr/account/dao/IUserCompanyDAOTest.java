@@ -37,16 +37,6 @@ public class IUserCompanyDAOTest extends ADAOTest {
     }
 
     @Test
-    public void update() {
-        UserCompany data = new UserCompany();
-        data.setId(4L);
-        data.setUserId("56");
-        data.setCompanyId("555");
-        int lineNum = userCompanyDAO.update(data);
-        logger.info("update : {}", lineNum);
-    }
-
-    @Test
     public void select() {
         UserCompany data = new UserCompany();
         data.setId(1L);

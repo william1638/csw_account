@@ -66,11 +66,13 @@ public class CompanyDAOImpl extends AMybatisTemplate implements ICompanyDAO {
             Company.class);
     }
 
-    /**
-     * @see com.std.account.dao.ICompanyDAO#update(com.std.account.domain.Company)
-     */
     @Override
-    public int update(Company data) {
+    public int updatePicture(Company data) {
+        return super.update("update_picture", data);
+    }
+
+    @Override
+    public int updateCompany(Company data) {
         return super.update("update_company", data);
     }
 }

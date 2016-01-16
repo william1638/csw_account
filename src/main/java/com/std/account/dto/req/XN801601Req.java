@@ -4,17 +4,14 @@ public class XN801601Req {
     // 手机号（必填）
     private String mobile;
 
-    // 推荐人（非必填）
-    private String userReferee;
-
-    // 真实姓名（必填）
-    private String realName;
-
     // 证件类型（必填）
     private String idKind;
 
     // 证件号码（必填）
     private String idNo;
+
+    // 真实姓名（必填）
+    private String realName;
 
     // 银行代号（必填）
     private String bankCode;
@@ -25,11 +22,14 @@ public class XN801601Req {
     // 卡号（必填）
     private String bankCardNo;
 
-    // 开卡支行（必填）
+    // 开卡支行（非必填）
     private String subbranch;
 
-    // 银行预留手机号
+    // 银行预留手机号（非必填）
     private String bindMobile;
+
+    // 推荐人（非必填）
+    private String userReferee;
 
     public String getMobile() {
         return mobile;

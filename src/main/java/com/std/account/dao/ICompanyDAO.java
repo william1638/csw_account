@@ -12,5 +12,7 @@ import com.std.account.domain.Company;
 public interface ICompanyDAO extends IBaseDAO<Company> {
     String NAMESPACE = ICompanyDAO.class.getName().concat(".");
 
-    public int update(Company data);
+    public int updatePicture(Company data);
+
+    public int updateCompany(Company data);
 }

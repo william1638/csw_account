@@ -21,13 +21,20 @@ import com.std.account.domain.Company;
 public interface ICompanyBO extends IPaginableBO<Company> {
     public boolean isCompanyExist(String companyId);
 
-    public int saveCompany(Company data);
-
-    public int removeCompany(String companyId);
-
-    public int refreshCompany(Company data);
-
     public Company getCompany(String companyId);
 
     public List<Company> queryCompanyList(Company condition);
+
+    public String saveCompany(String companyName, String licenceNo,
+            String idKind, String idNo, String realName, Long capital,
+            String province, String city, String applyUser, String address);
+
+    public int refreshPicture(String companyId, String gsyyzzPicture,
+            String zzjgdmzPicture, String swdjzPicture, String dzzPicture,
+            String sqghPicture, String frPicture, String otherPicture);
+
+    public int refreshCompany(String companyId, String companyName,
+            String licenceNo, String idKind, String idNo, String realName,
+            Long capital, String province, String city, String applyUser,
+            String address);
 }

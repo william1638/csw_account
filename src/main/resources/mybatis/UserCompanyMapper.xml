@@ -57,19 +57,14 @@
 		)
 	</insert>
 	
-	<update id="update_userCompany" parameterType="userCompany">
-		UPDATE tstd_user_company
-		SET
-		user_id= #{userId}
-		,company_id= #{companyId}
-		,remark= #{remark}
-		WHERE id = #{id}
-	</update>
+	
 
 	<delete id="delete_userCompany" parameterType="userCompany">
 		DELETE FROM
 		tstd_user_company
 		WHERE
-		id = #{id}
+		user_id= #{userId}
+		AND
+		company_id= #{companyId}
 	</delete>
 </mapper>
