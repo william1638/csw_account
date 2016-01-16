@@ -205,7 +205,7 @@ public interface IUserAO {
     public boolean checkTradePwd(String userId, String tradePwd);
 
     /**
-     * 增加法人
+     * 代注册
      * @param mobile
      * @param userReferee
      * @param realName
@@ -220,9 +220,24 @@ public interface IUserAO {
      * @create: 2015年12月6日 下午2:16:54 myb858
      * @history:
      */
-    public String doAddFaRen(String mobile, String userReferee,
-            String realName, String idKind, String idNo, String bankCode,
-            String bankName, String bankCardNo, String subbranch,
-            String bindMobile);
+    public String doAddUser(String mobile, String idKind, String idNo,
+            String realName, String bankCode, String bankName,
+            String bankCardNo, String subbranch, String bindMobile,
+            String userReferee);
+
+    /**
+     * KYC
+     * @param companyId
+     * @param kycUser
+     * @param kycResult
+     * @param kycNote
+     * @param serveList
+     * @param quoteList
+     * @param level 
+     * @create: 2016年1月16日 下午1:35:38 myb858
+     * @history:
+     */
+    public void doKYC(String companyId, String kycUser, String kycResult,
+            String kycNote, String serveList, String quoteList, String level);
 
 }

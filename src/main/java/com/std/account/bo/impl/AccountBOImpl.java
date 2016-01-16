@@ -19,6 +19,7 @@ import com.std.account.bo.IAccountBO;
 import com.std.account.bo.base.PaginableBOImpl;
 import com.std.account.common.DateUtil;
 import com.std.account.core.AccountUtil;
+import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.IAFJourDAO;
 import com.std.account.dao.IAJourDAO;
 import com.std.account.dao.IAccountDAO;
@@ -55,7 +56,7 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         String accountNumber = null;
         if (StringUtils.isNotBlank(userId) && StringUtils.isNotBlank(currency)) {
             Account data = new Account();
-            accountNumber = AccountUtil.generateAccountNumber();
+            accountNumber = OrderNoGenerater.generate("A");
             data.setAccountNumber(accountNumber);
             data.setAmount(0L);
             data.setFrozenAmount(0L);

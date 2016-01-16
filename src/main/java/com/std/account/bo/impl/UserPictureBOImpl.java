@@ -54,17 +54,16 @@ public class UserPictureBOImpl extends PaginableBOImpl<UserPicture> implements
                 && StringUtils.isNotBlank(idUserPic)) {
             UserPicture data = new UserPicture();
             data.setUserId(userId);
-            data.setRealName(realName);
+            data.setStatus(EOrderStatus.UNAPPROVE.getCode());
             data.setIdKind(idKind);
             data.setIdNo(idNo);
+            data.setRealName(realName);
 
             data.setIdPic1(idPic1);
             data.setIdPic2(idPic2);
             data.setIdUserPic(idUserPic);
             data.setCreateDatetime(new Date());
-
-            data.setStatus(EOrderStatus.UNAPPROVE.getCode());
-            data.setRemark("待人工审批");
+            data.setRemark(EOrderStatus.UNAPPROVE.getValue());
             count = userPictureDAO.insert(data);
         }
         return count;
@@ -72,13 +71,13 @@ public class UserPictureBOImpl extends PaginableBOImpl<UserPicture> implements
 
     @Override
     public int refreshVerifyUserPicture(Long id, String verifyUser,
-            String verifyStatus, String remark) {
+            String verifyResult, String remark) {
         int count = 0;
         if (id > 0 && StringUtils.isNotBlank(verifyUser)
-                && StringUtils.isNotBlank(verifyStatus)) {
+                && StringUtils.isNotBlank(verifyResult)) {
             UserPicture data = new UserPicture();
             data.setId(id);
-            if (EBoolean.YES.getCode().equalsIgnoreCase(verifyStatus)) {
+            if (EBoolean.YES.getCode().equalsIgnoreCase(verifyResult)) {
                 data.setStatus(EOrderStatus.APPROVE_YES.getCode());
             } else {
                 data.setStatus(EOrderStatus.APPROVE_NO.getCode());

@@ -79,11 +79,4 @@ public class ICompanyDAOTest extends ADAOTest {
         logger.info("selectPage : {}", dataList);
     }
 
-    @Test
-    public void update() {
-        Company data = new Company();
-        data.setRemark("xiugai");
-        int count = companyDao.update(data);
-        logger.info("update : {}", count);
-    }
 }

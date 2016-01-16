@@ -13,17 +13,13 @@ import com.std.account.domain.UserCompany;
  */
 public interface IUserCompanyBO extends IPaginableBO<UserCompany> {
 
-    public boolean isUserCompanyIdExist(Long id);
-
     public boolean isUserCompanyExist(String userId, String companyId);
-
-    public int saveUserCompany(UserCompany data);
-
-    public int removeUserCompany(Long id);
-
-    public int refreshUserCompany(UserCompany data);
 
     public UserCompany getUserCompany(Long id);
 
     public List<UserCompany> queryUserCompanyList(UserCompany data);
+
+    public int removeUserCompany(String userId, String companyId);
+
+    public void saveUserCompany(String userId, String companyId, String remark);
 }

@@ -150,8 +150,11 @@ CREATE TABLE `tstd_company` (
   `sqgh_picture` varchar(255) DEFAULT NULL COMMENT '申请公函',
   `fr_picture` varchar(255) DEFAULT NULL COMMENT '法人身份证照片',
   `other_picture` varchar(255) DEFAULT NULL COMMENT '其他照片',
-  `apply_datetime` datetime NOT NULL COMMENT '申请时间(重新提交也要更新)',
-  `kyc_datetime` datetime NOT NULL COMMENT 'KYC（通过）时间',
+  `apply_user` varchar(32) NOT NULL COMMENT '申请人',
+  `apply_datetime` datetime NOT NULL COMMENT '申请时间',
+  `kyc_user` varchar(32) DEFAULT NULL COMMENT 'KYC审批人',
+  `kyc_datetime` datetime DEFAULT NULL COMMENT 'KYC时间',
+  `kyc_note` varchar(255) DEFAULT NULL COMMENT 'KYC结果说明',
   `status` char(1) DEFAULT NULL COMMENT '状态',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`company_id`)

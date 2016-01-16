@@ -23,7 +23,7 @@ public interface IUserPictureBO extends IPaginableBO<UserPicture> {
             String idNo, String idPic1, String idPic2, String idUserPic);
 
     public int refreshVerifyUserPicture(Long id, String verifyUser,
-            String verifyStatus, String remark);
+            String verifyResult, String remark);
 
     public List<UserPicture> queryUserPictureList(UserPicture data);
 

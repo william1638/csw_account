@@ -36,4 +36,31 @@ public class CompanyAOImpl implements ICompanyAO {
     public Company doGetCompany(String companyId) {
         return companyBO.getCompany(companyId);
     }
+
+    @Override
+    public String addCompany(String companyName, String licenceNo,
+            String idKind, String idNo, String realName, Long capital,
+            String province, String city, String applyUser, String address) {
+        return companyBO.saveCompany(companyName, licenceNo, idKind, idNo,
+            realName, capital, province, city, applyUser, address);
+    }
+
+    @Override
+    public void editPicture(String companyId, String gsyyzzPicture,
+            String zzjgdmzPicture, String swdjzPicture, String dzzPicture,
+            String sqghPicture, String frPicture, String otherPicture) {
+        companyBO.refreshPicture(companyId, gsyyzzPicture, zzjgdmzPicture,
+            swdjzPicture, dzzPicture, sqghPicture, frPicture, otherPicture);
+
+    }
+
+    @Override
+    public void editCompany(String companyId, String companyName,
+            String licenceNo, String idKind, String idNo, String realName,
+            Long capital, String province, String city, String applyUser,
+            String address) {
+        companyBO.refreshCompany(companyId, companyName, licenceNo, idKind,
+            idNo, realName, capital, province, city, applyUser, address);
+
+    }
 }

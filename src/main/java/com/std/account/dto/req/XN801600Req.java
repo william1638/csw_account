@@ -7,7 +7,7 @@ public class XN801600Req {
     private String verifyUser;
 
     // 审批意见
-    private String verifyStatus;
+    private String verifyResult;
 
     // 审批意见说明(选填)
     private String remark;
@@ -28,12 +28,12 @@ public class XN801600Req {
         this.verifyUser = verifyUser;
     }
 
-    public String getVerifyStatus() {
-        return verifyStatus;
+    public String getVerifyResult() {
+        return verifyResult;
     }
 
-    public void setVerifyStatus(String verifyStatus) {
-        this.verifyStatus = verifyStatus;
+    public void setVerifyResult(String verifyResult) {
+        this.verifyResult = verifyResult;
     }
 
     public String getRemark() {
