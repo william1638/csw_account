@@ -7,8 +7,14 @@ import org.springframework.stereotype.Service;
 
 import com.std.account.ao.ICompanyAO;
 import com.std.account.bo.ICompanyBO;
+import com.std.account.bo.IUserBO;
+import com.std.account.bo.IUserCompanyBO;
 import com.std.account.bo.base.Paginable;
+import com.std.account.core.OrderNoGenerater;
 import com.std.account.domain.Company;
+import com.std.account.domain.User;
+import com.std.account.enums.EUserKind;
+import com.std.account.exception.BizException;
 
 /** 
  * 企业列表
@@ -19,7 +25,13 @@ import com.std.account.domain.Company;
 @Service
 public class CompanyAOImpl implements ICompanyAO {
     @Autowired
+    IUserBO userBO;
+
+    @Autowired
     ICompanyBO companyBO;
+
+    @Autowired
+    IUserCompanyBO userCompanyBO;
 
     @Override
     public Paginable<Company> queryCompanyPage(int start, int limit,
@@ -41,6 +53,12 @@ public class CompanyAOImpl implements ICompanyAO {
     public String addCompany(String companyName, String licenceNo,
             String idKind, String idNo, String realName, Long capital,
             String province, String city, String applyUser, String address) {
+        User user = userBO.getUser(applyUser);
+        if (EUserKind.Admin.getCode().equalsIgnoreCase(user.getUserKind())) {
+            throw new BizException("xn000001", "当前用户不是admin,不能KYC");
+        }
+        String companyId = OrderNoGenerater.generate("C");
+        userCompanyBO.saveUserCompany(applyUser, companyId, "admin申请KYC");
         return companyBO.saveCompany(companyName, licenceNo, idKind, idNo,
             realName, capital, province, city, applyUser, address);
     }

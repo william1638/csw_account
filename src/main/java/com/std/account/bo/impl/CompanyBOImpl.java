@@ -9,7 +9,6 @@ import org.springframework.stereotype.Component;
 
 import com.std.account.bo.ICompanyBO;
 import com.std.account.bo.base.PaginableBOImpl;
-import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.ICompanyDAO;
 import com.std.account.domain.Company;
 import com.std.account.enums.EBoolean;
@@ -67,7 +66,7 @@ public class CompanyBOImpl extends PaginableBOImpl<Company> implements
     public String saveCompany(String companyName, String licenceNo,
             String idKind, String idNo, String realName, Long capital,
             String province, String city, String applyUser, String address) {
-        String companyId = OrderNoGenerater.generate("C");
+
         Company data = new Company();
         data.setCompanyId(companyId);
         data.setCompanyName(companyName);
