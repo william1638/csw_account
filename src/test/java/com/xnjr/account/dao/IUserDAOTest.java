@@ -33,7 +33,7 @@ public class IUserDAOTest extends ADAOTest {
     @Test
     public void insert() {
         User data = new User();
-        data.setUserId("1");
+        data.setUserId("2");
         data.setMobile("13958092437");
         data.setLoginPwd(MD5Util.md5("123456"));
         data.setLoginPwdStrength(PwdUtil.calculateSecurityLevel("123456"));
