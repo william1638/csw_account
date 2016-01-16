@@ -31,7 +31,6 @@ import com.std.account.common.DateUtil;
 import com.std.account.common.MD5Util;
 import com.std.account.common.PhoneUtil;
 import com.std.account.common.PwdUtil;
-import com.std.account.core.RandomGenerater;
 import com.std.account.domain.User;
 import com.std.account.domain.UserLock;
 import com.std.account.domain.UserLoginLog;
@@ -41,6 +40,7 @@ import com.std.account.enums.EIDKind;
 import com.std.account.enums.ELoginStatus;
 import com.std.account.enums.ESmsBizType;
 import com.std.account.exception.BizException;
+import com.std.account.util.RandomUtil;
 
 /** 
  * @author: miyb 
@@ -346,8 +346,8 @@ public class UserAOImpl implements IUserAO {
         // 验证手机号
         userBO.isMobileExist(mobile);
         // 插入用户信息
-        String loginPsd = RandomGenerater.generate6();
-        String tradePsd = RandomGenerater.generate6();
+        String loginPsd = RandomUtil.generate6();
+        String tradePsd = RandomUtil.generate6();
         String userId = userBO.doAddFaRen(mobile, loginPsd, userReferee,
             realName, idKind, idNo, tradePsd);
         // 记录注册日志

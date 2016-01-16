@@ -1,6 +1,6 @@
-package com.std.account.core;
+package com.std.account.util;
 
-public class RandomGenerater {
+public class RandomUtil {
     public static String generate4() {
         int random = (int) ((Math.random() * 9 + 1) * 1000);
         return String.valueOf(random);

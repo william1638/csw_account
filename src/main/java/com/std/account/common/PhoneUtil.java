@@ -13,7 +13,6 @@ import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 
 /** 
@@ -45,12 +44,12 @@ public class PhoneUtil {
      */
     public static void checkMobile(String mobile, String message) {
         if (StringUtils.isBlank(mobile)) {
-            throw new BizException("FA0000", message + "格式非法");
+            throw new ParaException("FA0000", message + "格式非法");
         }
         Pattern p = Pattern.compile("^1[34578]\\d{9}$"); // 验证手机号
         Matcher m = p.matcher(mobile);
         if (!m.matches()) {
-            throw new BizException("FA0000", message + "格式非法");
+            throw new ParaException("FA0000", message + "格式非法");
         }
     }
 
