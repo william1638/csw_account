@@ -33,7 +33,7 @@ public class IXNBOrderDAOTest extends ADAOTest {
     public void insert() {
         XNBOrder data = new XNBOrder();
         data.setXnbNo("1L");
-        data.setStatus(EOrderStatus.UNAPPROVE.getCode());
+        data.setStatus(EOrderStatus.todoAPPROVE.getCode());
         data.setType("1");
         data.setScore(100L);
         data.setAmount(100000L);
@@ -81,7 +81,7 @@ public class IXNBOrderDAOTest extends ADAOTest {
     public void updateApproveOrder() {
         XNBOrder data = new XNBOrder();
         data.setXnbNo("1L");
-        data.setStatus(EOrderStatus.UNAPPROVE.getCode());
+        data.setStatus(EOrderStatus.todoAPPROVE.getCode());
         data.setApproveUser(EUser.LI.getCode());
         data.setApproveDatetime(new Date());
         data.setRemark("test approve");

@@ -34,7 +34,7 @@ public class IZZOrderDAOTest extends ADAOTest {
     public void insert() {
         ZZOrder data = new ZZOrder();
         data.setZzNo("setZzOrderNo");
-        data.setStatus(EOrderStatus.UNAPPROVE.getCode());
+        data.setStatus(EOrderStatus.todoAPPROVE.getCode());
         data.setDirection(EDirection.PLUS.getCode());
         data.setAmount(100000L);
         data.setCreateDatetime(new Date());

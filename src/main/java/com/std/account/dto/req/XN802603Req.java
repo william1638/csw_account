@@ -1,8 +1,7 @@
 package com.std.account.dto.req;
 
-public class XN802601Req {
-
-    // 充值订单编号
+public class XN802603Req {
+    // 取现订单编号
     private String orderNo;
 
     // 审批人

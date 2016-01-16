@@ -48,7 +48,7 @@ public class HLOrderBOImpl extends PaginableBOImpl<HLOrder> implements
             HLOrder data = new HLOrder();
             hlNo = OrderNoGenerater.generate("HL");
             data.setHlNo(hlNo);
-            data.setStatus(EOrderStatus.UNAPPROVE.getCode());
+            data.setStatus(EOrderStatus.todoAPPROVE.getCode());
             if (amount > 0) {
                 data.setDirection(EDirection.PLUS.getCode());
                 data.setAmount(amount);

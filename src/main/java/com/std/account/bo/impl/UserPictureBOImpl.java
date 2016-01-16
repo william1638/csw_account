@@ -54,7 +54,7 @@ public class UserPictureBOImpl extends PaginableBOImpl<UserPicture> implements
                 && StringUtils.isNotBlank(idUserPic)) {
             UserPicture data = new UserPicture();
             data.setUserId(userId);
-            data.setStatus(EOrderStatus.UNAPPROVE.getCode());
+            data.setStatus(EOrderStatus.todoAPPROVE.getCode());
             data.setIdKind(idKind);
             data.setIdNo(idNo);
             data.setRealName(realName);
@@ -63,7 +63,7 @@ public class UserPictureBOImpl extends PaginableBOImpl<UserPicture> implements
             data.setIdPic2(idPic2);
             data.setIdUserPic(idUserPic);
             data.setCreateDatetime(new Date());
-            data.setRemark(EOrderStatus.UNAPPROVE.getValue());
+            data.setRemark(EOrderStatus.todoAPPROVE.getValue());
             count = userPictureDAO.insert(data);
         }
         return count;

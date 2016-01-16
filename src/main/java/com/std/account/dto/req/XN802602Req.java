@@ -1,23 +1,20 @@
 package com.std.account.dto.req;
 
-public class XN802201Req {
-    // 用户账号(必填)
+public class XN802602Req {
+    // 用户账号
     private String accountNumber;
 
-    // 取现金额（精确到厘）(必填)
+    // 取现金额（精确到厘）
     private String amount;
 
-    // 行别（alipay支付宝）(必填)
+    // 行别（alipay支付宝）
     private String bankCode;
 
-    // 开户支行(非必填)
+    // 开户支行
     private String subbranch;
 
-    // 行别对应的卡号(必填)
+    // 行别对应的卡号
     private String bankcardNo;
-
-    // 交易密码(必填)
-    private String tradePwd;
 
     public String getAccountNumber() {
         return accountNumber;
@@ -43,28 +40,20 @@ public class XN802201Req {
         this.bankCode = bankCode;
     }
 
-    public String getBankcardNo() {
-        return bankcardNo;
-    }
-
-    public void setBankcardNo(String bankcardNo) {
-        this.bankcardNo = bankcardNo;
-    }
-
-    public String getTradePwd() {
-        return tradePwd;
-    }
-
-    public void setTradePwd(String tradePwd) {
-        this.tradePwd = tradePwd;
-    }
-
     public String getSubbranch() {
         return subbranch;
     }
 
     public void setSubbranch(String subbranch) {
         this.subbranch = subbranch;
+    }
+
+    public String getBankcardNo() {
+        return bankcardNo;
+    }
+
+    public void setBankcardNo(String bankcardNo) {
+        this.bankcardNo = bankcardNo;
     }
 
 }

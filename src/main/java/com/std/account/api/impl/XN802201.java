@@ -27,14 +27,14 @@ public class XN802201 extends AProcessor {
         Long amount = StringValidater.toLong(req.getAmount());
         return new XN802201Res(cqOrderAO.doWithdrawOffline(
             req.getAccountNumber(), amount, req.getBankCode(),
-            req.getSubbranch(), req.getBankcardNo(), req.getTradePwd()));
+            req.getBankcardNo(), req.getTradePwd(), req.getSubbranch()));
 
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802201Req.class);
-        StringValidater.validateBlank(req.getAccountNumber(),
+        StringValidater.validateBlank(req.getAccountNumber(), req.getAmount(),
             req.getBankCode(), req.getBankcardNo(), req.getTradePwd());
         StringValidater.validateAmount(req.getAmount());
     }

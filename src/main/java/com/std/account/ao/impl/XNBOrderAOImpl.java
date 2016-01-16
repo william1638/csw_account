@@ -46,7 +46,7 @@ public class XNBOrderAOImpl implements IXNBOrderAO {
     @Override
     public String doExchange(boolean isNeedApprove, String accountNumber,
             String type, Long score, Long amount, String remark) {
-        String status = EOrderStatus.UNAPPROVE.getCode();
+        String status = EOrderStatus.todoAPPROVE.getCode();
         if (!isNeedApprove) {
             status = EOrderStatus.UNPAY.getCode();
         }

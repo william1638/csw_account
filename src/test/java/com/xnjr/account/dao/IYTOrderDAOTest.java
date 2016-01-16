@@ -34,7 +34,7 @@ public class IYTOrderDAOTest extends ADAOTest {
     public void insert() {
         YTOrder data = new YTOrder();
         data.setYtNo("HlOrderNo");
-        data.setStatus(EOrderStatus.UNAPPROVE.getCode());
+        data.setStatus(EOrderStatus.todoAPPROVE.getCode());
         data.setBizType(EBizType.AJ_QX.getCode());
         data.setAmount(1000L);
         data.setRemark("test");
@@ -83,7 +83,7 @@ public class IYTOrderDAOTest extends ADAOTest {
         data.setYtNo("HlOrderNo");
         data.setApproveUser(EUser.LI.getCode());
         data.setApproveDatetime(new Date());
-        data.setStatus(EOrderStatus.UNAPPROVE.getCode());
+        data.setStatus(EOrderStatus.todoAPPROVE.getCode());
         data.setRemark("test approve");
         int count = ytOrderDAO.updateApproveOrder(data);
         logger.info("updateApproveOrder : {}", count);

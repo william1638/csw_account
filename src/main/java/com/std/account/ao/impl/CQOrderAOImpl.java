@@ -10,7 +10,6 @@ package com.std.account.ao.impl;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,9 +27,13 @@ import com.std.account.domain.Account;
 import com.std.account.domain.CQOrder;
 import com.std.account.domain.User;
 import com.std.account.enums.EBizType;
+import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannel;
 import com.std.account.enums.EDirection;
+import com.std.account.enums.EOrderStatus;
 import com.std.account.enums.ESmsBizType;
+import com.std.account.enums.EUser;
+import com.std.account.exception.BizException;
 import com.std.account.util.CalculationUtil;
 
 /** 
@@ -80,8 +83,8 @@ public class CQOrderAOImpl implements ICQOrderAO {
     @Override
     @Transactional
     public String doWithdrawOffline(String accountNumber, Long amount,
-            String bankCode, String subbranch, String bankcardNo,
-            String tradePwd) {
+            String bankCode, String bankcardNo, String tradePwd,
+            String subbranch) {
         Account account = accountBO.getAccount(accountNumber);
         // 验证交易密码
         userBO.checkTradePwd(account.getUserId(), tradePwd);
@@ -106,6 +109,17 @@ public class CQOrderAOImpl implements ICQOrderAO {
         return orderNo;
     }
 
+    @Override
+    @Transactional
+    public String doWithdrawOSS(String accountNumber, Long amount,
+            String bankCode, String bankcardNo, String subbranch) {
+        String orderNo = cqOrderBO.saveCQOrder(accountNumber,
+            EDirection.MINUS.getCode(), amount, bankCode, subbranch,
+            bankcardNo, EChannel.OFFLINE.getCode());
+        accountBO.freezeAmount(accountNumber, amount, EBizType.AJ_QX, orderNo);
+        return orderNo;
+    }
+
     /** 
      * @see com.ibis.account.ao.ICQOrderAO#queryCQOrderPage(int, int, com.ibis.account.domain.CQOrder)
      */
@@ -121,33 +135,53 @@ public class CQOrderAOImpl implements ICQOrderAO {
     }
 
     @Override
-    @Transactional
-    public Map<String, String> doChargeYeepay(String p1MerId,
-            String accountNumber, Long amount, Long fee, String bankCode) {
-
-        return null;
+    public void doApproveCharge(String orderNo, String approveUser,
+            String approveResult, String remark) {
+        CQOrder cqOrder = cqOrderBO.getCQOrder(orderNo);
+        if (cqOrder == null) {
+            throw new BizException("xn000001", "无对应充值订单");
+        }
+        if (!EOrderStatus.todoAPPROVE.getCode().equalsIgnoreCase(
+            cqOrder.getStatus())) {
+            throw new BizException("xn000001", "订单不处于待审批状态");
+        }
+        cqOrderBO.refreshApproveOrder(orderNo, approveUser, approveResult,
+            remark);
+        // 发送短信
+        Account account = accountBO.getAccount(cqOrder.getAccountNumber());
+        User user = userBO.getUser(account.getUserId());
+        String mobile = user.getMobile();
+        if (EBoolean.YES.getCode().equalsIgnoreCase(approveResult)) {// 验证通过的话，就资金变动
+            cqOrderBO.refreshPayOrder(orderNo, EUser.LI.getCode(),
+                EBoolean.YES.getCode(), "审核即自动支付", "", 0L,
+                DateUtil.getToday(DateUtil.DB_DATE_FORMAT_STRING));
+            accountBO.refreshAmount(cqOrder.getAccountNumber(),
+                cqOrder.getAmount(), EBizType.AJ_CZ.getCode(),
+                cqOrder.getCqNo());
+            smsOutBO.sendSmsOut(
+                mobile,
+                "尊敬的"
+                        + PhoneUtil.hideMobile(mobile)
+                        + "用户,您于"
+                        + DateUtil.dateToStr(cqOrder.getCreateDatetime(),
+                            DateUtil.DATA_TIME_PATTERN_1) + "提交的"
+                        + CalculationUtil.divi(cqOrder.getAmount())
+                        + "充值申请，审核已经通过，资金已经到账，请登录个人中心查看。",
+                ESmsBizType.Charge_Yes.getCode(), ESmsBizType.Charge_Yes
+                    .getValue());
+        } else {
+            smsOutBO.sendSmsOut(
+                mobile,
+                "尊敬的 "
+                        + PhoneUtil.hideMobile(mobile)
+                        + "用户,您于"
+                        + DateUtil.dateToStr(cqOrder.getCreateDatetime(),
+                            DateUtil.DATA_TIME_PATTERN_1) + "提交的"
+                        + CalculationUtil.divi(cqOrder.getAmount())
+                        + "充值申请，审核尚未通过，原因：" + remark + "。",
+                ESmsBizType.Charge_No.getCode(), ESmsBizType.Charge_No
+                    .getValue());
+        }
     }
 
-    @Override
-    @Transactional
-    public boolean doCallbackChargeYeepay(String p1MerId, String r0_Cmd,
-            String r1_Code, String r2_TrxId, String r3_Amt, String r4_Cur,
-            String r5_Pid, String r6_Order, String r7_Uid, String r8_MP,
-            String r9_BType, String hmac) {
-
-        return false;
-    }
-
-    @Override
-    @Transactional
-    public String doInstantPay(String accountNumber, Long amount, Long fee,
-            String userIp, String idNo, String userId) {
-
-        return null;
-    }
-
-    @Override
-    public boolean doCallbackInstantPay(String data, String encryptkey) {
-        return false;
-    }
 }

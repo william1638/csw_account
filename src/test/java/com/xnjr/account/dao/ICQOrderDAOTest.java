@@ -36,7 +36,7 @@ public class ICQOrderDAOTest extends ADAOTest {
     public void insert() {
         CQOrder data = new CQOrder();
         data.setCqNo("1L");
-        data.setStatus(EOrderStatus.UNAPPROVE.getCode());
+        data.setStatus(EOrderStatus.todoAPPROVE.getCode());
         data.setDirection(EDirection.PLUS.getCode());
         data.setChannel(EChannel.OFFLINE.getCode());
         data.setAmount(1000L);

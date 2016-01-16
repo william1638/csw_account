@@ -9,7 +9,6 @@
 package com.std.account.ao;
 
 import java.util.List;
-import java.util.Map;
 
 import com.std.account.annotation.ServiceModule;
 import com.std.account.bo.base.Paginable;
@@ -38,7 +37,7 @@ public interface ICQOrderAO {
             String bankCode, String bankcardNo);
 
     /**
-     * 线下取现（第一步：用户说“我要取钱”）
+     * 前端线下取现（第一步：用户说“我要取钱”）
      * @param accountNumber
      * @param amount
      * @param bankCode
@@ -50,8 +49,22 @@ public interface ICQOrderAO {
      * @history:
      */
     public String doWithdrawOffline(String accountNumber, Long amount,
-            String bankCode, String subbranch, String bankcardNo,
-            String tradePwd);
+            String bankCode, String bankcardNo, String tradePwd,
+            String subbranch);
+
+    /**
+     * 管理端线下取现（第一步：帮用户说“我要取钱”）
+     * @param accountNumber
+     * @param amount
+     * @param bankCode
+     * @param bankcardNo
+     * @param subbranch
+     * @return 
+     * @create: 2016年1月16日 下午2:40:53 myb858
+     * @history:
+     */
+    public String doWithdrawOSS(String accountNumber, Long amount,
+            String bankCode, String bankcardNo, String subbranch);
 
     /** 
      * @param start
@@ -73,65 +86,7 @@ public interface ICQOrderAO {
      */
     public List<CQOrder> queryCQOrderList(CQOrder condition);
 
-    /**
-     * 通过易宝进行充值
-     * @param p1MerId 商家标识
-     * @param accountNumber
-     * @param amount
-     * @param fee
-     * @param bankCode
-     * @return 
-     * @create: 2015年10月22日 下午2:11:07 myb858
-     * @history:
-     */
-    public Map<String, String> doChargeYeepay(String p1MerId,
-            String accountNumber, Long amount, Long fee, String bankCode);
+    public void doApproveCharge(String orderNo, String approveUser,
+            String approveResult, String remark);
 
-    /**
-     * 处理易宝的回调
-     * @param p1MerId  商家标识
-     * @param r0_Cmd
-     * @param r1_Code
-     * @param r2_TrxId
-     * @param r3_Amt
-     * @param r4_Cur
-     * @param r5_Pid
-     * @param r6_Order
-     * @param r7_Uid
-     * @param r8_MP
-     * @param r9_BType
-     * @param hmac
-     * @return 
-     * @create: 2015年10月22日 下午3:32:11 myb858
-     * @history:
-     */
-    public boolean doCallbackChargeYeepay(String p1MerId, String r0_Cmd,
-            String r1_Code, String r2_TrxId, String r3_Amt, String r4_Cur,
-            String r5_Pid, String r6_Order, String r7_Uid, String r8_MP,
-            String r9_BType, String hmac);
-
-    /**
-     * 通过易宝一键支付进行充值
-     * @param accountNumber
-     * @param amount
-     * @param fee
-     * @param userIp
-     * @param idNo
-     * @param userId
-     * @return 
-     * @create: 2015年11月22日 下午1:39:34 haiqingzheng
-     * @history:
-     */
-    public String doInstantPay(String accountNumber, Long amount, Long fee,
-            String userIp, String idNo, String userId);
-
-    /**
-     * 一键支付回调
-     * @param data
-     * @param encryptkey
-     * @return 
-     * @create: 2015年11月22日 下午1:39:42 haiqingzheng
-     * @history:
-     */
-    public boolean doCallbackInstantPay(String data, String encryptkey);
 }

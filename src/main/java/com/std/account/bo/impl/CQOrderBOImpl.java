@@ -46,7 +46,7 @@ public class CQOrderBOImpl extends PaginableBOImpl<CQOrder> implements
             CQOrder data = new CQOrder();
             cqNo = OrderNoGenerater.generate("CQ");
             data.setCqNo(cqNo);
-            data.setStatus(EOrderStatus.UNAPPROVE.getCode());
+            data.setStatus(EOrderStatus.todoAPPROVE.getCode());
             data.setChannel(channel);
             data.setDirection(direction);
             data.setAmount(amount);

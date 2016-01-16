@@ -34,7 +34,7 @@ public class IHLOrderDAOTest extends ADAOTest {
     public void insert() {
         HLOrder data = new HLOrder();
         data.setHlNo("HlOrderNo");
-        data.setStatus(EOrderStatus.UNAPPROVE.getCode());
+        data.setStatus(EOrderStatus.todoAPPROVE.getCode());
         data.setDirection(EDirection.PLUS.getCode());
         data.setAmount(1000L);
         data.setApplyUser("miyb");
@@ -85,7 +85,7 @@ public class IHLOrderDAOTest extends ADAOTest {
         data.setHlNo("HlOrderNo");
         data.setApproveUser(EUser.LI.getCode());
         data.setApproveDatetime(new Date());
-        data.setStatus(EOrderStatus.UNAPPROVE.getCode());
+        data.setStatus(EOrderStatus.todoAPPROVE.getCode());
         data.setRemark("test approve");
         int count = hlOrderDAO.updateApproveOrder(data);
         logger.info("updateApproveOrder : {}", count);
