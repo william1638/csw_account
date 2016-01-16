@@ -24,15 +24,15 @@ public class XN802601 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        cqOrderAO.doApproveCharge(req.getOrderNo(), req.getApproveUser(),
-            req.getApproveResult(), req.getRemark());
+        cqOrderAO.doApproveCharge(req.getChargeNo(), req.getApproveUser(),
+            req.getApproveResult(), req.getApproveNote());
         return new XN802601Res(true);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802601Req.class);
-        StringValidater.validateBlank(req.getOrderNo(), req.getApproveUser(),
-            req.getApproveResult(), req.getRemark());
+        StringValidater.validateBlank(req.getChargeNo(), req.getApproveUser(),
+            req.getApproveResult(), req.getApproveNote());
     }
 }

@@ -1,8 +1,8 @@
 package com.std.account.dto.req;
 
-public class XN802603Req {
-    // 取现订单编号
-    private String withdrawNo;
+public class XN802611Req {
+    // 红蓝订单编号
+    private String hlNo;
 
     // 审批人
     private String approveUser;
@@ -13,12 +13,12 @@ public class XN802603Req {
     // 审批意见说明
     private String approveNote;
 
-    public String getWithdrawNo() {
-        return withdrawNo;
+    public String getHlNo() {
+        return hlNo;
     }
 
-    public void setWithdrawNo(String withdrawNo) {
-        this.withdrawNo = withdrawNo;
+    public void setHlNo(String hlNo) {
+        this.hlNo = hlNo;
     }
 
     public String getApproveUser() {
