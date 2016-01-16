@@ -37,7 +37,7 @@ public class UserDAOImpl extends AMybatisTemplate implements IUserDAO {
      */
     @Override
     public int delete(User data) {
-        return super.delete(NAMESPACE.concat("delete_user"), data);
+        return 0;
     }
 
     /** 
@@ -111,6 +111,11 @@ public class UserDAOImpl extends AMybatisTemplate implements IUserDAO {
     @Override
     public int insertFaRen(User data) {
         return super.insert(NAMESPACE.concat("insert_faren"), data);
+    }
+
+    @Override
+    public int doKYC(User data) {
+        return super.update(NAMESPACE.concat("update_doKYC"), data);
     }
 
 }

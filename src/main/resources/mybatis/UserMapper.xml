@@ -191,9 +191,13 @@
 		user_id = #{userId}			
 	</update>
 	
-	<delete id="delete_user" parameterType="user">
-		DELETE FROM tstd_user
+	<update id="update_doKYC" parameterType="user">
+		UPDATE tstd_user
+		SET
+		 serve_list = #{serveList}
+		,quote_list = #{quoteList}
+		,level = #{level}
 		WHERE
 		user_id = #{userId}			
-	</delete>
+	</update>
 </mapper>

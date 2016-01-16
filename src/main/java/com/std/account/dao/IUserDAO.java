@@ -64,4 +64,13 @@ public interface IUserDAO extends IBaseDAO<User> {
      */
     public int insertFaRen(User data);
 
+    /**
+     * KYC
+     * @param data
+     * @return 
+     * @create: 2016年1月16日 下午2:01:38 myb858
+     * @history:
+     */
+    public int doKYC(User data);
+
 }

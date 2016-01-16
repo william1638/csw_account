@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.std.account.ao.IUserAO;
 import com.std.account.bo.IAccountBO;
 import com.std.account.bo.IBankCardBO;
+import com.std.account.bo.ICompanyBO;
 import com.std.account.bo.IIdentifyBO;
 import com.std.account.bo.ISmsOutBO;
 import com.std.account.bo.IUserBO;
@@ -31,15 +32,18 @@ import com.std.account.common.DateUtil;
 import com.std.account.common.MD5Util;
 import com.std.account.common.PhoneUtil;
 import com.std.account.common.PwdUtil;
+import com.std.account.domain.Company;
 import com.std.account.domain.User;
 import com.std.account.domain.UserLock;
 import com.std.account.domain.UserLoginLog;
 import com.std.account.enums.EBankCardType;
 import com.std.account.enums.EBoolean;
+import com.std.account.enums.ECompanyStatus;
 import com.std.account.enums.ECurrency;
 import com.std.account.enums.EIDKind;
 import com.std.account.enums.ELoginStatus;
 import com.std.account.enums.ESmsBizType;
+import com.std.account.enums.EUserKind;
 import com.std.account.exception.BizException;
 import com.std.account.util.RandomUtil;
 
@@ -76,6 +80,9 @@ public class UserAOImpl implements IUserAO {
 
     @Autowired
     ISmsOutBO smsOutBO;
+
+    @Autowired
+    ICompanyBO companyBO;
 
     /** 
      * @see com.ibis.account.ao.IUserAO#doGetUserByMobile(java.lang.String)
@@ -373,9 +380,22 @@ public class UserAOImpl implements IUserAO {
     }
 
     @Override
-    public void doKYC(String companyId, String kycUser, String kycResult,
-            String kycNote, String serveList, String quoteList, String level) {
-        // TODO Auto-generated method stub
+    public void doKYC(String userId, String companyId, String kycUser,
+            String kycResult, String kycNote, String serveList,
+            String quoteList, String level) {
+        Company company = companyBO.getCompany(companyId);
+        if (!ECompanyStatus.todoKYC.getCode().equalsIgnoreCase(
+            company.getStatus())) {
+            throw new BizException("xn000001", "当前公司不处于待KYC阶段");
+        }
+        User user = userBO.getUser(userId);
+        if (EUserKind.Admin.getCode().equalsIgnoreCase(user.getUserKind())) {
+            throw new BizException("xn000001", "当前用户不是admin,不能KYC");
+        }
+        companyBO.doKYC(companyId, kycUser, kycResult, kycNote);
+        if (EBoolean.YES.getCode().equalsIgnoreCase(kycResult)) {
+            userBO.doKYC(userId, serveList, quoteList, level);
+        }
 
     }
 }

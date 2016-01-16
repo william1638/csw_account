@@ -227,6 +227,7 @@ public interface IUserAO {
 
     /**
      * KYC
+     * @param userId
      * @param companyId
      * @param kycUser
      * @param kycResult
@@ -234,10 +235,11 @@ public interface IUserAO {
      * @param serveList
      * @param quoteList
      * @param level 
-     * @create: 2016年1月16日 下午1:35:38 myb858
+     * @create: 2016年1月16日 下午1:46:54 myb858
      * @history:
      */
-    public void doKYC(String companyId, String kycUser, String kycResult,
-            String kycNote, String serveList, String quoteList, String level);
+    public void doKYC(String userId, String companyId, String kycUser,
+            String kycResult, String kycNote, String serveList,
+            String quoteList, String level);
 
 }

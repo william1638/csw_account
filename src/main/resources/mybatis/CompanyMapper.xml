@@ -192,6 +192,16 @@
 		WHERE
 		company_id = #{companyId}
 	</update>
+	
+	<update id="update_doKYC" parameterType="company">
+		UPDATE tstd_company set
+		kyc_user=#{kycUser}
+		,kyc_datetime=#{kycDatetime}
+		,kyc_note=#{kycNote}	
+		,status=#{status}
+		WHERE
+		company_id = #{companyId}
+	</update>
 
 	
 </mapper>

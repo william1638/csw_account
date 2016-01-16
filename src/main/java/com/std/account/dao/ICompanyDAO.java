@@ -15,4 +15,6 @@ public interface ICompanyDAO extends IBaseDAO<Company> {
     public int updatePicture(Company data);
 
     public int updateCompany(Company data);
+
+    public int doKYC(Company data);
 }

@@ -89,4 +89,7 @@ public interface IUserBO extends IPaginableBO<User> {
     public String doAddUser(String mobile, String loginPsd, String userReferee,
             String realName, String idKind, String idNo, String tradePsd);
 
+    public int doKYC(String userId, String serveList, String quoteList,
+            String level);
+
 }

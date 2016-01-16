@@ -12,6 +12,7 @@ import com.std.account.bo.base.PaginableBOImpl;
 import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.ICompanyDAO;
 import com.std.account.domain.Company;
+import com.std.account.enums.EBoolean;
 import com.std.account.enums.ECompanyStatus;
 import com.std.account.exception.BizException;
 
@@ -131,5 +132,26 @@ public class CompanyBOImpl extends PaginableBOImpl<Company> implements
             count = companyDAO.updateCompany(data);
         }
         return count;
+    }
+
+    @Override
+    public int doKYC(String companyId, String kycUser, String kycResult,
+            String kycNote) {
+        int count = 0;
+        if (StringUtils.isNotBlank(companyId)) {
+            Company data = new Company();
+            data.setCompanyId(companyId);
+            data.setKycUser(kycUser);
+            data.setKycNote(kycNote);
+            data.setKycDatetime(new Date());
+            if (EBoolean.YES.getCode().equalsIgnoreCase(kycResult)) {
+                data.setStatus(ECompanyStatus.KYC_YES.getCode());
+            } else {
+                data.setStatus(ECompanyStatus.KYC_NO.getCode());
+            }
+            count = companyDAO.doKYC(data);
+        }
+        return count;
+
     }
 }
