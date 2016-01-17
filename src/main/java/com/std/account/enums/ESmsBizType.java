@@ -19,8 +19,6 @@ public enum ESmsBizType {
             "5", "平台主账户-找回交易密码"), RESETTRADEPWD("6", "平台主账户-重置交易密码"), CHANGEMOBILE(
             "7", "平台主账户-修改手机号码")
 
-    , YZM("10", "平台主账户-验证码")
-
     , ChargeWithdraw("20", "平台主账户-充值取现"), Charge("21", "平台主账户-充值"), Charge_Yes(
             "22", "平台主账户-充值成功"), Charge_No("23", "平台主账户-充值失败"), Withdraw("25",
             "平台主账户-取现"), Withdraw_Yes("26", "平台主账户-取现成功"), Withdraw_No("27",

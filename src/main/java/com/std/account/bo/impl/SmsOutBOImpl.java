@@ -36,17 +36,12 @@ public class SmsOutBOImpl implements ISmsOutBO {
 
     @Override
     public void checkCaptcha(String mobile, String captcha, String bizType) {
-        try {
-            XN799002Req req = new XN799002Req();
-            req.setMobile(mobile);
-            req.setCaptcha(captcha);
-            req.setBizType(bizType);
-            BizConnecter.getBizData("799002", JsonUtils.object2Json(req),
-                XN799002Res.class);
-        } catch (Exception e) {
-            logger.error("调用短信验证服务异常");
-        }
-
+        XN799002Req req = new XN799002Req();
+        req.setMobile(mobile);
+        req.setCaptcha(captcha);
+        req.setBizType(bizType);
+        BizConnecter.getBizData("799002", JsonUtils.object2Json(req),
+            XN799002Res.class);
     }
 
     @Override
