@@ -4,17 +4,19 @@
 <mapper namespace="com.std.account.dao.IHLOrderDAO">
 	<resultMap id="hlOrder_DB_Result" type="hlOrder">
 		<result column="hl_no" property="hlNo" />
+		<result column="type" property="type" />
 		<result column="status" property="status" />
 		<result column="direction" property="direction" />
 		<result column="amount" property="amount" />
-		<result column="apply_user" property="applyUser" />	
 		
+		<result column="apply_user" property="applyUser" />	
 		<result column="apply_note" property="applyNote" />		
 		<result column="create_datetime" property="createDatetime" />	
 		<result column="approve_user" property="approveUser" />	
+		<result column="approve_note" property="approveNote" />		
+		
 		<result column="approve_datetime" property="approveDatetime" />				
-		<result column="remark" property="remark" />	
-	
+		<result column="remark" property="remark" />
 		<result column="account_number" property="accountNumber" />
 	</resultMap>
 	<sql id="where_condition">
@@ -22,6 +24,9 @@
 			<if test="hlNo != null and hlNo != '' ">
 				AND t.hl_no = #{hlNo}
 			</if>
+			<if test="type != null and type != '' ">
+				AND t.type = #{type}
+			</if>	
 			<if test="status != null and status != '' ">
 				AND t.status = #{status}
 			</if>	
@@ -48,17 +53,19 @@
 	<select id="select_hlOrder" parameterType="hlOrder" resultMap="hlOrder_DB_Result">
 		SELECT 
 		t.hl_no
+		,t.type
 		,t.status
 		,t.direction
 		,t.amount
-		,t.apply_user
 		
+		,t.apply_user	
 		,t.apply_note
 		,t.create_datetime
 		,t.approve_user
-		,t.approve_datetime			
+		,t.approve_note
+			
+		,t.approve_datetime
 		,t.remark
-
 		,t.account_number
 		FROM
 		tstd_hlorder t 
@@ -78,11 +85,12 @@
 	<insert id="insert_hlOrder" parameterType="hlOrder">
 		INSERT INTO tstd_hlorder(
 		hl_no
+		,type
 		,status
 		,direction
 		,amount
-		,apply_user
 		
+		,apply_user
 		,apply_note
 		,create_datetime			
 		,remark
@@ -90,11 +98,12 @@
 		)
 		VALUES(
 		#{hlNo}
+		,#{type}
 		,#{status}
 		,#{direction}
 		,#{amount}
-		,#{applyUser}
 		
+		,#{applyUser}
 		,#{applyNote}
 		,#{createDatetime}
 		,#{remark}	
@@ -107,6 +116,7 @@
 		SET
 		status= #{status}
 		,approve_user= #{approveUser}
+		,approve_note= #{approveNote}
 		,approve_datetime= #{approveDatetime}		
 		,remark= #{remark}
 		WHERE

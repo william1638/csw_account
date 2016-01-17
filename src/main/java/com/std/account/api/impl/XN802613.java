@@ -8,7 +8,7 @@ import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 对账审批
+ * 对账审批:免对账
  * @author: myb858 
  * @since: 2016年1月17日 下午1:31:48 
  * @history:

@@ -1,8 +1,6 @@
 package com.std.account.dto.req;
 
 public class XN801650Req {
-    // 被KYC的用户编号（必填）
-    private String userId;
 
     // 公司编号（必填）
     private String companyId;
@@ -27,13 +25,6 @@ public class XN801650Req {
     private String level;
 
     // --Kyc通过的话，以下字段则必须end---
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
 
     public String getCompanyId() {
         return companyId;

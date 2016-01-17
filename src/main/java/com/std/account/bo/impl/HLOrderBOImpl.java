@@ -71,7 +71,7 @@ public class HLOrderBOImpl extends PaginableBOImpl<HLOrder> implements
      */
     @Override
     public int refreshApproveOrder(String hlNo, String approveUser,
-            String approveResult, String remark) {
+            String approveResult, String approveNote) {
         int count = 0;
         if (StringUtils.isNotBlank(hlNo) && StringUtils.isNotBlank(approveUser)
                 && StringUtils.isNotBlank(approveResult)) {
@@ -83,8 +83,8 @@ public class HLOrderBOImpl extends PaginableBOImpl<HLOrder> implements
                 data.setStatus(EOrderStatus.APPROVE_NO.getCode());
             }
             data.setApproveUser(approveUser);
+            data.setApproveNote(approveNote);
             data.setApproveDatetime(new Date());
-            data.setRemark(remark);
             count = hlOrderDAO.updateApproveOrder(data);
 
         }

@@ -202,16 +202,18 @@ DROP TABLE IF EXISTS `tstd_hlorder`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_hlorder` (
   `hl_no` varchar(32) NOT NULL,
-  `status` char(1) NOT NULL,
-  `direction` char(1) NOT NULL,
-  `amount` bigint(32) NOT NULL,
-  `apply_user` varchar(32) NOT NULL,
-  `apply_note` varchar(255) NOT NULL,
-  `create_datetime` datetime DEFAULT NULL,
-  `approve_user` varchar(32) DEFAULT NULL,
-  `approve_datetime` datetime DEFAULT NULL,
-  `remark` varchar(255) DEFAULT NULL,
-  `account_number` varchar(32) NOT NULL,
+  `type` char(1) NOT NULL COMMENT '类型',
+  `status` char(1) NOT NULL  COMMENT '状态',
+  `direction` char(1) NOT NULL  COMMENT '方向',
+  `amount` bigint(32) NOT NULL  COMMENT '金额',
+  `apply_user` varchar(32) NOT NULL  COMMENT '申请人',
+  `apply_note` varchar(255) NOT NULL COMMENT '申请说明',
+  `create_datetime` datetime DEFAULT NULL  COMMENT '创建时间',
+  `approve_user` varchar(32) DEFAULT NULL  COMMENT '审批人',
+  `approve_note` varchar(255) NOT NULL COMMENT '审批说明',
+  `approve_datetime` datetime DEFAULT NULL COMMENT '审批时间',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `account_number` varchar(32) NOT NULL  COMMENT '账号',
   PRIMARY KEY (`hl_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;

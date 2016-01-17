@@ -380,9 +380,8 @@ public class UserAOImpl implements IUserAO {
     }
 
     @Override
-    public void doKYC(String userId, String companyId, String kycUser,
-            String kycResult, String kycNote, String serveList,
-            String quoteList, String level) {
+    public void doKYC(String companyId, String kycUser, String kycResult,
+            String kycNote, String serveList, String quoteList, String level) {
         Company company = companyBO.getCompany(companyId);
         if (!ECompanyStatus.todoKYC.getCode().equalsIgnoreCase(
             company.getStatus())) {

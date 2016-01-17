@@ -33,6 +33,9 @@ public class HLOrder extends ABaseDO {
     // 订单号
     private String hlNo;
 
+    // 类型：1=调账订单（不必对账）；2=人工干预（需要对账）
+    private String type;
+
     // 状态
     private String status;
 
@@ -42,7 +45,7 @@ public class HLOrder extends ABaseDO {
     // 金额（精确到厘）
     private Long amount;
 
-    // 申请人
+    // 申请人（li为程序）
     private String applyUser;
 
     // 申请说明
@@ -51,8 +54,11 @@ public class HLOrder extends ABaseDO {
     // 创建时间
     private Date createDatetime;
 
-    // 审批人（li为程序）
+    // 审批人
     private String approveUser;
+
+    // 审批说明
+    private String approveNote;
 
     // 审批时间
     private Date approveDatetime;
@@ -64,6 +70,21 @@ public class HLOrder extends ABaseDO {
     private String accountNumber;
 
     // ---------db properties end--------------------------
+    public Date getCreateDatetimeStart() {
+        return createDatetimeStart;
+    }
+
+    public void setCreateDatetimeStart(Date createDatetimeStart) {
+        this.createDatetimeStart = createDatetimeStart;
+    }
+
+    public Date getCreateDatetimeEnd() {
+        return createDatetimeEnd;
+    }
+
+    public void setCreateDatetimeEnd(Date createDatetimeEnd) {
+        this.createDatetimeEnd = createDatetimeEnd;
+    }
 
     public String getHlNo() {
         return hlNo;
@@ -71,6 +92,14 @@ public class HLOrder extends ABaseDO {
 
     public void setHlNo(String hlNo) {
         this.hlNo = hlNo;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getStatus() {
@@ -129,6 +158,14 @@ public class HLOrder extends ABaseDO {
         this.approveUser = approveUser;
     }
 
+    public String getApproveNote() {
+        return approveNote;
+    }
+
+    public void setApproveNote(String approveNote) {
+        this.approveNote = approveNote;
+    }
+
     public Date getApproveDatetime() {
         return approveDatetime;
     }
@@ -151,22 +188,6 @@ public class HLOrder extends ABaseDO {
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
-    }
-
-    public Date getCreateDatetimeStart() {
-        return createDatetimeStart;
-    }
-
-    public void setCreateDatetimeStart(Date createDatetimeStart) {
-        this.createDatetimeStart = createDatetimeStart;
-    }
-
-    public Date getCreateDatetimeEnd() {
-        return createDatetimeEnd;
-    }
-
-    public void setCreateDatetimeEnd(Date createDatetimeEnd) {
-        this.createDatetimeEnd = createDatetimeEnd;
     }
 
 }
