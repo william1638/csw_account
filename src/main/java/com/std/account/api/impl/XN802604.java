@@ -1,6 +1,6 @@
 package com.std.account.api.impl;
 
-import com.std.account.ao.IOrderAO;
+import com.std.account.ao.ICQOrderAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
@@ -17,15 +17,16 @@ import com.std.account.spring.SpringContextHolder;
  * @history:
  */
 public class XN802604 extends AProcessor {
-    private IOrderAO orderAO = SpringContextHolder.getBean(IOrderAO.class);
+    private ICQOrderAO cqOrderAO = SpringContextHolder
+        .getBean(ICQOrderAO.class);
 
     private XN802604Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
         Long payFree = StringValidater.toLong(req.getPayFee());
-        orderAO.doPay(req.getOrderType(), req.getOrderNo(), req.getPayUser(),
-            req.getPayResult(), req.getRemark(), req.getPayNo(), payFree,
+        cqOrderAO.doPayWithdraw(req.getWithdrawNo(), req.getPayUser(),
+            req.getPayResult(), req.getPayNote(), req.getPayNo(), payFree,
             req.getWorkDate());
         return new XN802604Res(true);
     }
@@ -33,9 +34,8 @@ public class XN802604 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802604Req.class);
-        StringValidater.validateBlank(req.getOrderType(), req.getOrderNo(),
-            req.getPayUser(), req.getPayResult(), req.getRemark(),
-            req.getWorkDate());
+        StringValidater.validateBlank(req.getWithdrawNo(), req.getPayUser(),
+            req.getPayResult(), req.getPayNote(), req.getWorkDate());
     }
 
 }

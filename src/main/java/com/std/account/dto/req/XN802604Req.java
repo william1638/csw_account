@@ -1,11 +1,9 @@
 package com.std.account.dto.req;
 
 public class XN802604Req {
-    // 订单类别
-    private String orderType;
 
-    // 订单编号
-    private String orderNo;
+    // 取现订单编号
+    private String withdrawNo;
 
     // 支付人
     private String payUser;
@@ -14,7 +12,7 @@ public class XN802604Req {
     private String payResult;
 
     // 支付说明
-    private String remark;
+    private String payNote;
 
     // 支付单号(支付成功时才有)
     private String payNo;
@@ -25,20 +23,12 @@ public class XN802604Req {
     // 理应对账时间（YYYYMMDD）
     private String workDate;
 
-    public String getOrderType() {
-        return orderType;
+    public String getWithdrawNo() {
+        return withdrawNo;
     }
 
-    public void setOrderType(String orderType) {
-        this.orderType = orderType;
-    }
-
-    public String getOrderNo() {
-        return orderNo;
-    }
-
-    public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
+    public void setWithdrawNo(String withdrawNo) {
+        this.withdrawNo = withdrawNo;
     }
 
     public String getPayUser() {
@@ -57,12 +47,12 @@ public class XN802604Req {
         this.payResult = payResult;
     }
 
-    public String getRemark() {
-        return remark;
+    public String getPayNote() {
+        return payNote;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setPayNote(String payNote) {
+        this.payNote = payNote;
     }
 
     public String getPayNo() {
@@ -88,4 +78,5 @@ public class XN802604Req {
     public void setWorkDate(String workDate) {
         this.workDate = workDate;
     }
+
 }

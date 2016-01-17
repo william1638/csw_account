@@ -17,10 +17,18 @@ import org.springframework.transaction.annotation.Transactional;
 import com.std.account.ao.IHLOrderAO;
 import com.std.account.bo.IAccountBO;
 import com.std.account.bo.IHLOrderBO;
+import com.std.account.bo.ISmsOutBO;
+import com.std.account.bo.IUserBO;
 import com.std.account.bo.base.Paginable;
+import com.std.account.common.PhoneUtil;
 import com.std.account.domain.Account;
 import com.std.account.domain.HLOrder;
+import com.std.account.domain.User;
+import com.std.account.enums.EBizType;
+import com.std.account.enums.EBoolean;
+import com.std.account.enums.EDirection;
 import com.std.account.enums.EOrderStatus;
+import com.std.account.enums.ESmsBizType;
 import com.std.account.exception.BizException;
 
 /** 
@@ -31,10 +39,16 @@ import com.std.account.exception.BizException;
 @Service
 public class HLOrderAOImpl implements IHLOrderAO {
     @Autowired
+    IUserBO userBO;
+
+    @Autowired
     IAccountBO accountBO;
 
     @Autowired
     IHLOrderBO hlOrderBO;
+
+    @Autowired
+    ISmsOutBO smsOutBO;
 
     /** 
      * @see com.ibis.account.ao.IHLOrderAO#doBalance(java.lang.String, java.lang.Long, java.lang.String, java.lang.String)
@@ -51,72 +65,62 @@ public class HLOrderAOImpl implements IHLOrderAO {
     @Override
     public void doApprove(String hlNo, String approveUser,
             String approveResult, String approveNote) {
-     
-        
-        
-         HLOrder hlOrder = hlOrderBO.getHLOrder(hlNo);
-         if (hlOrder == null) {
-         throw new BizException("xn702514", "无对应充取订单");
-         }
-         if (!EOrderStatus.todoAPPROVE.getCode().equalsIgnoreCase(
-         hlOrder.getStatus())) {
-         throw new BizException("xn702514", "订单不处于待审批状态");
-         }
-         hlOrderBO.refreshApproveOrder(hlNo, approveUser, approveResult,
-             approveNote);
-         // 发送短信
-         Account account = accountBO.getAccount(hlOrder.getAccountNumber());
-         User user = userBO.getUser(account.getUserId());
-         String mobile = user.getMobile();
-         if (EDirection.PLUS.getCode().equalsIgnoreCase(// 蓝补
-         hlOrder.getDirection())) {
-         if (EBoolean.YES.getCode().equalsIgnoreCase(approveResult)) { // 资金变动
-         accountBO.refreshAmount(hlOrder.getAccountNumber(),
-         hlOrder.getAmount(), EBizType.AJ_LB.getCode(),
-         hlOrder.getHlNo());
-         smsOutBO
-         .sendSmsOut(
-         mobile,
-         "尊敬的"
-         + PhoneUtil.hideMobile(mobile)
-         + "用户，您的蓝补申请审核已通过，稍后工作人员将依据银行账单对您的账户金额进行调整，请注意核对。",
-         ESmsBizType.HongLan.getCode(),
-         ESmsBizType.HongLan.getValue());
-         } else {
-         smsOutBO
-         .sendSmsOut(
-         mobile,
-         "尊敬的"
-         + PhoneUtil.hideMobile(mobile)
-         + "用户，您的蓝补申请审核不通过，您的账户金额并未出现错误，请注意核对。如有疑问，请联系客服：400-0008-139。",
-         ESmsBizType.HongLan.getCode(),
-         ESmsBizType.HongLan.getValue());
-         }
-         } else {
-         if (EBoolean.YES.getCode().equalsIgnoreCase(approveResult)) { // 资金变动
-         accountBO.refreshAmount(hlOrder.getAccountNumber(),
-         -hlOrder.getAmount(), EBizType.AJ_HC.getCode(),
-         hlOrder.getHlNo());
-         smsOutBO
-         .sendSmsOut(
-         mobile,
-         "尊敬的"
-         + PhoneUtil.hideMobile(mobile)
-         + "用户，您的红冲申请审核已通过，稍后工作人员将依据银行账单对您的账户金额进行调整，请注意核对。",
-         ESmsBizType.HongLan.getCode(),
-         ESmsBizType.HongLan.getValue());
-         } else {
-         smsOutBO
-         .sendSmsOut(
-         mobile,
-         "尊敬的"
-         + PhoneUtil.hideMobile(mobile)
-         + "用户，您的红冲申请审核不通过，您的账户金额并未出现错误，请注意核对。如有疑问，请联系客服：400-0008-139。",
-         ESmsBizType.HongLan.getCode(),
-         ESmsBizType.HongLan.getValue());
-         }
-         }
-         }
+        HLOrder hlOrder = hlOrderBO.getHLOrder(hlNo);
+        if (hlOrder == null) {
+            throw new BizException("xn702514", "无对应充取订单");
+        }
+        if (!EOrderStatus.todoAPPROVE.getCode().equalsIgnoreCase(
+            hlOrder.getStatus())) {
+            throw new BizException("xn702514", "订单不处于待审批状态");
+        }
+        hlOrderBO.refreshApproveOrder(hlNo, approveUser, approveResult,
+            approveNote);
+        // 发送短信
+        Account account = accountBO.getAccount(hlOrder.getAccountNumber());
+        User user = userBO.getUser(account.getUserId());
+        String mobile = user.getMobile();
+        if (EDirection.PLUS.getCode().equalsIgnoreCase(// 蓝补
+            hlOrder.getDirection())) {
+            if (EBoolean.YES.getCode().equalsIgnoreCase(approveResult)) { // 资金变动
+                accountBO.refreshAmount(hlOrder.getAccountNumber(),
+                    hlOrder.getAmount(), EBizType.AJ_LB.getCode(),
+                    hlOrder.getHlNo());
+                smsOutBO.sendSmsOut(mobile,
+                    "尊敬的" + PhoneUtil.hideMobile(mobile)
+                            + "用户，您的蓝补申请审核已通过，稍后工作人员将依据银行账单对您的账户金额进行调整，请注意核对。",
+                    ESmsBizType.HongLan.getCode(),
+                    ESmsBizType.HongLan.getValue());
+            } else {
+                smsOutBO
+                    .sendSmsOut(
+                        mobile,
+                        "尊敬的"
+                                + PhoneUtil.hideMobile(mobile)
+                                + "用户，您的蓝补申请审核不通过，您的账户金额并未出现错误，请注意核对。如有疑问，请联系客服：400-0008-139。",
+                        ESmsBizType.HongLan.getCode(),
+                        ESmsBizType.HongLan.getValue());
+            }
+        } else {
+            if (EBoolean.YES.getCode().equalsIgnoreCase(approveResult)) { // 资金变动
+                accountBO.refreshAmount(hlOrder.getAccountNumber(),
+                    -hlOrder.getAmount(), EBizType.AJ_HC.getCode(),
+                    hlOrder.getHlNo());
+                smsOutBO.sendSmsOut(mobile,
+                    "尊敬的" + PhoneUtil.hideMobile(mobile)
+                            + "用户，您的红冲申请审核已通过，稍后工作人员将依据银行账单对您的账户金额进行调整，请注意核对。",
+                    ESmsBizType.HongLan.getCode(),
+                    ESmsBizType.HongLan.getValue());
+            } else {
+                smsOutBO
+                    .sendSmsOut(
+                        mobile,
+                        "尊敬的"
+                                + PhoneUtil.hideMobile(mobile)
+                                + "用户，您的红冲申请审核不通过，您的账户金额并未出现错误，请注意核对。如有疑问，请联系客服：400-0008-139。",
+                        ESmsBizType.HongLan.getCode(),
+                        ESmsBizType.HongLan.getValue());
+            }
+        }
 
     }
 

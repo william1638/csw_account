@@ -5,6 +5,7 @@ import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.dto.req.XN802603Req;
+import com.std.account.dto.res.XN802603Res;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -24,8 +25,9 @@ public class XN802603 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        // TODO Auto-generated method stub
-        return null;
+        cqOrderAO.doApproveWithdraw(req.getWithdrawNo(), req.getApproveUser(),
+            req.getApproveResult(), req.getApproveNote());
+        return new XN802603Res(true);
     }
 
     @Override
