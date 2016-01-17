@@ -23,6 +23,7 @@ import com.std.account.bo.ICompanyBO;
 import com.std.account.bo.IIdentifyBO;
 import com.std.account.bo.ISmsOutBO;
 import com.std.account.bo.IUserBO;
+import com.std.account.bo.IUserCompanyBO;
 import com.std.account.bo.IUserExtBO;
 import com.std.account.bo.IUserIdentifyBO;
 import com.std.account.bo.IUserLockBO;
@@ -83,6 +84,9 @@ public class UserAOImpl implements IUserAO {
 
     @Autowired
     ICompanyBO companyBO;
+
+    @Autowired
+    IUserCompanyBO userCompanyBO;
 
     /** 
      * @see com.ibis.account.ao.IUserAO#doGetUserByMobile(java.lang.String)
@@ -387,13 +391,23 @@ public class UserAOImpl implements IUserAO {
             company.getStatus())) {
             throw new BizException("xn000001", "当前公司不处于待KYC阶段");
         }
-        User user = userBO.getUser(userId);
-        if (EUserKind.Admin.getCode().equalsIgnoreCase(user.getUserKind())) {
-            throw new BizException("xn000001", "当前用户不是admin,不能KYC");
+        User admin = null;
+        List<User> userList = userCompanyBO.queryUserList(companyId);
+        if (CollectionUtils.isNotEmpty(userList)) {
+            for (User user : userList) {
+                if (EUserKind.Admin.getCode().equalsIgnoreCase(
+                    user.getUserKind())) {
+                    admin = user;
+                    break;
+                }
+            }
+        }
+        if (admin == null) {
+            throw new BizException("xn000001", "当前公司无对应admin,不能KYC");
         }
         companyBO.doKYC(companyId, kycUser, kycResult, kycNote);
         if (EBoolean.YES.getCode().equalsIgnoreCase(kycResult)) {
-            userBO.doKYC(userId, serveList, quoteList, level);
+            userBO.doKYC(admin.getUserId(), serveList, quoteList, level);
         }
 
     }

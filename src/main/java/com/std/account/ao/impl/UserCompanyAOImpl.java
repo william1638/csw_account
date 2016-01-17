@@ -1,6 +1,5 @@
 package com.std.account.ao.impl;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +11,6 @@ import com.std.account.bo.IUserBO;
 import com.std.account.bo.IUserCompanyBO;
 import com.std.account.domain.Company;
 import com.std.account.domain.User;
-import com.std.account.domain.UserCompany;
 import com.std.account.exception.BizException;
 
 /**
@@ -32,31 +30,9 @@ public class UserCompanyAOImpl implements IUserCompanyAO {
     @Autowired
     ICompanyBO companyBO;
 
-    /**
-     * @see com.std.account.ao.IUserCompanyAO#queryUserCompanyListByUserId(java.lang.String)
-     */
     public List<Company> queryUserCompanyListByUserId(String userId) {
-        UserCompany condition = new UserCompany();
-        condition.setUserId(userId);
+        return userCompanyBO.queryCompanyList(userId);
 
-        List<Company> companyList = new ArrayList<Company>();
-        List<String> companyIdList = new ArrayList<String>();
-        List<UserCompany> userCompanyList = new ArrayList<UserCompany>();
-        userCompanyList = userCompanyBO.queryUserCompanyList(condition);
-
-        if (userCompanyList != null && userCompanyList.size() > 0) {
-            for (UserCompany userCompany : userCompanyList) {
-                companyIdList.add(userCompany.getCompanyId());
-            }
-        } else {
-            throw new BizException("xn000001", "该用户尚未关联任何公司！");
-        }
-        if (companyIdList != null && companyIdList.size() > 0) {
-            for (String companyId : companyIdList) {
-                companyList.add(companyBO.getCompany(companyId));
-            }
-        }
-        return companyList;
     }
 
     @Override

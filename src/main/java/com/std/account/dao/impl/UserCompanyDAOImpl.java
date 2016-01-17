@@ -6,6 +6,8 @@ import org.springframework.stereotype.Repository;
 
 import com.std.account.dao.IUserCompanyDAO;
 import com.std.account.dao.base.support.AMybatisTemplate;
+import com.std.account.domain.Company;
+import com.std.account.domain.User;
 import com.std.account.domain.UserCompany;
 
 /** 
@@ -70,6 +72,18 @@ public class UserCompanyDAOImpl extends AMybatisTemplate implements
             int count) {
         return super.selectList(NAMESPACE.concat("select_userCompany"), start,
             count, condition, UserCompany.class);
+    }
+
+    @Override
+    public List<Company> selectCompanyList(UserCompany condition) {
+        return super.selectList(NAMESPACE.concat("select_CompanyList"),
+            condition, Company.class);
+    }
+
+    @Override
+    public List<User> selectUserList(UserCompany condition) {
+        return super.selectList(NAMESPACE.concat("select_UserList"), condition,
+            User.class);
     }
 
 }

@@ -30,5 +30,4 @@ public class XN802612 extends AProcessor {
         req = JsonUtil.json2Bean(inputparams, XN802612Req.class);
 
     }
-
 }

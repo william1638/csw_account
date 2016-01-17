@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import com.std.account.bo.IUserCompanyBO;
 import com.std.account.bo.base.PaginableBOImpl;
 import com.std.account.dao.IUserCompanyDAO;
+import com.std.account.domain.Company;
+import com.std.account.domain.User;
 import com.std.account.domain.UserCompany;
 
 /** 
@@ -22,25 +24,6 @@ public class UserCompanyBOImpl extends PaginableBOImpl<UserCompany> implements
         IUserCompanyBO {
     @Autowired
     private IUserCompanyDAO userCompanyDAO;
-
-    @Override
-    public UserCompany getUserCompany(Long id) {
-        UserCompany data = null;
-        if (id > 0) {
-            UserCompany condition = new UserCompany();
-            condition.setId(id);
-            data = userCompanyDAO.select(condition);
-        }
-        return data;
-    }
-
-    /**
-     * @see com.std.account.bo.IUserCompanyBO#queryUserCompanyList(com.std.account.domain.UserCompany)
-     */
-    @Override
-    public List<UserCompany> queryUserCompanyList(UserCompany data) {
-        return userCompanyDAO.selectList(data);
-    }
 
     @Override
     public boolean isUserCompanyExist(String userId, String companyId) {
@@ -72,6 +55,28 @@ public class UserCompanyBOImpl extends PaginableBOImpl<UserCompany> implements
         data.setCompanyId(companyId);
         data.setRemark(remark);
         userCompanyDAO.insert(data);
+    }
+
+    @Override
+    public List<User> queryUserList(String companyId) {
+        List<User> list = null;
+        if (StringUtils.isNotBlank(companyId)) {
+            UserCompany condition = new UserCompany();
+            condition.setCompanyId(companyId);
+            list = userCompanyDAO.selectUserList(condition);
+        }
+        return list;
+    }
+
+    @Override
+    public List<Company> queryCompanyList(String userId) {
+        List<Company> list = null;
+        if (StringUtils.isNotBlank(userId)) {
+            UserCompany condition = new UserCompany();
+            condition.setUserId(userId);
+            list = userCompanyDAO.selectCompanyList(condition);
+        }
+        return list;
     }
 
 }
