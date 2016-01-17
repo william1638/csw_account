@@ -19,13 +19,18 @@ public class SmsOutAOImpl implements ISmsOutAO {
     ISmsOutBO smsOutBO;
 
     @Override
-    public boolean sendAppSms(String userId, String content) {
+    public void sendAppSms(String userId, String content) {
         User user = userBO.getUser(userId);
         if (user == null) {
             throw new BizException("xn702001", "用户不存在");
         }
         smsOutBO.sendSmsOut(user.getMobile(), content,
             ESmsBizType.APP.getCode(), ESmsBizType.APP.getValue());
-        return true;
+    }
+
+    @Override
+    public void sendCaptcha(String mobile, String bizType) {
+        smsOutBO.sendCaptcha(mobile, bizType);
+
     }
 }

@@ -23,8 +23,8 @@ public class XN801903 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        return new XN801903Res(smsOutAO.sendAppSms(req.getUserId(),
-            req.getContent()));
+        smsOutAO.sendAppSms(req.getUserId(), req.getContent());
+        return new XN801903Res(true);
     }
 
     @Override

@@ -10,16 +10,25 @@ public interface ISmsOutBO {
      * @create: 2015年9月19日 上午10:25:52 myb858
      * @history:
      */
-    public boolean sendSmsOut(String mobile, String content, String bizType,
+    public void sendSmsOut(String mobile, String content, String bizType,
             String remark);
 
     /**
-     * 验证短信码
+     * 验证短信验证码
      * @param mobile
-     * @param smsCaptcha
+     * @param captcha
      * @param bizType 
      * @create: 2016年1月14日 下午3:49:54 myb858
      * @history:
      */
-    public void checkSmsCaptcha(String mobile, String smsCaptcha, String bizType);
+    public void checkCaptcha(String mobile, String captcha, String bizType);
+
+    /**
+     * 发送短信验证码
+     * @param mobile
+     * @param bizType 
+     * @create: 2016年1月17日 下午2:09:51 myb858
+     * @history:
+     */
+    public void sendCaptcha(String mobile, String bizType);
 }

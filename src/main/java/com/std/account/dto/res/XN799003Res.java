@@ -1,13 +1,12 @@
 package com.std.account.dto.res;
 
-public class XN799001Res {
-
+public class XN799003Res {
     private Long id;
 
-    public XN799001Res() {
+    public XN799003Res() {
     }
 
-    public XN799001Res(Long id) {
+    public XN799003Res(Long id) {
         this.id = id;
     }
 
@@ -18,5 +17,4 @@ public class XN799001Res {
     public void setId(Long id) {
         this.id = id;
     }
-
 }

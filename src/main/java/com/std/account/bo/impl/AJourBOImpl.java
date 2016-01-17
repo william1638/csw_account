@@ -19,6 +19,7 @@ import com.std.account.bo.IAJourBO;
 import com.std.account.bo.base.PaginableBOImpl;
 import com.std.account.dao.IAJourDAO;
 import com.std.account.domain.AccountJour;
+import com.std.account.enums.EAccountJourStatus;
 import com.std.account.enums.EBoolean;
 
 /** 
@@ -27,8 +28,8 @@ import com.std.account.enums.EBoolean;
  * @history:
  */
 @Component
-public class AJourBOImpl extends PaginableBOImpl<AccountJour>
-        implements IAJourBO {
+public class AJourBOImpl extends PaginableBOImpl<AccountJour> implements
+        IAJourBO {
     @Autowired
     private IAJourDAO aJourDAO;
 
@@ -36,19 +37,22 @@ public class AJourBOImpl extends PaginableBOImpl<AccountJour>
      * @see com.ibis.account.bo.IAJourBO#refreshCheckJour(java.lang.Long, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public int doCheckAccount(Long aJourNo, String checkUser,
-            String checkResult, String remark) {
+    public int doCheckAccount(Long aJNo, String checkUser,
+            EBoolean checkResult, String checkNote) {
         int count = 0;
-        if (aJourNo > 0 && StringUtils.isNotBlank(checkUser)) {
-            EBoolean br = EBoolean.getBooleanResultMap().get(checkResult);
-            if (br != null) {
-                AccountJour data = new AccountJour();
-                data.setAjNo(aJourNo);
-                data.setCheckUser(checkUser);
-                data.setCheckDatetime(new Date());
-                data.setRemark(remark);
-                count = aJourDAO.doCheckAccount(data);
+        if (aJNo > 0 && StringUtils.isNotBlank(checkUser)) {
+            AccountJour data = new AccountJour();
+            data.setAjNo(aJNo);
+            data.setCheckUser(checkUser);
+            data.setCheckDatetime(new Date());
+            data.setRemark(checkNote);
+            if (EBoolean.YES.getCode().equalsIgnoreCase(checkResult.getCode())) {
+                data.setStatus(EAccountJourStatus.Done.getCode());
+            } else {
+                data.setStatus(EAccountJourStatus.Done.getCode());
             }
+            count = aJourDAO.doCheckAccount(data);
+
         }
         return count;
     }

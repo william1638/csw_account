@@ -2,5 +2,7 @@ package com.std.account.ao;
 
 public interface ISmsOutAO {
 
-    public boolean sendAppSms(String userId, String content);
+    public void sendAppSms(String userId, String content);
+
+    public void sendCaptcha(String mobile, String bizType);
 }
