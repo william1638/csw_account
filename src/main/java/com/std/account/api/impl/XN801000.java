@@ -32,8 +32,7 @@ public class XN801000 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN801100Req.class);
         StringValidater.validateBlank(req.getMobile(), req.getBizType());
-        PhoneUtil.checkMobile(req.getMobile());// // 判断格式
-
+        PhoneUtil.checkMobile(req.getMobile());// 判断格式
     }
 
 }
