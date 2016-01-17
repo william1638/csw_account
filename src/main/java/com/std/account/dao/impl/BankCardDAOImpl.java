@@ -29,7 +29,7 @@ public class BankCardDAOImpl extends AMybatisTemplate implements IBankCardDAO {
      */
     @Override
     public int delete(BankCard data) {
-        return 0;
+        return super.delete(NAMESPACE.concat("delete_bankcard"), data);
     }
 
     /**
@@ -46,8 +46,8 @@ public class BankCardDAOImpl extends AMybatisTemplate implements IBankCardDAO {
      */
     @Override
     public long selectTotalCount(BankCard condition) {
-        return super.selectTotalCount(
-            NAMESPACE.concat("select_bankcard_count"), condition);
+        return super.selectTotalCount(NAMESPACE.concat("select_bankcard_count"),
+            condition);
     }
 
     /**
