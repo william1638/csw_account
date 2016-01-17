@@ -59,8 +59,8 @@ public class CompanyAOImpl implements ICompanyAO {
         }
         String companyId = OrderNoGenerater.generate("C");
         userCompanyBO.saveUserCompany(applyUser, companyId, "admin申请KYC");
-        return companyBO.saveCompany(companyName, licenceNo, idKind, idNo,
-            realName, capital, province, city, applyUser, address);
+        return companyBO.saveCompany(companyId, companyName, licenceNo, idKind,
+            idNo, realName, capital, province, city, applyUser, address);
     }
 
     @Override

@@ -22,8 +22,8 @@ import com.std.account.exception.BizException;
  * @history:
  */
 @Component
-public class CompanyBOImpl extends PaginableBOImpl<Company> implements
-        ICompanyBO {
+public class CompanyBOImpl extends PaginableBOImpl<Company>
+        implements ICompanyBO {
     @Autowired
     private ICompanyDAO companyDAO;
 
@@ -63,9 +63,10 @@ public class CompanyBOImpl extends PaginableBOImpl<Company> implements
     }
 
     @Override
-    public String saveCompany(String companyName, String licenceNo,
-            String idKind, String idNo, String realName, Long capital,
-            String province, String city, String applyUser, String address) {
+    public String saveCompany(String companyId, String companyName,
+            String licenceNo, String idKind, String idNo, String realName,
+            Long capital, String province, String city, String applyUser,
+            String address) {
 
         Company data = new Company();
         data.setCompanyId(companyId);
