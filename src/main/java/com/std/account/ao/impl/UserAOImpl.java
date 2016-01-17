@@ -116,9 +116,9 @@ public class UserAOImpl implements IUserAO {
         // 分配账号
         accountBO.distributeAccount(userId, ECurrency.CNY.getCode());
         // 发送短信
-        smsOutBO.sendSmsOut(mobile, "尊敬的" + PhoneUtil.hideMobile(mobile)
-                + "用户，恭喜您成功注册。请妥善保管您的账户相关信息。", ESmsBizType.REGISTER.getCode(),
-            ESmsBizType.REGISTER.getValue());
+        smsOutBO.sendSmsOut(mobile,
+            "尊敬的" + PhoneUtil.hideMobile(mobile) + "用户，恭喜您成功注册。请妥善保管您的账户相关信息。",
+            ESmsBizType.REGISTER.getCode(), ESmsBizType.REGISTER.getValue());
         return userId;
     }
 
@@ -157,7 +157,8 @@ public class UserAOImpl implements IUserAO {
 
     @Override
     @Transactional
-    public void doSetTradePwd(String userId, String tradePwd, String smsCaptcha) {
+    public void doSetTradePwd(String userId, String tradePwd,
+            String smsCaptcha) {
         // 判断是否和登录密码重复
         User user = this.doGetUser(userId);
         // 短信验证码是否正确
@@ -166,8 +167,9 @@ public class UserAOImpl implements IUserAO {
         userBO.refreshTradePwd(userId, tradePwd);
         // 发送短信
         String mobile = user.getMobile();
-        smsOutBO.sendSmsOut(mobile, "尊敬的" + PhoneUtil.hideMobile(mobile)
-                + "用户，您的交易密码设置成功。请妥善保管您的账户相关信息。",
+        smsOutBO.sendSmsOut(mobile,
+            "尊敬的" + PhoneUtil.hideMobile(mobile)
+                    + "用户，您的交易密码设置成功。请妥善保管您的账户相关信息。",
             ESmsBizType.SETTRADEPWD.getCode(),
             ESmsBizType.SETTRADEPWD.getValue());
     }
@@ -187,8 +189,9 @@ public class UserAOImpl implements IUserAO {
         userBO.refreshLoginPwd(user.getUserId(), MD5Util.md5(newLoginPwd),
             PwdUtil.calculateSecurityLevel(newLoginPwd));
         // 发送短信
-        smsOutBO.sendSmsOut(mobile, "尊敬的" + PhoneUtil.hideMobile(mobile)
-                + "用户，您的登录密码找回成功。请妥善保管您的账户相关信息。",
+        smsOutBO.sendSmsOut(mobile,
+            "尊敬的" + PhoneUtil.hideMobile(mobile)
+                    + "用户，您的登录密码找回成功。请妥善保管您的账户相关信息。",
             ESmsBizType.FINDLOGINPWD.getCode(),
             ESmsBizType.FINDLOGINPWD.getValue());
         return true;
@@ -213,8 +216,9 @@ public class UserAOImpl implements IUserAO {
         // 发送短信
         User user = userBO.getUser(userId);
         String mobile = user.getMobile();
-        smsOutBO.sendSmsOut(mobile, "尊敬的" + PhoneUtil.hideMobile(mobile)
-                + "用户，您的登录密码修改成功。请妥善保管您的账户相关信息。",
+        smsOutBO.sendSmsOut(mobile,
+            "尊敬的" + PhoneUtil.hideMobile(mobile)
+                    + "用户，您的登录密码修改成功。请妥善保管您的账户相关信息。",
             ESmsBizType.RESETLOGINPWD.getCode(),
             ESmsBizType.RESETLOGINPWD.getValue());
         return true;
@@ -232,8 +236,8 @@ public class UserAOImpl implements IUserAO {
             throw new BizException("li01004", "请先实名认证");
         }
         // 证件是否正确
-        if (!(user.getIdKind().equalsIgnoreCase(idKind) && user.getIdNo()
-            .equalsIgnoreCase(idNo))) {
+        if (!(user.getIdKind().equalsIgnoreCase(idKind)
+                && user.getIdNo().equalsIgnoreCase(idNo))) {
             throw new BizException("li01009", "证件验证不通过");
         }
 
@@ -243,8 +247,9 @@ public class UserAOImpl implements IUserAO {
             ESmsBizType.FINDTRADEPWD.getCode());
         userBO.refreshTradePwd(userId, newTradePwd);
         // 发送短信
-        smsOutBO.sendSmsOut(mobile, "尊敬的" + PhoneUtil.hideMobile(mobile)
-                + "用户，您的交易密码找回成功。请妥善保管您的账户相关信息。",
+        smsOutBO.sendSmsOut(mobile,
+            "尊敬的" + PhoneUtil.hideMobile(mobile)
+                    + "用户，您的交易密码找回成功。请妥善保管您的账户相关信息。",
             ESmsBizType.FINDTRADEPWD.getCode(),
             ESmsBizType.FINDTRADEPWD.getValue());
         return true;
@@ -273,8 +278,9 @@ public class UserAOImpl implements IUserAO {
         userBO.refreshTradePwd(userId, newTradePwd);
         // 发送短信
         String mobile = user.getMobile();
-        smsOutBO.sendSmsOut(mobile, "尊敬的" + PhoneUtil.hideMobile(mobile)
-                + "用户，您的交易密码修改成功。请妥善保管您的账户相关信息。",
+        smsOutBO.sendSmsOut(mobile,
+            "尊敬的" + PhoneUtil.hideMobile(mobile)
+                    + "用户，您的交易密码修改成功。请妥善保管您的账户相关信息。",
             ESmsBizType.RESETTRADEPWD.getCode(),
             ESmsBizType.RESETTRADEPWD.getValue());
         return true;
@@ -300,15 +306,13 @@ public class UserAOImpl implements IUserAO {
             ESmsBizType.CHANGEMOBILE.getCode());
         userBO.refreshMobile(userId, newMobile);
         // 发送短信
-        smsOutBO.sendSmsOut(
-            oldMobile,
-            "尊敬的"
-                    + PhoneUtil.hideMobile(oldMobile)
-                    + "用户，您于"
+        smsOutBO.sendSmsOut(oldMobile,
+            "尊敬的" + PhoneUtil.hideMobile(oldMobile) + "用户，您于"
                     + DateUtil.dateToStr(new Date(),
                         DateUtil.DATA_TIME_PATTERN_1)
-                    + "提交的更改绑定手机号码服务审核通过，您的新绑定手机号码为" + newMobile
-                    + "，请妥善保管您的账户相关信息。", ESmsBizType.CHANGEMOBILE.getCode(),
+                + "提交的更改绑定手机号码服务审核通过，您的新绑定手机号码为" + newMobile
+                + "，请妥善保管您的账户相关信息。",
+            ESmsBizType.CHANGEMOBILE.getCode(),
             ESmsBizType.CHANGEMOBILE.getValue());
         return true;
     }
@@ -387,16 +391,16 @@ public class UserAOImpl implements IUserAO {
     public void doKYC(String companyId, String kycUser, String kycResult,
             String kycNote, String serveList, String quoteList, String level) {
         Company company = companyBO.getCompany(companyId);
-        if (!ECompanyStatus.todoKYC.getCode().equalsIgnoreCase(
-            company.getStatus())) {
+        if (!ECompanyStatus.todoKYC.getCode()
+            .equalsIgnoreCase(company.getStatus())) {
             throw new BizException("xn000001", "当前公司不处于待KYC阶段");
         }
         User admin = null;
         List<User> userList = userCompanyBO.queryUserList(companyId);
         if (CollectionUtils.isNotEmpty(userList)) {
             for (User user : userList) {
-                if (EUserKind.Admin.getCode().equalsIgnoreCase(
-                    user.getUserKind())) {
+                if (EUserKind.Admin.getCode()
+                    .equalsIgnoreCase(user.getUserKind())) {
                     admin = user;
                     break;
                 }
