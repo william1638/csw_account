@@ -35,11 +35,8 @@ public class HLOrderBOImpl extends PaginableBOImpl<HLOrder> implements
     @Autowired
     private IHLOrderDAO hlOrderDAO;
 
-    /** 
-     * @see com.ibis.account.bo.IHLOrderBO#saveHLOrder(java.lang.String, java.lang.Long, java.lang.String, java.lang.String)
-     */
     @Override
-    public String saveHLOrder(String accountNumber, Long amount,
+    public String saveHLOrder(String accountNumber, String type, Long amount,
             String applyUser, String applyNote) {
         String hlNo = null;
         if (StringUtils.isNotBlank(accountNumber) && amount != 0
@@ -48,6 +45,7 @@ public class HLOrderBOImpl extends PaginableBOImpl<HLOrder> implements
             HLOrder data = new HLOrder();
             hlNo = OrderNoGenerater.generate("HL");
             data.setHlNo(hlNo);
+            data.setType(type);
             data.setStatus(EOrderStatus.todoAPPROVE.getCode());
             if (amount > 0) {
                 data.setDirection(EDirection.PLUS.getCode());
