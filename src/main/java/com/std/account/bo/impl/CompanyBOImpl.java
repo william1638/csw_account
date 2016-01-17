@@ -22,8 +22,8 @@ import com.std.account.exception.BizException;
  * @history:
  */
 @Component
-public class CompanyBOImpl extends PaginableBOImpl<Company> implements
-        ICompanyBO {
+public class CompanyBOImpl extends PaginableBOImpl<Company>
+        implements ICompanyBO {
     @Autowired
     private ICompanyDAO companyDAO;
 
