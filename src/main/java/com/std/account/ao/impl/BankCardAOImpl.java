@@ -54,7 +54,7 @@ public class BankCardAOImpl implements IBankCardAO {
     @Override
     public void dropBankCard(Long id) {
         if (!bankCardBO.isBankCardExist((id))) {
-            throw new BizException("xn702000", "删除通道不存在！");
+            throw new BizException("xn702000", "删除银行卡不存在！");
         }
         bankCardBO.removeBankCard(id);
 
