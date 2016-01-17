@@ -67,7 +67,6 @@ public class CompanyBOImpl extends PaginableBOImpl<Company>
             String licenceNo, String idKind, String idNo, String realName,
             Long capital, String province, String city, String applyUser,
             String address) {
-
         Company data = new Company();
         data.setCompanyId(companyId);
         data.setCompanyName(companyName);

@@ -11,7 +11,7 @@ import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 调账申请
+ * 红冲蓝补申请
  * @author: myb858 
  * @since: 2015年8月26日 下午3:24:07 
  * @history:

@@ -89,4 +89,11 @@ public interface ICQOrderAO {
     public void doApproveCharge(String orderNo, String approveUser,
             String approveResult, String remark);
 
+    public void doApproveWithdraw(String withdrawNo, String approveUser,
+            String approveResult, String approveNote);
+
+    public void doPayWithdraw(String withdrawNo, String payUser,
+            String payResult, String payNote, String payNo, Long payFree,
+            String workDate);
+
 }

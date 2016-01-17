@@ -7,7 +7,7 @@ public class XN799002Req {
     // 待验证的手机验证码
     private String captcha;
 
-    // 业务类型--非必填
+    // 业务类型--必填
     private String bizType;
 
     public String getMobile() {

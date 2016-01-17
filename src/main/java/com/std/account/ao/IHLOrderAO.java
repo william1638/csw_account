@@ -24,6 +24,7 @@ public interface IHLOrderAO {
     String DEFAULT_ORDER_COLUMN = "hl_no";
 
     /** 
+     * 红冲蓝补申请
      * @param accountNumber
      * @param amount
      * @param applyUser
@@ -32,8 +33,20 @@ public interface IHLOrderAO {
      * @create: 2015-5-8 上午10:27:04 miyb
      * @history: 
      */
-    String doBalance(String accountNumber, Long amount, String applyUser,
-            String applyNote);
+    public String doBalance(String accountNumber, Long amount,
+            String applyUser, String applyNote);
+
+    /**
+     * 红冲蓝补审批
+     * @param hlNo
+     * @param approveUser
+     * @param approveResult
+     * @param approveNote 
+     * @create: 2016年1月16日 下午7:29:28 myb858
+     * @history:
+     */
+    public void doApprove(String hlNo, String approveUser,
+            String approveResult, String approveNote);
 
     /** 
      * @param start

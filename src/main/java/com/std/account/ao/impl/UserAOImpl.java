@@ -101,7 +101,7 @@ public class UserAOImpl implements IUserAO {
         // 验证推荐人是否是平台的已注册用户
         userBO.checkUserReferee(userReferee);
         // 短信验证码是否正确
-        smsOutBO.checkSmsCaptcha(mobile, smsCaptcha,
+        smsOutBO.checkCaptcha(mobile, smsCaptcha,
             ESmsBizType.REGISTER.getCode());
         // 插入用户信息
         String userId = userBO.doRegister(mobile, loginPwd, registerIp,
@@ -157,7 +157,7 @@ public class UserAOImpl implements IUserAO {
         // 判断是否和登录密码重复
         User user = this.doGetUser(userId);
         // 短信验证码是否正确
-        smsOutBO.checkSmsCaptcha(user.getMobile(), smsCaptcha,
+        smsOutBO.checkCaptcha(user.getMobile(), smsCaptcha,
             ESmsBizType.SETTRADEPWD.getCode());
         userBO.refreshTradePwd(userId, tradePwd);
         // 发送短信
@@ -177,7 +177,7 @@ public class UserAOImpl implements IUserAO {
             throw new BizException("li01004", "用户不存在,请先注册");
         }
         // 短信验证码是否正确
-        smsOutBO.checkSmsCaptcha(mobile, smsCaptcha,
+        smsOutBO.checkCaptcha(mobile, smsCaptcha,
             ESmsBizType.FINDLOGINPWD.getCode());
 
         userBO.refreshLoginPwd(user.getUserId(), MD5Util.md5(newLoginPwd),
@@ -235,7 +235,7 @@ public class UserAOImpl implements IUserAO {
 
         // 短信验证码是否正确
         String mobile = user.getMobile();
-        smsOutBO.checkSmsCaptcha(mobile, smsCaptcha,
+        smsOutBO.checkCaptcha(mobile, smsCaptcha,
             ESmsBizType.FINDTRADEPWD.getCode());
         userBO.refreshTradePwd(userId, newTradePwd);
         // 发送短信
@@ -292,7 +292,7 @@ public class UserAOImpl implements IUserAO {
         // 验证交易密码
         userBO.checkTradePwd(userId, tradePwd);
         // 短信验证码是否正确（往新手机号发送）
-        smsOutBO.checkSmsCaptcha(newMobile, smsCaptcha,
+        smsOutBO.checkCaptcha(newMobile, smsCaptcha,
             ESmsBizType.CHANGEMOBILE.getCode());
         userBO.refreshMobile(userId, newMobile);
         // 发送短信

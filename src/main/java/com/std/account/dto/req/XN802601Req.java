@@ -3,7 +3,7 @@ package com.std.account.dto.req;
 public class XN802601Req {
 
     // 充值订单编号
-    private String orderNo;
+    private String chargeNo;
 
     // 审批人
     private String approveUser;
@@ -12,14 +12,14 @@ public class XN802601Req {
     private String approveResult;
 
     // 审批意见说明
-    private String remark;
+    private String approveNote;
 
-    public String getOrderNo() {
-        return orderNo;
+    public String getChargeNo() {
+        return chargeNo;
     }
 
-    public void setOrderNo(String orderNo) {
-        this.orderNo = orderNo;
+    public void setChargeNo(String chargeNo) {
+        this.chargeNo = chargeNo;
     }
 
     public String getApproveUser() {
@@ -38,12 +38,12 @@ public class XN802601Req {
         this.approveResult = approveResult;
     }
 
-    public String getRemark() {
-        return remark;
+    public String getApproveNote() {
+        return approveNote;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setApproveNote(String approveNote) {
+        this.approveNote = approveNote;
     }
 
 }
