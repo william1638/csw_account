@@ -1,16 +1,16 @@
 package com.std.account.dto.req;
 
 public class XN802612Req {
-    // 流水号
+    // 流水号(必填)
     private String ajNo;
 
-    // 对账人（li为程序）
+    // 对账人(必填)
     private String checkUser;
 
-    // 方向：1=蓝补；0=红冲
+    // 方向：1=蓝补；0=红冲(必填)
     private String direction;
 
-    // 金额（精确到厘）
+    // 金额（精确到厘）(必填)
     private String amount;
 
     public String getAjNo() {
