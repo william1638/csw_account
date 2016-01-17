@@ -27,6 +27,7 @@ import com.std.account.domain.User;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EDirection;
+import com.std.account.enums.EHLOrderType;
 import com.std.account.enums.EOrderStatus;
 import com.std.account.enums.ESmsBizType;
 import com.std.account.exception.BizException;
@@ -58,8 +59,8 @@ public class HLOrderAOImpl implements IHLOrderAO {
     public String doBalance(String accountNumber, Long amount,
             String applyUser, String applyNote) {
         accountBO.getAccount(accountNumber);
-        return hlOrderBO.saveHLOrder(accountNumber, amount, applyUser,
-            applyNote);
+        return hlOrderBO.saveHLOrder(accountNumber, EHLOrderType.RG.getCode(),
+            amount, applyUser, applyNote);
     }
 
     @Override

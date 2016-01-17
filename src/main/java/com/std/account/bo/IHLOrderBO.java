@@ -22,14 +22,15 @@ public interface IHLOrderBO extends IPaginableBO<HLOrder> {
     /**
      * 
      * @param accountNumber
+     * @param type
      * @param amount
      * @param applyUser
      * @param applyNote
      * @return 
-     * @create: 2015-5-5 下午1:41:37 miyb
+     * @create: 2016年1月17日 下午2:50:09 myb858
      * @history:
      */
-    public String saveHLOrder(String accountNumber, Long amount,
+    public String saveHLOrder(String accountNumber, String type, Long amount,
             String applyUser, String applyNote);
 
     /**
@@ -37,13 +38,13 @@ public interface IHLOrderBO extends IPaginableBO<HLOrder> {
      * @param hlNo
      * @param approveUser
      * @param approveResult
-     * @param remark
+     * @param approveNote
      * @return 
      * @create: 2015-5-5 下午1:41:25 miyb
      * @history:
      */
     public int refreshApproveOrder(String hlNo, String approveUser,
-            String approveResult, String remark);
+            String approveResult, String approveNote);
 
     /**
      * 获取单条订单

@@ -35,11 +35,8 @@ public class HLOrderBOImpl extends PaginableBOImpl<HLOrder> implements
     @Autowired
     private IHLOrderDAO hlOrderDAO;
 
-    /** 
-     * @see com.ibis.account.bo.IHLOrderBO#saveHLOrder(java.lang.String, java.lang.Long, java.lang.String, java.lang.String)
-     */
     @Override
-    public String saveHLOrder(String accountNumber, Long amount,
+    public String saveHLOrder(String accountNumber, String type, Long amount,
             String applyUser, String applyNote) {
         String hlNo = null;
         if (StringUtils.isNotBlank(accountNumber) && amount != 0
@@ -48,6 +45,7 @@ public class HLOrderBOImpl extends PaginableBOImpl<HLOrder> implements
             HLOrder data = new HLOrder();
             hlNo = OrderNoGenerater.generate("HL");
             data.setHlNo(hlNo);
+            data.setType(type);
             data.setStatus(EOrderStatus.todoAPPROVE.getCode());
             if (amount > 0) {
                 data.setDirection(EDirection.PLUS.getCode());
@@ -71,7 +69,7 @@ public class HLOrderBOImpl extends PaginableBOImpl<HLOrder> implements
      */
     @Override
     public int refreshApproveOrder(String hlNo, String approveUser,
-            String approveResult, String remark) {
+            String approveResult, String approveNote) {
         int count = 0;
         if (StringUtils.isNotBlank(hlNo) && StringUtils.isNotBlank(approveUser)
                 && StringUtils.isNotBlank(approveResult)) {
@@ -83,8 +81,8 @@ public class HLOrderBOImpl extends PaginableBOImpl<HLOrder> implements
                 data.setStatus(EOrderStatus.APPROVE_NO.getCode());
             }
             data.setApproveUser(approveUser);
+            data.setApproveNote(approveNote);
             data.setApproveDatetime(new Date());
-            data.setRemark(remark);
             count = hlOrderDAO.updateApproveOrder(data);
 
         }

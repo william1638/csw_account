@@ -11,7 +11,7 @@ import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 红蓝订单审批
+ * 人工干预账户审批：还是需要对账的
  * @author: myb858 
  * @since: 2016年1月13日 下午8:18:50 
  * @history:
