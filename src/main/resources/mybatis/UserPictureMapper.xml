@@ -68,18 +68,18 @@
 		,verify_datetime
 		,remark	
 		FROM
-		tpz_user_picture t
+		tstd_user_picture t
 		<include refid="where_condition"/>
 		ORDER BY t.id
 	</select>
 
 	<select id="select_userPicture_count" parameterType="userPicture" resultType="java.lang.Long">
-		SELECT count(1) FROM tpz_user_picture t
+		SELECT count(1) FROM tstd_user_picture t
 		<include refid="where_condition"/>
 	</select>
 
 	<insert id="insert_userPicture" parameterType="userPicture">
-		INSERT INTO tpz_user_picture(
+		INSERT INTO tstd_user_picture(
 		user_id
 		,status
 		,id_kind
@@ -109,7 +109,7 @@
 
 	
 	<update id="update_VerifyUserPicture" parameterType="userPicture">
-		UPDATE tpz_user_picture
+		UPDATE tstd_user_picture
 		SET
 		status= #{status}
 		,verify_user= #{verifyUser}
