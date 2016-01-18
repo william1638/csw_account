@@ -30,6 +30,7 @@ public class XN802704 extends AProcessor {
         HLOrder condition = new HLOrder();
 
         condition.setHlNo(req.getHlNo());
+        condition.setType(req.getType());
         condition.setStatus(req.getStatus());
         condition.setDirection(req.getDirection());
         condition.setApplyUser(req.getApplyUser());
