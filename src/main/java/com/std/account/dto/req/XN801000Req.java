@@ -1,6 +1,6 @@
 package com.std.account.dto.req;
 
-public class XN801100Req {
+public class XN801000Req {
     // 接受短信的手机号--必填
     private String mobile;
 
