@@ -9,6 +9,9 @@ public class XN802704Req extends APageReq {
     // 订单号
     private String hlNo;
 
+    // 类型：1=调账订单（不必对账）；2=人工干预（需要对账）
+    private String type;
+
     // 状态
     private String status;
 
@@ -36,6 +39,14 @@ public class XN802704Req extends APageReq {
 
     public void setHlNo(String hlNo) {
         this.hlNo = hlNo;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getStatus() {
@@ -93,4 +104,5 @@ public class XN802704Req extends APageReq {
     public void setRealName(String realName) {
         this.realName = realName;
     }
+
 }
