@@ -37,19 +37,17 @@ public class AJourBOImpl extends PaginableBOImpl<AccountJour> implements
      * @see com.ibis.account.bo.IAJourBO#refreshCheckJour(java.lang.Long, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public int doCheckAccount(Long aJNo, String checkUser,
-            EBoolean checkResult, String checkNote) {
+    public int doCheckAccount(Long aJNo, String checkUser, EBoolean checkResult) {
         int count = 0;
         if (aJNo > 0 && StringUtils.isNotBlank(checkUser)) {
             AccountJour data = new AccountJour();
             data.setAjNo(aJNo);
             data.setCheckUser(checkUser);
             data.setCheckDatetime(new Date());
-            data.setRemark(checkNote);
             if (EBoolean.YES.getCode().equalsIgnoreCase(checkResult.getCode())) {
                 data.setStatus(EAccountJourStatus.Done.getCode());
             } else {
-                data.setStatus(EAccountJourStatus.Done.getCode());
+                data.setStatus(EAccountJourStatus.Checked.getCode());
             }
             count = aJourDAO.doCheckAccount(data);
 

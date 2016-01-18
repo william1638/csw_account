@@ -175,6 +175,43 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
     }
 
     @Override
+    public int refreshAmountWithoutCheck(String accountNumber,
+            Long transAmount, String bizType, String refNo) {
+        int count = 0;
+        if (StringUtils.isNotBlank(accountNumber)) {
+            Account dbAccount = this.getAccount(accountNumber);
+            Long nowAmount = dbAccount.getAmount() + transAmount;
+            if (nowAmount < 0) {
+                throw new BizException("li779001", "账户余额不足");
+            }
+            Account account = new Account();
+            account.setAccountNumber(accountNumber);
+            account.setAmount(nowAmount);
+            account.setMd5(AccountUtil.md5(account.getAmount()));
+            account.setUpdateDatetime(new Date());
+            count = accountDAO.updateAmount(account);
+            // 记录流水
+            AccountJour accountJour = new AccountJour();
+            accountJour.setStatus(EAccountJourStatus.Done.getCode());
+            accountJour.setBizType(bizType);
+            accountJour.setRefNo(refNo);
+            accountJour.setTransAmount(transAmount);
+
+            accountJour.setPreAmount(dbAccount.getAmount());
+
+            accountJour.setPostAmount(nowAmount);
+            accountJour.setRemark(EBizType.getBizTypeMap().get(bizType)
+                .getValue());
+            accountJour.setCreateDatetime(new Date());
+            accountJour.setWorkDate(DateUtil
+                .getToday(DateUtil.DB_DATE_FORMAT_STRING));
+            accountJour.setAccountNumber(accountNumber);
+            aJourDAO.insert(accountJour);
+        }
+        return count;
+    }
+
+    @Override
     public void freezeAmount(String accountNumber, Long freezeAmount,
             EBizType bizType, String refNo) {
         if (freezeAmount < 0) {

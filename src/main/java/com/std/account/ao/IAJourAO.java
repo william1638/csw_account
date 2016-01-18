@@ -33,4 +33,26 @@ public interface IAJourAO {
     Paginable<AccountJour> queryAccountJourPage(int start, int limit,
             AccountJour condition);
 
+    /**
+     *  对账结果录入：告诉系统哪些交易流水已对账待调帐,此时红冲蓝补的订单已经生成
+     * @param ajNo
+     * @param checkUser
+     * @param amount 
+     * @create: 2016年1月18日 下午1:37:49 myb858
+     * @history:
+     */
+    void doCheckJour(Long ajNo, String checkUser, Long amount);
+
+    /**
+     * 对账审批:免对账
+     * @param hlNo
+     * @param approveUser
+     * @param approveResult
+     * @param approveNote 
+     * @create: 2016年1月18日 下午1:50:54 myb858
+     * @history:
+     */
+    void doApproveCheckJour(String hlNo, String approveUser,
+            String approveResult, String approveNote);
+
 }

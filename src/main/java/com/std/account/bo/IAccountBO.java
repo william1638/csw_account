@@ -59,7 +59,7 @@ public interface IAccountBO extends IPaginableBO<Account> {
     public String distributeAccount(String userId, String currency);
 
     /**
-     * 更新账户余额
+     * 更新账户余额，形成需要对账的流水记录
      * @param accountNumber 账号
      * @param transAmount 账户余额的发生金额(有正负之分)
      * @param bizType 业务类型
@@ -70,6 +70,19 @@ public interface IAccountBO extends IPaginableBO<Account> {
      */
     public int refreshAmount(String accountNumber, Long transAmount,
             String bizType, String refNo);
+
+    /**
+     * 更新账户余额，形成不需要对账的流水记录
+     * @param accountNumber
+     * @param transAmount
+     * @param bizType
+     * @param refNo
+     * @return 
+     * @create: 2016年1月18日 下午1:56:19 myb858
+     * @history:
+     */
+    public int refreshAmountWithoutCheck(String accountNumber,
+            Long transAmount, String bizType, String refNo);
 
     /**
      * 冻结金额（余额减少frezenAmount，冻结金额加上frezenAmount，同时记录2流水）

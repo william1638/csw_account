@@ -25,13 +25,11 @@ public interface IAJourBO extends IPaginableBO<AccountJour> {
      * @param aJNo
      * @param checkUser
      * @param checkResult
-     * @param checkNote
      * @return 
      * @create: 2016年1月15日 下午2:44:53 myb858
      * @history:
      */
-    public int doCheckAccount(Long aJNo, String checkUser,
-            EBoolean checkResult, String checkNote);
+    public int doCheckAccount(Long aJNo, String checkUser, EBoolean checkResult);
 
     /**
      * 获取单条账户流水记录

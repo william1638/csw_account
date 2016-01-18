@@ -7,10 +7,7 @@ public class XN802612Req {
     // 对账人(必填)
     private String checkUser;
 
-    // 方向：1=蓝补；0=红冲(必填)
-    private String direction;
-
-    // 金额（精确到厘）(必填)
+    // 金额（精确到厘：正数是蓝补;负数是红冲）Long
     private String amount;
 
     public String getAjNo() {
@@ -27,14 +24,6 @@ public class XN802612Req {
 
     public void setCheckUser(String checkUser) {
         this.checkUser = checkUser;
-    }
-
-    public String getDirection() {
-        return direction;
-    }
-
-    public void setDirection(String direction) {
-        this.direction = direction;
     }
 
     public String getAmount() {
