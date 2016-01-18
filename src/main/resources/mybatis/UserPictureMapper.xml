@@ -111,7 +111,7 @@
 	<update id="update_VerifyUserPicture" parameterType="userPicture">
 		UPDATE tpz_user_picture
 		SET
-		verify_status= #{verifyStatus}
+		status= #{status}
 		,verify_user= #{verifyUser}
 		,verify_datetime= #{verifyDatetime}
 		,remark= #{remark}
