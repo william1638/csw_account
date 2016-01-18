@@ -54,6 +54,9 @@ public class CompanyAOImpl implements ICompanyAO {
             String idKind, String idNo, String realName, Long capital,
             String province, String city, String applyUser, String address) {
         User user = userBO.getUser(applyUser);
+        if (user == null) {
+            throw new BizException("xn000001", "提交申请人不存在");
+        }
         if (EUserKind.Admin.getCode().equalsIgnoreCase(user.getUserKind())) {
             throw new BizException("xn000001", "当前用户不是admin,不能KYC");
         }

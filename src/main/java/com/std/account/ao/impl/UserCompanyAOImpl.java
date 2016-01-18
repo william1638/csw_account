@@ -36,13 +36,17 @@ public class UserCompanyAOImpl implements IUserCompanyAO {
     }
 
     @Override
-    public void doBindUserCompany(String userId, String companyId, String remark) {
+    public void doBindUserCompany(String userId, String companyId,
+            String remark) {
         User user = userBO.getUser(userId);
         if (user == null) {
             throw new BizException("xn000001", "该用户不存在");
         }
         if (!companyBO.isCompanyExist(companyId)) {
             throw new BizException("xn000001", "该公司不存在");
+        }
+        if (userCompanyBO.isUserCompanyExist(userId, companyId)) {
+            throw new BizException("xn000001", "该用户已与该公司关联！");
         }
         userCompanyBO.saveUserCompany(userId, companyId, remark);
     }
@@ -51,6 +55,8 @@ public class UserCompanyAOImpl implements IUserCompanyAO {
     public void doUnbindUserCompany(String userId, String companyId) {
         if (userCompanyBO.isUserCompanyExist(userId, companyId)) {
             userCompanyBO.removeUserCompany(userId, companyId);
+        } else {
+            throw new BizException("xn000001", "该用户公司关联不存在！");
         }
     }
 }
