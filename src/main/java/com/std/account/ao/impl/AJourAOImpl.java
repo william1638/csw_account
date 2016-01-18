@@ -61,13 +61,13 @@ public class AJourAOImpl implements IAJourAO {
             aJour.getStatus())) {
             throw new BizException("xn702514", "交流流水不处于待对账状态");
         }
-        if (amount != 0) {// 账是平的
-            aJourBO.doCheckAccount(ajNo, checkUser, EBoolean.YES);
-        } else {// 账不平
+        if (amount != 0) {// 账不平
             aJourBO.doCheckAccount(ajNo, checkUser, EBoolean.NO);
             hlOrderBO.saveHLOrder(aJour.getAccountNumber(),
                 EHLOrderType.TZ.getCode(), amount, checkUser,
                 EHLOrderType.TZ.getValue());
+        } else {// 账是平的
+            aJourBO.doCheckAccount(ajNo, checkUser, EBoolean.YES);
         }
 
     }

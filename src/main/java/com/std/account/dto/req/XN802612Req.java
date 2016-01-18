@@ -7,7 +7,7 @@ public class XN802612Req {
     // 对账人(必填)
     private String checkUser;
 
-    // 金额（精确到厘：正数是蓝补;负数是红冲）Long
+    // 金额（精确到厘：正数是蓝补;负数是红冲；0表示账已平）Long
     private String amount;
 
     public String getAjNo() {
