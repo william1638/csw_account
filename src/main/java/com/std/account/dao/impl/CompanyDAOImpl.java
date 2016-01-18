@@ -78,6 +78,6 @@ public class CompanyDAOImpl extends AMybatisTemplate implements ICompanyDAO {
 
     @Override
     public int doKYC(Company data) {
-        return super.update("update_doKYC", data);
+        return super.update("update_doCompanyKYC", data);
     }
 }

@@ -115,7 +115,7 @@ public class UserDAOImpl extends AMybatisTemplate implements IUserDAO {
 
     @Override
     public int doKYC(User data) {
-        return super.update(NAMESPACE.concat("update_doKYC"), data);
+        return super.update(NAMESPACE.concat("update_doUserKYC"), data);
     }
 
 }

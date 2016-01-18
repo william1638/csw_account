@@ -191,7 +191,7 @@
 		user_id = #{userId}			
 	</update>
 	
-	<update id="update_doKYC" parameterType="user">
+	<update id="update_doUserKYC" parameterType="user">
 		UPDATE tstd_user
 		SET
 		 serve_list = #{serveList}

@@ -193,7 +193,7 @@
 		company_id = #{companyId}
 	</update>
 	
-	<update id="update_doKYC" parameterType="company">
+	<update id="update_doCompanyKYC" parameterType="company">
 		UPDATE tstd_company set
 		kyc_user=#{kycUser}
 		,kyc_datetime=#{kycDatetime}
