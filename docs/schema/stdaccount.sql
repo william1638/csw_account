@@ -55,7 +55,7 @@ CREATE TABLE `tstd_account_frozen_jour` (
   `create_datetime` datetime NOT NULL,
   `account_number` varchar(32) NOT NULL,
   PRIMARY KEY (`afj_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -80,7 +80,7 @@ CREATE TABLE `tstd_account_jour` (
   `check_datetime` datetime DEFAULT NULL,
   `account_number` varchar(32) NOT NULL,
   PRIMARY KEY (`aj_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +99,7 @@ CREATE TABLE `tstd_bank` (
   `is_enable` char(1) DEFAULT NULL,
   `channel_no` char(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,6 +122,22 @@ CREATE TABLE `tstd_bankcard` (
   `create_datetime` datetime NOT NULL,
   `update_datetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Table structure for table `tstd_channel`
+--
+
+DROP TABLE IF EXISTS `tstd_channel`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `tstd_channel` (
+  `channel_no` varchar(4) NOT NULL,
+  `channel_name` varchar(16) NOT NULL,
+  `channel_status` char(1) NOT NULL,
+  `remark` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`channel_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -203,17 +219,17 @@ DROP TABLE IF EXISTS `tstd_hlorder`;
 CREATE TABLE `tstd_hlorder` (
   `hl_no` varchar(32) NOT NULL,
   `type` char(1) NOT NULL COMMENT '类型',
-  `status` char(1) NOT NULL  COMMENT '状态',
-  `direction` char(1) NOT NULL  COMMENT '方向',
-  `amount` bigint(32) NOT NULL  COMMENT '金额',
-  `apply_user` varchar(32) NOT NULL  COMMENT '申请人',
+  `status` char(1) NOT NULL COMMENT '状态',
+  `direction` char(1) NOT NULL COMMENT '方向',
+  `amount` bigint(32) NOT NULL COMMENT '金额',
+  `apply_user` varchar(32) NOT NULL COMMENT '申请人',
   `apply_note` varchar(255) NOT NULL COMMENT '申请说明',
-  `create_datetime` datetime DEFAULT NULL  COMMENT '创建时间',
-  `approve_user` varchar(32) DEFAULT NULL  COMMENT '审批人',
-  `approve_note` varchar(255) NOT NULL COMMENT '审批说明',
+  `create_datetime` datetime DEFAULT NULL COMMENT '创建时间',
+  `approve_user` varchar(32) DEFAULT NULL COMMENT '审批人',
+  `approve_note` varchar(255) DEFAULT NULL COMMENT '审批说明',
   `approve_datetime` datetime DEFAULT NULL COMMENT '审批时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `account_number` varchar(32) NOT NULL  COMMENT '账号',
+  `account_number` varchar(32) NOT NULL COMMENT '账号',
   PRIMARY KEY (`hl_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -240,8 +256,8 @@ CREATE TABLE `tstd_user` (
   `create_datetime` datetime DEFAULT NULL COMMENT '创建时间',
   `remark` varchar(256) DEFAULT NULL COMMENT '备注',
   `status` char(1) DEFAULT NULL COMMENT '状态',
-  `serveList` varchar(32) DEFAULT NULL COMMENT '拥有的服务list',
-  `quoteList` varchar(32) DEFAULT NULL COMMENT '拥有的报价list',
+  `serve_list` varchar(32) DEFAULT NULL COMMENT '拥有的服务list',
+  `quote_list` varchar(32) DEFAULT NULL COMMENT '拥有的报价list',
   `level` varchar(32) DEFAULT NULL COMMENT '用户等级',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -260,7 +276,7 @@ CREATE TABLE `tstd_user_company` (
   `company_id` varchar(32) NOT NULL COMMENT '公司编号',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -353,7 +369,7 @@ CREATE TABLE `tstd_user_picture` (
   `verify_datetime` datetime DEFAULT NULL COMMENT '认证时间',
   `remark` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -375,22 +391,6 @@ CREATE TABLE `tstd_xnborder` (
   `approve_datetime` datetime DEFAULT NULL,
   `account_number` varchar(32) NOT NULL,
   PRIMARY KEY (`xnb_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `tstd_channel`
---
-
-DROP TABLE IF EXISTS `tstd_channel`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `tstd_channel` (
-  `channel_no` varchar(4) NOT NULL,
-  `channel_name` varchar(16) NOT NULL,
-  `channel_status` char(1) NOT NULL,
-  `remark` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`channel_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -445,4 +445,4 @@ CREATE TABLE `tstd_zzorder` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-01-15  9:59:59
+-- Dump completed on 2016-01-19 19:16:56
