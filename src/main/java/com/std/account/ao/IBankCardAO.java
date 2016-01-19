@@ -22,13 +22,14 @@ public interface IBankCardAO {
     String DEFAULT_ORDER_COLUMN = "user_id";
 
     /**
-     * 根据userId获取银行卡
+     * 获取银行卡列表
      * @param userId
+     * @param type
      * @return 
      * @create: 2015-5-16 下午8:49:28 miyb
      * @history:
      */
-    public List<BankCard> queryBankCardList(String userId);
+    public List<BankCard> queryBankCardList(String userId, String type);
 
     /**
      * 

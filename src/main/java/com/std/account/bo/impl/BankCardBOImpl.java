@@ -80,11 +80,12 @@ public class BankCardBOImpl extends PaginableBOImpl<BankCard> implements
     }
 
     @Override
-    public List<BankCard> queryBankCardList(String userId) {
+    public List<BankCard> queryBankCardList(String userId, String type) {
         List<BankCard> list = null;
-        if (StringUtils.isNotBlank(userId)) {
+        if (StringUtils.isNotBlank(userId) && StringUtils.isNotBlank(type)) {
             BankCard condition = new BankCard();
             condition.setUserId(userId);
+            condition.setType(type);
             list = bankCardDAO.selectList(condition);
         }
         return list;

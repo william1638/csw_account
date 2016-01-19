@@ -35,6 +35,6 @@ public interface IBankCardBO extends IPaginableBO<BankCard> {
 
     public void removeBankCard(Long id);
 
-    public List<BankCard> queryBankCardList(String userId);
+    public List<BankCard> queryBankCardList(String userId, String type);
 
 }

@@ -31,8 +31,8 @@ public class BankCardAOImpl implements IBankCardAO {
     IBankCardBO bankCardBO;
 
     @Override
-    public List<BankCard> queryBankCardList(String userId) {
-        return bankCardBO.queryBankCardList(userId);
+    public List<BankCard> queryBankCardList(String userId, String type) {
+        return bankCardBO.queryBankCardList(userId, type);
     }
 
     @Override
