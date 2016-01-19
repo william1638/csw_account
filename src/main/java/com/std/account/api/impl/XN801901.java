@@ -15,6 +15,7 @@ import com.std.account.domain.BankCard;
 import com.std.account.domain.User;
 import com.std.account.dto.req.XN801901Req;
 import com.std.account.dto.res.XN801901Res;
+import com.std.account.enums.EBankCardType;
 import com.std.account.enums.EBoolean;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
@@ -60,7 +61,8 @@ public class XN801901 extends AProcessor {
             } else {
                 res.setIdentityFlag(EBoolean.NO.getCode());
             }
-            List<BankCard> bankcardList = bankCardAO.queryBankCardList(userId);
+            List<BankCard> bankcardList = bankCardAO.queryBankCardList(userId,
+                EBankCardType.User.getCode());
             if (CollectionUtils.isNotEmpty(bankcardList)) {
                 res.setBankcardFlag(EBoolean.YES.getCode());
             } else {
