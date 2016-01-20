@@ -57,7 +57,7 @@ public class CompanyAOImpl implements ICompanyAO {
         if (user == null) {
             throw new BizException("xn000001", "提交申请人不存在");
         }
-        if (EUserKind.Admin.getCode().equalsIgnoreCase(user.getUserKind())) {
+        if (!EUserKind.Admin.getCode().equalsIgnoreCase(user.getUserKind())) {
             throw new BizException("xn000001", "当前用户不是admin,不能KYC");
         }
         String companyId = OrderNoGenerater.generate("C");
