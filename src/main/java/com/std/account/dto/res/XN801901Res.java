@@ -1,16 +1,26 @@
 package com.std.account.dto.res;
 
 public class XN801901Res {
+    // 用户ID
+    private String userId;
+
     // 最好不是手机号，就是一般的登录名。目前第一版版本先用手机号，因为用一般登录名，注册流程以及手机验证就要变
     private String loginName;
-
-    private String userId;
 
     // 头像
     private String photo;
 
     // 状态
     private String status;
+
+    // 拥有的服务list
+    private String serveList;
+
+    // 拥有的报价list
+    private String quoteList;
+
+    // 用户等级
+    private String level;
 
     // 是否手机绑定
     private String mobileFlag;
@@ -24,29 +34,12 @@ public class XN801901Res {
     // 是否绑定银行卡
     private String bankcardFlag;
 
-    // 证件类型
-    private String idKind;
-
-    // 证件号码
-    private String idNo;
-
-    // 真实姓名
-    private String realName;
-
     public String getUserId() {
         return userId;
     }
 
     public void setUserId(String userId) {
         this.userId = userId;
-    }
-
-    public String getPhoto() {
-        return photo;
-    }
-
-    public void setPhoto(String photo) {
-        this.photo = photo;
     }
 
     public String getLoginName() {
@@ -57,12 +50,44 @@ public class XN801901Res {
         this.loginName = loginName;
     }
 
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getServeList() {
+        return serveList;
+    }
+
+    public void setServeList(String serveList) {
+        this.serveList = serveList;
+    }
+
+    public String getQuoteList() {
+        return quoteList;
+    }
+
+    public void setQuoteList(String quoteList) {
+        this.quoteList = quoteList;
+    }
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
     }
 
     public String getMobileFlag() {
@@ -95,30 +120,6 @@ public class XN801901Res {
 
     public void setBankcardFlag(String bankcardFlag) {
         this.bankcardFlag = bankcardFlag;
-    }
-
-    public String getIdKind() {
-        return idKind;
-    }
-
-    public void setIdKind(String idKind) {
-        this.idKind = idKind;
-    }
-
-    public String getIdNo() {
-        return idNo;
-    }
-
-    public void setIdNo(String idNo) {
-        this.idNo = idNo;
-    }
-
-    public String getRealName() {
-        return realName;
-    }
-
-    public void setRealName(String realName) {
-        this.realName = realName;
     }
 
 }
