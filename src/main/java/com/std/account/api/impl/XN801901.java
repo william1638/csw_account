@@ -68,9 +68,6 @@ public class XN801901 extends AProcessor {
             } else {
                 res.setBankcardFlag(EBoolean.NO.getCode());
             }
-            res.setIdKind(user.getIdKind());
-            res.setIdNo(user.getIdNo());
-            res.setRealName(user.getRealName());
         }
         return res;
     }
