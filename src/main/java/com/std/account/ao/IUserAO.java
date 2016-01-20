@@ -202,7 +202,7 @@ public interface IUserAO {
      * @create: 2015年11月10日 上午9:16:42 myb858
      * @history:
      */
-    public boolean checkTradePwd(String userId, String tradePwd);
+    public void checkTradePwd(String userId, String tradePwd);
 
     /**
      * 代注册

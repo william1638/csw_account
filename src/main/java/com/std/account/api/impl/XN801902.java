@@ -24,8 +24,8 @@ public class XN801902 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        return new XN801902Res(userAO.checkTradePwd(req.getUserId(),
-            req.getTradePwd()));
+        userAO.checkTradePwd(req.getUserId(), req.getTradePwd());
+        return new XN801902Res(true);
     }
 
     @Override

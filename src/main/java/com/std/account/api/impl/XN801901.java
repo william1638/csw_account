@@ -42,9 +42,12 @@ public class XN801901 extends AProcessor {
         XN801901Res res = new XN801901Res();
         if (user != null) {
             res.setUserId(userId);
-            res.setPhoto(PropertiesUtil.getProperty("PHOTO_URL"));
             res.setLoginName(user.getMobile());
+            res.setPhoto(PropertiesUtil.getProperty("PHOTO_URL"));
             res.setStatus(user.getStatus());
+            res.setServeList(user.getServeList());
+            res.setQuoteList(user.getQuoteList());
+            res.setLevel(user.getLevel());
             res.setMobileFlag(EBoolean.YES.getCode());
             if (StringUtils.isNotBlank(user.getIdNo())) {
                 res.setIdentityFlag(EBoolean.YES.getCode());
