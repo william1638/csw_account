@@ -33,6 +33,14 @@ public interface IUserAO {
     public User doGetUserByMobile(String mobile);
 
     /**
+     * 检查手机号是否存在
+     * @param mobile 
+     * @create: 2016年1月21日 下午1:36:39 myb858
+     * @history:
+     */
+    public void doCheckMobile(String mobile);
+
+    /**
      * 注册
      * @param mobile
      * @param smsCaptcha

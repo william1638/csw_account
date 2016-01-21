@@ -327,6 +327,16 @@ public class UserAOImpl implements IUserAO {
     }
 
     @Override
+    public void doCheckMobile(String mobile) {
+        User condition = new User();
+        condition.setMobile(mobile);
+        List<User> userList = queryUserList(condition);
+        if (CollectionUtils.isNotEmpty(userList)) {
+            throw new BizException("li01009", "手机号已存在");
+        }
+    }
+
+    @Override
     public UserLoginLog doGetLatestUserLoginLog(String userId) {
         return userLoginLogBO.getLatestUserLoginLog(userId);
     }
@@ -410,4 +420,5 @@ public class UserAOImpl implements IUserAO {
         }
 
     }
+
 }
