@@ -10,6 +10,12 @@ import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
+/**
+ * 辅助-检查手机号是否存在
+ * @author: myb858 
+ * @since: 2016年1月24日 下午8:23:23 
+ * @history:
+ */
 public class XN801215 extends AProcessor {
     private IUserAO userAO = SpringContextHolder.getBean(IUserAO.class);
 
