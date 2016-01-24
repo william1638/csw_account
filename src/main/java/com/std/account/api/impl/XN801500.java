@@ -9,6 +9,12 @@ import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
+/**
+ * 获取公司列表
+ * @author: myb858 
+ * @since: 2016年1月24日 下午5:41:17 
+ * @history:
+ */
 public class XN801500 extends AProcessor {
     private IUserCompanyAO userCompanyAO = SpringContextHolder
         .getBean(IUserCompanyAO.class);

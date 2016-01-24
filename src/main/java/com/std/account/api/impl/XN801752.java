@@ -23,7 +23,6 @@ public class XN801752 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-
         return companyAO.doGetCompany(req.getCompanyId());
     }
 
