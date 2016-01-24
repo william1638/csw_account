@@ -55,7 +55,7 @@ CREATE TABLE `tstd_account_frozen_jour` (
   `create_datetime` datetime NOT NULL,
   `account_number` varchar(32) NOT NULL,
   PRIMARY KEY (`afj_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -80,7 +80,7 @@ CREATE TABLE `tstd_account_jour` (
   `check_datetime` datetime DEFAULT NULL,
   `account_number` varchar(32) NOT NULL,
   PRIMARY KEY (`aj_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -99,7 +99,7 @@ CREATE TABLE `tstd_bank` (
   `is_enable` char(1) DEFAULT NULL,
   `channel_no` char(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=213 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -122,7 +122,7 @@ CREATE TABLE `tstd_bankcard` (
   `create_datetime` datetime NOT NULL,
   `update_datetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -151,14 +151,14 @@ DROP TABLE IF EXISTS `tstd_company`;
 CREATE TABLE `tstd_company` (
   `company_id` varchar(32) NOT NULL COMMENT '编号',
   `company_name` varchar(64) NOT NULL COMMENT '公司名字',
-  `licence_no` varchar(255) DEFAULT NULL COMMENT '工商营业执照号',
-  `id_kind` char(1) DEFAULT NULL COMMENT '法人证件类型',
-  `id_no` varchar(32) DEFAULT NULL COMMENT '法人证件号码',
-  `real_name` varchar(16) DEFAULT NULL COMMENT '法人真实姓名',
-  `capital` bigint(32) DEFAULT NULL COMMENT '注册资金',
+  `licence_no` varchar(255) NOT NULL COMMENT '工商营业执照号',
+  `id_kind` char(1) NOT NULL COMMENT '法人证件类型',
+  `id_no` varchar(32) NOT NULL COMMENT '法人证件号码',
+  `real_name` varchar(16) NOT NULL COMMENT '法人真实姓名',
+  `capital` bigint(32) NOT NULL COMMENT '注册资金',
   `province` varchar(16) NOT NULL COMMENT '省',
   `city` varchar(16) NOT NULL COMMENT '市',
-  `address` varchar(255) NOT NULL COMMENT '地址',
+  `address` varchar(255) DEFAULT NULL COMMENT '地址',
   `gsyyzz_picture` varchar(255) DEFAULT NULL COMMENT '工商营业执照',
   `zzjgdmz_picture` varchar(255) DEFAULT NULL COMMENT '组织机构代码证',
   `swdjz_picture` varchar(255) DEFAULT NULL COMMENT '税务登记证',
@@ -171,7 +171,7 @@ CREATE TABLE `tstd_company` (
   `kyc_user` varchar(32) DEFAULT NULL COMMENT 'KYC审批人',
   `kyc_datetime` datetime DEFAULT NULL COMMENT 'KYC时间',
   `kyc_note` varchar(255) DEFAULT NULL COMMENT 'KYC结果说明',
-  `status` char(1) DEFAULT NULL COMMENT '状态',
+  `status` char(1) NOT NULL COMMENT '状态',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`company_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -258,7 +258,7 @@ CREATE TABLE `tstd_user` (
   `status` char(1) DEFAULT NULL COMMENT '状态',
   `serve_list` varchar(32) DEFAULT NULL COMMENT '拥有的服务list',
   `quote_list` varchar(32) DEFAULT NULL COMMENT '拥有的报价list',
-  `level` varchar(32) DEFAULT NULL COMMENT '用户等级',
+  `level` int(11) DEFAULT NULL COMMENT '用户等级',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
@@ -276,7 +276,7 @@ CREATE TABLE `tstd_user_company` (
   `company_id` varchar(32) NOT NULL COMMENT '公司编号',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -445,4 +445,4 @@ CREATE TABLE `tstd_zzorder` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-01-19 19:16:56
+-- Dump completed on 2016-01-24 19:57:15
