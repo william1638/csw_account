@@ -90,6 +90,6 @@ public interface IUserBO extends IPaginableBO<User> {
             String realName, String idKind, String idNo, String tradePsd);
 
     public int doKYC(String userId, String serveList, String quoteList,
-            String level);
+            Integer level);
 
 }

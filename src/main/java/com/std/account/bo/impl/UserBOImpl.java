@@ -283,7 +283,7 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
 
     @Override
     public int doKYC(String userId, String serveList, String quoteList,
-            String level) {
+            Integer level) {
         int count = 0;
         if (StringUtils.isNotBlank(userId)) {
             User data = new User();

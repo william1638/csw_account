@@ -81,6 +81,25 @@ public class StringValidater {
         return amount;
     }
 
+    /**
+     * string转化成Integer
+     * @param string
+     * @return 
+     * @create: 2015-5-7 下午3:47:13 miyb
+     * @history:
+     */
+    public static Integer toInteger(String string) {
+        Integer num = null;
+        try {
+            if (StringUtils.isNotBlank(string)) {
+                num = Integer.valueOf(string);
+            }
+        } catch (Exception e) {
+            throw new BizException("xn702000", "数字型入参，请按要求填写数字");
+        }
+        return num;
+    }
+
     public static void main(String[] args) {
         // System.out.println(StringValidater.toLong("1000"));
         StringValidater.validateNumber("1000");

@@ -246,6 +246,6 @@ public interface IUserAO {
      * @history:
      */
     public void doKYC(String companyId, String kycUser, String kycResult,
-            String kycNote, String serveList, String quoteList, String level);
+            String kycNote, String serveList, String quoteList, Integer level);
 
 }

@@ -80,7 +80,7 @@ public class User extends ABaseDO {
     private String quoteList;
 
     // 用户等级
-    private String level;
+    private Integer level;
 
     public Date getCreateDatetimeStart() {
         return createDatetimeStart;
@@ -226,11 +226,11 @@ public class User extends ABaseDO {
         this.quoteList = quoteList;
     }
 
-    public String getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 

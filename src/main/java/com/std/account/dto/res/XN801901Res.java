@@ -20,7 +20,7 @@ public class XN801901Res {
     private String quoteList;
 
     // 用户等级
-    private String level;
+    private Integer level;
 
     // 是否手机绑定
     private String mobileFlag;
@@ -82,11 +82,11 @@ public class XN801901Res {
         this.quoteList = quoteList;
     }
 
-    public String getLevel() {
+    public Integer getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(Integer level) {
         this.level = level;
     }
 

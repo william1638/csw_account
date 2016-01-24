@@ -4,6 +4,7 @@ import com.std.account.ao.IUserAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.DateUtil;
 import com.std.account.common.JsonUtil;
+import com.std.account.core.StringValidater;
 import com.std.account.domain.User;
 import com.std.account.dto.req.XN801701Req;
 import com.std.account.exception.BizException;
@@ -33,7 +34,7 @@ public class XN801701 extends AProcessor {
         condition.setIdNo(req.getIdNo());
         condition.setRealName(req.getRealName());
         condition.setStatus(req.getStatus());
-        condition.setLevel(req.getLevel());
+        condition.setLevel(StringValidater.toInteger(req.getLevel()));
         condition.setCreateDatetimeStart(DateUtil.getFrontDate(
             req.getDateStart(), false));
         condition.setCreateDatetimeEnd(DateUtil.getFrontDate(req.getDateEnd(),

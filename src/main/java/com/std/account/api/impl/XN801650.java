@@ -26,7 +26,7 @@ public class XN801650 extends AProcessor {
     public Object doBusiness() throws BizException {
         userAO.doKYC(req.getCompanyId(), req.getKycUser(), req.getKycResult(),
             req.getKycNote(), req.getServeList(), req.getQuoteList(),
-            req.getLevel());
+            StringValidater.toInteger(req.getLevel()));
         return new XN801650Res(true);
     }
 

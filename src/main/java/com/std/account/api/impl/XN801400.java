@@ -39,6 +39,9 @@ public class XN801400 extends AProcessor {
             res.setCreateDatetime(user.getCreateDatetime());
             res.setRemark(user.getRemark());
             res.setStatus(user.getStatus());
+            res.setServeList(user.getServeList());
+            res.setQuoteList(user.getQuoteList());
+            res.setLevel(user.getLevel());
         }
         return res;
     }

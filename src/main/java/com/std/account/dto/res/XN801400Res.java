@@ -45,6 +45,15 @@ public class XN801400Res {
     // 状态
     private String status;
 
+    // 拥有的服务list
+    private String serveList;
+
+    // 拥有的报价list
+    private String quoteList;
+
+    // 用户等级
+    private Integer level;
+
     public String getUserId() {
         return userId;
     }
@@ -139,6 +148,30 @@ public class XN801400Res {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getServeList() {
+        return serveList;
+    }
+
+    public void setServeList(String serveList) {
+        this.serveList = serveList;
+    }
+
+    public String getQuoteList() {
+        return quoteList;
+    }
+
+    public void setQuoteList(String quoteList) {
+        this.quoteList = quoteList;
+    }
+
+    public Integer getLevel() {
+        return level;
+    }
+
+    public void setLevel(Integer level) {
+        this.level = level;
     }
 
 }

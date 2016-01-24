@@ -35,7 +35,7 @@ public class XN801700 extends AProcessor {
         condition.setIdNo(req.getIdNo());
         condition.setRealName(req.getRealName());
         condition.setStatus(req.getStatus());
-        condition.setLevel(req.getLevel());
+        condition.setLevel(StringValidater.toInteger(req.getLevel()));
         condition.setCreateDatetimeStart(DateUtil.getFrontDate(
             req.getDateStart(), false));
         condition.setCreateDatetimeEnd(DateUtil.getFrontDate(req.getDateEnd(),
