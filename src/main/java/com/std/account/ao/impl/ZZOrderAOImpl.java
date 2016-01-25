@@ -62,7 +62,7 @@ public class ZZOrderAOImpl implements IZZOrderAO {
         String zzNo = zzOrderBO.saveZZOrder(accountNumber, direction, amount,
             oppositeSystem, oppositeAccount, remark);
         // 资金变动
-        accountBO.refreshAmount(accountNumber, amount, bizType, zzNo);
+        accountBO.refreshAmount(accountNumber, amount, bizType, zzNo, remark);
         return zzNo;
     }
 

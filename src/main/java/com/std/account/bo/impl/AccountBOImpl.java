@@ -134,12 +134,9 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
 
     }
 
-    /** 
-     * @see com.ibis.account.bo.IAccountBO#refreshAmount(java.lang.String, java.lang.Long, java.lang.String, java.lang.String)
-     */
     @Override
     public int refreshAmount(String accountNumber, Long transAmount,
-            String bizType, String refNo) {
+            String bizType, String refNo, String remark) {
         int count = 0;
         if (StringUtils.isNotBlank(accountNumber)) {
             Account dbAccount = this.getAccount(accountNumber);
@@ -163,8 +160,7 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
             accountJour.setPreAmount(dbAccount.getAmount());
 
             accountJour.setPostAmount(nowAmount);
-            accountJour.setRemark(EBizType.getBizTypeMap().get(bizType)
-                .getValue());
+            accountJour.setRemark(remark);
             accountJour.setCreateDatetime(new Date());
             accountJour.setWorkDate(DateUtil
                 .getToday(DateUtil.DB_DATE_FORMAT_STRING));

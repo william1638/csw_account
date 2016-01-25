@@ -162,7 +162,7 @@ public class CQOrderAOImpl implements ICQOrderAO {
                 DateUtil.getToday(DateUtil.DB_DATE_FORMAT_STRING));
             accountBO.refreshAmount(cqOrder.getAccountNumber(),
                 cqOrder.getAmount(), EBizType.AJ_CZ.getCode(),
-                cqOrder.getCqNo());
+                cqOrder.getCqNo(), EBizType.AJ_CZ.getValue());
             smsOutBO.sendSmsOut(
                 mobile,
                 "尊敬的"
