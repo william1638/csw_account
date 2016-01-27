@@ -22,8 +22,8 @@ import com.std.account.exception.BizException;
  * @history:
  */
 @Component
-public class CompanyBOImpl extends PaginableBOImpl<Company>
-        implements ICompanyBO {
+public class CompanyBOImpl extends PaginableBOImpl<Company> implements
+        ICompanyBO {
     @Autowired
     private ICompanyDAO companyDAO;
 
@@ -89,27 +89,6 @@ public class CompanyBOImpl extends PaginableBOImpl<Company>
     }
 
     @Override
-    public int refreshPicture(String companyId, String gsyyzzPicture,
-            String zzjgdmzPicture, String swdjzPicture, String dzzPicture,
-            String sqghPicture, String frPicture, String otherPicture) {
-        int count = 0;
-        if (StringUtils.isNotBlank(companyId)) {
-            Company data = new Company();
-            data.setCompanyId(companyId);
-            data.setGsyyzzPicture(gsyyzzPicture);
-            data.setZzjgdmzPicture(zzjgdmzPicture);
-            data.setSwdjzPicture(swdjzPicture);
-            data.setDzzPicture(dzzPicture);
-            data.setSqghPicture(sqghPicture);
-
-            data.setFrPicture(frPicture);
-            data.setOtherPicture(otherPicture);
-            count = companyDAO.updatePicture(data);
-        }
-        return count;
-    }
-
-    @Override
     public int refreshCompany(String companyId, String companyName,
             String licenceNo, String idKind, String idNo, String realName,
             Long capital, String province, String city, String applyUser,
@@ -128,7 +107,33 @@ public class CompanyBOImpl extends PaginableBOImpl<Company>
             data.setProvince(province);
             data.setCity(city);
             data.setAddress(address);
+
+            data.setApplyUser(applyUser);
+            data.setApplyDatetime(new Date());
+            data.setStatus(ECompanyStatus.todoKYC.getCode());
+            data.setRemark(ECompanyStatus.todoKYC.getValue());
             count = companyDAO.updateCompany(data);
+        }
+        return count;
+    }
+
+    @Override
+    public int refreshPicture(String companyId, String gsyyzzPicture,
+            String zzjgdmzPicture, String swdjzPicture, String dzzPicture,
+            String sqghPicture, String frPicture, String otherPicture) {
+        int count = 0;
+        if (StringUtils.isNotBlank(companyId)) {
+            Company data = new Company();
+            data.setCompanyId(companyId);
+            data.setGsyyzzPicture(gsyyzzPicture);
+            data.setZzjgdmzPicture(zzjgdmzPicture);
+            data.setSwdjzPicture(swdjzPicture);
+            data.setDzzPicture(dzzPicture);
+            data.setSqghPicture(sqghPicture);
+
+            data.setFrPicture(frPicture);
+            data.setOtherPicture(otherPicture);
+            count = companyDAO.updatePicture(data);
         }
         return count;
     }

@@ -24,7 +24,6 @@ public class XN801302 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-
         companyAO.editCompany(req.getCompanyId(), req.getCompanyName(),
             req.getLicenceNo(), req.getIdKind(), req.getIdNo(),
             req.getRealName(), StringValidater.toLong(req.getCapital()),

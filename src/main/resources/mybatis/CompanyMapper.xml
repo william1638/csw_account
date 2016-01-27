@@ -189,6 +189,11 @@
 		,province=#{province}
 		,city=#{city}
 		,address=#{address}	
+		
+		,apply_user=#{applyUser}
+		,apply_datetime=#{applyDatetime}
+		,status=#{status}
+		,remark=#{remark}	
 		WHERE
 		company_id = #{companyId}
 	</update>
