@@ -27,7 +27,7 @@ public class IBankCardDAOTest extends ADAOTest {
     @Test
     public void insert() {
         BankCard data = new BankCard();
-        data.setUserId("2");
+        data.setOwnerId("12");
         data.setBankCode(EBankCode.ABC.getCode());
         data.setBankName(EBankCode.ABC.getValue());
         data.setBankCardNo("111111");
@@ -40,7 +40,7 @@ public class IBankCardDAOTest extends ADAOTest {
     @Test
     public void delete() {
         BankCard data = new BankCard();
-        data.setUserId("2");
+        data.setOwnerId("12");
         data.setBankCardNo("111111");
         int lineNum = bankCardDAO.delete(data);
         logger.info("delete : {}", lineNum);
@@ -49,7 +49,7 @@ public class IBankCardDAOTest extends ADAOTest {
     @Test
     public void updateStatus() {
         BankCard data = new BankCard();
-        data.setUserId("2");
+        data.setOwnerId("12");
         data.setBankCardNo("111111");
         data.setStatus(EBankCardStatus.CONFIRM_YES.getCode());// 1 验证通过
         data.setUpdateDatetime(new Date());
@@ -60,7 +60,7 @@ public class IBankCardDAOTest extends ADAOTest {
     @Test
     public void select() {
         BankCard data = new BankCard();
-        data.setUserId("2");
+        data.setOwnerId("12");
         // 这里缺少一张银行信息管理表
         data.setBankCode(EBankCode.ABC.getCode());
         data.setBankName(EBankCode.ABC.getValue());
@@ -73,7 +73,7 @@ public class IBankCardDAOTest extends ADAOTest {
     @Test
     public void selectTotalCount() {
         BankCard data = new BankCard();
-        data.setUserId("2");
+        data.setOwnerId("12");
         long id = bankCardDAO.selectTotalCount(data);
         logger.info("selectTotalCount : {}", id);
     }
@@ -81,7 +81,7 @@ public class IBankCardDAOTest extends ADAOTest {
     @Test
     public void selectList() {
         BankCard data = new BankCard();
-        data.setUserId("2");
+        data.setOwnerId("12");
         data.setBankCode(EBankCode.ABC.getCode());
         data.setBankName(EBankCode.ABC.getValue());
         data.setBankCardNo("111111");
@@ -93,7 +93,7 @@ public class IBankCardDAOTest extends ADAOTest {
     @Test
     public void selectPage() {
         BankCard data = new BankCard();
-        data.setUserId("2");
+        data.setOwnerId("12");
         data.setBankCode(EBankCode.ABC.getCode());
         data.setBankName(EBankCode.ABC.getValue());
         data.setBankCardNo("111111");

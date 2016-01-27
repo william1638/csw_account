@@ -34,14 +34,16 @@ public class BankCardBOImpl extends PaginableBOImpl<BankCard> implements
     private IBankCardDAO bankCardDAO;
 
     @Override
-    public void saveBankCard(String userId, String type, String bankCode,
-            String bankName, String bankCardNo, String subbranch,
-            String bindMobile) {
+    public void saveBankCard(String ownerId, String ownerName, String type,
+            String bankCode, String bankName, String bankCardNo,
+            String subbranch, String bindMobile) {
         BankCard data = new BankCard();
-        data.setUserId(userId);
+        data.setOwnerId(ownerId);
+        data.setOwnerName(ownerName);
         data.setType(type);
         data.setBankCode(bankCode);
         data.setBankName(bankName);
+
         data.setBankCardNo(bankCardNo);
         data.setSubbranch(subbranch);
         data.setBindMobile(bindMobile);
@@ -81,11 +83,11 @@ public class BankCardBOImpl extends PaginableBOImpl<BankCard> implements
     }
 
     @Override
-    public List<BankCard> queryBankCardList(String userId, EBankCardType type) {
+    public List<BankCard> queryBankCardList(String ownerId, EBankCardType type) {
         List<BankCard> list = null;
-        if (StringUtils.isNotBlank(userId)) {
+        if (StringUtils.isNotBlank(ownerId)) {
             BankCard condition = new BankCard();
-            condition.setUserId(userId);
+            condition.setOwnerId(ownerId);
             condition.setType(type.getCode());
             list = bankCardDAO.selectList(condition);
         }
@@ -93,15 +95,14 @@ public class BankCardBOImpl extends PaginableBOImpl<BankCard> implements
     }
 
     @Override
-    public void refreshBankCard(Long id, String userId, String bankCode,
-            String bankName, String bankCardNo, String subbranch,
-            String bindMobile) {
+    public void refreshBankCard(Long id, String bankCode, String bankName,
+            String bankCardNo, String subbranch, String bindMobile) {
 
         BankCard data = new BankCard();
         data.setId(id);
-        data.setUserId(userId);
         data.setBankCode(bankCode);
         data.setBankName(bankName);
+
         data.setBankCardNo(bankCardNo);
         data.setSubbranch(subbranch);
         data.setBindMobile(bindMobile);

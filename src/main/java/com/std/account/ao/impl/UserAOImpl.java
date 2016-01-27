@@ -380,8 +380,8 @@ public class UserAOImpl implements IUserAO {
         userIdentifyBO.saveUserIdentify(userId, realName,
             EIDKind.IDCard.getCode(), idNo, "0", "success");
         // 绑定银行卡信息
-        bankCardBO.saveBankCard(userId, EBankCardType.User.getCode(), bankCode,
-            bankName, bankCardNo, subbranch, bindMobile);
+        bankCardBO.saveBankCard(userId, realName, EBankCardType.User.getCode(),
+            bankCode, bankName, bankCardNo, subbranch, bindMobile);
         // 分配账号
         accountBO.distributeAccount(userId, ECurrency.CNY.getCode());
         // // 发送短信

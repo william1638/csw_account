@@ -23,19 +23,18 @@ import com.std.account.enums.EBankCardType;
 public interface IBankCardBO extends IPaginableBO<BankCard> {
     public boolean isBankCardExist(Long id);
 
-    public void saveBankCard(String userId, String type, String bankCode,
-            String bankName, String bankCardNo, String subbranch,
-            String bindMobile);
+    public void saveBankCard(String ownerId, String ownerName, String type,
+            String bankCode, String bankName, String bankCardNo,
+            String subbranch, String bindMobile);
 
-    public void refreshBankCard(Long id, String userId, String bankCode,
-            String bankName, String bankCardNo, String subbranch,
-            String bindMobile);
+    public void refreshBankCard(Long id, String bankCode, String bankName,
+            String bankCardNo, String subbranch, String bindMobile);
 
     public void refreshStatus(String bankCode, String bankcardNo,
             EBankCardStatus status);
 
     public void removeBankCard(Long id);
 
-    public List<BankCard> queryBankCardList(String userId, EBankCardType type);
+    public List<BankCard> queryBankCardList(String ownerId, EBankCardType type);
 
 }

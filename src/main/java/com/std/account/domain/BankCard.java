@@ -25,8 +25,11 @@ public class BankCard extends ABaseDO {
     // ---------db properties start--------------------------
     private Long id;
 
-    // 用户编号
-    private String userId;
+    // 用户编号/公司编号
+    private String ownerId;
+
+    // 户名
+    private String ownerName;
 
     // 类型(对公对私)
     private String type;
@@ -79,12 +82,20 @@ public class BankCard extends ABaseDO {
         this.id = id;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getOwnerId() {
+        return ownerId;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
+    }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
     }
 
     public String getBankCode() {

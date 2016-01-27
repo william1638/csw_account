@@ -12,16 +12,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.std.account.ao.IBankCardAO;
 import com.std.account.bo.IBankCardBO;
+import com.std.account.bo.IUserBO;
 import com.std.account.bo.IUserCompanyBO;
 import com.std.account.bo.base.Paginable;
 import com.std.account.domain.BankCard;
 import com.std.account.domain.Company;
+import com.std.account.domain.User;
 import com.std.account.enums.EBankCardType;
 import com.std.account.exception.BizException;
 
@@ -32,6 +35,9 @@ import com.std.account.exception.BizException;
  */
 @Service
 public class BankCardAOImpl implements IBankCardAO {
+    @Autowired
+    IUserBO userBO;
+
     @Autowired
     IBankCardBO bankCardBO;
 
@@ -48,8 +54,15 @@ public class BankCardAOImpl implements IBankCardAO {
     public void doBindBandCard(String userId, String type, String bankCode,
             String bankName, String bankCardNo, String subbranch,
             String bindMobile) {
-        bankCardBO.saveBankCard(userId, type, bankCode, bankName, bankCardNo,
-            subbranch, bindMobile);
+        User user = userBO.getUser(userId);
+        if (user == null) {
+            throw new BizException("xn702000", "用户不存在");
+        }
+        if (StringUtils.isBlank(user.getRealName())) {
+            throw new BizException("xn702000", "请先实名认证");
+        }
+        bankCardBO.saveBankCard(userId, user.getRealName(), type, bankCode,
+            bankName, bankCardNo, subbranch, bindMobile);
 
     }
 
@@ -72,7 +85,14 @@ public class BankCardAOImpl implements IBankCardAO {
     public void doRebindBankCard(Long id, String userId, String bankCode,
             String bankName, String bankCardNo, String subbranch,
             String bindMobile) {
-        bankCardBO.refreshBankCard(id, userId, bankCode, bankName, bankCardNo,
+        User user = userBO.getUser(userId);
+        if (user == null) {
+            throw new BizException("xn702000", "用户不存在");
+        }
+        if (StringUtils.isBlank(user.getRealName())) {
+            throw new BizException("xn702000", "请先实名认证");
+        }
+        bankCardBO.refreshBankCard(id, bankCode, bankName, bankCardNo,
             subbranch, bindMobile);
 
     }

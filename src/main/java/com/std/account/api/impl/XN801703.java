@@ -29,7 +29,7 @@ public class XN801703 extends AProcessor {
     public Object doBusiness() throws BizException {
         BankCard condition = new BankCard();
         condition.setId(StringValidater.toLong(req.getId()));
-        condition.setUserId(req.getUserId());
+        condition.setOwnerId(req.getUserId());
         condition.setType(req.getType());
         condition.setBankCode(req.getBankCode());
         condition.setBankCardNo(req.getBankCardNo());
