@@ -60,16 +60,6 @@ public class CompanyBOImpl extends PaginableBOImpl<Company> implements
     }
 
     @Override
-    public List<Company> queryPassedCompanyList(String userId) {
-        List<Company> list = null;
-        if (StringUtils.isNotBlank(userId)) {
-            Company condition = new Company();
-            condition
-        }
-        return list;
-    }
-
-    @Override
     public String saveCompany(String companyId, String companyName,
             String licenceNo, String idKind, String idNo, String realName,
             Long capital, String province, String city, String applyUser,

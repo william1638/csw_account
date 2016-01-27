@@ -25,8 +25,6 @@ public interface ICompanyBO extends IPaginableBO<Company> {
 
     public List<Company> queryCompanyList(Company condition);
 
-    public List<Company> queryPassedCompanyList(String userId);
-
     public String saveCompany(String companyId, String companyName,
             String licenceNo, String idKind, String idNo, String realName,
             Long capital, String province, String city, String applyUser,
