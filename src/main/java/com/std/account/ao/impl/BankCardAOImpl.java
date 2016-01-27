@@ -8,16 +8,21 @@
  */
 package com.std.account.ao.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.std.account.ao.IBankCardAO;
 import com.std.account.bo.IBankCardBO;
+import com.std.account.bo.IUserCompanyBO;
 import com.std.account.bo.base.Paginable;
 import com.std.account.domain.BankCard;
+import com.std.account.domain.Company;
+import com.std.account.enums.EBankCardType;
 import com.std.account.exception.BizException;
 
 /** 
@@ -30,8 +35,11 @@ public class BankCardAOImpl implements IBankCardAO {
     @Autowired
     IBankCardBO bankCardBO;
 
+    @Autowired
+    IUserCompanyBO userCompanyBO;
+
     @Override
-    public List<BankCard> queryBankCardList(String userId, String type) {
+    public List<BankCard> queryBankCardList(String userId, EBankCardType type) {
         return bankCardBO.queryBankCardList(userId, type);
     }
 
@@ -69,4 +77,18 @@ public class BankCardAOImpl implements IBankCardAO {
 
     }
 
+    @Override
+    public List<BankCard> queryAllBankCardList(String userId) {
+        List<BankCard> returnList = new ArrayList<BankCard>();
+        returnList.addAll(bankCardBO.queryBankCardList(userId,
+            EBankCardType.User));
+        List<Company> companyList = userCompanyBO.queryCompanyList(userId);
+        if (CollectionUtils.isNotEmpty(companyList)) {
+            for (Company company : companyList) {
+                returnList.addAll(bankCardBO.queryBankCardList(
+                    company.getCompanyId(), EBankCardType.Company));
+            }
+        }
+        return returnList;
+    }
 }

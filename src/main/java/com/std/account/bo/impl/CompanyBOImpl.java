@@ -54,12 +54,19 @@ public class CompanyBOImpl extends PaginableBOImpl<Company> implements
         throw new BizException("xn000001", "公司信息不存在！");
     }
 
-    /**
-     * @see com.std.account.bo.ICompanyBO#queryCompanyList(com.std.account.domain.Company)
-     */
     @Override
     public List<Company> queryCompanyList(Company condition) {
         return companyDAO.selectList(condition);
+    }
+
+    @Override
+    public List<Company> queryPassedCompanyList(String userId) {
+        List<Company> list = null;
+        if (StringUtils.isNotBlank(userId)) {
+            Company condition = new Company();
+            condition
+        }
+        return list;
     }
 
     @Override
@@ -158,4 +165,5 @@ public class CompanyBOImpl extends PaginableBOImpl<Company> implements
         return count;
 
     }
+
 }

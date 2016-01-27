@@ -20,6 +20,7 @@ import com.std.account.bo.base.PaginableBOImpl;
 import com.std.account.dao.IBankCardDAO;
 import com.std.account.domain.BankCard;
 import com.std.account.enums.EBankCardStatus;
+import com.std.account.enums.EBankCardType;
 
 /** 
  * @author: luoqi 
@@ -80,12 +81,12 @@ public class BankCardBOImpl extends PaginableBOImpl<BankCard> implements
     }
 
     @Override
-    public List<BankCard> queryBankCardList(String userId, String type) {
+    public List<BankCard> queryBankCardList(String userId, EBankCardType type) {
         List<BankCard> list = null;
-        if (StringUtils.isNotBlank(userId) && StringUtils.isNotBlank(type)) {
+        if (StringUtils.isNotBlank(userId)) {
             BankCard condition = new BankCard();
             condition.setUserId(userId);
-            condition.setType(type);
+            condition.setType(type.getCode());
             list = bankCardDAO.selectList(condition);
         }
         return list;

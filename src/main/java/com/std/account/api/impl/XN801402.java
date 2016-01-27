@@ -5,6 +5,7 @@ import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.dto.req.XN801402Req;
+import com.std.account.enums.EBankCardType;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -23,7 +24,13 @@ public class XN801402 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        return bankCardAO.queryBankCardList(req.getUserId(), req.getType());
+        if (EBankCardType.User.getCode().equalsIgnoreCase(req.getType())) {
+            return bankCardAO.queryBankCardList(req.getUserId(),
+                EBankCardType.User);
+        } else {
+            return bankCardAO.queryBankCardList(req.getUserId(),
+                EBankCardType.Company);
+        }
 
     }
 
@@ -32,5 +39,4 @@ public class XN801402 extends AProcessor {
         req = JsonUtil.json2Bean(inputparams, XN801402Req.class);
         StringValidater.validateBlank(req.getUserId(), req.getType());
     }
-
 }

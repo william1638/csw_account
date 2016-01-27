@@ -12,6 +12,7 @@ import java.util.List;
 
 import com.std.account.bo.base.Paginable;
 import com.std.account.domain.BankCard;
+import com.std.account.enums.EBankCardType;
 
 /** 
  * @author: miyb 
@@ -29,7 +30,7 @@ public interface IBankCardAO {
      * @create: 2015-5-16 下午8:49:28 miyb
      * @history:
      */
-    public List<BankCard> queryBankCardList(String userId, String type);
+    public List<BankCard> queryBankCardList(String userId, EBankCardType type);
 
     /**
      * 
@@ -64,5 +65,7 @@ public interface IBankCardAO {
     public void doRebindBankCard(Long id, String userId, String bankCode,
             String bankName, String bankCardNo, String subbranch,
             String bindMobile);
+
+    public List<BankCard> queryAllBankCardList(String userId);
 
 }

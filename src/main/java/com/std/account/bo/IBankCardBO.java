@@ -13,6 +13,7 @@ import java.util.List;
 import com.std.account.bo.base.IPaginableBO;
 import com.std.account.domain.BankCard;
 import com.std.account.enums.EBankCardStatus;
+import com.std.account.enums.EBankCardType;
 
 /** 
  * @author: luoqi 
@@ -35,6 +36,6 @@ public interface IBankCardBO extends IPaginableBO<BankCard> {
 
     public void removeBankCard(Long id);
 
-    public List<BankCard> queryBankCardList(String userId, String type);
+    public List<BankCard> queryBankCardList(String userId, EBankCardType type);
 
 }

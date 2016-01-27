@@ -65,7 +65,7 @@ public class XN801901 extends AProcessor {
                 res.setIdentityFlag(EBoolean.NO.getCode());
             }
             List<BankCard> bankcardList = bankCardAO.queryBankCardList(userId,
-                EBankCardType.User.getCode());
+                EBankCardType.User);
             if (CollectionUtils.isNotEmpty(bankcardList)) {
                 res.setBankcardFlag(EBoolean.YES.getCode());
             } else {
