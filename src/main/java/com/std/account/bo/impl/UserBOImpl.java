@@ -8,6 +8,7 @@
  */
 package com.std.account.bo.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -282,17 +283,65 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
     }
 
     @Override
-    public int doKYC(String userId, String serveList, String quoteList,
+    public int doKYC(User admin, String serveList, String quoteList,
             Integer level) {
         int count = 0;
-        if (StringUtils.isNotBlank(userId)) {
-            User data = new User();
-            data.setUserId(userId);
-            data.setServeList(serveList);
-            data.setQuoteList(quoteList);
-            data.setLevel(level);
-            count = userDAO.doKYC(data);
+        if (admin != null) {
+            String theServeList = unionServeList(admin.getServeList(),
+                serveList);
+            String theQuoteList = unionQuoteList(admin.getQuoteList(),
+                quoteList);
+            Integer theLevel = unionLevel(admin.getLevel(), level);
+            admin.setServeList(theServeList);
+            admin.setQuoteList(theQuoteList);
+            admin.setLevel(theLevel);
+            count = userDAO.doKYC(admin);
         }
         return count;
     }
+
+    private Integer unionLevel(Integer level, Integer level2) {
+        if (level == null) {
+            return level2;
+        }
+        return level > level2 ? level : level2;
+    }
+
+    private String unionQuoteList(String quoteList, String quoteList2) {
+        if (StringUtils.isBlank(quoteList)) {
+            return quoteList2;
+        }
+        List<String> list = getList(quoteList);
+        for (String ele : list) {
+            if (!quoteList2.contains(ele)) {
+                quoteList2 = quoteList2 + ele;
+            }
+        }
+        return quoteList2;
+    }
+
+    private String unionServeList(String serveList, String serveList2) {
+        if (StringUtils.isBlank(serveList)) {
+            return serveList2;
+        }
+        List<String> list = getList(serveList);
+        for (String ele : list) {
+            if (!serveList2.contains(ele)) {
+                serveList2 = serveList2 + ele;
+            }
+        }
+        return serveList2;
+    }
+
+    private List<String> getList(String string) {
+        List<String> resultList = new ArrayList<String>();
+        if (StringUtils.isNotBlank(string)) {
+            for (int i = 0; i < string.length(); i++) {
+                String serve = string.substring(i, i + 1);
+                resultList.add(serve);
+            }
+        }
+        return resultList;
+    }
+
 }

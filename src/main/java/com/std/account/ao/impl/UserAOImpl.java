@@ -416,7 +416,7 @@ public class UserAOImpl implements IUserAO {
         }
         companyBO.doKYC(companyId, kycUser, kycResult, kycNote);
         if (EBoolean.YES.getCode().equalsIgnoreCase(kycResult)) {
-            userBO.doKYC(admin.getUserId(), serveList, quoteList, level);
+            userBO.doKYC(admin, serveList, quoteList, level);
         }
 
     }
