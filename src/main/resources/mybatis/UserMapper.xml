@@ -53,7 +53,10 @@
 			</if>	
 			<if test="tradePwd != null and tradePwd != '' ">
 				AND t.trade_pwd = #{tradePwd}
-			</if>			
+			</if>	
+			<if test="level != null">
+				AND t.level = #{level}
+			</if>		
 		</trim>
 	</sql>
 	<select id="select_user" parameterType="user" resultMap="user_DB_Result">
