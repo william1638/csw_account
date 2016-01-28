@@ -54,15 +54,8 @@ public class BankCardAOImpl implements IBankCardAO {
     public void doBindBandCard(String userId, String type, String bankCode,
             String bankName, String bankCardNo, String subbranch,
             String bindMobile) {
-        User user = userBO.getUser(userId);
-        if (user == null) {
-            throw new BizException("xn702000", "用户不存在");
-        }
-        if (StringUtils.isBlank(user.getRealName())) {
-            throw new BizException("xn702000", "请先实名认证");
-        }
-        bankCardBO.saveBankCard(userId, user.getRealName(), type, bankCode,
-            bankName, bankCardNo, subbranch, bindMobile);
+        bankCardBO.saveBankCard(userId, "ddd", type, bankCode, bankName,
+            bankCardNo, subbranch, bindMobile);
 
     }
 
