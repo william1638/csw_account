@@ -393,6 +393,7 @@ public class UserAOImpl implements IUserAO {
     }
 
     @Override
+    @Transactional
     public void doKYC(String companyId, String kycUser, String kycResult,
             String kycNote, String serveList, String quoteList, Integer level) {
         Company company = companyBO.getCompany(companyId);
@@ -418,6 +419,35 @@ public class UserAOImpl implements IUserAO {
         if (EBoolean.YES.getCode().equalsIgnoreCase(kycResult)) {
             userBO.doKYC(admin, serveList, quoteList, level);
         }
+
+    }
+
+    @Override
+    @Transactional
+    public void doIdentifySetTradePwd(String userId, String idKind,
+            String idNo, String realName, String tradePwd, String smsCaptcha) {
+        userIdentifyBO.isChecked(realName, idKind, idNo);
+        // 三方认证
+        dentifyBO.doIdentify(userId, realName, idKind, idNo);
+        // 更新用户表
+        userBO
+            .refreshIdentity(userId, realName, EIDKind.IDCard.getCode(), idNo);
+        // 保存用户认证记录
+        userIdentifyBO.saveUserIdentify(userId, realName,
+            EIDKind.IDCard.getCode(), idNo, "0", "success");
+        // 开始交易密码设置
+        // 判断是否和登录密码重复
+        User user = this.doGetUser(userId);
+        // 短信验证码是否正确
+        smsOutBO.checkCaptcha(user.getMobile(), smsCaptcha,
+            ESmsBizType.SETTRADEPWD.getCode());
+        userBO.refreshTradePwd(userId, tradePwd);
+        // 发送短信
+        String mobile = user.getMobile();
+        smsOutBO.sendSmsOut(mobile, "尊敬的" + PhoneUtil.hideMobile(mobile)
+                + "用户，您已通过实名认证，且交易密码设置成功。请妥善保管您的账户相关信息。",
+            ESmsBizType.SETTRADEPWD.getCode(),
+            ESmsBizType.SETTRADEPWD.getValue());
 
     }
 

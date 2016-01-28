@@ -248,4 +248,7 @@ public interface IUserAO {
     public void doKYC(String companyId, String kycUser, String kycResult,
             String kycNote, String serveList, String quoteList, Integer level);
 
+    public void doIdentifySetTradePwd(String userId, String idKind,
+            String idNo, String realName, String tradePwd, String smsCaptcha);
+
 }
