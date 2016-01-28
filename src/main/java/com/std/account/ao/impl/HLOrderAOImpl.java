@@ -77,14 +77,14 @@ public class HLOrderAOImpl implements IHLOrderAO {
             if (EBoolean.YES.getCode().equalsIgnoreCase(approveResult)) { // 资金变动
                 accountBO.refreshAmount(hlOrder.getAccountNumber(),
                     hlOrder.getAmount(), EBizType.AJ_LB.getCode(),
-                    hlOrder.getHlNo(), EBizType.AJ_LB.getValue());
+                    hlOrder.getHlNo(), hlOrder.getApplyNote());
 
             }
         } else {
             if (EBoolean.YES.getCode().equalsIgnoreCase(approveResult)) { // 资金变动
                 accountBO.refreshAmount(hlOrder.getAccountNumber(),
                     -hlOrder.getAmount(), EBizType.AJ_HC.getCode(),
-                    hlOrder.getHlNo(), EBizType.AJ_HC.getValue());
+                    hlOrder.getHlNo(), hlOrder.getApplyNote());
 
             }
         }
