@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.std.account.ao.IBankCardAO;
 import com.std.account.bo.IBankCardBO;
+import com.std.account.bo.ICompanyBO;
 import com.std.account.bo.IUserBO;
 import com.std.account.bo.IUserCompanyBO;
 import com.std.account.bo.base.Paginable;
@@ -42,6 +43,9 @@ public class BankCardAOImpl implements IBankCardAO {
     IBankCardBO bankCardBO;
 
     @Autowired
+    ICompanyBO companyBO;
+
+    @Autowired
     IUserCompanyBO userCompanyBO;
 
     @Override
@@ -51,12 +55,18 @@ public class BankCardAOImpl implements IBankCardAO {
 
     @Override
     @Transactional
-    public void doBindBandCard(String userId, String type, String bankCode,
+    public void doBindBandCard(String ownerId, String type, String bankCode,
             String bankName, String bankCardNo, String subbranch,
             String bindMobile) {
-        bankCardBO.saveBankCard(userId, "ddd", type, bankCode, bankName,
-            bankCardNo, subbranch, bindMobile);
-
+        if (EBankCardType.User.getCode().equalsIgnoreCase(type)) {
+            User user = userBO.getUser(ownerId);
+            bankCardBO.saveBankCard(ownerId, user.getRealName(), type,
+                bankCode, bankName, bankCardNo, subbranch, bindMobile);
+        } else {
+            Company company = companyBO.getCompany(ownerId);
+            bankCardBO.saveBankCard(ownerId, company.getCompanyName(), type,
+                bankCode, bankName, bankCardNo, subbranch, bindMobile);
+        }
     }
 
     @Override

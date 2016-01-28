@@ -56,7 +56,7 @@ public interface IBankCardAO {
      * @create: 2016年1月14日 下午8:40:57 myb858
      * @history:
      */
-    public void doBindBandCard(String userId, String type, String bankCode,
+    public void doBindBandCard(String ownerId, String type, String bankCode,
             String bankName, String bankCardNo, String subbranch,
             String bindMobile);
 
