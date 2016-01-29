@@ -37,9 +37,6 @@ public class CompanyBOImpl extends PaginableBOImpl<Company> implements
         return false;
     }
 
-    /**
-     * @see com.std.account.bo.ICompanyBO#getCompany(java.lang.String)
-     */
     @Override
     public Company getCompany(String companyId) {
         Company condition = new Company();
@@ -80,7 +77,7 @@ public class CompanyBOImpl extends PaginableBOImpl<Company> implements
         data.setApplyUser(applyUser);
         data.setApplyDatetime(new Date());
         data.setStatus(ECompanyStatus.todoKYC.getCode());
-        data.setRemark(ECompanyStatus.todoKYC.getValue());
+        data.setRemark("添加基本信息");
         companyDAO.insert(data);
         return companyId;
     }
@@ -108,7 +105,7 @@ public class CompanyBOImpl extends PaginableBOImpl<Company> implements
             data.setApplyUser(applyUser);
             data.setApplyDatetime(new Date());
             data.setStatus(ECompanyStatus.todoKYC.getCode());
-            data.setRemark(ECompanyStatus.todoKYC.getValue());
+            data.setRemark("修改基本信息");
             count = companyDAO.updateCompany(data);
         }
         return count;
