@@ -100,7 +100,7 @@ public class AccountAOImpl implements IAccountAO {
                 throw new BizException("li779001", "currency不在程序所能支持序列");
             }
         }
-        return accountBO.distributeAccount(userId, currency);
+        return accountBO.distributeAccount(userId, null, currency);
     }
 
     @Override

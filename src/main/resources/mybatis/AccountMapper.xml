@@ -115,4 +115,13 @@
 		WHERE
 		account_number = #{accountNumber}		
 	</update>
+	
+	<update id="update_realName" parameterType="account">
+		UPDATE tstd_account
+		SET
+		 realName= #{realName}
+		 ,update_datetime = #{updateDatetime}
+		WHERE
+		user_id = #{user_id}		
+	</update>
 </mapper>

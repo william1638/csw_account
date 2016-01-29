@@ -48,24 +48,23 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
     @Autowired
     private IAJourDAO aJourDAO;
 
-    /** 
-     * @see com.ibis.account.bo.IAccountBO#distributeAccount(java.lang.String, java.lang.String)
-     */
     @Override
-    public String distributeAccount(String userId, String currency) {
+    public String distributeAccount(String userId, String realName,
+            String currency) {
         String accountNumber = null;
         if (StringUtils.isNotBlank(userId) && StringUtils.isNotBlank(currency)) {
-            Account data = new Account();
             accountNumber = OrderNoGenerater.generate("A");
+            Account data = new Account();
+            data.setUserId(userId);
+            data.setRealName(realName);
             data.setAccountNumber(accountNumber);
+            data.setStatus(EAccountStatus.NORMAL.getCode());
             data.setAmount(0L);
+
             data.setFrozenAmount(0L);
             data.setCurrency(currency);
-            data.setStatus(EAccountStatus.NORMAL.getCode());
-
             data.setMd5(AccountUtil.md5(data.getAmount()));
             data.setCreateDatetime(new Date());
-            data.setUserId(userId);
             accountDAO.insert(data);
         }
         return accountNumber;
@@ -86,9 +85,15 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         return count;
     }
 
-    /** 
-     * @see com.ibis.account.bo.IAccountBO#getAccount(java.lang.String)
-     */
+    @Override
+    public void refreshRealName(String userId, String realName) {
+        Account data = new Account();
+        data.setUserId(userId);
+        data.setRealName(realName);
+        data.setUpdateDatetime(new Date());
+        accountDAO.updateRealName(data);
+    }
+
     @Override
     public Account getAccount(String accountNumber) {
         Account data = null;

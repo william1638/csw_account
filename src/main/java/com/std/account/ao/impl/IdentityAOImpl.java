@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.std.account.ao.IIdentityAO;
+import com.std.account.bo.IAccountBO;
 import com.std.account.bo.IIdentifyBO;
 import com.std.account.bo.IUserBO;
 import com.std.account.bo.IUserIdentifyBO;
@@ -39,6 +40,9 @@ public class IdentityAOImpl implements IIdentityAO {
     protected IUserBO userBO;
 
     @Autowired
+    protected IAccountBO accountBO;
+
+    @Autowired
     protected IUserPictureBO userPictureBO;
 
     @Override
@@ -51,6 +55,8 @@ public class IdentityAOImpl implements IIdentityAO {
         // 更新用户表
         userBO
             .refreshIdentity(userId, realName, EIDKind.IDCard.getCode(), idNo);
+        // 回写Account表realName;
+        accountBO.refreshRealName(userId, realName);
         // 保存用户认证记录
         userIdentifyBO.saveUserIdentify(userId, realName,
             EIDKind.IDCard.getCode(), idNo, "0", "success");

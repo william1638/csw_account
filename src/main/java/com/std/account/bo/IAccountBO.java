@@ -56,7 +56,8 @@ public interface IAccountBO extends IPaginableBO<Account> {
      * @create: 2015-5-4 下午5:34:16 miyb
      * @history:
      */
-    public String distributeAccount(String userId, String currency);
+    public String distributeAccount(String userId, String realName,
+            String currency);
 
     /**
      * 更新账户余额，形成需要对账的流水记录
@@ -121,6 +122,8 @@ public interface IAccountBO extends IPaginableBO<Account> {
      * @history:
      */
     public int refreshStatus(String accountNumber, EAccountStatus status);
+
+    public void refreshRealName(String userId, String realName);
 
     // 合账
     public void checkAccount();

@@ -114,7 +114,7 @@ public class UserAOImpl implements IUserAO {
         userLoginLogBO.saveUserLoginLogBO(userId, registerIp,
             ELoginStatus.REGISTERSUCCESS.getCode());
         // 分配账号
-        accountBO.distributeAccount(userId, ECurrency.CNY.getCode());
+        accountBO.distributeAccount(userId, null, ECurrency.CNY.getCode());
         // 发送短信
         smsOutBO.sendSmsOut(mobile, "尊敬的" + PhoneUtil.hideMobile(mobile)
                 + "用户，恭喜您成功注册。请妥善保管您的账户相关信息。", ESmsBizType.REGISTER.getCode(),
@@ -383,7 +383,7 @@ public class UserAOImpl implements IUserAO {
         bankCardBO.saveBankCard(userId, realName, EBankCardType.User.getCode(),
             bankCode, bankName, bankCardNo, subbranch, bindMobile);
         // 分配账号
-        accountBO.distributeAccount(userId, ECurrency.CNY.getCode());
+        accountBO.distributeAccount(userId, realName, ECurrency.CNY.getCode());
         // // 发送短信
         // smsOutBO.sendSmsOut(mobile, "尊敬的" + PhoneUtil.hideMobile(mobile)
         // + "用户，您已成功注册。您的登录密码为" + loginPsd + ";交易密码为" + tradePsd

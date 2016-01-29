@@ -8,10 +8,10 @@ public class XN801204Req {
     // 类型(对公对私)（必填）
     private String type;
 
-    // 银行代号（必填）
+    // 银行代号（选填）
     private String bankCode;
 
-    // 银行名字（必填）
+    // 银行名字（选填）
     private String bankName;
 
     // 卡号（必填）
