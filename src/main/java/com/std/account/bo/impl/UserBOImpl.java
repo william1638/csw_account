@@ -8,9 +8,10 @@
  */
 package com.std.account.bo.impl;
 
-import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -308,10 +309,11 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
     }
 
     private String unionQuoteList(String quoteList, String quoteList2) {
+        quoteList2 = cleanString(quoteList2);
         if (StringUtils.isBlank(quoteList)) {
             return quoteList2;
         }
-        List<String> list = getList(quoteList);
+        Set<String> list = getSet(quoteList);
         for (String ele : list) {
             if (!quoteList2.contains(ele)) {
                 quoteList2 = quoteList2 + ele;
@@ -321,10 +323,11 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
     }
 
     private String unionServeList(String serveList, String serveList2) {
+        serveList2 = cleanString(serveList2);
         if (StringUtils.isBlank(serveList)) {
             return serveList2;
         }
-        List<String> list = getList(serveList);
+        Set<String> list = getSet(serveList);
         for (String ele : list) {
             if (!serveList2.contains(ele)) {
                 serveList2 = serveList2 + ele;
@@ -333,15 +336,24 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
         return serveList2;
     }
 
-    private List<String> getList(String string) {
-        List<String> resultList = new ArrayList<String>();
+    private String cleanString(String str) {
+        Set<String> set = getSet(str);
+        StringBuffer returnStr = new StringBuffer();
+        for (String ele : set) {
+            returnStr.append(ele);
+        }
+        return returnStr.toString();
+    }
+
+    private Set<String> getSet(String string) {
+        Set<String> resultSet = new HashSet<String>();
         if (StringUtils.isNotBlank(string)) {
             for (int i = 0; i < string.length(); i++) {
                 String serve = string.substring(i, i + 1);
-                resultList.add(serve);
+                resultSet.add(serve);
             }
         }
-        return resultList;
+        return resultSet;
     }
 
 }
