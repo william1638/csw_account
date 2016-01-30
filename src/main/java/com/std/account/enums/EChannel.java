@@ -14,8 +14,8 @@ package com.std.account.enums;
  * @history:
  */
 public enum EChannel {
-    LDYS("11", "线上-联动优势"), TLZF("12", "线上-通联支付"), YBZF("13", "线上-易宝支付"), OFFLINE(
-            "01", "线下");
+    LDYS("11", "线上-联动优势"), TLZF("12", "线上-通联支付"), YBZF("13", "线上-易宝支付"), BFZF(
+            "14", "线上-宝付支付"), OFFLINE("01", "线下");
 
     EChannel(String code, String value) {
         this.code = code;

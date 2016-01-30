@@ -55,7 +55,7 @@ CREATE TABLE `tstd_account_frozen_jour` (
   `create_datetime` datetime NOT NULL,
   `account_number` varchar(32) NOT NULL,
   PRIMARY KEY (`afj_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -80,7 +80,7 @@ CREATE TABLE `tstd_account_jour` (
   `check_datetime` datetime DEFAULT NULL,
   `account_number` varchar(32) NOT NULL,
   PRIMARY KEY (`aj_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=34 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=150 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -111,7 +111,8 @@ DROP TABLE IF EXISTS `tstd_bankcard`;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_bankcard` (
   `id` bigint(32) NOT NULL AUTO_INCREMENT,
-  `user_id` varchar(32) NOT NULL COMMENT '用户编号',
+  `owner_id` varchar(32) NOT NULL COMMENT '用户编号/公司编号',
+  `owner_name` varchar(128) NOT NULL COMMENT '户名',
   `type` char(1) NOT NULL COMMENT '类型(对公对私)',
   `bank_code` varchar(8) DEFAULT NULL COMMENT '银行行号',
   `bank_name` varchar(32) DEFAULT NULL COMMENT '银行名称',
@@ -122,7 +123,7 @@ CREATE TABLE `tstd_bankcard` (
   `create_datetime` datetime NOT NULL,
   `update_datetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -276,7 +277,7 @@ CREATE TABLE `tstd_user_company` (
   `company_id` varchar(32) NOT NULL COMMENT '公司编号',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=39 DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -369,7 +370,7 @@ CREATE TABLE `tstd_user_picture` (
   `verify_datetime` datetime DEFAULT NULL COMMENT '认证时间',
   `remark` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -445,4 +446,4 @@ CREATE TABLE `tstd_zzorder` (
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2016-01-24 19:57:15
+-- Dump completed on 2016-01-30 14:04:39
