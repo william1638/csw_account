@@ -10,6 +10,7 @@ package com.std.account.ao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.std.account.ao.IAJourAO;
 import com.std.account.bo.IAJourBO;
@@ -52,6 +53,7 @@ public class AJourAOImpl implements IAJourAO {
     }
 
     @Override
+    @Transactional
     public void doCheckJour(Long ajNo, String checkUser, Long amount) {
         AccountJour aJour = aJourBO.getAccountJour(ajNo);
         if (aJour == null) {
@@ -73,6 +75,7 @@ public class AJourAOImpl implements IAJourAO {
     }
 
     @Override
+    @Transactional
     public void doApproveCheckJour(String hlNo, String approveUser,
             String approveResult, String approveNote) {
         HLOrder hlOrder = hlOrderBO.getHLOrder(hlNo);

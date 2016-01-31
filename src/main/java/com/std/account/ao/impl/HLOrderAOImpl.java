@@ -60,6 +60,7 @@ public class HLOrderAOImpl implements IHLOrderAO {
     }
 
     @Override
+    @Transactional
     public void doApprove(String hlNo, String approveUser,
             String approveResult, String approveNote) {
         HLOrder hlOrder = hlOrderBO.getHLOrder(hlNo);
