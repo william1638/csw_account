@@ -432,6 +432,8 @@ public class UserAOImpl implements IUserAO {
         // 更新用户表
         userBO
             .refreshIdentity(userId, realName, EIDKind.IDCard.getCode(), idNo);
+        // 回写Account表realName;
+        accountBO.refreshRealName(userId, realName);
         // 保存用户认证记录
         userIdentifyBO.saveUserIdentify(userId, realName,
             EIDKind.IDCard.getCode(), idNo, "0", "success");
