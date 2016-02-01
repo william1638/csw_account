@@ -119,7 +119,7 @@
 	<update id="update_realName" parameterType="account">
 		UPDATE tstd_account
 		SET
-		 realName= #{realName}
+		 real_name= #{realName}
 		 ,update_datetime = #{updateDatetime}
 		WHERE
 		user_id = #{userId}		
