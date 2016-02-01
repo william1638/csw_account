@@ -122,6 +122,6 @@
 		 realName= #{realName}
 		 ,update_datetime = #{updateDatetime}
 		WHERE
-		user_id = #{user_id}		
+		user_id = #{userId}		
 	</update>
 </mapper>
