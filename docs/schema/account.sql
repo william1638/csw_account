@@ -1,27 +1,6 @@
--- MySQL dump 10.13  Distrib 5.6.24, for osx10.8 (x86_64)
---
--- Host: 120.55.113.192    Database: xnaccount
--- ------------------------------------------------------
--- Server version	5.5.45
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
-
---
--- Table structure for table `tstd_account`
---
 
 DROP TABLE IF EXISTS `tstd_account`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_account` (
   `user_id` varchar(32) NOT NULL,
   `real_name` varchar(16) DEFAULT NULL COMMENT '真实姓名',
@@ -35,15 +14,9 @@ CREATE TABLE `tstd_account` (
   `update_datetime` datetime DEFAULT NULL,
   PRIMARY KEY (`account_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `tstd_account_frozen_jour`
---
 
 DROP TABLE IF EXISTS `tstd_account_frozen_jour`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_account_frozen_jour` (
   `afj_no` bigint(32) NOT NULL AUTO_INCREMENT,
   `biz_type` varchar(4) NOT NULL,
@@ -56,15 +29,8 @@ CREATE TABLE `tstd_account_frozen_jour` (
   `account_number` varchar(32) NOT NULL,
   PRIMARY KEY (`afj_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `tstd_account_jour`
---
 
 DROP TABLE IF EXISTS `tstd_account_jour`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_account_jour` (
   `aj_no` bigint(32) NOT NULL AUTO_INCREMENT,
   `status` char(1) NOT NULL,
@@ -81,15 +47,9 @@ CREATE TABLE `tstd_account_jour` (
   `account_number` varchar(32) NOT NULL,
   PRIMARY KEY (`aj_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `tstd_bank`
---
 
 DROP TABLE IF EXISTS `tstd_bank`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_bank` (
   `id` bigint(32) NOT NULL AUTO_INCREMENT,
   `bank_no` varchar(8) NOT NULL,
@@ -99,16 +59,9 @@ CREATE TABLE `tstd_bank` (
   `is_enable` char(1) DEFAULT NULL,
   `channel_no` char(4) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `tstd_bankcard`
---
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 DROP TABLE IF EXISTS `tstd_bankcard`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_bankcard` (
   `id` bigint(32) NOT NULL AUTO_INCREMENT,
   `owner_id` varchar(32) NOT NULL COMMENT '用户编号/公司编号',
@@ -124,15 +77,8 @@ CREATE TABLE `tstd_bankcard` (
   `update_datetime` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `tstd_channel`
---
 
 DROP TABLE IF EXISTS `tstd_channel`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_channel` (
   `channel_no` varchar(4) NOT NULL,
   `channel_name` varchar(16) NOT NULL,
@@ -140,15 +86,8 @@ CREATE TABLE `tstd_channel` (
   `remark` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`channel_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `tstd_company`
---
 
 DROP TABLE IF EXISTS `tstd_company`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_company` (
   `company_id` varchar(32) NOT NULL COMMENT '编号',
   `company_name` varchar(64) NOT NULL COMMENT '公司名字',
@@ -176,15 +115,8 @@ CREATE TABLE `tstd_company` (
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`company_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `tstd_cqorder`
---
 
 DROP TABLE IF EXISTS `tstd_cqorder`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_cqorder` (
   `cq_no` varchar(32) NOT NULL,
   `status` char(1) NOT NULL,
@@ -208,15 +140,9 @@ CREATE TABLE `tstd_cqorder` (
   `account_number` varchar(32) NOT NULL,
   PRIMARY KEY (`cq_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `tstd_hlorder`
---
 
 DROP TABLE IF EXISTS `tstd_hlorder`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_hlorder` (
   `hl_no` varchar(32) NOT NULL,
   `type` char(1) NOT NULL COMMENT '类型',
@@ -233,15 +159,9 @@ CREATE TABLE `tstd_hlorder` (
   `account_number` varchar(32) NOT NULL COMMENT '账号',
   PRIMARY KEY (`hl_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `tstd_user`
---
 
 DROP TABLE IF EXISTS `tstd_user`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_user` (
   `user_id` varchar(32) NOT NULL,
   `mobile` varchar(16) NOT NULL COMMENT '手机号',
@@ -262,15 +182,9 @@ CREATE TABLE `tstd_user` (
   `level` int(11) DEFAULT NULL COMMENT '用户等级',
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `tstd_user_company`
---
 
 DROP TABLE IF EXISTS `tstd_user_company`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_user_company` (
   `id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT '编号',
   `user_id` varchar(32) NOT NULL COMMENT '用户编号',
@@ -278,15 +192,9 @@ CREATE TABLE `tstd_user_company` (
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `tstd_user_ext`
---
 
 DROP TABLE IF EXISTS `tstd_user_ext`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_user_ext` (
   `user_id` varchar(32) NOT NULL,
   `photo` varchar(255) DEFAULT NULL,
@@ -298,15 +206,9 @@ CREATE TABLE `tstd_user_ext` (
   `education` varchar(8) DEFAULT NULL,
   PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `tstd_user_identify_log`
---
 
 DROP TABLE IF EXISTS `tstd_user_identify_log`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_user_identify_log` (
   `user_id` varchar(32) NOT NULL,
   `id_kind` varchar(1) NOT NULL,
@@ -316,45 +218,25 @@ CREATE TABLE `tstd_user_identify_log` (
   `error_info` varchar(255) NOT NULL,
   `create_datetime` datetime NOT NULL COMMENT '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `tstd_user_lock`
---
 
 DROP TABLE IF EXISTS `tstd_user_lock`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_user_lock` (
   `user_id` varchar(32) NOT NULL,
   `lock_direction` char(1) NOT NULL,
   `remark` varchar(255) NOT NULL,
   `create_datetime` datetime NOT NULL COMMENT '创建时间'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `tstd_user_login_log`
---
 
 DROP TABLE IF EXISTS `tstd_user_login_log`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_user_login_log` (
   `user_id` varchar(32) NOT NULL,
   `login_datetime` datetime NOT NULL,
   `login_ip` varchar(64) NOT NULL,
   `is_success` varchar(64) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `tstd_user_picture`
---
 
 DROP TABLE IF EXISTS `tstd_user_picture`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_user_picture` (
   `id` bigint(32) NOT NULL AUTO_INCREMENT,
   `user_id` varchar(32) NOT NULL,
@@ -371,15 +253,9 @@ CREATE TABLE `tstd_user_picture` (
   `remark` varchar(256) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `tstd_xnborder`
---
 
 DROP TABLE IF EXISTS `tstd_xnborder`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_xnborder` (
   `xnb_no` varchar(20) NOT NULL,
   `status` char(1) NOT NULL,
@@ -393,15 +269,8 @@ CREATE TABLE `tstd_xnborder` (
   `account_number` varchar(32) NOT NULL,
   PRIMARY KEY (`xnb_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-
---
--- Table structure for table `tstd_ytorder`
---
 
 DROP TABLE IF EXISTS `tstd_ytorder`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_ytorder` (
   `yt_no` varchar(32) NOT NULL,
   `status` char(1) NOT NULL,
@@ -414,15 +283,9 @@ CREATE TABLE `tstd_ytorder` (
   `account_number` varchar(32) NOT NULL,
   PRIMARY KEY (`yt_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Table structure for table `tstd_zzorder`
---
 
 DROP TABLE IF EXISTS `tstd_zzorder`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `tstd_zzorder` (
   `zz_no` varchar(32) NOT NULL,
   `status` char(1) NOT NULL,
@@ -435,15 +298,3 @@ CREATE TABLE `tstd_zzorder` (
   `account_number` varchar(32) NOT NULL,
   PRIMARY KEY (`zz_no`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-/*!40101 SET character_set_client = @saved_cs_client */;
-/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
-
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-
--- Dump completed on 2016-02-01 17:52:07
