@@ -8,6 +8,7 @@
  */
 package com.std.account.bo.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
@@ -28,6 +29,7 @@ import com.std.account.dao.IUserDAO;
 import com.std.account.dao.IUserLoginLogDAO;
 import com.std.account.domain.User;
 import com.std.account.enums.EAccountStatus;
+import com.std.account.enums.EServe;
 import com.std.account.enums.EUserKind;
 import com.std.account.exception.BizException;
 
@@ -333,7 +335,34 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
                 serveList2 = serveList2 + ele;
             }
         }
+
+        // 排序ABCD12ab
+        serveList2 = sortServe(serveList2);
         return serveList2;
+    }
+
+    /**
+     * 根据枚举类已有的顺序依次遍历是否存在
+     * @param serveResult
+     * @return 
+     * @create: 2016年3月7日 上午8:39:51 xieyj
+     * @history:
+     */
+    private String sortServe(String serveResult) {
+        StringBuffer serveBuffer = new StringBuffer();
+        if (StringUtils.isNotBlank(serveResult)) {
+            // 获取枚举类顺序
+            List<String> serveList = new ArrayList<String>();
+            for (EServe serve : EServe.values()) {
+                serveList.add(serve.getCode());
+            }
+            for (String serve : serveList) {
+                if (serveResult.contains(serve)) {
+                    serveBuffer.append(serve);
+                }
+            }
+        }
+        return serveBuffer.toString();
     }
 
     private String cleanString(String str) {
