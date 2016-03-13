@@ -76,7 +76,7 @@ public class CompanyBOImpl extends PaginableBOImpl<Company> implements
 
         data.setApplyUser(applyUser);
         data.setApplyDatetime(new Date());
-        data.setStatus(ECompanyStatus.todoKYC.getCode());
+        data.setStatus(ECompanyStatus.DRAFT.getCode());
         data.setRemark("添加基本信息");
         companyDAO.insert(data);
         return companyId;
@@ -127,6 +127,7 @@ public class CompanyBOImpl extends PaginableBOImpl<Company> implements
 
             data.setFrPicture(frPicture);
             data.setOtherPicture(otherPicture);
+            data.setStatus(ECompanyStatus.todoKYC.getCode());
             count = companyDAO.updatePicture(data);
         }
         return count;

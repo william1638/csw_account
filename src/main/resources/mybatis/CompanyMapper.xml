@@ -173,6 +173,7 @@
 		
 		,fr_picture=#{frPicture}
 		,other_picture=#{otherPicture}
+		,status=#{status}
 		WHERE
 		company_id = #{companyId}
 	</update>

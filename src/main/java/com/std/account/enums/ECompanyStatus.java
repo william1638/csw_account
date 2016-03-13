@@ -1,7 +1,8 @@
 package com.std.account.enums;
 
 public enum ECompanyStatus {
-    todoKYC("1", "待kyc"), KYC_YES("2", "kyc通过"), KYC_NO("3", "kyc不通过");
+    DRAFT("0", "草稿,企业资料未上传"), todoKYC("1", "待kyc"), KYC_YES("2", "kyc通过"), KYC_NO(
+            "3", "kyc不通过");
     ECompanyStatus(String code, String value) {
         this.code = code;
         this.value = value;
