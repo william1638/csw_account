@@ -326,13 +326,12 @@ public class UserBOImpl extends PaginableBOImpl<User> implements IUserBO {
 
     private String unionServeList(String serveList, String serveList2) {
         serveList2 = cleanString(serveList2);
-        if (StringUtils.isBlank(serveList)) {
-            return serveList2;
-        }
-        Set<String> list = getSet(serveList);
-        for (String ele : list) {
-            if (!serveList2.contains(ele)) {
-                serveList2 = serveList2 + ele;
+        if (StringUtils.isNotBlank(serveList)) {
+            Set<String> list = getSet(serveList);
+            for (String ele : list) {
+                if (!serveList2.contains(ele)) {
+                    serveList2 = serveList2 + ele;
+                }
             }
         }
 
