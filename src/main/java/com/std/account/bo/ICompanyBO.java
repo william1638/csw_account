@@ -37,7 +37,7 @@ public interface ICompanyBO extends IPaginableBO<Company> {
     public int refreshCompany(String companyId, String companyName,
             String licenceNo, String idKind, String idNo, String realName,
             Long capital, String province, String city, String applyUser,
-            String address);
+            String address, String status);
 
     public int doKYC(String companyId, String kycUser, String kycResult,
             String kycNote);

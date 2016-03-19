@@ -86,7 +86,7 @@ public class CompanyBOImpl extends PaginableBOImpl<Company> implements
     public int refreshCompany(String companyId, String companyName,
             String licenceNo, String idKind, String idNo, String realName,
             Long capital, String province, String city, String applyUser,
-            String address) {
+            String address, String status) {
         int count = 0;
         if (StringUtils.isNotBlank(companyId)) {
             Company data = new Company();
@@ -104,7 +104,7 @@ public class CompanyBOImpl extends PaginableBOImpl<Company> implements
 
             data.setApplyUser(applyUser);
             data.setApplyDatetime(new Date());
-            data.setStatus(ECompanyStatus.todoKYC.getCode());
+            data.setStatus(status);
             data.setRemark("修改基本信息");
             count = companyDAO.updateCompany(data);
         }

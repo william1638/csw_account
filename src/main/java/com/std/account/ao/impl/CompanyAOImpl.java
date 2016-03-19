@@ -13,6 +13,7 @@ import com.std.account.bo.base.Paginable;
 import com.std.account.core.OrderNoGenerater;
 import com.std.account.domain.Company;
 import com.std.account.domain.User;
+import com.std.account.enums.ECompanyStatus;
 import com.std.account.enums.EUserKind;
 import com.std.account.exception.BizException;
 
@@ -80,8 +81,17 @@ public class CompanyAOImpl implements ICompanyAO {
             String licenceNo, String idKind, String idNo, String realName,
             Long capital, String province, String city, String applyUser,
             String address) {
-        companyBO.refreshCompany(companyId, companyName, licenceNo, idKind,
-            idNo, realName, capital, province, city, applyUser, address);
+        Company company = companyBO.getCompany(companyId);
+        // 只是新增公司，就修改公司时，status 置为0;其他情况置为待审核
+        String status = null;
+        if (ECompanyStatus.DRAFT.getCode().equals(company.getStatus())) {
+            status = ECompanyStatus.DRAFT.getCode();
+        } else {
+            status = ECompanyStatus.todoKYC.getCode();
+        }
+        companyBO
+            .refreshCompany(companyId, companyName, licenceNo, idKind, idNo,
+                realName, capital, province, city, applyUser, address, status);
 
     }
 }
