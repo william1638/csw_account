@@ -83,10 +83,8 @@ public class CompanyAOImpl implements ICompanyAO {
             String address) {
         Company company = companyBO.getCompany(companyId);
         // 只是新增公司，就修改公司时，status 置为0;其他情况置为待审核
-        String status = null;
-        if (ECompanyStatus.DRAFT.getCode().equals(company.getStatus())) {
-            status = ECompanyStatus.DRAFT.getCode();
-        } else {
+        String status = ECompanyStatus.DRAFT.getCode();
+        if (!ECompanyStatus.DRAFT.getCode().equals(company.getStatus())) {
             status = ECompanyStatus.todoKYC.getCode();
         }
         companyBO
