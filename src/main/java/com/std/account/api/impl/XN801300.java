@@ -26,9 +26,9 @@ public class XN801300 extends AProcessor {
     public Object doBusiness() throws BizException {
         String companyId = companyAO.addCompany(req.getCompanyName(),
             req.getLicenceNo(), req.getIdKind(), req.getIdNo(),
-            req.getRealName(), StringValidater.toLong(req.getCapital()),
-            req.getProvince(), req.getCity(), req.getApplyUser(),
-            req.getAddress());
+            req.getRealName(), req.getCurrency(),
+            StringValidater.toLong(req.getCapital()), req.getProvince(),
+            req.getCity(), req.getApplyUser(), req.getAddress());
         return new XN801300Res(companyId);
     }
 
@@ -37,8 +37,8 @@ public class XN801300 extends AProcessor {
         req = JsonUtil.json2Bean(inputparams, XN801300Req.class);
         StringValidater.validateBlank(req.getCompanyName(), req.getLicenceNo(),
             req.getIdKind(), req.getIdNo(), req.getRealName(),
-            req.getCapital(), req.getProvince(), req.getCity(),
-            req.getApplyUser());
+            req.getCurrency(), req.getCapital(), req.getProvince(),
+            req.getCity(), req.getApplyUser());
         StringValidater.validateNumber(req.getCapital());
 
     }

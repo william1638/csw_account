@@ -17,6 +17,9 @@ public class XN801300Req {
     // 法人真实姓名(必填)
     private String realName;
 
+    // 币种(必填)
+    private String currency;
+
     // 注册资金(必填)
     private String capital;
 
@@ -70,6 +73,14 @@ public class XN801300Req {
 
     public void setRealName(String realName) {
         this.realName = realName;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public String getCapital() {

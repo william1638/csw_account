@@ -18,6 +18,9 @@ public class XN801302Req {
     // 法人真实姓名
     private String realName;
 
+    // 币种
+    private String currency;
+
     // 注册资金
     private String capital;
 
@@ -79,6 +82,14 @@ public class XN801302Req {
 
     public void setRealName(String realName) {
         this.realName = realName;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public String getCapital() {
