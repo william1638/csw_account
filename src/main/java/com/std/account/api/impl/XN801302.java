@@ -26,9 +26,9 @@ public class XN801302 extends AProcessor {
     public Object doBusiness() throws BizException {
         companyAO.editCompany(req.getCompanyId(), req.getCompanyName(),
             req.getLicenceNo(), req.getIdKind(), req.getIdNo(),
-            req.getRealName(), StringValidater.toLong(req.getCapital()),
-            req.getProvince(), req.getCity(), req.getApplyUser(),
-            req.getAddress());
+            req.getRealName(), req.getCurrency(),
+            StringValidater.toLong(req.getCapital()), req.getProvince(),
+            req.getCity(), req.getApplyUser(), req.getAddress());
         return new XN801302Res(true);
     }
 

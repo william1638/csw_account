@@ -9,7 +9,8 @@
 		<result column="id_kind" property="idKind" />		
 		<result column="id_no" property="idNo" />
 		
-		<result column="real_name" property="realName" />		
+		<result column="real_name" property="realName" />	
+		<result column="currency" property="currency" />
 		<result column="capital" property="capital" />
 		<result column="province" property="province" />
 		<result column="city" property="city" />
@@ -52,6 +53,9 @@
 			<if test="realName != null and realName != '' ">
 				AND t.real_name = #{realName}
 			</if>
+			<if test="currency != null and currency != '' ">
+				AND t.currency = #{currency}
+			</if>
 			<if test="capital != null and capital != '' ">
 				AND t.capital = #{capital}
 			</if>
@@ -87,6 +91,7 @@
 		,id_no	
 			
 		,real_name
+		,currency
 		,capital
 		,province
 		,city
@@ -132,6 +137,7 @@
 		,id_no	
 			
 		,real_name
+		,currency
 		,capital
 		,province
 		,city
@@ -150,6 +156,7 @@
 		,#{idNo}	
 			
 		,#{realName}
+		,#{currency}
 		,#{capital}
 		,#{province}
 		,#{city}
@@ -186,6 +193,7 @@
 		,id_no=#{idNo}	
 		
 		,real_name=#{realName}
+		,currency=#{currency}
 		,capital=#{capital}
 		,province=#{province}
 		,city=#{city}

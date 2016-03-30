@@ -27,8 +27,8 @@ public interface ICompanyBO extends IPaginableBO<Company> {
 
     public String saveCompany(String companyId, String companyName,
             String licenceNo, String idKind, String idNo, String realName,
-            Long capital, String province, String city, String applyUser,
-            String address);
+            String currency, Long capital, String province, String city,
+            String applyUser, String address);
 
     public int refreshPicture(String companyId, String gsyyzzPicture,
             String zzjgdmzPicture, String swdjzPicture, String dzzPicture,
@@ -36,8 +36,8 @@ public interface ICompanyBO extends IPaginableBO<Company> {
 
     public int refreshCompany(String companyId, String companyName,
             String licenceNo, String idKind, String idNo, String realName,
-            Long capital, String province, String city, String applyUser,
-            String address, String status);
+            String currency, Long capital, String province, String city,
+            String applyUser, String address, String status);
 
     public int doKYC(String companyId, String kycUser, String kycResult,
             String kycNote);

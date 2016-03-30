@@ -54,8 +54,9 @@ public interface ICompanyAO {
     public Company doGetCompany(String companyId);
 
     public String addCompany(String companyName, String licenceNo,
-            String idKind, String idNo, String realName, Long capital,
-            String province, String city, String applyUser, String address);
+            String idKind, String idNo, String realName, String currency,
+            Long capital, String province, String city, String applyUser,
+            String address);
 
     public void editPicture(String companyId, String gsyyzzPicture,
             String zzjgdmzPicture, String swdjzPicture, String dzzPicture,
@@ -63,6 +64,6 @@ public interface ICompanyAO {
 
     public void editCompany(String companyId, String companyName,
             String licenceNo, String idKind, String idNo, String realName,
-            Long capital, String province, String city, String applyUser,
-            String address);
+            String currency, Long capital, String province, String city,
+            String applyUser, String address);
 }

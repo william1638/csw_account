@@ -28,6 +28,7 @@ public class ICompanyDAOTest extends ADAOTest {
         data.setIdKind("1");
         data.setIdNo("11111111");
         data.setRealName("李丽丽");
+        data.setCurrency("人民币");
         data.setCapital(1L);
         data.setProvince("浙江");
         data.setCity("hangzhou");

@@ -59,8 +59,8 @@ public class CompanyBOImpl extends PaginableBOImpl<Company> implements
     @Override
     public String saveCompany(String companyId, String companyName,
             String licenceNo, String idKind, String idNo, String realName,
-            Long capital, String province, String city, String applyUser,
-            String address) {
+            String currency, Long capital, String province, String city,
+            String applyUser, String address) {
         Company data = new Company();
         data.setCompanyId(companyId);
         data.setCompanyName(companyName);
@@ -69,6 +69,7 @@ public class CompanyBOImpl extends PaginableBOImpl<Company> implements
         data.setIdNo(idNo);
 
         data.setRealName(realName);
+        data.setCurrency(currency);
         data.setCapital(capital);
         data.setProvince(province);
         data.setCity(city);
@@ -85,8 +86,8 @@ public class CompanyBOImpl extends PaginableBOImpl<Company> implements
     @Override
     public int refreshCompany(String companyId, String companyName,
             String licenceNo, String idKind, String idNo, String realName,
-            Long capital, String province, String city, String applyUser,
-            String address, String status) {
+            String currency, Long capital, String province, String city,
+            String applyUser, String address, String status) {
         int count = 0;
         if (StringUtils.isNotBlank(companyId)) {
             Company data = new Company();
@@ -97,6 +98,7 @@ public class CompanyBOImpl extends PaginableBOImpl<Company> implements
             data.setIdNo(idNo);
 
             data.setRealName(realName);
+            data.setCurrency(currency);
             data.setCapital(capital);
             data.setProvince(province);
             data.setCity(city);

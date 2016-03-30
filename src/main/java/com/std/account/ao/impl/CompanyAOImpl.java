@@ -52,8 +52,9 @@ public class CompanyAOImpl implements ICompanyAO {
 
     @Override
     public String addCompany(String companyName, String licenceNo,
-            String idKind, String idNo, String realName, Long capital,
-            String province, String city, String applyUser, String address) {
+            String idKind, String idNo, String realName, String currency,
+            Long capital, String province, String city, String applyUser,
+            String address) {
         User user = userBO.getUser(applyUser);
         if (user == null) {
             throw new BizException("xn000001", "提交申请人不存在");
@@ -64,7 +65,8 @@ public class CompanyAOImpl implements ICompanyAO {
         String companyId = OrderNoGenerater.generate("C");
         userCompanyBO.saveUserCompany(applyUser, companyId, "admin申请KYC");
         return companyBO.saveCompany(companyId, companyName, licenceNo, idKind,
-            idNo, realName, capital, province, city, applyUser, address);
+            idNo, realName, currency, capital, province, city, applyUser,
+            address);
     }
 
     @Override
@@ -79,17 +81,17 @@ public class CompanyAOImpl implements ICompanyAO {
     @Override
     public void editCompany(String companyId, String companyName,
             String licenceNo, String idKind, String idNo, String realName,
-            Long capital, String province, String city, String applyUser,
-            String address) {
+            String currency, Long capital, String province, String city,
+            String applyUser, String address) {
         Company company = companyBO.getCompany(companyId);
         // 只是新增公司，就修改公司时，status 置为0;其他情况置为待审核
         String status = ECompanyStatus.DRAFT.getCode();
         if (!ECompanyStatus.DRAFT.getCode().equals(company.getStatus())) {
             status = ECompanyStatus.todoKYC.getCode();
         }
-        companyBO
-            .refreshCompany(companyId, companyName, licenceNo, idKind, idNo,
-                realName, capital, province, city, applyUser, address, status);
+        companyBO.refreshCompany(companyId, companyName, licenceNo, idKind,
+            idNo, realName, currency, capital, province, city, applyUser,
+            address, status);
 
     }
 }
