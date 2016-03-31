@@ -27,6 +27,9 @@ public class XN801750Req extends APageReq {
     // 状态
     private String status;
 
+    // 申请人
+    private String applyUser;
+
     public String getCompanyId() {
         return companyId;
     }
@@ -83,4 +86,11 @@ public class XN801750Req extends APageReq {
         this.status = status;
     }
 
+    public String getApplyUser() {
+        return applyUser;
+    }
+
+    public void setApplyUser(String applyUser) {
+        this.applyUser = applyUser;
+    }
 }

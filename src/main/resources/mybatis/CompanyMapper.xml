@@ -80,51 +80,54 @@
 			<if test="kycDatetimeEnd != null and kycDatetimeEnd != '' ">
 				<![CDATA[AND t.kyc_datetime <= #{kycDatetimeEnd}]]>
 			</if>
+			<if test="applyUser != null and applyUser != '' ">
+				AND tu.real_name like CONCAT('%',#{applyUser},'%') 
+			</if>
 		</trim>
 	</sql>
 	<select id="select_company" parameterType="company" resultMap="company_DB_Result">
 		SELECT 
-		company_id
-		,company_name
-		,licence_no
-		,id_kind	
-		,id_no	
+		t.company_id
+		,t.company_name
+		,t.licence_no
+		,t.id_kind	
+		,t.id_no	
 			
-		,real_name
-		,currency
-		,capital
-		,province
-		,city
-		,address	
+		,t.real_name
+		,t.currency
+		,t.capital
+		,t.province
+		,t.city
+		,t.address	
 			
-		,gsyyzz_picture
-		,zzjgdmz_picture
-		,swdjz_picture
-		,dzz_picture
-		,sqgh_picture
+		,t.gsyyzz_picture
+		,t.zzjgdmz_picture
+		,t.swdjz_picture
+		,t.dzz_picture
+		,t.sqgh_picture
 		
-		,fr_picture
-		,other_picture
-		,apply_user
-		,apply_datetime
-		,kyc_user
+		,t.fr_picture
+		,t.other_picture
+		,tu.real_name as apply_user
+		,t.apply_datetime
+		,t.kyc_user
 		
-		,kyc_datetime
-		,kyc_note
-		,status
-		,remark	
+		,t.kyc_datetime
+		,t.kyc_note
+		,t.status
+		,t.remark	
 		FROM
-		tstd_company t
+		tstd_company t INNER JOIN tstd_user tu on t.apply_user = tu.user_id
 		<include refid="where_condition"/>
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
-				${order}
+				t.${order}
 			</if>
 		</trim>
 	</select>
 
 	<select id="select_company_count" parameterType="company" resultType="java.lang.Long">
-		SELECT count(1) FROM tstd_company t
+		SELECT count(1) FROM tstd_company t INNER JOIN tstd_user tu on t.apply_user = tu.user_id
 		<include refid="where_condition"/>
 	</select>
 
@@ -161,7 +164,6 @@
 		,#{province}
 		,#{city}
 		,#{address}
-		
 		
 		,#{applyUser}
 		,#{applyDatetime}
@@ -216,6 +218,4 @@
 		WHERE
 		company_id = #{companyId}
 	</update>
-
-	
 </mapper>
