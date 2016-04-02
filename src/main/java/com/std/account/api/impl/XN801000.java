@@ -34,5 +34,4 @@ public class XN801000 extends AProcessor {
         StringValidater.validateBlank(req.getMobile(), req.getBizType());
         PhoneUtil.checkMobile(req.getMobile());// 判断格式
     }
-
 }

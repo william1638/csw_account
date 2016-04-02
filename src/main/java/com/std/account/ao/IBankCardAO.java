@@ -45,6 +45,15 @@ public interface IBankCardAO {
             BankCard condition);
 
     /**
+     * 银行卡-详情
+     * @param id
+     * @return 
+     * @create: 2016年4月1日 下午5:41:45 xieyj
+     * @history:
+     */
+    public BankCard getBankCard(Long id);
+
+    /**
      * 绑定银行卡
      * @param userId
      * @param type

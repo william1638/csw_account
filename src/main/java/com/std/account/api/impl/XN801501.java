@@ -36,6 +36,7 @@ public class XN801501 extends AProcessor {
             res.setIdNo(company.getIdNo());
 
             res.setRealName(company.getRealName());
+            res.setCurrency(company.getCurrency());
             res.setCapital(company.getCapital());
             res.setProvince(company.getProvince());
             res.setCity(company.getCity());

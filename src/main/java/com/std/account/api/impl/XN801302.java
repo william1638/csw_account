@@ -41,5 +41,4 @@ public class XN801302 extends AProcessor {
             req.getProvince(), req.getCity(), req.getApplyUser());
         StringValidater.validateNumber(req.getCapital());
     }
-
 }

@@ -53,6 +53,23 @@ public class BankCardBOImpl extends PaginableBOImpl<BankCard> implements
     }
 
     @Override
+    public void refreshBankCard(Long id, String bankCode, String bankName,
+            String bankCardNo, String subbranch, String bindMobile) {
+        BankCard data = new BankCard();
+        data.setId(id);
+        data.setBankCode(bankCode);
+        data.setBankName(bankName);
+        data.setBankCardNo(bankCardNo);
+
+        data.setSubbranch(subbranch);
+        data.setBindMobile(bindMobile);
+        data.setStatus(EBankCardStatus.TOCONFIRM.getCode());
+        data.setUpdateDatetime(new Date());
+        bankCardDAO.update(data);
+
+    }
+
+    @Override
     public void refreshStatus(String bankCode, String bankcardNo,
             EBankCardStatus status) {
         BankCard data = new BankCard();
@@ -83,6 +100,17 @@ public class BankCardBOImpl extends PaginableBOImpl<BankCard> implements
     }
 
     @Override
+    public BankCard getBankCard(Long id) {
+        BankCard bankCard = null;
+        if (id != null) {
+            BankCard condition = new BankCard();
+            condition.setId(id);
+            bankCard = bankCardDAO.select(condition);
+        }
+        return bankCard;
+    }
+
+    @Override
     public List<BankCard> queryBankCardList(String ownerId, EBankCardType type) {
         List<BankCard> list = null;
         if (StringUtils.isNotBlank(ownerId)) {
@@ -93,23 +121,4 @@ public class BankCardBOImpl extends PaginableBOImpl<BankCard> implements
         }
         return list;
     }
-
-    @Override
-    public void refreshBankCard(Long id, String bankCode, String bankName,
-            String bankCardNo, String subbranch, String bindMobile) {
-
-        BankCard data = new BankCard();
-        data.setId(id);
-        data.setBankCode(bankCode);
-        data.setBankName(bankName);
-
-        data.setBankCardNo(bankCardNo);
-        data.setSubbranch(subbranch);
-        data.setBindMobile(bindMobile);
-        data.setStatus(EBankCardStatus.TOCONFIRM.getCode());
-        data.setUpdateDatetime(new Date());
-        bankCardDAO.update(data);
-
-    }
-
 }

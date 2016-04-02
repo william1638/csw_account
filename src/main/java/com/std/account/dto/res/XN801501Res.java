@@ -20,6 +20,9 @@ public class XN801501Res {
     // 法人真实姓名
     private String realName;
 
+    // 币种
+    private String currency;
+
     // 注册资金
     private Long capital;
 
@@ -116,6 +119,14 @@ public class XN801501Res {
 
     public void setRealName(String realName) {
         this.realName = realName;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
     public Long getCapital() {

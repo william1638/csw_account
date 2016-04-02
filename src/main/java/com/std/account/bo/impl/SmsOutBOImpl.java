@@ -10,6 +10,7 @@ import com.std.account.dto.req.XN799003Req;
 import com.std.account.dto.res.XN799001Res;
 import com.std.account.dto.res.XN799002Res;
 import com.std.account.dto.res.XN799003Res;
+import com.std.account.exception.BizException;
 import com.std.account.http.BizConnecter;
 import com.std.account.http.JsonUtils;
 
@@ -54,6 +55,7 @@ public class SmsOutBOImpl implements ISmsOutBO {
                 XN799003Res.class);
         } catch (Exception e) {
             logger.error("调用短信验证服务异常");
+            throw new BizException("xn799003", "短信发送异常，请稍后再试");
         }
     }
 }

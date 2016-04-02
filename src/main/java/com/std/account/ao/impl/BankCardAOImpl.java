@@ -53,6 +53,14 @@ public class BankCardAOImpl implements IBankCardAO {
         return bankCardBO.queryBankCardList(userId, type);
     }
 
+    /** 
+     * @see com.std.account.ao.IBankCardAO#getBankCard(java.lang.Long)
+     */
+    @Override
+    public BankCard getBankCard(Long id) {
+        return bankCardBO.getBankCard(id);
+    }
+
     @Override
     @Transactional
     public void doBindBandCard(String ownerId, String type, String bankCode,
@@ -95,9 +103,18 @@ public class BankCardAOImpl implements IBankCardAO {
         if (StringUtils.isBlank(user.getRealName())) {
             throw new BizException("xn702000", "请先实名认证");
         }
+        BankCard bankCard = bankCardBO.getBankCard(id);
+        if (bankCard == null) {
+            throw new BizException("xn702000", "编号不存在");
+        }
+        if (!bankCard.getOwnerId().equalsIgnoreCase(userId)) {
+            throw new BizException("xn702000", "该用户无该银行账户");
+        }
+        if (EBankCardType.User.getCode().equalsIgnoreCase(bankCard.getType())) {
+            // 功能暂未实现
+        }
         bankCardBO.refreshBankCard(id, bankCode, bankName, bankCardNo,
             subbranch, bindMobile);
-
     }
 
     @Override

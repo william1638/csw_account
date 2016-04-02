@@ -6,10 +6,13 @@ public class XN801214Req {
     // userId（必填）
     private String userId;
 
-    // 银行代号（必填）
+    // 类型(对公对私)（必填）
+    private String type;
+
+    // 银行代号（非必填）
     private String bankCode;
 
-    // 银行名字（必填）
+    // 银行名字（非必填）
     private String bankName;
 
     // 卡号（必填）
@@ -18,7 +21,7 @@ public class XN801214Req {
     // 开卡支行（选填）
     private String subbranch;
 
-    // 银行预留手机号（选填）
+    // 银行预留手机号（非必填）
     private String bindMobile;
 
     public String getId() {

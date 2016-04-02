@@ -1,6 +1,7 @@
 package com.std.account.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import com.std.account.dao.base.ABaseDO;
 
@@ -99,6 +100,10 @@ public class Company extends ABaseDO {
 
     /* ************* db company end *************** */
 
+    /* ************* show info start *************** */
+    private List<BankCard> bankCardList;
+
+    /* ************* show info end *************** */
     public String getCompanyName() {
         return companyName;
     }
@@ -331,4 +336,11 @@ public class Company extends ABaseDO {
         this.kycNote = kycNote;
     }
 
+    public List<BankCard> getBankCardList() {
+        return bankCardList;
+    }
+
+    public void setBankCardList(List<BankCard> bankCardList) {
+        this.bankCardList = bankCardList;
+    }
 }

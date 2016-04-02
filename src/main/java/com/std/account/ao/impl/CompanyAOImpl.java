@@ -6,13 +6,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.std.account.ao.ICompanyAO;
+import com.std.account.bo.IBankCardBO;
 import com.std.account.bo.ICompanyBO;
 import com.std.account.bo.IUserBO;
 import com.std.account.bo.IUserCompanyBO;
 import com.std.account.bo.base.Paginable;
 import com.std.account.core.OrderNoGenerater;
+import com.std.account.domain.BankCard;
 import com.std.account.domain.Company;
 import com.std.account.domain.User;
+import com.std.account.enums.EBankCardType;
 import com.std.account.enums.ECompanyStatus;
 import com.std.account.enums.EUserKind;
 import com.std.account.exception.BizException;
@@ -34,6 +37,9 @@ public class CompanyAOImpl implements ICompanyAO {
     @Autowired
     IUserCompanyBO userCompanyBO;
 
+    @Autowired
+    IBankCardBO bankCardBO;
+
     @Override
     public Paginable<Company> queryCompanyPage(int start, int limit,
             Company condition) {
@@ -47,7 +53,13 @@ public class CompanyAOImpl implements ICompanyAO {
 
     @Override
     public Company doGetCompany(String companyId) {
-        return companyBO.getCompany(companyId);
+        Company company = companyBO.getCompany(companyId);
+        if (company != null) {
+            List<BankCard> bankCardList = bankCardBO.queryBankCardList(
+                companyId, EBankCardType.Company);
+            company.setBankCardList(bankCardList);
+        }
+        return company;
     }
 
     @Override
