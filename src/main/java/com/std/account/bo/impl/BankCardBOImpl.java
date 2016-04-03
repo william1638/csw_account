@@ -21,6 +21,7 @@ import com.std.account.dao.IBankCardDAO;
 import com.std.account.domain.BankCard;
 import com.std.account.enums.EBankCardStatus;
 import com.std.account.enums.EBankCardType;
+import com.std.account.enums.EBoolean;
 
 /** 
  * @author: luoqi 
@@ -120,5 +121,25 @@ public class BankCardBOImpl extends PaginableBOImpl<BankCard> implements
             list = bankCardDAO.selectList(condition);
         }
         return list;
+    }
+
+    /** 
+     * @see com.std.account.bo.IBankCardBO#doKYC(java.lang.String,java.lang.String)
+     */
+    @Override
+    public void doKYC(String companyId, String kycResult) {
+        BankCard condition = new BankCard();
+        condition.setOwnerId(companyId);
+        List<BankCard> list = bankCardDAO.selectList(condition);
+        for (BankCard bankCard : list) {
+            BankCard data = new BankCard();
+            data.setId(bankCard.getId());
+            if (EBoolean.YES.getCode().equalsIgnoreCase(kycResult)) {
+                data.setStatus(EBankCardStatus.CONFIRM_YES.getCode());
+            } else {
+                data.setStatus(EBankCardStatus.CONFIRM_NO.getCode());
+            }
+            bankCardDAO.updateStatus(data);
+        }
     }
 }

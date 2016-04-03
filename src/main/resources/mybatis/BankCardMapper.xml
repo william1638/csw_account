@@ -36,7 +36,14 @@
 				AND t.bankcard_no = #{bankCardNo}
 			</if>
 			<if test="status != null and status != '' ">
-				AND t.status = #{status}
+				<choose>
+		        	<when test="status== 'effective'">  
+		            	AND t.status in (0,1) 
+		        	</when>  
+		        	<otherwise>  
+		              	AND t.status = #{status}
+		        	</otherwise>  
+	        	</choose>
 			</if>
 			<if test="createDatetimeStart != null and createDatetimeStart != '' ">
 				<![CDATA[AND t.create_datetime >= #{createDatetimeStart}]]>

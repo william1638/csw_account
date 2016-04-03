@@ -33,6 +33,15 @@ public interface IBankCardBO extends IPaginableBO<BankCard> {
     public void refreshStatus(String bankCode, String bankcardNo,
             EBankCardStatus status);
 
+    /**
+     * kyc企业银行账户
+     * @param companyId
+     * @param kycResult 
+     * @create: 2016年4月3日 下午4:40:01 xieyj
+     * @history:
+     */
+    public void doKYC(String companyId, String kycResult);
+
     public void removeBankCard(Long id);
 
     public BankCard getBankCard(Long id);
