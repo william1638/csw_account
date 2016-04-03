@@ -416,6 +416,7 @@ public class UserAOImpl implements IUserAO {
             throw new BizException("xn000001", "当前公司无对应admin,不能KYC");
         }
         companyBO.doKYC(companyId, kycUser, kycResult, kycNote);
+        bankCardBO.doKYC(companyId, kycResult);
         if (EBoolean.YES.getCode().equalsIgnoreCase(kycResult)) {
             userBO.doKYC(admin, serveList, quoteList, level);
         }

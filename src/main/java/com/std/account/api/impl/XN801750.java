@@ -35,7 +35,7 @@ public class XN801750 extends AProcessor {
         condition.setRealName(req.getRealName());
         condition.setStatus(req.getStatus());
         condition.setApplyUser(req.getApplyUser());
-
+        condition.setApplyUserName(req.getApplyUserName());
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {
             orderColumn = ICompanyAO.DEFAULT_ORDER_COLUMN;

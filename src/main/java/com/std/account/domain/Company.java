@@ -101,6 +101,9 @@ public class Company extends ABaseDO {
     /* ************* db company end *************** */
 
     /* ************* show info start *************** */
+    // 申请提交人名称
+    private String applyUserName;
+
     private List<BankCard> bankCardList;
 
     /* ************* show info end *************** */
@@ -334,6 +337,14 @@ public class Company extends ABaseDO {
 
     public void setKycNote(String kycNote) {
         this.kycNote = kycNote;
+    }
+
+    public String getApplyUserName() {
+        return applyUserName;
+    }
+
+    public void setApplyUserName(String applyUserName) {
+        this.applyUserName = applyUserName;
     }
 
     public List<BankCard> getBankCardList() {

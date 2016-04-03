@@ -30,6 +30,9 @@ public class XN801750Req extends APageReq {
     // 申请人
     private String applyUser;
 
+    // 申请人名称
+    private String applyUserName;
+
     public String getCompanyId() {
         return companyId;
     }
@@ -92,5 +95,13 @@ public class XN801750Req extends APageReq {
 
     public void setApplyUser(String applyUser) {
         this.applyUser = applyUser;
+    }
+
+    public String getApplyUserName() {
+        return applyUserName;
+    }
+
+    public void setApplyUserName(String applyUserName) {
+        this.applyUserName = applyUserName;
     }
 }

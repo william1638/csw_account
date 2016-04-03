@@ -25,6 +25,7 @@
 		<result column="fr_picture" property="frPicture" />
 		<result column="other_picture" property="otherPicture" />
 		<result column="apply_user" property="applyUser" />
+		<result column="apply_user_name" property="applyUserName" />
 		<result column="apply_datetime" property="applyDatetime" />
 		<result column="kyc_user" property="kycUser" />
 		
@@ -81,7 +82,10 @@
 				<![CDATA[AND t.kyc_datetime <= #{kycDatetimeEnd}]]>
 			</if>
 			<if test="applyUser != null and applyUser != '' ">
-				AND tu.real_name like CONCAT('%',#{applyUser},'%') 
+				AND t.applyUser = #{applyUser}
+			</if>
+			<if test="applyUserName != null and applyUserName != '' ">
+				AND tu.real_name like CONCAT('%',#{applyUserName},'%') 
 			</if>
 		</trim>
 	</sql>
@@ -108,7 +112,8 @@
 		
 		,t.fr_picture
 		,t.other_picture
-		,tu.real_name as apply_user
+		,t.apply_user
+		,tu.real_name as apply_user_name
 		,t.apply_datetime
 		,t.kyc_user
 		
