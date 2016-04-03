@@ -11,6 +11,7 @@ import com.std.account.dao.base.ABaseDO;
 public class UserCompany extends ABaseDO {
     private static final long serialVersionUID = 1975331351390818527L;
 
+    // *************db properties **********************
     // id
     private Long id;
 
@@ -22,6 +23,10 @@ public class UserCompany extends ABaseDO {
 
     // 备注
     private String remark;
+
+    // *************db properties **********************
+    // 公司状态
+    private String companyStatus;
 
     public Long getId() {
         return id;
@@ -55,4 +60,11 @@ public class UserCompany extends ABaseDO {
         this.remark = remark;
     }
 
+    public String getCompanyStatus() {
+        return companyStatus;
+    }
+
+    public void setCompanyStatus(String companyStatus) {
+        this.companyStatus = companyStatus;
+    }
 }

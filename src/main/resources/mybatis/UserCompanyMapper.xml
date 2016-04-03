@@ -152,6 +152,9 @@
 		tstd_user_company t right join tstd_company c on t.company_id=c.company_id
 		Where
 		t.user_id = #{userId}
+		<if test="companyStatus != null and companyStatus != '' ">
+			AND c.status = #{companyStatus}
+		</if>
 	</select>
 	
 	<select id="select_UserList" parameterType="userCompany" resultMap="user_DB_Result">

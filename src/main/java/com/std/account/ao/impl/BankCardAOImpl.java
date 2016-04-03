@@ -27,6 +27,7 @@ import com.std.account.domain.BankCard;
 import com.std.account.domain.Company;
 import com.std.account.domain.User;
 import com.std.account.enums.EBankCardType;
+import com.std.account.enums.ECompanyStatus;
 import com.std.account.exception.BizException;
 
 /** 
@@ -122,7 +123,8 @@ public class BankCardAOImpl implements IBankCardAO {
         List<BankCard> returnList = new ArrayList<BankCard>();
         returnList.addAll(bankCardBO.queryBankCardList(userId,
             EBankCardType.User));
-        List<Company> companyList = userCompanyBO.queryCompanyList(userId);
+        List<Company> companyList = userCompanyBO.queryCompanyList(userId,
+            ECompanyStatus.KYC_YES.getCode());
         if (CollectionUtils.isNotEmpty(companyList)) {
             for (Company company : companyList) {
                 returnList.addAll(bankCardBO.queryBankCardList(

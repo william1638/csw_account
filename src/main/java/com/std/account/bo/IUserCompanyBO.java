@@ -24,4 +24,7 @@ public interface IUserCompanyBO extends IPaginableBO<UserCompany> {
     public List<User> queryUserList(String companyId);
 
     public List<Company> queryCompanyList(String userId);
+
+    public List<Company> queryCompanyList(String userId, String companyStatus);
+
 }

@@ -79,4 +79,19 @@ public class UserCompanyBOImpl extends PaginableBOImpl<UserCompany> implements
         return list;
     }
 
+    /** 
+     * @see com.std.account.bo.IUserCompanyBO#queryCompanyList(java.lang.String, java.lang.String)
+     */
+    @Override
+    public List<Company> queryCompanyList(String userId, String companyStatus) {
+        List<Company> list = null;
+        if (StringUtils.isNotBlank(userId)) {
+            UserCompany condition = new UserCompany();
+            condition.setUserId(userId);
+            condition.setCompanyStatus(companyStatus);
+            list = userCompanyDAO.selectCompanyList(condition);
+        }
+        return list;
+    }
+
 }
