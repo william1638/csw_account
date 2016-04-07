@@ -18,7 +18,6 @@ import com.std.account.domain.BankCard;
 import com.std.account.domain.Company;
 import com.std.account.domain.User;
 import com.std.account.enums.EBankCardType;
-import com.std.account.enums.ECompanyStatus;
 import com.std.account.enums.EUserKind;
 import com.std.account.exception.BizException;
 
@@ -101,17 +100,11 @@ public class CompanyAOImpl implements ICompanyAO {
             String currency, Long capital, String province, String city,
             String applyUser, String address) {
         Company company = companyBO.getCompany(companyId);
-        // 只是新增公司，就修改公司时，status 置为0;其他情况置为待审核
-        String status = ECompanyStatus.DRAFT.getCode();
-        if (!ECompanyStatus.DRAFT.getCode().equals(company.getStatus())) {
-            status = ECompanyStatus.todoKYC.getCode();
-        }
         // 判断该用户是否已存在营业执照号
         judgeLicenceNoExist(applyUser, companyId, licenceNo);
-
         companyBO.refreshCompany(companyId, companyName, licenceNo, idKind,
             idNo, realName, currency, capital, province, city, applyUser,
-            address, status);
+            address, company.getStatus());
 
     }
 
