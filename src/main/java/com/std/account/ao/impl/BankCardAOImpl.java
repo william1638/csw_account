@@ -108,9 +108,6 @@ public class BankCardAOImpl implements IBankCardAO {
         if (bankCard == null) {
             throw new BizException("xn702000", "编号不存在");
         }
-        if (!bankCard.getOwnerId().equalsIgnoreCase(userId)) {
-            throw new BizException("xn702000", "该用户无该银行账户");
-        }
         if (EBankCardType.User.getCode().equalsIgnoreCase(bankCard.getType())) {
             // 功能暂未实现
         }

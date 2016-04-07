@@ -13,7 +13,7 @@ public class XN801219Req {
     // 证件号码（必填）
     private String idNo;
 
-    // 安全密码（必填）
+    // 交易密码（必填）
     private String tradePwd;
 
     // 手机验证码（必填）

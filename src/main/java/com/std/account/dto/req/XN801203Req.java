@@ -4,7 +4,7 @@ public class XN801203Req {
     // userId（必填）
     private String userId;
 
-    // 安全密码（必填）
+    // 交易密码（必填）
     private String tradePwd;
 
     // 手机验证码（必填）

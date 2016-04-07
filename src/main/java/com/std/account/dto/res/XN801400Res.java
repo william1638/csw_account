@@ -30,10 +30,10 @@ public class XN801400Res {
     // 真实姓名
     private String realName;
 
-    // 安全密码
+    // 交易密码
     // private String tradePwd;
 
-    // 安全密码强度
+    // 交易密码强度
     private String tradePwdStrength;
 
     // 创建时间

@@ -258,7 +258,7 @@ public class UserAOImpl implements IUserAO {
     public boolean doResetTradePwd(String userId, String oldTradePwd,
             String newTradePwd) {
         if (oldTradePwd.equals(newTradePwd)) {
-            throw new BizException("li01008", "新安全密码与原有安全密码重复");
+            throw new BizException("li01008", "新交易密码与原有交易密码重复");
         }
         User user = null;
         User conditon = new User();
@@ -268,7 +268,7 @@ public class UserAOImpl implements IUserAO {
         if (CollectionUtils.isNotEmpty(list)) {
             user = list.get(0);
         } else {
-            throw new BizException("li01008", "旧安全密码不正确");
+            throw new BizException("li01008", "旧交易密码不正确");
         }
         userBO.refreshTradePwd(userId, newTradePwd);
         // 发送短信
