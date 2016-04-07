@@ -28,7 +28,7 @@
 				AND t.user_id = #{userId}
 			</if>
 			<if test="mobile != null and mobile != '' ">
-				AND t.mobile = #{mobile}
+				AND t.mobile like CONCAT('%',#{mobile},'%')
 			</if>
 			<if test="userKind != null and userKind != '' ">
 				AND t.user_kind = #{userKind}
