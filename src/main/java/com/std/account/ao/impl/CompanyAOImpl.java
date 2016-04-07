@@ -2,6 +2,8 @@ package com.std.account.ao.impl;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -74,6 +76,9 @@ public class CompanyAOImpl implements ICompanyAO {
         if (!EUserKind.Admin.getCode().equalsIgnoreCase(user.getUserKind())) {
             throw new BizException("xn000001", "当前用户不是admin,不能KYC");
         }
+        // 判断该用户是否已存在营业执照号
+        judgeLicenceNoExist(applyUser, null, licenceNo);
+
         String companyId = OrderNoGenerater.generate("C");
         userCompanyBO.saveUserCompany(applyUser, companyId, "admin申请KYC");
         return companyBO.saveCompany(companyId, companyName, licenceNo, idKind,
@@ -101,9 +106,36 @@ public class CompanyAOImpl implements ICompanyAO {
         if (!ECompanyStatus.DRAFT.getCode().equals(company.getStatus())) {
             status = ECompanyStatus.todoKYC.getCode();
         }
+        // 判断该用户是否已存在营业执照号
+        judgeLicenceNoExist(applyUser, companyId, licenceNo);
+
         companyBO.refreshCompany(companyId, companyName, licenceNo, idKind,
             idNo, realName, currency, capital, province, city, applyUser,
             address, status);
+
+    }
+
+    // 判断该用户是否已存在营业执照号
+    private void judgeLicenceNoExist(String userId, String companyId,
+            String licenceNo) {
+        List<Company> companyList = userCompanyBO.queryCompanyList(userId);
+        if (CollectionUtils.isNotEmpty(companyList)) {
+            if (StringUtils.isBlank(companyId)) {
+                for (Company domain : companyList) {
+                    if (domain.getLicenceNo().equals(licenceNo)) {
+                        throw new BizException("xn000001", "营业执照号已存在");
+                    }
+                }
+            } else {
+                for (Company domain : companyList) {
+                    if (!domain.getCompanyId().equals(companyId)
+                            && domain.getLicenceNo().equals(licenceNo)) {
+                        throw new BizException("xn000001", "营业执照号已存在");
+                    }
+                }
+            }
+
+        }
 
     }
 }
