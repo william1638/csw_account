@@ -19,22 +19,28 @@
 2，打包
   scp -P57652 ./std-account.war root@120.55.113.192:/home/
   
+  scp -P57652 ./std-account.war root@121.43.101.148:/mnt/wwwroot/
+  
+  
 3，部署
   ssh root@120.55.113.192 -p 57652
-
-  cd /home/tomcat_STD_account/webapps
+  ssh root@121.43.101.148 -p 57652
+  
+  cd /mnt/wwwroot/tomcat_STD_account/webapps
   cp ./std-account/WEB-INF/classes/application.properties .
   cp ./std-account/WEB-INF/classes/config.properties .
   rm -rf std-account/
   rm -rf std-account.war
-  mv /home/std-account.war .
+  mv /mnt/wwwroot/std-account.war .
   
   mv -f application.properties ./std-account/WEB-INF/classes/
   mv -f config.properties ./std-account/WEB-INF/classes/
+  ../bin/shutdown.sh
+  ../bin/startup.sh
   
 4,起停tomcat_STD_account
-./shutdown.sh
-./startup.sh
+  ../bin/shutdown.sh
+  ../bin/startup.sh
   
-http://120.55.113.192:7102/std-account/api
+http://121.43.101.148:7102/std-account/api
 
