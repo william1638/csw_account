@@ -55,7 +55,7 @@ public class StringValidater {
                 throw new BizException("xn702000", "金额，请按要求填写数字");
             }
 
-            if (Math.abs(amountL) < 1000) {
+            if (amountL < 1000) {
                 throw new BizException("xn702000", "金额不能小于1块钱");
             }
         }

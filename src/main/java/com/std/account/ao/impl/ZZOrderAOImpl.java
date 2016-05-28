@@ -8,14 +8,13 @@
  */
 package com.std.account.ao.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.std.account.ao.IZZOrderAO;
 import com.std.account.bo.IAccountBO;
+import com.std.account.bo.IUserBO;
 import com.std.account.bo.IZZOrderBO;
 import com.std.account.bo.base.Paginable;
 import com.std.account.domain.Account;
@@ -32,43 +31,14 @@ import com.std.account.exception.BizException;
 @Service
 public class ZZOrderAOImpl implements IZZOrderAO {
     @Autowired
+    IUserBO userBO;
+
+    @Autowired
     IAccountBO accountBO;
 
     @Autowired
     IZZOrderBO zzOrderBO;
 
-    /** 
-     * @see com.ibis.account.ao.IZZOrderAO#doTransfer(java.lang.String, java.lang.Long, java.lang.String, java.lang.String, java.lang.String)
-     */
-    @Override
-    @Transactional
-    public String doTransfer(String userId, Long amount, String oppositeSystem,
-            String oppositeAccount, String remark) {
-        Account account = accountBO.getAccountByUserId(userId);
-        if (account == null) {
-            throw new BizException("li01004", userId + "用户不存在");
-        }
-        String accountNumber = account.getAccountNumber();
-        String bizType = null;
-        String direction = null;
-        if (amount > 0) {
-            bizType = EBizType.AJ_ZR.getCode();
-            direction = EDirection.PLUS.getCode();
-        }
-        if (amount < 0) {
-            bizType = EBizType.AJ_ZC.getCode();
-            direction = EDirection.MINUS.getCode();
-        }
-        String zzNo = zzOrderBO.saveZZOrder(accountNumber, direction, amount,
-            oppositeSystem, oppositeAccount, remark);
-        // 资金变动
-        accountBO.refreshAmount(accountNumber, amount, bizType, zzNo, remark);
-        return zzNo;
-    }
-
-    /** 
-     * @see com.ibis.account.ao.IZZOrderAO#queryZZOrderPage(int, int, com.ibis.account.domain.ZZOrder)
-     */
     @Override
     public Paginable<ZZOrder> queryZZOrderPage(int start, int limit,
             ZZOrder condition) {
@@ -76,8 +46,48 @@ public class ZZOrderAOImpl implements IZZOrderAO {
     }
 
     @Override
-    public List<ZZOrder> doStatisticsDvalue(String accountNumber) {
-        return zzOrderBO.doStatisticsDvalue(accountNumber);
+    @Transactional
+    public String doTransferOSS(String accountNumber, String direction,
+            Long amount, Long fee, String remark) {
+        Account account = accountBO.getAccount(accountNumber);
+        if (account == null) {
+            throw new BizException("li01004", accountNumber + "账户不存在");
+        }
+        return doTransfer(accountNumber, direction, amount, fee, remark);
     }
 
+    @Override
+    @Transactional
+    public String doTransferFRONT(String accountNumber, String direction,
+            Long amount, Long fee, String remark, String tradePwd) {
+        Account account = accountBO.getAccount(accountNumber);
+        if (account == null) {
+            throw new BizException("li01004", accountNumber + "账户不存在");
+        }
+        // 校验交易密码
+        userBO.checkTradePwd(account.getUserId(), tradePwd);
+        return doTransfer(accountNumber, direction, amount, fee, remark);
+    }
+
+    private String doTransfer(String accountNumber, String direction,
+            Long amount, Long fee, String remark) {
+        EBizType bizType = null;
+        Long transAmount = null;
+        EDirection dir = null;
+        if (EDirection.PLUS.getCode().equalsIgnoreCase(direction)) {
+            bizType = EBizType.AJ_ZR;
+            transAmount = amount;
+            dir = EDirection.PLUS;
+        }
+        if (EDirection.MINUS.getCode().equalsIgnoreCase(direction)) {
+            bizType = EBizType.AJ_ZC;
+            transAmount = -amount;
+            dir = EDirection.MINUS;
+        }
+        String zzNo = zzOrderBO.saveZZOrder(accountNumber, dir, amount, fee,
+            remark);
+        // 资金变动
+        accountBO.refreshAmount(accountNumber, transAmount, zzNo, bizType);
+        return zzNo;
+    }
 }

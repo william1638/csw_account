@@ -8,8 +8,6 @@
  */
 package com.std.account.bo.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,27 +26,5 @@ public class AFJourBOImpl extends PaginableBOImpl<AccountFrozenJour> implements
         IAFJourBO {
     @Autowired
     private IAFJourDAO afJourDAO;
-
-    /** 
-     * @see com.ibis.account.bo.IAFJourBO#getAFJour(java.lang.Long)
-     */
-    @Override
-    public AccountFrozenJour getAFJour(Long afjNo) {
-        AccountFrozenJour data = null;
-        if (afjNo > 0) {
-            AccountFrozenJour condition = new AccountFrozenJour();
-            condition.setAfjNo(afjNo);
-            data = afJourDAO.select(condition);
-        }
-        return data;
-    }
-
-    /** 
-     * @see com.ibis.account.bo.IAFJourBO#queryAFJourList(com.ibis.account.domain.AccountFrozenJour)
-     */
-    @Override
-    public List<AccountFrozenJour> queryAFJourList(AccountFrozenJour condition) {
-        return afJourDAO.selectList(condition);
-    }
 
 }

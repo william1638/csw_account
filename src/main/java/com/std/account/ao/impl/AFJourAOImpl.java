@@ -26,9 +26,6 @@ public class AFJourAOImpl implements IAFJourAO {
     @Autowired
     IAFJourBO afJourBO;
 
-    /** 
-     * @see com.ibis.account.ao.IAFJourAO#queryAccountFrozenJourPage(int, int, com.ibis.account.domain.AccountFrozenJour)
-     */
     @Override
     public Paginable<AccountFrozenJour> queryAccountFrozenJourPage(int start,
             int limit, AccountFrozenJour condition) {

@@ -9,7 +9,6 @@
 package com.std.account.bo.impl;
 
 import java.util.Date;
-import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,46 +35,37 @@ public class HLOrderBOImpl extends PaginableBOImpl<HLOrder> implements
     private IHLOrderDAO hlOrderDAO;
 
     @Override
-    public String saveHLOrder(String accountNumber, String type, Long amount,
-            String applyUser, String applyNote) {
-        String hlNo = null;
+    public String saveHLOrder(String accountNumber, EDirection direction,
+            Long amount, String applyUser, String applyNote) {
+        String code = null;
         if (StringUtils.isNotBlank(accountNumber) && amount != 0
                 && StringUtils.isNotBlank(applyUser)
                 && StringUtils.isNotBlank(applyNote)) {
             HLOrder data = new HLOrder();
-            hlNo = OrderNoGenerater.generate("HL");
-            data.setHlNo(hlNo);
-            data.setType(type);
+            code = OrderNoGenerater.generate("HL");
+            data.setCode(code);
+            data.setDirection(direction.getCode());
+            data.setAmount(amount);
             data.setStatus(EOrderStatus.todoAPPROVE.getCode());
-            if (amount > 0) {
-                data.setDirection(EDirection.PLUS.getCode());
-                data.setAmount(amount);
-            }
-            if (amount < 0) {
-                data.setDirection(EDirection.MINUS.getCode());
-                data.setAmount(-amount);
-            }
             data.setApplyUser(applyUser);
+
             data.setApplyNote(applyNote);
-            data.setCreateDatetime(new Date());
+            data.setApplyDatetime(new Date());
             data.setAccountNumber(accountNumber);
             hlOrderDAO.insert(data);
         }
-        return hlNo;
+        return code;
     }
 
-    /** 
-     * @see com.ibis.account.bo.IHLOrderBO#refreshApproveOrder(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
-    public int refreshApproveOrder(String hlNo, String approveUser,
-            String approveResult, String approveNote) {
-        int count = 0;
-        if (StringUtils.isNotBlank(hlNo) && StringUtils.isNotBlank(approveUser)
-                && StringUtils.isNotBlank(approveResult)) {
+    public void refreshApproveOrder(String code, String approveUser,
+            EBoolean approveResult, String approveNote) {
+        if (StringUtils.isNotBlank(code) && StringUtils.isNotBlank(approveUser)
+                && StringUtils.isNotBlank(approveNote)) {
             HLOrder data = new HLOrder();
-            data.setHlNo(hlNo);
-            if (EBoolean.YES.getCode().equalsIgnoreCase(approveResult)) {
+            data.setCode(code);
+            if (EBoolean.YES.getCode()
+                .equalsIgnoreCase(approveResult.getCode())) {
                 data.setStatus(EOrderStatus.APPROVE_YES.getCode());
             } else {
                 data.setStatus(EOrderStatus.APPROVE_NO.getCode());
@@ -83,32 +73,20 @@ public class HLOrderBOImpl extends PaginableBOImpl<HLOrder> implements
             data.setApproveUser(approveUser);
             data.setApproveNote(approveNote);
             data.setApproveDatetime(new Date());
-            count = hlOrderDAO.updateApproveOrder(data);
-
+            hlOrderDAO.updateApproveOrder(data);
         }
-        return count;
+
     }
 
-    /** 
-     * @see com.ibis.account.bo.IHLOrderBO#getHLOrder(java.lang.String)
-     */
     @Override
-    public HLOrder getHLOrder(String hlNo) {
+    public HLOrder getHLOrder(String code) {
         HLOrder data = null;
-        if (StringUtils.isNotBlank(hlNo)) {
+        if (StringUtils.isNotBlank(code)) {
             HLOrder condition = new HLOrder();
-            condition.setHlNo(hlNo);
+            condition.setCode(code);
             data = hlOrderDAO.select(condition);
         }
         return data;
-    }
-
-    /** 
-     * @see com.ibis.account.bo.IHLOrderBO#queryHLOrderList(com.ibis.account.domain.HLOrder)
-     */
-    @Override
-    public List<HLOrder> queryHLOrderList(HLOrder data) {
-        return hlOrderDAO.selectList(data);
     }
 
 }

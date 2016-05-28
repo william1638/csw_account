@@ -3,37 +3,23 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.std.account.dao.IZZOrderDAO">
 	<resultMap id="zzOrder_DB_Result" type="zzOrder">
-		<result column="zz_no" property="zzNo" />
-		<result column="status" property="status" />
+		<result column="code" property="code" />
 		<result column="direction" property="direction" />
 		<result column="amount" property="amount" />
-		<result column="create_datetime" property="createDatetime" />
-				
-		<result column="opposite_system" property="oppositeSystem" />
-		<result column="opposite_account" property="oppositeAccount" />	
+		<result column="fee" property="fee" />
 		<result column="remark" property="remark" />
+		
+		<result column="create_datetime" property="createDatetime" />
 		<result column="account_number" property="accountNumber" />
-	</resultMap>
-	
-	<resultMap id="Dvalue_DB_Result" type="zzOrder">
-		<result column="account_number" property="accountNumber" />
-		<result column="opposite_system" property="oppositeSystem" />
-		<result column="amount" property="amount" />	
 	</resultMap>
 	
 	<sql id="where_condition">
 		<trim prefix="WHERE" prefixOverrides="AND | OR">			
-			<if test="zzNo != null and zzNo != '' ">
-				AND t.zz_no = #{zzNo}
+			<if test="code != null and code != '' ">
+				AND t.code = #{code}
 			</if>
-			<if test="status != null and status != '' ">
-				AND t.status = #{status}
-			</if>	
 			<if test="direction != null and direction != '' ">
 				AND t.direction = #{direction}
-			</if>	
-			<if test="oppositeSystem != null and oppositeSystem != '' ">
-				AND t.opposite_system = #{oppositeSystem}
 			</if>				
 			<if test="accountNumber != null and accountNumber != '' ">
 				AND t.account_number = #{accountNumber}
@@ -48,16 +34,13 @@
 	</sql>
 	<select id="select_zzOrder" parameterType="zzOrder" resultMap="zzOrder_DB_Result">
 		SELECT 
-		zz_no
-		,status
+		code
 		,direction
 		,amount
-		,create_datetime	
-			
+		,fee
+		,remark		
 		
-		,opposite_system		
-		,opposite_account
-		,remark			
+		,create_datetime
 		,account_number	
 		FROM
 		tstd_zzorder t
@@ -72,40 +55,24 @@
 
 	<insert id="insert_zzOrder" parameterType="zzOrder">
 		INSERT INTO tstd_zzorder(
-		zz_no
-		,status
+		code
 		,direction
 		,amount
-		,create_datetime				
-
-		,opposite_system		
-		,opposite_account
-		,remark			
+		,fee
+		,remark		
+		
+		,create_datetime
 		,account_number	
 		)
 		VALUES(
-		#{zzNo}
-		,#{status}	
+		#{code}
 		,#{direction}
-		,#{amount}		
-		,#{createDatetime}		
+		,#{amount}	
+		,#{fee}	
+		,#{remark}		
 		
-		,#{oppositeSystem}		
-		,#{oppositeAccount}
-		,#{remark}	
+		,#{createDatetime}
 		,#{accountNumber}
 		)
 	</insert>	
-	
-	
-	<select id="select_doStatisticsDvalue" parameterType="zzOrder" resultMap="Dvalue_DB_Result">
-		SELECT 
-		account_number
-		,opposite_system		
-		,sum(amount) amount
-		FROM
-		tstd_zzorder t
-		WHERE t.account_number = #{accountNumber}
-		GROUP BY t.opposite_system;
-	</select>
 </mapper>

@@ -8,8 +8,6 @@
  */
 package com.std.account.ao;
 
-import java.util.List;
-
 import com.std.account.annotation.ServiceModule;
 import com.std.account.bo.base.Paginable;
 import com.std.account.domain.HLOrder;
@@ -21,32 +19,7 @@ import com.std.account.domain.HLOrder;
  */
 @ServiceModule
 public interface IHLOrderAO {
-    String DEFAULT_ORDER_COLUMN = "hl_no";
-
-    /** 
-     * 红冲蓝补申请
-     * @param accountNumber
-     * @param amount
-     * @param applyUser
-     * @param applyNote
-     * @return 
-     * @create: 2015-5-8 上午10:27:04 miyb
-     * @history: 
-     */
-    public String doBalance(String accountNumber, Long amount,
-            String applyUser, String applyNote);
-
-    /**
-     * 红冲蓝补审批
-     * @param hlNo
-     * @param approveUser
-     * @param approveResult
-     * @param approveNote 
-     * @create: 2016年1月16日 下午7:29:28 myb858
-     * @history:
-     */
-    public void doApprove(String hlNo, String approveUser,
-            String approveResult, String approveNote);
+    String DEFAULT_ORDER_COLUMN = "code";
 
     /** 
      * @param start
@@ -60,12 +33,30 @@ public interface IHLOrderAO {
             HLOrder condition);
 
     /**
-     * 红冲蓝补记录查询
-     * @param condition
+     * 红冲蓝补申请
+     * @param accountNumber
+     * @param direction
+     * @param amount
+     * @param applyUser
+     * @param applyNote
      * @return 
-     * @create: 2015年12月12日 下午5:12:28 haiqingzheng
+     * @create: 2016年5月26日 下午4:19:10 myb858
      * @history:
      */
-    public List<HLOrder> queryHLOrderList(HLOrder condition);
+
+    public String doBalance(String accountNumber, String direction,
+            Long amount, String applyUser, String applyNote);
+
+    /**
+     * 红冲蓝补审批
+     * @param hlNo
+     * @param approveUser
+     * @param approveResult
+     * @param approveNote 
+     * @create: 2016年1月16日 下午7:29:28 myb858
+     * @history:
+     */
+    public void doApprove(String hlNo, String approveUser,
+            String approveResult, String approveNote);
 
 }

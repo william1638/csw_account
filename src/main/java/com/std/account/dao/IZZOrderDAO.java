@@ -8,8 +8,6 @@
  */
 package com.std.account.dao;
 
-import java.util.List;
-
 import com.std.account.dao.base.IBaseDAO;
 import com.std.account.domain.ZZOrder;
 
@@ -21,12 +19,4 @@ import com.std.account.domain.ZZOrder;
 public interface IZZOrderDAO extends IBaseDAO<ZZOrder> {
     String NAMESPACE = IZZOrderDAO.class.getName().concat(".");
 
-    /**
-     * 统计信息
-     * @param condition
-     * @return 
-     * @create: 2015年10月27日 上午11:39:23 myb858
-     * @history:
-     */
-    List<ZZOrder> doStatisticsDvalue(ZZOrder condition);
 }

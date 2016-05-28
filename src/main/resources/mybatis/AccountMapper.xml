@@ -64,27 +64,27 @@
 
 	<insert id="insert_account" parameterType="account">
 		INSERT INTO tstd_account(
-		user_id
+		account_number
+		,user_id
 		,real_name
-		,account_number
-		,status
+		,currency
 		,amount
 		
 		,frozen_amount
-		,currency
 		,md5
+		,status
 		,create_datetime
 		)
 		VALUES(
-		#{userId}
+		#{accountNumber}
+		,#{userId}
 		,#{realName}
-		,#{accountNumber}
-		,#{status}
+		,#{currency}
 		,#{amount}
 		
 		,#{frozenAmount}
-		,#{currency}
 		,#{md5}
+		,#{status}
 		,#{createDatetime}
 		)
 	</insert>

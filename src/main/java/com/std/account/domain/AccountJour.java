@@ -34,9 +34,6 @@ public class AccountJour extends ABaseDO {
     // 流水号
     private Long ajNo;
 
-    // 状态
-    private String status;
-
     // 业务类型
     private String bizType;
 
@@ -58,6 +55,12 @@ public class AccountJour extends ABaseDO {
     // 创建时间
     private Date createDatetime;
 
+    // 账号
+    private String accountNumber;
+
+    // 状态
+    private String status;
+
     // 理应对账时间
     private String workDate;
 
@@ -67,10 +70,8 @@ public class AccountJour extends ABaseDO {
     // 对账时间
     private Date checkDatetime;
 
-    // 账号
-    private String accountNumber;
-
     // ---------db properties end--------------------------
+
     public Date getCreateDatetimeStart() {
         return createDatetimeStart;
     }
@@ -93,6 +94,22 @@ public class AccountJour extends ABaseDO {
 
     public void setAjNo(Long ajNo) {
         this.ajNo = ajNo;
+    }
+
+    public String getBizType() {
+        return bizType;
+    }
+
+    public void setBizType(String bizType) {
+        this.bizType = bizType;
+    }
+
+    public String getRefNo() {
+        return refNo;
+    }
+
+    public void setRefNo(String refNo) {
+        this.refNo = refNo;
     }
 
     public Long getTransAmount() {
@@ -119,28 +136,12 @@ public class AccountJour extends ABaseDO {
         this.postAmount = postAmount;
     }
 
-    public String getBizType() {
-        return bizType;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setBizType(String bizType) {
-        this.bizType = bizType;
-    }
-
-    public String getRefNo() {
-        return refNo;
-    }
-
-    public void setRefNo(String refNo) {
-        this.refNo = refNo;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
     public Date getCreateDatetime() {
@@ -149,6 +150,22 @@ public class AccountJour extends ABaseDO {
 
     public void setCreateDatetime(Date createDatetime) {
         this.createDatetime = createDatetime;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getWorkDate() {
@@ -173,22 +190,6 @@ public class AccountJour extends ABaseDO {
 
     public void setCheckDatetime(Date checkDatetime) {
         this.checkDatetime = checkDatetime;
-    }
-
-    public String getRemark() {
-        return remark;
-    }
-
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
     }
 
 }

@@ -23,7 +23,6 @@ import com.std.account.enums.EAccountJourStatus;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EDirection;
-import com.std.account.enums.EHLOrderType;
 import com.std.account.enums.EOrderStatus;
 import com.std.account.exception.BizException;
 
@@ -43,9 +42,6 @@ public class AJourAOImpl implements IAJourAO {
     @Autowired
     IAccountBO accountBO;
 
-    /** 
-     * @see com.ibis.account.ao.IAJourAO#queryAccountJourPage(int, int, com.ibis.account.domain.AccountJour)
-     */
     @Override
     public Paginable<AccountJour> queryAccountJourPage(int start, int limit,
             AccountJour condition) {
@@ -65,9 +61,14 @@ public class AJourAOImpl implements IAJourAO {
         }
         if (amount != 0) {// 账不平
             aJourBO.doCheckAccount(ajNo, checkUser, EBoolean.NO);
-            hlOrderBO.saveHLOrder(aJour.getAccountNumber(),
-                EHLOrderType.TZ.getCode(), amount, checkUser,
-                EHLOrderType.TZ.getValue());
+            if (amount > 0) {
+                hlOrderBO.saveHLOrder(aJour.getAccountNumber(),
+                    EDirection.PLUS, amount, checkUser, "对账不平，需加钱");
+            } else {
+                hlOrderBO.saveHLOrder(aJour.getAccountNumber(),
+                    EDirection.MINUS, amount, checkUser, "对账不平，需减钱");
+            }
+
         } else {// 账是平的
             aJourBO.doCheckAccount(ajNo, checkUser, EBoolean.YES);
         }
@@ -86,22 +87,19 @@ public class AJourAOImpl implements IAJourAO {
             hlOrder.getStatus())) {
             throw new BizException("xn702514", "订单不处于待审批状态");
         }
-        hlOrderBO.refreshApproveOrder(hlNo, approveUser, approveResult,
-            approveNote);
+        hlOrderBO.refreshApproveOrder(hlNo, approveUser, EBoolean
+            .getBooleanResultMap().get(approveResult), approveNote);
         if (EDirection.PLUS.getCode().equalsIgnoreCase(// 蓝补
             hlOrder.getDirection())) {
             if (EBoolean.YES.getCode().equalsIgnoreCase(approveResult)) { // 资金变动
                 accountBO.refreshAmountWithoutCheck(hlOrder.getAccountNumber(),
-                    hlOrder.getAmount(), EBizType.AJ_LB.getCode(),
-                    hlOrder.getHlNo());
+                    hlOrder.getAmount(), hlOrder.getCode(), EBizType.AJ_LB);
 
             }
         } else {
             if (EBoolean.YES.getCode().equalsIgnoreCase(approveResult)) { // 资金变动
                 accountBO.refreshAmountWithoutCheck(hlOrder.getAccountNumber(),
-                    -hlOrder.getAmount(), EBizType.AJ_HC.getCode(),
-                    hlOrder.getHlNo());
-
+                    -hlOrder.getAmount(), hlOrder.getCode(), EBizType.AJ_HC);
             }
         }
     }

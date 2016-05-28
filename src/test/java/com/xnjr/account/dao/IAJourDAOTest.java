@@ -36,7 +36,7 @@ public class IAJourDAOTest extends ADAOTest {
         AccountJour data = new AccountJour();
         // data.setAjNo(1L);
         data.setStatus(EOrderStatus.PAY_YES.getCode());
-        data.setBizType(EBizType.AJ_QX.getCode());
+        data.setBizType(EBizType.AJ_CZ.getCode());
         data.setRefNo("");
         data.setTransAmount(1L);
 

@@ -29,6 +29,8 @@ import com.std.account.domain.AccountJour;
 import com.std.account.enums.EAccountJourStatus;
 import com.std.account.enums.EAccountStatus;
 import com.std.account.enums.EBizType;
+import com.std.account.enums.ECurrency;
+import com.std.account.enums.EUser;
 import com.std.account.exception.BizException;
 
 /** 
@@ -50,39 +52,239 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
 
     @Override
     public String distributeAccount(String userId, String realName,
-            String currency) {
+            ECurrency currency) {
         String accountNumber = null;
-        if (StringUtils.isNotBlank(userId) && StringUtils.isNotBlank(currency)) {
+        if (StringUtils.isNotBlank(userId)) {
             accountNumber = OrderNoGenerater.generate("A");
             Account data = new Account();
+            data.setAccountNumber(accountNumber);
             data.setUserId(userId);
             data.setRealName(realName);
-            data.setAccountNumber(accountNumber);
-            data.setStatus(EAccountStatus.NORMAL.getCode());
+            data.setCurrency(currency.getCode());
             data.setAmount(0L);
 
             data.setFrozenAmount(0L);
-            data.setCurrency(currency);
             data.setMd5(AccountUtil.md5(data.getAmount()));
+            data.setStatus(EAccountStatus.NORMAL.getCode());
             data.setCreateDatetime(new Date());
             accountDAO.insert(data);
+        } else {
+            throw new BizException("xn702000", "入参有问题");
         }
         return accountNumber;
     }
 
     @Override
-    public int refreshStatus(String accountNumber, EAccountStatus status) {
-        int count = 0;
-        if (StringUtils.isNotBlank(accountNumber)) {
-
-            Account data = new Account();
-            data.setAccountNumber(accountNumber);
-            data.setStatus(status.getCode());
-            data.setUpdateDatetime(new Date());
-            count = accountDAO.updateStatus(data);
-
+    public void refreshAmount(String accountNumber, Long transAmount,
+            String refNo, EBizType bizType) {
+        Account dbAccount = this.getAccount(accountNumber);
+        Long nowAmount = dbAccount.getAmount() + transAmount;
+        if (nowAmount < 0) {
+            throw new BizException("li779001", "账户余额不足");
         }
-        return count;
+        Date now = new Date();
+        Account account = new Account();
+        account.setAccountNumber(accountNumber);
+        account.setAmount(nowAmount);
+        account.setMd5(AccountUtil.md5(account.getAmount()));
+        account.setUpdateDatetime(now);
+        accountDAO.updateAmount(account);
+        // 记录流水
+        AccountJour accountJour = new AccountJour();
+        accountJour.setBizType(bizType.getCode());
+        accountJour.setRefNo(refNo);
+        accountJour.setTransAmount(transAmount);
+        accountJour.setPreAmount(dbAccount.getAmount());
+        accountJour.setPostAmount(nowAmount);
+
+        accountJour.setRemark(bizType.getValue());
+        accountJour.setCreateDatetime(now);
+        accountJour.setAccountNumber(accountNumber);
+        accountJour.setStatus(EAccountJourStatus.todoCheck.getCode());
+        accountJour.setWorkDate(DateUtil
+            .getToday(DateUtil.DB_DATE_FORMAT_STRING));
+        aJourDAO.insert(accountJour);
+
+    }
+
+    @Override
+    public void refreshAmountWithoutCheck(String accountNumber,
+            Long transAmount, String refNo, EBizType bizType) {
+        Account dbAccount = this.getAccount(accountNumber);
+        Long nowAmount = dbAccount.getAmount() + transAmount;
+        if (nowAmount < 0) {
+            throw new BizException("li779001", "账户余额不足");
+        }
+        Date now = new Date();
+        Account account = new Account();
+        account.setAccountNumber(accountNumber);
+        account.setAmount(nowAmount);
+        account.setMd5(AccountUtil.md5(account.getAmount()));
+        account.setUpdateDatetime(now);
+        accountDAO.updateAmount(account);
+        // 记录流水
+        AccountJour accountJour = new AccountJour();
+        accountJour.setBizType(bizType.getCode());
+        accountJour.setRefNo(refNo);
+        accountJour.setTransAmount(transAmount);
+        accountJour.setPreAmount(dbAccount.getAmount());
+        accountJour.setPostAmount(nowAmount);
+
+        accountJour.setRemark(bizType.getValue());
+        accountJour.setCreateDatetime(now);
+        accountJour.setAccountNumber(accountNumber);
+        accountJour.setStatus(EAccountJourStatus.noCheck.getCode());
+        accountJour.setWorkDate(DateUtil
+            .getToday(DateUtil.DB_DATE_FORMAT_STRING));
+
+        accountJour.setCheckUser(EUser.LI.getCode());
+        accountJour.setCheckDatetime(now);
+        aJourDAO.insert(accountJour);
+
+    }
+
+    @Override
+    public void freezeAmount(String accountNumber, Long freezeAmount,
+            String refNo, EBizType bizType) {
+        if (freezeAmount < 0) {
+            throw new BizException("xn702000", "冻结金额不能小于0");
+        }
+        Account dbAccount = this.getAccount(accountNumber);
+        Long nowAmount = dbAccount.getAmount() - freezeAmount;
+        if (nowAmount < 0) {
+            throw new BizException("xn702000", "账户余额不足");
+        }
+        Long nowFrozenAmount = dbAccount.getFrozenAmount() + freezeAmount;
+        Date now = new Date();
+        Account account = new Account();
+        account.setAccountNumber(accountNumber);
+        account.setAmount(nowAmount);
+        account.setFrozenAmount(nowFrozenAmount);
+        account.setMd5(AccountUtil.md5(account.getAmount()));
+        account.setUpdateDatetime(now);
+        accountDAO.updateFrozenAmount(account);
+        // 记录资金流水
+        AccountJour accountJour = new AccountJour();
+        accountJour.setBizType(bizType.getCode());
+        accountJour.setRefNo(refNo);
+        accountJour.setTransAmount(-freezeAmount);
+        accountJour.setPreAmount(dbAccount.getAmount());
+        accountJour.setPostAmount(nowAmount);
+
+        accountJour.setRemark(bizType.getValue());
+        accountJour.setCreateDatetime(new Date());
+        accountJour.setAccountNumber(accountNumber);
+        accountJour.setStatus(EAccountJourStatus.todoCheck.getCode());
+        accountJour.setWorkDate(DateUtil
+            .getToday(DateUtil.DB_DATE_FORMAT_STRING));
+        aJourDAO.insert(accountJour);
+        // 记录冻结流水
+        AccountFrozenJour accountFrozenJour = new AccountFrozenJour();
+        accountFrozenJour.setBizType(bizType.getCode());
+        accountFrozenJour.setRefNo(refNo);
+        accountFrozenJour.setTransAmount(freezeAmount);
+        accountFrozenJour.setPreAmount(dbAccount.getFrozenAmount());
+        accountFrozenJour.setPostAmount(nowFrozenAmount);
+
+        accountFrozenJour.setRemark(bizType.getValue());
+        accountFrozenJour.setCreateDatetime(now);
+        accountFrozenJour.setAccountNumber(accountNumber);
+        afJourDAO.insert(accountFrozenJour);
+
+    }
+
+    @Override
+    public void unfreezeAmount(String accountNumber, Long unfreezeAmount,
+            String refNo, EBizType bizType) {
+        if (unfreezeAmount < 0) {
+            throw new BizException("xn702000", "解结金额不能小于0");
+        }
+        Account dbAccount = this.getAccount(accountNumber);
+        Long nowFrozenAmount = dbAccount.getFrozenAmount() - unfreezeAmount;
+        if (nowFrozenAmount < 0) {
+            throw new BizException("xn702000", "本次账户解冻金额，会使账户冻结金额小于0");
+        }
+        Long nowAmount = dbAccount.getAmount();
+        Date now = new Date();
+        Account account = new Account();
+        account.setAccountNumber(accountNumber);
+        account.setAmount(nowAmount);
+        account.setFrozenAmount(nowFrozenAmount);
+        account.setMd5(AccountUtil.md5(account.getAmount()));
+        account.setUpdateDatetime(now);
+        accountDAO.updateFrozenAmount(account);
+        // 记录流水
+        AccountFrozenJour accountFrozenJour = new AccountFrozenJour();
+        accountFrozenJour.setBizType(bizType.getCode());
+        accountFrozenJour.setRefNo(refNo);
+        accountFrozenJour.setTransAmount(-unfreezeAmount);
+        accountFrozenJour.setPreAmount(dbAccount.getFrozenAmount());
+        accountFrozenJour.setPostAmount(nowFrozenAmount);
+
+        accountFrozenJour.setRemark(bizType.getValue());
+        accountFrozenJour.setCreateDatetime(now);
+        accountFrozenJour.setAccountNumber(accountNumber);
+        afJourDAO.insert(accountFrozenJour);
+
+    }
+
+    @Override
+    public void unfreezeAmountToAmount(String accountNumber,
+            Long unfreezeAmount, String refNo, EBizType bizType) {
+        if (unfreezeAmount < 0) {
+            throw new BizException("xn702000", "解结金额不能小于0");
+        }
+        Account dbAccount = this.getAccount(accountNumber);
+        Long nowFrozenAmount = dbAccount.getFrozenAmount() - unfreezeAmount;
+        if (nowFrozenAmount < 0) {
+            throw new BizException("xn702000", "本次账户解冻金额，会使账户冻结金额小于0");
+        }
+        Long nowAmount = dbAccount.getAmount() + unfreezeAmount;
+        Date now = new Date();
+        Account account = new Account();
+        account.setAccountNumber(accountNumber);
+        account.setAmount(nowAmount);
+        account.setFrozenAmount(nowFrozenAmount);
+        account.setMd5(AccountUtil.md5(account.getAmount()));
+        account.setUpdateDatetime(now);
+        accountDAO.updateFrozenAmount(account);
+        // 记录资金流水
+        AccountJour accountJour = new AccountJour();
+        accountJour.setBizType(bizType.getCode());
+        accountJour.setRefNo(refNo);
+        accountJour.setTransAmount(unfreezeAmount);
+        accountJour.setPreAmount(dbAccount.getAmount());
+        accountJour.setPostAmount(nowAmount);
+
+        accountJour.setRemark(bizType.getCode());
+        accountJour.setCreateDatetime(new Date());
+        accountJour.setStatus(EAccountJourStatus.todoCheck.getCode());
+        accountJour.setWorkDate(DateUtil
+            .getToday(DateUtil.DB_DATE_FORMAT_STRING));
+        accountJour.setAccountNumber(accountNumber);
+        aJourDAO.insert(accountJour);
+        // 记录冻结流水
+        AccountFrozenJour accountFrozenJour = new AccountFrozenJour();
+        accountFrozenJour.setBizType(bizType.getCode());
+        accountFrozenJour.setRefNo(refNo);
+        accountFrozenJour.setTransAmount(-unfreezeAmount);
+        accountFrozenJour.setPreAmount(dbAccount.getFrozenAmount());
+        accountFrozenJour.setPostAmount(nowFrozenAmount);
+
+        accountFrozenJour.setRemark(bizType.getValue());
+        accountFrozenJour.setCreateDatetime(now);
+        accountFrozenJour.setAccountNumber(accountNumber);
+        afJourDAO.insert(accountFrozenJour);
+
+    }
+
+    @Override
+    public void refreshStatus(String accountNumber, EAccountStatus status) {
+        Account data = new Account();
+        data.setAccountNumber(accountNumber);
+        data.setStatus(status.getCode());
+        data.setUpdateDatetime(new Date());
+        accountDAO.updateStatus(data);
     }
 
     @Override
@@ -92,6 +294,11 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         data.setRealName(realName);
         data.setUpdateDatetime(new Date());
         accountDAO.updateRealName(data);
+    }
+
+    @Override
+    public List<Account> queryAccountList(Account data) {
+        return accountDAO.selectList(data);
     }
 
     @Override
@@ -108,9 +315,6 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         return data;
     }
 
-    /** 
-     * @see com.ibis.account.bo.IAccountBO#getAccountByUserId(java.lang.String)
-     */
     @Override
     public Account getAccountByUserId(String userId) {
         Account data = null;
@@ -120,224 +324,6 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
             data = accountDAO.select(condition);
         }
         return data;
-    }
-
-    /** 
-     * @see com.ibis.account.bo.IAccountBO#queryAccountList(com.ibis.account.domain.Account)
-     */
-    @Override
-    public List<Account> queryAccountList(Account data) {
-        return accountDAO.selectList(data);
-    }
-
-    /** 
-     * @see com.ibis.account.bo.IAccountBO#checkAccount()
-     */
-    @Override
-    public void checkAccount() {
-        // TODO Auto-generated method stub
-
-    }
-
-    @Override
-    public int refreshAmount(String accountNumber, Long transAmount,
-            String bizType, String refNo, String remark) {
-        int count = 0;
-        if (StringUtils.isNotBlank(accountNumber)) {
-            Account dbAccount = this.getAccount(accountNumber);
-            Long nowAmount = dbAccount.getAmount() + transAmount;
-            if (nowAmount < 0) {
-                throw new BizException("li779001", "账户余额不足");
-            }
-            Account account = new Account();
-            account.setAccountNumber(accountNumber);
-            account.setAmount(nowAmount);
-            account.setMd5(AccountUtil.md5(account.getAmount()));
-            account.setUpdateDatetime(new Date());
-            count = accountDAO.updateAmount(account);
-            // 记录流水
-            AccountJour accountJour = new AccountJour();
-            accountJour.setStatus(EAccountJourStatus.todoCheck.getCode());
-            accountJour.setBizType(bizType);
-            accountJour.setRefNo(refNo);
-            accountJour.setTransAmount(transAmount);
-
-            accountJour.setPreAmount(dbAccount.getAmount());
-
-            accountJour.setPostAmount(nowAmount);
-            accountJour.setRemark(remark);
-            accountJour.setCreateDatetime(new Date());
-            accountJour.setWorkDate(DateUtil
-                .getToday(DateUtil.DB_DATE_FORMAT_STRING));
-            accountJour.setAccountNumber(accountNumber);
-            aJourDAO.insert(accountJour);
-        }
-        return count;
-    }
-
-    @Override
-    public int refreshAmountWithoutCheck(String accountNumber,
-            Long transAmount, String bizType, String refNo) {
-        int count = 0;
-        if (StringUtils.isNotBlank(accountNumber)) {
-            Account dbAccount = this.getAccount(accountNumber);
-            Long nowAmount = dbAccount.getAmount() + transAmount;
-            if (nowAmount < 0) {
-                throw new BizException("li779001", "账户余额不足");
-            }
-            Account account = new Account();
-            account.setAccountNumber(accountNumber);
-            account.setAmount(nowAmount);
-            account.setMd5(AccountUtil.md5(account.getAmount()));
-            account.setUpdateDatetime(new Date());
-            count = accountDAO.updateAmount(account);
-            // 记录流水
-            AccountJour accountJour = new AccountJour();
-            accountJour.setStatus(EAccountJourStatus.Done.getCode());
-            accountJour.setBizType(bizType);
-            accountJour.setRefNo(refNo);
-            accountJour.setTransAmount(transAmount);
-
-            accountJour.setPreAmount(dbAccount.getAmount());
-
-            accountJour.setPostAmount(nowAmount);
-            accountJour.setRemark(EBizType.getBizTypeMap().get(bizType)
-                .getValue());
-            accountJour.setCreateDatetime(new Date());
-            accountJour.setWorkDate(DateUtil
-                .getToday(DateUtil.DB_DATE_FORMAT_STRING));
-            accountJour.setAccountNumber(accountNumber);
-            aJourDAO.insert(accountJour);
-        }
-        return count;
-    }
-
-    @Override
-    public void freezeAmount(String accountNumber, Long freezeAmount,
-            EBizType bizType, String refNo) {
-        if (freezeAmount < 0) {
-            throw new BizException("xn702000", "冻结金额不能小于0");
-        }
-        if (StringUtils.isNotBlank(accountNumber)) {
-            Account dbAccount = this.getAccount(accountNumber);
-            Long nowAmount = dbAccount.getAmount() - freezeAmount;
-            if (nowAmount < 0) {
-                throw new BizException("xn702000", "账户余额不足");
-            }
-            Long nowFrozenAmount = dbAccount.getFrozenAmount() + freezeAmount;
-            Date now = new Date();
-            Account account = new Account();
-            account.setAccountNumber(accountNumber);
-            account.setAmount(nowAmount);
-            account.setFrozenAmount(nowFrozenAmount);
-            account.setMd5(AccountUtil.md5(account.getAmount()));
-            account.setUpdateDatetime(now);
-            accountDAO.updateFrozenAmount(account);
-            // 记录资金流水
-            AccountJour accountJour = new AccountJour();
-            accountJour.setStatus(EAccountJourStatus.todoCheck.getCode());
-            accountJour.setBizType(bizType.getCode());
-            accountJour.setRefNo(refNo);
-            accountJour.setTransAmount(-freezeAmount);
-            accountJour.setPreAmount(dbAccount.getAmount());
-
-            accountJour.setPostAmount(nowAmount);
-            accountJour.setRemark(bizType.getValue());
-            accountJour.setCreateDatetime(new Date());
-            accountJour.setWorkDate(DateUtil
-                .getToday(DateUtil.DB_DATE_FORMAT_STRING));
-            accountJour.setAccountNumber(accountNumber);
-            aJourDAO.insert(accountJour);
-            // 记录冻结流水
-            AccountFrozenJour accountFrozenJour = new AccountFrozenJour();
-            accountFrozenJour.setBizType(bizType.getCode());
-            accountFrozenJour.setRefNo(refNo);
-            accountFrozenJour.setTransAmount(freezeAmount);
-            accountFrozenJour.setPreAmount(dbAccount.getFrozenAmount());
-
-            accountFrozenJour.setPostAmount(nowFrozenAmount);
-            accountFrozenJour.setRemark(bizType.getValue());
-            accountFrozenJour.setCreateDatetime(now);
-            accountFrozenJour.setAccountNumber(accountNumber);
-            afJourDAO.insert(accountFrozenJour);
-        }
-    }
-
-    @Override
-    public void unfreezeAmount(String accountNumber, Long unfreezeAmount,
-            EBizType bizType, String refNo, boolean backFlag) {
-        if (unfreezeAmount < 0) {
-            throw new BizException("xn702000", "解结金额不能小于0");
-        }
-
-        if (StringUtils.isNotBlank(accountNumber)) {
-            Account dbAccount = this.getAccount(accountNumber);
-            Long nowFrozenAmount = dbAccount.getFrozenAmount() - unfreezeAmount;
-            if (nowFrozenAmount < 0) {
-                throw new BizException("xn702000", "本次账户解冻金额，会使账户冻结金额小于0");
-            }
-            if (backFlag) {// 解冻的金额返回至余额中
-                Long nowAmount = dbAccount.getAmount() + unfreezeAmount;
-                Date now = new Date();
-                Account account = new Account();
-                account.setAccountNumber(accountNumber);
-                account.setAmount(nowAmount);
-                account.setFrozenAmount(nowFrozenAmount);
-                account.setMd5(AccountUtil.md5(account.getAmount()));
-                account.setUpdateDatetime(now);
-                accountDAO.updateFrozenAmount(account);
-                // 记录资金流水
-                AccountJour accountJour = new AccountJour();
-                accountJour.setStatus(EAccountJourStatus.todoCheck.getCode());
-                accountJour.setBizType(bizType.getCode());
-                accountJour.setRefNo(refNo);
-                accountJour.setTransAmount(unfreezeAmount);
-                accountJour.setPreAmount(dbAccount.getAmount());
-
-                accountJour.setPostAmount(nowAmount);
-                accountJour.setRemark("解冻金额返还回余额");
-                accountJour.setCreateDatetime(new Date());
-                accountJour.setWorkDate(DateUtil
-                    .getToday(DateUtil.DB_DATE_FORMAT_STRING));
-                accountJour.setAccountNumber(accountNumber);
-                aJourDAO.insert(accountJour);
-                // 记录冻结流水
-                AccountFrozenJour accountFrozenJour = new AccountFrozenJour();
-                accountFrozenJour.setBizType(bizType.getCode());
-                accountFrozenJour.setRefNo(refNo);
-                accountFrozenJour.setTransAmount(-unfreezeAmount);
-                accountFrozenJour.setPreAmount(dbAccount.getFrozenAmount());
-
-                accountFrozenJour.setPostAmount(nowFrozenAmount);
-                accountFrozenJour.setRemark("解冻金额返还回余额");
-                accountFrozenJour.setCreateDatetime(now);
-                accountFrozenJour.setAccountNumber(accountNumber);
-                afJourDAO.insert(accountFrozenJour);
-            } else {
-                Long nowAmount = dbAccount.getAmount();
-                Date now = new Date();
-                Account account = new Account();
-                account.setAccountNumber(accountNumber);
-                account.setAmount(nowAmount);
-                account.setFrozenAmount(nowFrozenAmount);
-                account.setMd5(AccountUtil.md5(account.getAmount()));
-                account.setUpdateDatetime(now);
-                accountDAO.updateFrozenAmount(account);
-                // 记录流水
-                AccountFrozenJour accountFrozenJour = new AccountFrozenJour();
-                accountFrozenJour.setBizType(bizType.getCode());
-                accountFrozenJour.setRefNo(refNo);
-                accountFrozenJour.setTransAmount(-unfreezeAmount);
-                accountFrozenJour.setPreAmount(dbAccount.getFrozenAmount());
-
-                accountFrozenJour.setPostAmount(nowFrozenAmount);
-                accountFrozenJour.setRemark("解冻金额直接扣减使用");
-                accountFrozenJour.setCreateDatetime(now);
-                accountFrozenJour.setAccountNumber(accountNumber);
-                afJourDAO.insert(accountFrozenJour);
-            }
-
-        }
     }
 
 }

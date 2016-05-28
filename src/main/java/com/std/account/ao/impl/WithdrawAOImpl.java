@@ -1,0 +1,168 @@
+/**
+ * @Title WithdrawAOImpl.java 
+ * @Package com.ibis.account.ao.impl 
+ * @Description 
+ * @author miyb  
+ * @date 2015-3-17 下午9:33:57 
+ * @version V1.0   
+ */
+package com.std.account.ao.impl;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.std.account.ao.IWithdrawAO;
+import com.std.account.bo.IAccountBO;
+import com.std.account.bo.IUserBO;
+import com.std.account.bo.IWithdrawBO;
+import com.std.account.bo.base.Paginable;
+import com.std.account.domain.Account;
+import com.std.account.domain.Withdraw;
+import com.std.account.enums.EBizType;
+import com.std.account.enums.EBoolean;
+import com.std.account.enums.EOrderStatus;
+import com.std.account.enums.EToType;
+import com.std.account.exception.BizException;
+
+/** 
+ * @author: miyb 
+ * @since: 2015-3-17 下午9:33:57 
+ * @history:
+ */
+@Service
+public class WithdrawAOImpl implements IWithdrawAO {
+    @Autowired
+    IAccountBO accountBO;
+
+    @Autowired
+    IUserBO userBO;
+
+    @Autowired
+    IWithdrawBO withdrawBO;
+
+    @Override
+    public Paginable<Withdraw> queryWithdrawPage(int start, int limit,
+            Withdraw condition) {
+        return withdrawBO.getPaginable(start, limit, condition);
+    }
+
+    @Override
+    @Transactional
+    public String doWithdrawOSS(String accountNumber, Long amount,
+            String toType, String toCode) {
+
+        String orderNo = withdrawBO.saveWithdrawOffline(accountNumber, amount,
+            EToType.getToTypeMap().get(toType), toCode);
+        accountBO
+            .freezeAmount(accountNumber, amount, orderNo, EBizType.AJ_QXDJ);
+        return orderNo;
+    }
+
+    @Override
+    public String doWithdrawOffline(String accountNumber, Long amount,
+            String toType, String toCode, String tradePwd) {
+        Account account = accountBO.getAccount(accountNumber);
+        // 验证交易密码
+        userBO.checkTradePwd(account.getUserId(), tradePwd);
+        String orderNo = withdrawBO.saveWithdrawOffline(accountNumber, amount,
+            EToType.getToTypeMap().get(toType), toCode);
+        accountBO
+            .freezeAmount(accountNumber, amount, orderNo, EBizType.AJ_QXDJ);
+        // 发送短信
+        // User user = userBO.getUser(account.getUserId());
+        // String mobile = user.getMobile();
+        // smsOutBO
+        // .sendSmsOut(
+        // mobile,
+        // "尊敬的"
+        // + PhoneUtil.hideMobile(mobile)
+        // + "用户,您于"
+        // + DateUtil.dateToStr(new Date(),
+        // DateUtil.DATA_TIME_PATTERN_1) + "提交的"
+        // + CalculationUtil.divi(amount)
+        // + "取现申请，现已进入审核阶段，请留意相关短信通知。", ESmsBizType.Withdraw
+        // .getCode(), ESmsBizType.Withdraw.getValue());
+        return orderNo;
+    }
+
+    @Override
+    public void doApproveWithdraw(String withdrawNo, String approveUser,
+            String approveResult, String approveNote) {
+        Withdraw withdraw = withdrawBO.getWithdraw(withdrawNo);
+        if (withdraw == null) {
+            throw new BizException("xn702514", "无对应充取订单");
+        }
+        if (!EOrderStatus.todoAPPROVE.getCode().equalsIgnoreCase(
+            withdraw.getStatus())) {
+            throw new BizException("xn702514", "订单不处于待审批状态");
+        }
+        withdrawBO.refreshApproveOrder(withdrawNo, approveUser, EBoolean
+            .getBooleanResultMap().get(approveResult), approveNote);
+        // 发送短信
+        // Account account = accountBO.getAccount(withdraw.getAccountNumber());
+        // User user = userBO.getUser(account.getUserId());
+        // String mobile = user.getMobile();
+        if (EBoolean.NO.getCode().equalsIgnoreCase(approveResult)) {// 且验证不通过的话，就资金变动
+            accountBO.unfreezeAmountToAmount(withdraw.getAccountNumber(),
+                withdraw.getAmount(), withdraw.getCode(), EBizType.AJ_QXJD);
+            // smsOutBO.sendSmsOut(
+            // mobile,
+            // "尊敬的"
+            // + PhoneUtil.hideMobile(mobile)
+            // + "用户,您于"
+            // + DateUtil.dateToStr(withdraw.getCreateDatetime(),
+            // DateUtil.DATA_TIME_PATTERN_1) + "提交的"
+            // + CalculationUtil.divi(withdraw.getAmount())
+            // + "取现申请，审核尚未通过，原因：" + approveNote
+            // + "，如有疑问，请联系客服：400-0008-139。", ESmsBizType.Withdraw_No
+            // .getCode(), ESmsBizType.Withdraw_No.getValue());
+        }
+    }
+
+    @Override
+    public void doPayWithdraw(String withdrawNo, String payUser,
+            String payResult, String payNote, String refNo, Long fee) {
+        Withdraw withdraw = withdrawBO.getWithdraw(withdrawNo);
+        if (withdraw == null) {
+            throw new BizException("xn702515", "无对应充取订单");
+        }
+        if (!EOrderStatus.APPROVE_YES.getCode().equalsIgnoreCase(
+            withdraw.getStatus())) {
+            throw new BizException("xn702515", "订单不处于待支付状态");
+        }
+
+        withdrawBO.refreshPayOrder(withdrawNo, payUser, EBoolean
+            .getBooleanResultMap().get(payResult), payNote, refNo, fee);
+        // 刷新银行卡状态
+        // userBO.refreshStatus(withdraw.getBankCode(),
+        // withdraw.getBankcardNo(),
+        // EBankCardStatus.CONFIRM_YES);
+        // 发送短信
+        // Account account = accountBO.getAccount(withdraw.getAccountNumber());
+        // User user = userBO.getUser(account.getUserId());
+        // String mobile = user.getMobile();
+        if (EBoolean.YES.getCode().equalsIgnoreCase(payResult)) {
+            accountBO.unfreezeAmount(withdraw.getAccountNumber(),
+                withdraw.getAmount(), withdraw.getCode(), EBizType.AJ_QXCG);
+            // smsOutBO.sendSmsOut(mobile,
+            // "尊敬的" + PhoneUtil.hideMobile(mobile) + "用户，您提交的"
+            // + CalculationUtil.divi(withdraw.getAmount())
+            // + "取现申请，支付成功。资金已转入你绑定的银行卡账户中，请注意核对。",
+            // ESmsBizType.Withdraw_Yes.getCode(),
+            // ESmsBizType.Withdraw_Yes.getValue());
+        } else {
+            accountBO.unfreezeAmountToAmount(withdraw.getAccountNumber(),
+                withdraw.getAmount(), withdraw.getCode(), EBizType.AJ_QXJD);
+            // smsOutBO.sendSmsOut(mobile,
+            // "尊敬的" + PhoneUtil.hideMobile(mobile) + "用户,您提交的"
+            // + CalculationUtil.divi(withdraw.getAmount())
+            // + "取现申请，支付失败，原因：" + payNote
+            // + "，如有疑问，请联系客服：400-0008-139。",
+            // ESmsBizType.Withdraw_No.getCode(),
+            // ESmsBizType.Withdraw_No.getValue());
+        }
+
+    }
+
+}

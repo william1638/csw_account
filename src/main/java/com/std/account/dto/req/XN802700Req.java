@@ -4,26 +4,40 @@ public class XN802700Req extends APageReq {
     /** 
      * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
      */
-    private static final long serialVersionUID = 3120496289325080769L;
+    private static final long serialVersionUID = 3469529018797225297L;
+
+    // 订单号
+    private String code;
+
+    // 方向：1=蓝补；0=红冲
+    private String direction;
+
+    // 状态
+    private String status;
+
+    // 申请人（li为程序）
+    private String applyUser;
+
+    // 审批人
+    private String approveUser;
 
     // 账号
     private String accountNumber;
 
-    // 状态(0正常,1程序锁定,2人工锁定)
-    private String status;
-
-    // userid
-    private String userId;
-
-    // 真实姓名
-    private String realName;
-
-    public String getAccountNumber() {
-        return accountNumber;
+    public String getCode() {
+        return code;
     }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getDirection() {
+        return direction;
+    }
+
+    public void setDirection(String direction) {
+        this.direction = direction;
     }
 
     public String getStatus() {
@@ -34,19 +48,28 @@ public class XN802700Req extends APageReq {
         this.status = status;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getApplyUser() {
+        return applyUser;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setApplyUser(String applyUser) {
+        this.applyUser = applyUser;
     }
 
-    public String getRealName() {
-        return realName;
+    public String getApproveUser() {
+        return approveUser;
     }
 
-    public void setRealName(String realName) {
-        this.realName = realName;
+    public void setApproveUser(String approveUser) {
+        this.approveUser = approveUser;
     }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
 }

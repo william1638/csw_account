@@ -8,11 +8,10 @@
  */
 package com.std.account.ao;
 
-import java.util.List;
-
 import com.std.account.annotation.ServiceModule;
 import com.std.account.bo.base.Paginable;
 import com.std.account.domain.Account;
+import com.std.account.enums.ECurrency;
 
 /** 
  * @author: miyb 
@@ -24,13 +23,16 @@ public interface IAccountAO {
     String DEFAULT_ORDER_COLUMN = "account_number";
 
     /** 
-     * 根据userId查询账户
+     * 分配账户
      * @param userId
+     * @param realName
+     * @param currency
      * @return 
-     * @create: 2015-3-17 下午6:28:56 miyb
-     * @history: 
+     * @create: 2016年5月26日 上午3:23:56 myb858
+     * @history:
      */
-    public Account getAccount(String userId);
+    public String distributeAccount(String userId, String realName,
+            ECurrency currency);
 
     /**
      * 分页查询账户
@@ -44,45 +46,13 @@ public interface IAccountAO {
     public Paginable<Account> queryAccountPage(int start, int limit,
             Account condition);
 
-    /**
-     * 账户列表查询
-     * @param condition
-     * @return 
-     * @create: 2015年12月12日 下午5:06:40 haiqingzheng
-     * @history:
-     */
-    public List<Account> queryAccountList(Account condition);
-
     /** 
-     * 判断是否存在账户
-     * @param userId
+     * 根据accountNumber查询账户
+     * @param accountNumber
      * @return 
-     * @create: 2015-5-6 上午10:29:40 miyb
+     * @create: 2015-3-17 下午6:28:56 miyb
      * @history: 
      */
-    public String isExistAccount(String userId);
+    public Account getAccount(String accountNumber);
 
-    /** 
-     * 申领账户
-     * @param userId
-     * @param currency
-     * @return 
-     * @create: 2015-3-17 下午6:28:49 miyb
-     * @history: 
-     */
-    public String distributeAccount(String userId, String currency);
-
-    /**
-     * 应用申请冻结/解冻资金
-     * @param userId
-     * @param amount 正数解冻；负数冻结
-     * @param oppositeSystem
-     * @param oppositeAccount
-     * @param remark
-     * @return 
-     * @create: 2015年11月18日 下午1:28:05 myb858
-     * @history:
-     */
-    public void doFreeze(String userId, Long amount, String oppositeSystem,
-            String oppositeAccount, String remark);
 }

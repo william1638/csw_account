@@ -8,8 +8,6 @@
  */
 package com.std.account.bo;
 
-import java.util.List;
-
 import com.std.account.bo.base.IPaginableBO;
 import com.std.account.domain.AccountFrozenJour;
 
@@ -19,21 +17,5 @@ import com.std.account.domain.AccountFrozenJour;
  * @history:
  */
 public interface IAFJourBO extends IPaginableBO<AccountFrozenJour> {
-    /**
-     * 获取单条冻结记录
-     * @param afjNo
-     * @return 
-     * @create: 2015-5-5 上午11:16:43 miyb
-     * @history:
-     */
-    public AccountFrozenJour getAFJour(Long afjNo);
 
-    /**
-     * 获取冻结记录列表
-     * @param condition
-     * @return 
-     * @create: 2015-5-5 上午11:17:32 miyb
-     * @history:
-     */
-    public List<AccountFrozenJour> queryAFJourList(AccountFrozenJour condition);
 }

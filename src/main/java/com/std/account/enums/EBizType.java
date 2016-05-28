@@ -17,9 +17,9 @@ import java.util.Map;
  * @history:
  */
 public enum EBizType {
-    AJ_XNB("10", "虚拟币兑换"), AJ_CZ("11", "充值"), AJ_QX("-11", "取现"), AJ_ZR("12",
-            "转入"), AJ_ZC("-12", "转出"), AJ_JD("13", "解冻"), AJ_DJ("-13", "冻结"), AJ_LB(
-            "19", "蓝补"), AJ_HC("-19", "红冲");
+    AJ_CZ("11", "充值"), AJ_QXCG("-11", "取现成功"), AJ_ZR("12", "转入"), AJ_ZC("-12",
+            "转出"), AJ_LB("19", "蓝补"), AJ_HC("-19", "红冲"), AJ_QXDJ("-110",
+            "取现冻结"), AJ_QXJD("-111", "取现解冻");
     public static Map<String, EBizType> getBizTypeMap() {
         Map<String, EBizType> map = new HashMap<String, EBizType>();
         for (EBizType bizType : EBizType.values()) {

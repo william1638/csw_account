@@ -13,6 +13,7 @@ import java.util.Date;
 import com.std.account.dao.base.ABaseDO;
 
 /** 
+ *跨账号即转入转出
  * @author: miyb 
  * @since: 2015-2-12 下午8:39:50 
  * @history:
@@ -31,10 +32,7 @@ public class ZZOrder extends ABaseDO {
 
     // ---------db properties start--------------------------
     // 流水号
-    private String zzNo;
-
-    // 状态
-    private String status;
+    private String code;
 
     // 方向：1=转入；0=转出
     private String direction;
@@ -42,35 +40,40 @@ public class ZZOrder extends ABaseDO {
     // 金额（精确到厘）
     private Long amount;
 
+    // 手续费（精确到厘）
+    private Long fee;
+
+    // 备注(转账说明)
+    private String remark;
+
     // 创建时间
     private Date createDatetime;
-
-    // 对方系统
-    private String oppositeSystem;
-
-    // 对方账号
-    private String oppositeAccount;
-
-    // 备注
-    private String remark;
 
     // 账号
     private String accountNumber;
 
-    public String getZzNo() {
-        return zzNo;
+    public Date getCreateDatetimeStart() {
+        return createDatetimeStart;
     }
 
-    public void setZzNo(String zzNo) {
-        this.zzNo = zzNo;
+    public void setCreateDatetimeStart(Date createDatetimeStart) {
+        this.createDatetimeStart = createDatetimeStart;
     }
 
-    public String getStatus() {
-        return status;
+    public Date getCreateDatetimeEnd() {
+        return createDatetimeEnd;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setCreateDatetimeEnd(Date createDatetimeEnd) {
+        this.createDatetimeEnd = createDatetimeEnd;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
     public String getDirection() {
@@ -89,28 +92,12 @@ public class ZZOrder extends ABaseDO {
         this.amount = amount;
     }
 
-    public Date getCreateDatetime() {
-        return createDatetime;
+    public Long getFee() {
+        return fee;
     }
 
-    public void setCreateDatetime(Date createDatetime) {
-        this.createDatetime = createDatetime;
-    }
-
-    public String getOppositeSystem() {
-        return oppositeSystem;
-    }
-
-    public void setOppositeSystem(String oppositeSystem) {
-        this.oppositeSystem = oppositeSystem;
-    }
-
-    public String getOppositeAccount() {
-        return oppositeAccount;
-    }
-
-    public void setOppositeAccount(String oppositeAccount) {
-        this.oppositeAccount = oppositeAccount;
+    public void setFee(Long fee) {
+        this.fee = fee;
     }
 
     public String getRemark() {
@@ -121,28 +108,20 @@ public class ZZOrder extends ABaseDO {
         this.remark = remark;
     }
 
+    public Date getCreateDatetime() {
+        return createDatetime;
+    }
+
+    public void setCreateDatetime(Date createDatetime) {
+        this.createDatetime = createDatetime;
+    }
+
     public String getAccountNumber() {
         return accountNumber;
     }
 
     public void setAccountNumber(String accountNumber) {
         this.accountNumber = accountNumber;
-    }
-
-    public Date getCreateDatetimeStart() {
-        return createDatetimeStart;
-    }
-
-    public void setCreateDatetimeStart(Date createDatetimeStart) {
-        this.createDatetimeStart = createDatetimeStart;
-    }
-
-    public Date getCreateDatetimeEnd() {
-        return createDatetimeEnd;
-    }
-
-    public void setCreateDatetimeEnd(Date createDatetimeEnd) {
-        this.createDatetimeEnd = createDatetimeEnd;
     }
 
 }

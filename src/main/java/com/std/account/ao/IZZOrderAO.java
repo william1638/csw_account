@@ -8,8 +8,6 @@
  */
 package com.std.account.ao;
 
-import java.util.List;
-
 import com.std.account.annotation.ServiceModule;
 import com.std.account.bo.base.Paginable;
 import com.std.account.domain.ZZOrder;
@@ -21,21 +19,7 @@ import com.std.account.domain.ZZOrder;
  */
 @ServiceModule
 public interface IZZOrderAO {
-    String DEFAULT_ORDER_COLUMN = "zz_no";
-
-    /** 
-     * 与未对接系统的账户进行资金划转，融资账户的钱相应变动
-     * @param userId
-     * @param amount（精确到厘:正数为转入；负数为转出）
-     * @param oppositeSystem
-     * @param oppositeAccount
-     * @param remark
-     * @return 
-     * @create: 2015-5-8 上午9:39:10 miyb
-     * @history: 
-     */
-    public String doTransfer(String userId, Long amount, String oppositeSystem,
-            String oppositeAccount, String remark);
+    String DEFAULT_ORDER_COLUMN = "code";
 
     /** 
      * @param start
@@ -48,13 +32,34 @@ public interface IZZOrderAO {
     public Paginable<ZZOrder> queryZZOrderPage(int start, int limit,
             ZZOrder condition);
 
-    /**
-     * 统计信息：SELECT t.opposite_system,sum(amount) FROM xn_account.tli_zzorder t where t.account_number='2015102960305217' group by t.opposite_system;
+    /** 
+     * 管理端划转金额
      * @param accountNumber
+     * @param direction
+     * @param amount
+     * @param fee
+     * @param remark
      * @return 
-     * @create: 2015年10月27日 上午11:36:10 myb858
+     * @create: 2016年5月26日 下午3:57:01 myb858
      * @history:
      */
-    public List<ZZOrder> doStatisticsDvalue(String accountNumber);
+
+    public String doTransferOSS(String accountNumber, String direction,
+            Long amount, Long fee, String remark);
+
+    /**
+     * 前端划转金额
+     * @param accountNumber
+     * @param direction
+     * @param amount
+     * @param fee
+     * @param remark
+     * @param tradePwd
+     * @return 
+     * @create: 2016年5月26日 下午4:00:22 myb858
+     * @history:
+     */
+    public String doTransferFRONT(String accountNumber, String direction,
+            Long amount, Long fee, String remark, String tradePwd);
 
 }

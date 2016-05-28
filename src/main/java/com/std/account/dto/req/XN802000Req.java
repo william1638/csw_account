@@ -1,26 +1,38 @@
 package com.std.account.dto.req;
 
 public class XN802000Req {
-    // 通道编号
-    private String channelNo;
 
-    // 通道状态：1可用；0不可用
-    private String channelStatus;
+    // userid（必填）
+    private String userId;
 
-    public String getChannelNo() {
-        return channelNo;
+    // 真实姓名（必填）
+    private String realName;
+
+    // 币种（必填）
+    private String currency;
+
+    public String getUserId() {
+        return userId;
     }
 
-    public void setChannelNo(String channelNo) {
-        this.channelNo = channelNo;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getChannelStatus() {
-        return channelStatus;
+    public String getRealName() {
+        return realName;
     }
 
-    public void setChannelStatus(String channelStatus) {
-        this.channelStatus = channelStatus;
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
 }

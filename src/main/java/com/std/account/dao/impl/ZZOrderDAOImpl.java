@@ -76,10 +76,4 @@ public class ZZOrderDAOImpl extends AMybatisTemplate implements IZZOrderDAO {
             count, condition, ZZOrder.class);
     }
 
-    @Override
-    public List<ZZOrder> doStatisticsDvalue(ZZOrder condition) {
-        return super.selectList(NAMESPACE.concat("select_doStatisticsDvalue"),
-            condition, ZZOrder.class);
-    }
-
 }

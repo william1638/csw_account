@@ -8,8 +8,6 @@
  */
 package com.std.account.bo;
 
-import java.util.List;
-
 import com.std.account.bo.base.IPaginableBO;
 import com.std.account.domain.AccountJour;
 import com.std.account.enums.EBoolean;
@@ -21,17 +19,6 @@ import com.std.account.enums.EBoolean;
  */
 public interface IAJourBO extends IPaginableBO<AccountJour> {
     /**
-     * 对账结果录入
-     * @param aJNo
-     * @param checkUser
-     * @param checkResult
-     * @return 
-     * @create: 2016年1月15日 下午2:44:53 myb858
-     * @history:
-     */
-    public int doCheckAccount(Long aJNo, String checkUser, EBoolean checkResult);
-
-    /**
      * 获取单条账户流水记录
      * @param ajNo
      * @return 
@@ -41,11 +28,14 @@ public interface IAJourBO extends IPaginableBO<AccountJour> {
     public AccountJour getAccountJour(Long ajNo);
 
     /**
-     * 获取账户流水列表
-     * @param condition
+     * 对账结果录入
+     * @param aJNo
+     * @param checkUser
+     * @param checkResult
      * @return 
-     * @create: 2015-5-5 上午11:21:44 miyb
+     * @create: 2016年1月15日 下午2:44:53 myb858
      * @history:
      */
-    public List<AccountJour> queryAccountJourList(AccountJour condition);
+    public void doCheckAccount(Long aJNo, String checkUser, EBoolean checkResult);
+
 }

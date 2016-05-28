@@ -8,8 +8,6 @@
  */
 package com.std.account.ao.impl;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,14 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 import com.std.account.ao.IHLOrderAO;
 import com.std.account.bo.IAccountBO;
 import com.std.account.bo.IHLOrderBO;
-import com.std.account.bo.ISmsOutBO;
-import com.std.account.bo.IUserBO;
 import com.std.account.bo.base.Paginable;
 import com.std.account.domain.HLOrder;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EDirection;
-import com.std.account.enums.EHLOrderType;
 import com.std.account.enums.EOrderStatus;
 import com.std.account.exception.BizException;
 
@@ -35,8 +30,6 @@ import com.std.account.exception.BizException;
  */
 @Service
 public class HLOrderAOImpl implements IHLOrderAO {
-    @Autowired
-    IUserBO userBO;
 
     @Autowired
     IAccountBO accountBO;
@@ -44,19 +37,25 @@ public class HLOrderAOImpl implements IHLOrderAO {
     @Autowired
     IHLOrderBO hlOrderBO;
 
-    @Autowired
-    ISmsOutBO smsOutBO;
+    @Override
+    public Paginable<HLOrder> queryHLOrderPage(int start, int limit,
+            HLOrder condition) {
+        return hlOrderBO.getPaginable(start, limit, condition);
+    }
 
-    /** 
-     * @see com.ibis.account.ao.IHLOrderAO#doBalance(java.lang.String, java.lang.Long, java.lang.String, java.lang.String)
-     */
     @Override
     @Transactional
-    public String doBalance(String accountNumber, Long amount,
-            String applyUser, String applyNote) {
+    public String doBalance(String accountNumber, String direction,
+            Long amount, String applyUser, String applyNote) {
         accountBO.getAccount(accountNumber);
-        return hlOrderBO.saveHLOrder(accountNumber, EHLOrderType.RG.getCode(),
-            amount, applyUser, applyNote);
+        if (EDirection.PLUS.getCode().equalsIgnoreCase(direction)) {
+            return hlOrderBO.saveHLOrder(accountNumber, EDirection.PLUS,
+                amount, applyUser, applyNote);
+        } else {
+            return hlOrderBO.saveHLOrder(accountNumber, EDirection.MINUS,
+                amount, applyUser, applyNote);
+        }
+
     }
 
     @Override
@@ -71,42 +70,20 @@ public class HLOrderAOImpl implements IHLOrderAO {
             hlOrder.getStatus())) {
             throw new BizException("xn702514", "订单不处于待审批状态");
         }
-        hlOrderBO.refreshApproveOrder(hlNo, approveUser, approveResult,
-            approveNote);
+        hlOrderBO.refreshApproveOrder(hlNo, approveUser, EBoolean
+            .getBooleanResultMap().get(approveResult), approveNote);
         if (EDirection.PLUS.getCode().equalsIgnoreCase(// 蓝补
             hlOrder.getDirection())) {
             if (EBoolean.YES.getCode().equalsIgnoreCase(approveResult)) { // 资金变动
                 accountBO.refreshAmount(hlOrder.getAccountNumber(),
-                    hlOrder.getAmount(), EBizType.AJ_LB.getCode(),
-                    hlOrder.getHlNo(), hlOrder.getApplyNote());
-
+                    hlOrder.getAmount(), hlOrder.getCode(), EBizType.AJ_LB);
             }
         } else {
             if (EBoolean.YES.getCode().equalsIgnoreCase(approveResult)) { // 资金变动
                 accountBO.refreshAmount(hlOrder.getAccountNumber(),
-                    -hlOrder.getAmount(), EBizType.AJ_HC.getCode(),
-                    hlOrder.getHlNo(), hlOrder.getApplyNote());
-
+                    -hlOrder.getAmount(), hlOrder.getCode(), EBizType.AJ_HC);
             }
         }
 
     }
-
-    /** 
-     * @see com.ibis.account.ao.IHLOrderAO#queryHLOrderPage(int, int, com.ibis.account.domain.HLOrder)
-     */
-    @Override
-    public Paginable<HLOrder> queryHLOrderPage(int start, int limit,
-            HLOrder condition) {
-        return hlOrderBO.getPaginable(start, limit, condition);
-    }
-
-    /**
-     * @see com.std.account.ao.IHLOrderAO#queryHLOrderPage(com.std.account.domain.HLOrder)
-     */
-    @Override
-    public List<HLOrder> queryHLOrderList(HLOrder condition) {
-        return hlOrderBO.queryHLOrderList(condition);
-    }
-
 }

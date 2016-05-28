@@ -1,23 +1,28 @@
 package com.std.account.dto.req;
 
-public class XN802201Req {
-    // 用户账号(必填)
+public class XN802201Req extends APageReq {
+    /** 
+     * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
+     */
+    private static final long serialVersionUID = 94885794900572830L;
+
+    // 账号
     private String accountNumber;
 
-    // 取现金额（精确到厘）(必填)
-    private String amount;
+    // 订单号
+    private String code;
 
-    // 行别（alipay支付宝）(必填)
-    private String bankCode;
+    // 行别（alipay支付宝）
+    private String toType;
 
-    // 开户支行(非必填)
-    private String subbranch;
+    // 开户支行
+    private String toCode;
 
-    // 行别对应的卡号(必填)
-    private String bankcardNo;
+    // 渠道
+    private String channel;
 
-    // 交易密码(必填)
-    private String tradePwd;
+    // 状态
+    private String status;
 
     public String getAccountNumber() {
         return accountNumber;
@@ -27,44 +32,44 @@ public class XN802201Req {
         this.accountNumber = accountNumber;
     }
 
-    public String getAmount() {
-        return amount;
+    public String getCode() {
+        return code;
     }
 
-    public void setAmount(String amount) {
-        this.amount = amount;
+    public void setCode(String code) {
+        this.code = code;
     }
 
-    public String getBankCode() {
-        return bankCode;
+    public String getToType() {
+        return toType;
     }
 
-    public void setBankCode(String bankCode) {
-        this.bankCode = bankCode;
+    public void setToType(String toType) {
+        this.toType = toType;
     }
 
-    public String getBankcardNo() {
-        return bankcardNo;
+    public String getToCode() {
+        return toCode;
     }
 
-    public void setBankcardNo(String bankcardNo) {
-        this.bankcardNo = bankcardNo;
+    public void setToCode(String toCode) {
+        this.toCode = toCode;
     }
 
-    public String getTradePwd() {
-        return tradePwd;
+    public String getChannel() {
+        return channel;
     }
 
-    public void setTradePwd(String tradePwd) {
-        this.tradePwd = tradePwd;
+    public void setChannel(String channel) {
+        this.channel = channel;
     }
 
-    public String getSubbranch() {
-        return subbranch;
+    public String getStatus() {
+        return status;
     }
 
-    public void setSubbranch(String subbranch) {
-        this.subbranch = subbranch;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
 }

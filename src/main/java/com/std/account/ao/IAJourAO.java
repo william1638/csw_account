@@ -34,7 +34,7 @@ public interface IAJourAO {
             AccountJour condition);
 
     /**
-     *  对账结果录入：告诉系统哪些交易流水已对账待调帐,此时红冲蓝补的订单已经生成
+     * 对账结果录入：告诉系统哪些交易流水已对账待调帐,此时红冲蓝补的订单已经生成
      * @param ajNo
      * @param checkUser
      * @param amount 

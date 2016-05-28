@@ -14,11 +14,10 @@ import java.util.List;
 import org.junit.Test;
 import org.unitils.spring.annotation.SpringBeanByType;
 
+import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.IZZOrderDAO;
 import com.std.account.domain.ZZOrder;
 import com.std.account.enums.EDirection;
-import com.std.account.enums.EOppositeSystem;
-import com.std.account.enums.EOrderStatus;
 import com.xnjr.account.base.ADAOTest;
 
 /** 
@@ -33,15 +32,14 @@ public class IZZOrderDAOTest extends ADAOTest {
     @Test
     public void insert() {
         ZZOrder data = new ZZOrder();
-        data.setZzNo("setZzOrderNo");
-        data.setStatus(EOrderStatus.todoAPPROVE.getCode());
+        String code = OrderNoGenerater.generate("ZZ");
+        data.setCode(code);
         data.setDirection(EDirection.PLUS.getCode());
         data.setAmount(100000L);
-        data.setCreateDatetime(new Date());
-
-        data.setOppositeSystem(EOppositeSystem.XN_P2P.getCode());
-        data.setOppositeAccount("60012323");
+        data.setFee(100L);
         data.setRemark("test");
+
+        data.setCreateDatetime(new Date());
         data.setAccountNumber("1");
         int lineNum = zzOrderDAO.insert(data);
         logger.info("insert : {}", lineNum);
@@ -50,7 +48,7 @@ public class IZZOrderDAOTest extends ADAOTest {
     @Test
     public void select() {
         ZZOrder data = new ZZOrder();
-        data.setZzNo("setZzOrderNo");
+        data.setCode("setZzOrderNo");
         data = zzOrderDAO.select(data);
         logger.info("select : {}", data);
     }
@@ -58,7 +56,7 @@ public class IZZOrderDAOTest extends ADAOTest {
     @Test
     public void selectTotalCount() {
         ZZOrder data = new ZZOrder();
-        data.setZzNo("setZzOrderNo");
+        data.setCode("setZzOrderNo");
         long id = zzOrderDAO.selectTotalCount(data);
         logger.info("selectTotalCount : {}", id);
     }
@@ -66,7 +64,7 @@ public class IZZOrderDAOTest extends ADAOTest {
     @Test
     public void selectList() {
         ZZOrder data = new ZZOrder();
-        data.setZzNo("setZzOrderNo");
+        data.setCode("setZzOrderNo");
         List<ZZOrder> dataList = zzOrderDAO.selectList(data);
         logger.info("selectList : {}", dataList);
     }
@@ -74,17 +72,9 @@ public class IZZOrderDAOTest extends ADAOTest {
     @Test
     public void selectPage() {
         ZZOrder data = new ZZOrder();
-        data.setZzNo("setZzOrderNo");
+        data.setCode("setZzOrderNo");
         List<ZZOrder> dataList = zzOrderDAO.selectList(data, 0, 1);
         logger.info("selectPage : {}", dataList);
-    }
-
-    @Test
-    public void doStatisticsDvalue() {
-        ZZOrder condition = new ZZOrder();
-        condition.setAccountNumber("2015102960307385");
-        List<ZZOrder> data = zzOrderDAO.doStatisticsDvalue(condition);
-        logger.info("doStatisticsDvalue : {}", data);
     }
 
 }

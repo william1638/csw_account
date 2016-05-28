@@ -8,10 +8,10 @@
  */
 package com.std.account.bo;
 
-import java.util.List;
-
 import com.std.account.bo.base.IPaginableBO;
 import com.std.account.domain.HLOrder;
+import com.std.account.enums.EBoolean;
+import com.std.account.enums.EDirection;
 
 /** 
  * @author: miyb 
@@ -19,48 +19,12 @@ import com.std.account.domain.HLOrder;
  * @history:
  */
 public interface IHLOrderBO extends IPaginableBO<HLOrder> {
-    /**
-     * 
-     * @param accountNumber
-     * @param type
-     * @param amount
-     * @param applyUser
-     * @param applyNote
-     * @return 
-     * @create: 2016年1月17日 下午2:50:09 myb858
-     * @history:
-     */
-    public String saveHLOrder(String accountNumber, String type, Long amount,
-            String applyUser, String applyNote);
 
-    /**
-     * 
-     * @param hlNo
-     * @param approveUser
-     * @param approveResult
-     * @param approveNote
-     * @return 
-     * @create: 2015-5-5 下午1:41:25 miyb
-     * @history:
-     */
-    public int refreshApproveOrder(String hlNo, String approveUser,
-            String approveResult, String approveNote);
+    public String saveHLOrder(String accountNumber, EDirection direction,
+            Long amount, String applyUser, String applyNote);
 
-    /**
-     * 获取单条订单
-     * @param hlNo
-     * @return 
-     * @create: 2015-5-5 下午1:03:42 miyb
-     * @history:
-     */
-    public HLOrder getHLOrder(String hlNo);
+    public void refreshApproveOrder(String hlNo, String approveUser,
+            EBoolean approveResult, String approveNote);
 
-    /**
-     * 获取订单列表
-     * @param condition
-     * @return 
-     * @create: 2015-5-5 下午1:04:05 miyb
-     * @history:
-     */
-    public List<HLOrder> queryHLOrderList(HLOrder condition);
+    public HLOrder getHLOrder(String code);
 }

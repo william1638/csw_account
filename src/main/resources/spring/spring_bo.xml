@@ -21,65 +21,22 @@
 	<bean id="afJourBO" class="com.std.account.bo.impl.AFJourBOImpl">
 		<property name="paginableDAO" ref="afJourDAOImpl" />
 	</bean>
-	<bean id="cqOrderBO" class="com.std.account.bo.impl.CQOrderBOImpl">
-		<property name="paginableDAO" ref="cqOrderDAOImpl" />
+	<bean id="chargeBO" class="com.std.account.bo.impl.ChargeBOImpl">
+		<property name="paginableDAO" ref="chargeDAOImpl" />
 	</bean>
 	<bean id="hlOrderBO" class="com.std.account.bo.impl.HLOrderBOImpl">
 		<property name="paginableDAO" ref="hlOrderDAOImpl" />
 	</bean>
-	<bean id="xnbOrderBO" class="com.std.account.bo.impl.XNBOrderBOImpl">
-		<property name="paginableDAO" ref="xnbOrderDAOImpl" />
+	<bean id="withdrawBO" class="com.std.account.bo.impl.WithdrawBOImpl">
+		<property name="paginableDAO" ref="withdrawDAOImpl" />
 	</bean>
 	<bean id="zzOrderBO" class="com.std.account.bo.impl.ZZOrderBOImpl">
 		<property name="paginableDAO" ref="zzOrderDAOImpl" />
 	</bean>
-	<bean id="ytOrderBO" class="com.std.account.bo.impl.YTOrderBOImpl">
-		<property name="paginableDAO" ref="ytOrderDAOImpl" />
-	</bean>
 	
-	<bean id="bankBO" class="com.std.account.bo.impl.BankBOImpl">
-		<property name="paginableDAO" ref="bankDAOImpl" />
-	</bean>
-	<bean id="channelBO" class="com.std.account.bo.impl.ChannelBOImpl">
-		<property name="paginableDAO" ref="channelDAOImpl" />
-	</bean>
-	<bean id="bankCardBO" class="com.std.account.bo.impl.BankCardBOImpl">
-		<property name="paginableDAO" ref="bankCardDAOImpl" />
-	</bean>
-	<bean id="userBO" class="com.std.account.bo.impl.UserBOImpl">
-		<property name="paginableDAO" ref="userDAOImpl" />
-	</bean>
-	<bean id="userLockBO" class="com.std.account.bo.impl.UserLockBOImpl">
-		<property name="paginableDAO" ref="userLockDAOImpl"/>
-	</bean>	
-	<bean id="userIdentifyBO" class="com.std.account.bo.impl.UserIdentifyBOImpl">
-		<property name="paginableDAO" ref="userIdentifyDAOImpl" />
-	</bean>
-	<bean id="userLoginLogBO" class="com.std.account.bo.impl.UserLoginLogBOImpl">
-		<property name="paginableDAO" ref="userLoginLogDAOImpl" />
-	</bean>
-	<bean id="userPictureBO" class="com.std.account.bo.impl.UserPictureBOImpl">
-		<property name="paginableDAO" ref="userPictureDAOImpl" />
-	</bean>
-	<bean id="userExtBO" class="com.std.account.bo.impl.UserExtBOImpl">
-		<property name="paginableDAO" ref="userExtDAOImpl" />
-	</bean>
-
-	<bean id="dictBO" class="com.std.account.bo.impl.DictBOImpl">
-		<property name="paginableDAO" ref="dictDAOImpl" />
-	</bean>
 	
-	<!-- <bean id="navigationBO" class="com.std.account.cms.bo.impl.NavigationBOImpl">
-		<property name="paginableDAO" ref="navigationDAOImpl" />
-	</bean>
-	<bean id="articleBO" class="com.std.account.cms.bo.impl.ArticleBOImpl">
-		<property name="paginableDAO" ref="articleDAOImpl" />
-	</bean> -->
+		
 	
-	<bean id="companyBO" class="com.std.account.bo.impl.CompanyBOImpl">
-		<property name="paginableDAO" ref="companyDAOImpl" />
-	</bean>
-	<bean id="userCompanyBO" class="com.std.account.bo.impl.UserCompanyBOImpl">
-		<property name="paginableDAO" ref="userCompanyDAOImpl" />
-	</bean>
+	
+	
 </beans>

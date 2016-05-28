@@ -32,7 +32,7 @@ public class IAFJourDAOTest extends ADAOTest {
     public void insert() {
         AccountFrozenJour data = new AccountFrozenJour();
         // data.setAfjNo(1L);
-        data.setBizType(EBizType.AJ_QX.getCode());
+        data.setBizType(EBizType.AJ_CZ.getCode());
         data.setRefNo("1L");
         data.setTransAmount(1L);
         data.setPreAmount(0L);

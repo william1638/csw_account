@@ -9,7 +9,6 @@
 package com.std.account.bo.impl;
 
 import java.util.Date;
-import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,31 +32,6 @@ public class AJourBOImpl extends PaginableBOImpl<AccountJour> implements
     @Autowired
     private IAJourDAO aJourDAO;
 
-    /** 
-     * @see com.ibis.account.bo.IAJourBO#refreshCheckJour(java.lang.Long, java.lang.String, java.lang.String, java.lang.String)
-     */
-    @Override
-    public int doCheckAccount(Long aJNo, String checkUser, EBoolean checkResult) {
-        int count = 0;
-        if (aJNo > 0 && StringUtils.isNotBlank(checkUser)) {
-            AccountJour data = new AccountJour();
-            data.setAjNo(aJNo);
-            data.setCheckUser(checkUser);
-            data.setCheckDatetime(new Date());
-            if (EBoolean.YES.getCode().equalsIgnoreCase(checkResult.getCode())) {
-                data.setStatus(EAccountJourStatus.Done.getCode());
-            } else {
-                data.setStatus(EAccountJourStatus.Checked.getCode());
-            }
-            count = aJourDAO.doCheckAccount(data);
-
-        }
-        return count;
-    }
-
-    /** 
-     * @see com.ibis.account.bo.IAJourBO#getAccountJour(java.lang.Long)
-     */
     @Override
     public AccountJour getAccountJour(Long ajNo) {
         AccountJour data = null;
@@ -69,12 +43,20 @@ public class AJourBOImpl extends PaginableBOImpl<AccountJour> implements
         return data;
     }
 
-    /** 
-     * @see com.ibis.account.bo.IAJourBO#queryAccountJourList(com.ibis.account.domain.AccountJour)
-     */
     @Override
-    public List<AccountJour> queryAccountJourList(AccountJour condition) {
-        return aJourDAO.selectList(condition);
+    public void doCheckAccount(Long aJNo, String checkUser, EBoolean checkResult) {
+        if (aJNo > 0 && StringUtils.isNotBlank(checkUser)) {
+            AccountJour data = new AccountJour();
+            data.setAjNo(aJNo);
+            data.setCheckUser(checkUser);
+            data.setCheckDatetime(new Date());
+            if (EBoolean.YES.getCode().equalsIgnoreCase(checkResult.getCode())) {
+                data.setStatus(EAccountJourStatus.Checked_YES.getCode());
+            } else {
+                data.setStatus(EAccountJourStatus.Checked_NO.getCode());
+            }
+            aJourDAO.doCheckAccount(data);
+        }
     }
 
 }

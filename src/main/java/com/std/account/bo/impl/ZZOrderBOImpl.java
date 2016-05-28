@@ -9,7 +9,6 @@
 package com.std.account.bo.impl;
 
 import java.util.Date;
-import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +19,7 @@ import com.std.account.bo.base.PaginableBOImpl;
 import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.IZZOrderDAO;
 import com.std.account.domain.ZZOrder;
-import com.std.account.enums.EOrderStatus;
+import com.std.account.enums.EDirection;
 
 /** 
  * @author: miyb 
@@ -33,64 +32,36 @@ public class ZZOrderBOImpl extends PaginableBOImpl<ZZOrder> implements
     @Autowired
     private IZZOrderDAO zzOrderDAO;
 
-    /** 
-     * @see com.ibis.account.bo.IZZOrderBO#getZZOrder(java.lang.String)
-     */
     @Override
-    public ZZOrder getZZOrder(String zzNo) {
+    public ZZOrder getZZOrder(String code) {
         ZZOrder data = null;
-        if (StringUtils.isNotBlank(zzNo)) {
+        if (StringUtils.isNotBlank(code)) {
             ZZOrder condition = new ZZOrder();
-            condition.setZzNo(zzNo);
+            condition.setCode(code);
             data = zzOrderDAO.select(condition);
         }
         return data;
     }
 
-    /** 
-     * @see com.ibis.account.bo.IZZOrderBO#queryZZOrderList(com.ibis.account.domain.ZZOrder)
-     */
     @Override
-    public List<ZZOrder> queryZZOrderList(ZZOrder condition) {
-        return zzOrderDAO.selectList(condition);
-    }
-
-    /** 
-     * @see com.ibis.account.bo.IZZOrderBO#saveZZOrder(java.lang.String, java.lang.String, java.lang.Long, java.lang.String, java.lang.String, java.lang.String)
-     */
-    @Override
-    public String saveZZOrder(String accountNumber, String direction,
-            Long amount, String oppositeSystem, String oppositeAccount,
-            String remark) {
-        String zzNo = null;
-        if (StringUtils.isNotBlank(accountNumber)
-                && StringUtils.isNotBlank(direction) && amount != 0
-                && StringUtils.isNotBlank(oppositeSystem)) {
+    public String saveZZOrder(String accountNumber, EDirection direction,
+            Long amount, Long fee, String remark) {
+        String code = null;
+        if (StringUtils.isNotBlank(accountNumber) && amount != 0
+                && StringUtils.isNotBlank(remark)) {
             ZZOrder data = new ZZOrder();
-            zzNo = OrderNoGenerater.generate("ZZ");
-            data.setZzNo(zzNo);
-            data.setStatus(EOrderStatus.PAY_YES.getCode());
-            data.setDirection(direction);
+            code = OrderNoGenerater.generate("ZZ");
+            data.setCode(code);
+            data.setDirection(direction.getCode());
             data.setAmount(amount);
-            data.setCreateDatetime(new Date());
-            data.setOppositeSystem(oppositeSystem);
-            data.setOppositeAccount(oppositeAccount);
+            data.setFee(fee);
             data.setRemark(remark);
+
+            data.setCreateDatetime(new Date());
             data.setAccountNumber(accountNumber);
             zzOrderDAO.insert(data);
         }
-        return zzNo;
-    }
-
-    @Override
-    public List<ZZOrder> doStatisticsDvalue(String accountNumber) {
-        List<ZZOrder> data = null;
-        if (StringUtils.isNotBlank(accountNumber)) {
-            ZZOrder condition = new ZZOrder();
-            condition.setAccountNumber(accountNumber);
-            data = zzOrderDAO.doStatisticsDvalue(condition);
-        }
-        return data;
+        return code;
     }
 
 }

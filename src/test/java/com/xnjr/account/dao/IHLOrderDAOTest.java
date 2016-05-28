@@ -14,6 +14,7 @@ import java.util.List;
 import org.junit.Test;
 import org.unitils.spring.annotation.SpringBeanByType;
 
+import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.IHLOrderDAO;
 import com.std.account.domain.HLOrder;
 import com.std.account.enums.EDirection;
@@ -33,16 +34,17 @@ public class IHLOrderDAOTest extends ADAOTest {
     @Test
     public void insert() {
         HLOrder data = new HLOrder();
-        data.setHlNo("HlOrderNo");
-        data.setStatus(EOrderStatus.todoAPPROVE.getCode());
+        String code = OrderNoGenerater.generate("HL");
+        data.setCode(code);
         data.setDirection(EDirection.PLUS.getCode());
         data.setAmount(1000L);
-        data.setApplyUser("miyb");
+        data.setStatus(EOrderStatus.todoAPPROVE.getCode());
+        data.setApplyUser("applyUser");
 
-        data.setApplyNote("I am handsome");
-        data.setCreateDatetime(new Date());
-        data.setRemark("test");
-        data.setAccountNumber("1");
+        data.setApplyNote("applyNote");
+        data.setApplyDatetime(new Date());
+        data.setAccountNumber("accountNumber");
+
         int lineNum = hlOrderDAO.insert(data);
         logger.info("insert : {}", lineNum);
     }
@@ -50,7 +52,7 @@ public class IHLOrderDAOTest extends ADAOTest {
     @Test
     public void select() {
         HLOrder data = new HLOrder();
-        data.setHlNo("HlOrderNo");
+        data.setCode("HlOrderNo");
         data = hlOrderDAO.select(data);
         logger.info("select : {}", data);
     }
@@ -58,7 +60,7 @@ public class IHLOrderDAOTest extends ADAOTest {
     @Test
     public void selectTotalCount() {
         HLOrder data = new HLOrder();
-        data.setHlNo("HlOrderNo");
+        data.setCode("HlOrderNo");
         long id = hlOrderDAO.selectTotalCount(data);
         logger.info("selectTotalCount : {}", id);
     }
@@ -66,7 +68,7 @@ public class IHLOrderDAOTest extends ADAOTest {
     @Test
     public void selectList() {
         HLOrder data = new HLOrder();
-        data.setHlNo("HlOrderNo");
+        data.setCode("HlOrderNo");
         List<HLOrder> dataList = hlOrderDAO.selectList(data);
         logger.info("selectList : {}", dataList);
     }
@@ -74,7 +76,7 @@ public class IHLOrderDAOTest extends ADAOTest {
     @Test
     public void selectPage() {
         HLOrder data = new HLOrder();
-        data.setHlNo("HlOrderNo");
+        data.setCode("HlOrderNo");
         List<HLOrder> dataList = hlOrderDAO.selectList(data, 0, 1);
         logger.info("selectPage : {}", dataList);
     }
@@ -82,11 +84,12 @@ public class IHLOrderDAOTest extends ADAOTest {
     @Test
     public void updateApproveOrder() {
         HLOrder data = new HLOrder();
-        data.setHlNo("HlOrderNo");
+        data.setCode("HlOrderNo");
         data.setApproveUser(EUser.LI.getCode());
+        data.setApplyNote("test approve");
         data.setApproveDatetime(new Date());
         data.setStatus(EOrderStatus.todoAPPROVE.getCode());
-        data.setRemark("test approve");
+
         int count = hlOrderDAO.updateApproveOrder(data);
         logger.info("updateApproveOrder : {}", count);
     }
