@@ -35,8 +35,7 @@ public class XN802000 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802000Req.class);
-        StringValidater.validateBlank(req.getUserId(), req.getRealName(),
-            req.getCurrency());
+        StringValidater.validateBlank(req.getUserId(), req.getCurrency());
         String currency = req.getCurrency().toUpperCase();
         ECurrency c = ECurrency.getCurrencyMap().get(currency);
         if (c == null) {
