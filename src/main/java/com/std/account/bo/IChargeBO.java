@@ -8,7 +8,7 @@ import com.std.account.enums.EFromType;
 public interface IChargeBO extends IPaginableBO<Charge> {
 
     public String saveChargeOffline(String accountNumber, Long amount,
-            EFromType fromType, String fromCode);
+            EFromType fromType, String fromCode, String pdf);
 
     public void refreshApproveOrder(String chargeNo, String approveUser,
             EBoolean approveResult, String approveNote, String refNo, Long fee);

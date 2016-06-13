@@ -2,14 +2,13 @@ package com.std.account.dto.req;
 
 public class XN802011Req {
     // userId（必填）
-    private String accountNumber;
+    private String userId;
 
-    public String getAccountNumber() {
-        return accountNumber;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
-
 }

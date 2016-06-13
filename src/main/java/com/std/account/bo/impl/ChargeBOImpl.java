@@ -24,7 +24,7 @@ public class ChargeBOImpl extends PaginableBOImpl<Charge> implements IChargeBO {
 
     @Override
     public String saveChargeOffline(String accountNumber, Long amount,
-            EFromType fromType, String fromCode) {
+            EFromType fromType, String fromCode, String pdf) {
         String code = null;
         if (StringUtils.isNotBlank(accountNumber) && amount != 0
                 && StringUtils.isNotBlank(fromCode)) {
@@ -33,11 +33,13 @@ public class ChargeBOImpl extends PaginableBOImpl<Charge> implements IChargeBO {
             data.setCode(code);
             data.setFromType(fromType.getCode());
             data.setFromCode(fromCode);
-            data.setChannel(EChannel.OFFLINE.getCode());
 
+            data.setPdf(pdf);
+            data.setChannel(EChannel.OFFLINE.getCode());
             data.setAmount(amount);
             data.setCreateDatetime(new Date());
             data.setStatus(EOrderStatus.todoAPPROVE.getCode());
+
             data.setAccountNumber(accountNumber);
             chargeDAO.insert(data);
         } else {
@@ -81,5 +83,4 @@ public class ChargeBOImpl extends PaginableBOImpl<Charge> implements IChargeBO {
         }
         return data;
     }
-
 }

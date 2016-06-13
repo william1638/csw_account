@@ -12,7 +12,7 @@ import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 账户信息查询(front)
+ * 账户信息查询(front/oss)
  * @author: myb858 
  * @since: 2015年8月23日 下午2:59:32 
  * @history:
@@ -25,7 +25,7 @@ public class XN802011 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        Account account = accountAO.getAccount(req.getAccountNumber());
+        Account account = accountAO.getAccountByUserId(req.getUserId());
         XN802011Res res = new XN802011Res();
         if (account != null) {
             res.setUserId(account.getUserId());
@@ -41,7 +41,6 @@ public class XN802011 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802011Req.class);
-        StringValidater.validateBlank(req.getAccountNumber());
+        StringValidater.validateBlank(req.getUserId());
     }
-
 }

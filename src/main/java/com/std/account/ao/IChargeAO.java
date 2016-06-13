@@ -10,7 +10,11 @@ public interface IChargeAO {
     Paginable<Charge> queryChargePage(int start, int limit, Charge condition);
 
     String doChargeOffline(String accountNumber, Long amount, String fromType,
-            String fromCode);
+            String fromCode, String pdf);
+
+    String doChargeOfflineWithoutApp(String accountNumber, Long amount,
+            String fromType, String fromCode, String pdf, String updater,
+            String remark);
 
     void doApproveCharge(String chargeNo, String approveUser,
             String approveResult, String approveNote, String refNo, Long fee);

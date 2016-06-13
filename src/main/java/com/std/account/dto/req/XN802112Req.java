@@ -1,6 +1,6 @@
 package com.std.account.dto.req;
 
-public class XN802110Req {
+public class XN802112Req {
     // 用户账号
     private String accountNumber;
 
@@ -15,6 +15,12 @@ public class XN802110Req {
 
     // pdf
     private String pdf;
+
+    // 审核人
+    private String approveUser;
+
+    // 审核意见
+    private String approveNote;
 
     public String getAccountNumber() {
         return accountNumber;
@@ -54,5 +60,21 @@ public class XN802110Req {
 
     public void setPdf(String pdf) {
         this.pdf = pdf;
+    }
+
+    public String getApproveUser() {
+        return approveUser;
+    }
+
+    public void setApproveUser(String approveUser) {
+        this.approveUser = approveUser;
+    }
+
+    public String getApproveNote() {
+        return approveNote;
+    }
+
+    public void setApproveNote(String approveNote) {
+        this.approveNote = approveNote;
     }
 }

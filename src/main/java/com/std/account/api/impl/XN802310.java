@@ -37,7 +37,8 @@ public class XN802310 extends AProcessor {
         req = JsonUtil.json2Bean(inputparams, XN802310Req.class);
         StringValidater.validateBlank(req.getAccountNumber(),
             req.getDirection(), req.getAmount(), req.getFee(), req.getRemark());
-        StringValidater.validateAmount(req.getAmount(), req.getFee());
+        StringValidater.validateAmountMin(req.getAmount());
+        StringValidater.validateAmount(req.getFee());
 
         EDirection c = EDirection.getDirectionMap().get(req.getDirection());
         if (c == null) {

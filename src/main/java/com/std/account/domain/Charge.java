@@ -39,6 +39,9 @@ public class Charge extends ABaseDO {
     // 手续费（精确到厘）
     private Long fee;
 
+    // pdf
+    private String pdf;
+
     // 创建时间
     private Date createDatetime;
 
@@ -194,4 +197,11 @@ public class Charge extends ABaseDO {
         this.realName = realName;
     }
 
+    public String getPdf() {
+        return pdf;
+    }
+
+    public void setPdf(String pdf) {
+        this.pdf = pdf;
+    }
 }

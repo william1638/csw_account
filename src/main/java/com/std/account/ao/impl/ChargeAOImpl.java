@@ -32,10 +32,10 @@ public class ChargeAOImpl implements IChargeAO {
     @Override
     @Transactional
     public String doChargeOffline(String accountNumber, Long amount,
-            String fromType, String fromCode) {
+            String fromType, String fromCode, String pdf) {
         accountBO.getAccount(accountNumber);
         String orderNo = chargeBO.saveChargeOffline(accountNumber, amount,
-            EFromType.getFromTypeMap().get(fromType), fromCode);
+            EFromType.getFromTypeMap().get(fromType), fromCode, pdf);
         // 发送短信
         // User user = userBO.getUser(account.getUserId());
         // String mobile = user.getMobile();
@@ -50,6 +50,21 @@ public class ChargeAOImpl implements IChargeAO {
         // + CalculationUtil.divi(amount)
         // + "充值申请，现已进入审核阶段，请留意相关短信通知。", ESmsBizType.Charge
         // .getCode(), ESmsBizType.Charge.getValue());
+        return orderNo;
+    }
+
+    @Override
+    public String doChargeOfflineWithoutApp(String accountNumber, Long amount,
+            String fromType, String fromCode, String pdf, String approveUser,
+            String approveNote) {
+        accountBO.getAccount(accountNumber);
+        String orderNo = chargeBO.saveChargeOffline(accountNumber, amount,
+            EFromType.getFromTypeMap().get(fromType), fromCode, pdf);
+        chargeBO.refreshApproveOrder(orderNo, approveUser, EBoolean
+            .getBooleanResultMap().get(EBoolean.YES.getCode()), approveNote,
+            null, 0L);
+
+        accountBO.refreshAmount(accountNumber, amount, orderNo, EBizType.AJ_CZ);
         return orderNo;
     }
 

@@ -4,34 +4,36 @@ import com.std.account.ao.IChargeAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
-import com.std.account.dto.req.XN802110Req;
-import com.std.account.dto.res.XN802110Res;
+import com.std.account.dto.req.XN802112Req;
+import com.std.account.dto.res.XN802112Res;
 import com.std.account.enums.EFromType;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 线下充值
+ * 线下充值订单申请审核一键通过
  * @author: myb858 
- * @since: 2015年8月23日 下午4:40:12 
+ * @since: 2015年8月26日 下午3:44:00 
  * @history:
  */
-public class XN802110 extends AProcessor {
+public class XN802112 extends AProcessor {
     private IChargeAO chargeAO = SpringContextHolder.getBean(IChargeAO.class);
 
-    private XN802110Req req = null;
+    private XN802112Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
         Long amount = StringValidater.toLong(req.getAmount());
-        return new XN802110Res(chargeAO.doChargeOffline(req.getAccountNumber(),
-            amount, req.getFromType(), req.getFromCode(), req.getPdf()));
+        return new XN802112Res(chargeAO.doChargeOfflineWithoutApp(
+            req.getAccountNumber(), amount, req.getFromType(),
+            req.getFromCode(), req.getPdf(), req.getApproveUser(),
+            req.getApproveNote()));
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN802110Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN802112Req.class);
         StringValidater.validateBlank(req.getAccountNumber(),
             req.getFromType(), req.getFromCode(), req.getPdf());
         StringValidater.validateAmount(req.getAmount());

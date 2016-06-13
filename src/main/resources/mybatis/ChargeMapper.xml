@@ -11,10 +11,11 @@
 		
 		<result column="amount" property="amount" />
 		<result column="fee" property="fee" />
+		<result column="pdf" property="pdf" />
 		<result column="create_datetime" property="createDatetime" />	
 		<result column="status" property="status" />
-		<result column="approve_user" property="approveUser" />	
 		
+		<result column="approve_user" property="approveUser" />	
 		<result column="approve_note" property="approveNote" />	
 		<result column="approve_datetime" property="approveDatetime" />
 		<result column="account_number" property="accountNumber" />
@@ -64,6 +65,7 @@
 
 	    ,t.amount
 	    ,t.fee
+	    ,t.pdf
 		,t.create_datetime
 		,t.status
 		,t.approve_user
@@ -92,11 +94,11 @@
 		,from_type
 		,from_code
 		,channel
-		
-		
 		,amount
+		
+		,pdf
+		,status
 		,create_datetime		
-		,status		
 		,account_number	
 		)
 		VALUES(
@@ -104,10 +106,11 @@
 		,#{fromType}
 		,#{fromCode}
 		,#{channel}
-	
 		,#{amount}
+		
+		,#{pdf}
+		,#{status}
 		,#{createDatetime}
-		,#{status}		
 		,#{accountNumber}
 		)
 	</insert>
@@ -125,8 +128,6 @@
 		WHERE
 		code = #{code}					
 	</update>
-	
-	
 	
 </mapper>
 

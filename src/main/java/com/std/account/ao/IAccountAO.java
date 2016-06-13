@@ -55,4 +55,13 @@ public interface IAccountAO {
      */
     public Account getAccount(String accountNumber);
 
+    /** 
+     * 根据userId查询账户
+     * @param userId
+     * @return 
+     * @create: 2015-3-17 下午6:28:56 miyb
+     * @history: 
+     */
+    public Account getAccountByUserId(String userId);
+
 }

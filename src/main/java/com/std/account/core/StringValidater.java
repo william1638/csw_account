@@ -54,6 +54,23 @@ public class StringValidater {
             } catch (Exception e) {
                 throw new BizException("xn702000", "金额，请按要求填写数字");
             }
+        }
+    }
+
+    /** 
+     * 判断钱的对错,最小1块钱
+     * @param userId 
+     * @create: 2015-3-17 下午6:40:34 miyb
+     * @history: 
+     */
+    public static void validateAmountMin(String... amounts) {
+        for (String amountS : amounts) {
+            Long amountL = null;
+            try {
+                amountL = Long.valueOf(amountS);
+            } catch (Exception e) {
+                throw new BizException("xn702000", "金额，请按要求填写数字");
+            }
 
             if (amountL < 1000) {
                 throw new BizException("xn702000", "金额不能小于1块钱");
