@@ -33,6 +33,14 @@
 			<if test="createDatetimeEnd != null and createDatetimeEnd != '' ">
 				<![CDATA[AND t.create_datetime <= #{createDatetimeEnd}]]>
 			</if>
+			<choose>
+			     <when test="type == 'user'">
+				  AND t.account_number NOT IN ('SYS_ACCOUNT')
+				 </when>
+				 <otherwise>
+				  AND 1 = 1
+				 </otherwise>
+			</choose>
 		</trim>
 	</sql>
 	

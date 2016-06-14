@@ -6,6 +6,9 @@ public class XN802010Req extends APageReq {
      */
     private static final long serialVersionUID = 3120496289325080769L;
 
+    // 账户类型(选填)
+    private String type;
+
     // 账号(选填)
     private String accountNumber;
 
@@ -48,5 +51,13 @@ public class XN802010Req extends APageReq {
 
     public void setRealName(String realName) {
         this.realName = realName;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

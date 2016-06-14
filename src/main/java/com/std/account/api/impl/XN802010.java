@@ -28,6 +28,7 @@ public class XN802010 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         Account condition = new Account();
+        condition.setType(req.getType());
         condition.setAccountNumber(req.getAccountNumber());
         condition.setStatus(req.getStatus());
         condition.setUserId(req.getUserId());

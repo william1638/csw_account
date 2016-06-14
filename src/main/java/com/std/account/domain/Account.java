@@ -29,6 +29,9 @@ public class Account extends ABaseDO {
     // 创建终止时间
     private Date createDatetimeEnd;
 
+    // 账户类型 1-用户账户 2-系统账户
+    private String type;
+
     // -----db properties start---------------
     // 账号
     private String accountNumber;
@@ -156,6 +159,14 @@ public class Account extends ABaseDO {
 
     public void setUpdateDatetime(Date updateDatetime) {
         this.updateDatetime = updateDatetime;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
 }
