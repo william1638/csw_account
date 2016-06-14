@@ -5,28 +5,28 @@ import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.domain.Account;
-import com.std.account.dto.req.XN802011Req;
-import com.std.account.dto.res.XN802011Res;
+import com.std.account.dto.req.XN802012Req;
+import com.std.account.dto.res.XN802012Res;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 账户信息查询(front/oss)
+ * 根据用户编号账户信息查询(front/oss)
  * @author: myb858 
  * @since: 2015年8月23日 下午2:59:32 
  * @history:
  */
-public class XN802011 extends AProcessor {
+public class XN802012 extends AProcessor {
     private IAccountAO accountAO = SpringContextHolder
         .getBean(IAccountAO.class);
 
-    private XN802011Req req = null;
+    private XN802012Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
-        Account account = accountAO.getAccount(req.getAccountNumber());
-        XN802011Res res = new XN802011Res();
+        Account account = accountAO.getAccountByUserId(req.getUserId());
+        XN802012Res res = new XN802012Res();
         if (account != null) {
             res.setUserId(account.getUserId());
             res.setAccountNumber(account.getAccountNumber());
@@ -40,7 +40,7 @@ public class XN802011 extends AProcessor {
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN802011Req.class);
-        StringValidater.validateBlank(req.getAccountNumber());
+        req = JsonUtil.json2Bean(inputparams, XN802012Req.class);
+        StringValidater.validateBlank(req.getUserId());
     }
 }
