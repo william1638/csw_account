@@ -22,7 +22,9 @@ import com.std.account.util.RegexUtils;
 public class BizConnecter {
     public static final String YES = "0";
 
-    public static final String SMS_URL = PropertiesUtil.getProperty("SMS_URL");
+    public static final String SMS_URL = PropertiesUtil.Config.SMS_URL;
+
+    public static final String USER_URL = PropertiesUtil.Config.USER_URL;
 
     public static final String Identify_URL = PropertiesUtil
         .getProperty("IDENTIFY_URL");

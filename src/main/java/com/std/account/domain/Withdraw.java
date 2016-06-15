@@ -40,6 +40,9 @@ public class Withdraw extends ABaseDO {
     // 开户支行
     private String toCode;
 
+    // 归属
+    private String toBelong;
+
     // 渠道
     private String channel;
 
@@ -109,6 +112,14 @@ public class Withdraw extends ABaseDO {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getToBelong() {
+        return toBelong;
+    }
+
+    public void setToBelong(String toBelong) {
+        this.toBelong = toBelong;
     }
 
     public String getToType() {

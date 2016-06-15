@@ -38,7 +38,7 @@ public class WithdrawBOImpl extends PaginableBOImpl<Withdraw> implements
 
     @Override
     public String saveWithdrawOffline(String accountNumber, Long amount,
-            EToType toType, String toCode) {
+            EToType toType, String toCode, String toBelong) {
         String code = null;
         if (StringUtils.isNotBlank(accountNumber) && amount != 0
                 && StringUtils.isNotBlank(toCode)) {
@@ -47,6 +47,7 @@ public class WithdrawBOImpl extends PaginableBOImpl<Withdraw> implements
             data.setCode(code);
             data.setToType(toType.getCode());
             data.setToCode(toCode);
+            data.setToBelong(toBelong);
             data.setChannel(EChannel.OFFLINE.getCode());
 
             data.setAmount(amount);

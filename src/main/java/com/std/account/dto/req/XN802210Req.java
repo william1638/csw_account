@@ -14,6 +14,9 @@ public class XN802210Req {
     // 开户支行
     private String toCode;
 
+    // 归属
+    private String toBelong;
+
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -36,6 +39,14 @@ public class XN802210Req {
 
     public void setToCode(String toCode) {
         this.toCode = toCode;
+    }
+
+    public String getToBelong() {
+        return toBelong;
+    }
+
+    public void setToBelong(String toBelong) {
+        this.toBelong = toBelong;
     }
 
     public String getAmount() {

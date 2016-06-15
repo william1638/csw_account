@@ -50,10 +50,10 @@ public class WithdrawAOImpl implements IWithdrawAO {
     @Override
     @Transactional
     public String doWithdrawOSS(String accountNumber, Long amount,
-            String toType, String toCode) {
+            String toType, String toCode, String toBelong) {
 
         String orderNo = withdrawBO.saveWithdrawOffline(accountNumber, amount,
-            EToType.getToTypeMap().get(toType), toCode);
+            EToType.getToTypeMap().get(toType), toCode, toBelong);
         accountBO
             .freezeAmount(accountNumber, amount, orderNo, EBizType.AJ_QXDJ);
         return orderNo;
@@ -61,12 +61,12 @@ public class WithdrawAOImpl implements IWithdrawAO {
 
     @Override
     public String doWithdrawOffline(String accountNumber, Long amount,
-            String toType, String toCode, String tradePwd) {
+            String toType, String toCode, String toBelong, String tradePwd) {
         Account account = accountBO.getAccount(accountNumber);
         // 验证交易密码
         userBO.checkTradePwd(account.getUserId(), tradePwd);
         String orderNo = withdrawBO.saveWithdrawOffline(accountNumber, amount,
-            EToType.getToTypeMap().get(toType), toCode);
+            EToType.getToTypeMap().get(toType), toCode, toBelong);
         accountBO
             .freezeAmount(accountNumber, amount, orderNo, EBizType.AJ_QXDJ);
         // 发送短信

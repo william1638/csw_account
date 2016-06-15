@@ -27,14 +27,14 @@ public class XN802210 extends AProcessor {
     public Object doBusiness() throws BizException {
         Long amount = StringValidater.toLong(req.getAmount());
         return new XN802210Res(withdrawAO.doWithdrawOSS(req.getAccountNumber(),
-            amount, req.getToType(), req.getToCode()));
+            amount, req.getToType(), req.getToCode(), req.getToBelong()));
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802210Req.class);
         StringValidater.validateBlank(req.getAccountNumber(), req.getAmount(),
-            req.getToType(), req.getToCode());
+            req.getToType(), req.getToCode(), req.getToBelong());
         StringValidater.validateAmount(req.getAmount());
 
         EToType c = EToType.getToTypeMap().get(req.getToType());

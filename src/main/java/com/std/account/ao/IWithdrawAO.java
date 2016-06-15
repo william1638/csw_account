@@ -40,12 +40,13 @@ public interface IWithdrawAO {
      * @param amount
      * @param toType
      * @param toCode
+     * @param toBelong
      * @return 
-     * @create: 2016年5月26日 下午3:11:23 myb858
+     * @create: 2016年6月15日 上午10:23:49 xieyj
      * @history:
      */
     public String doWithdrawOSS(String accountNumber, Long amount,
-            String toType, String toCode);
+            String toType, String toCode, String toBelong);
 
     /**
      * 前端线下取现（第一步：用户说“我要取钱”）
@@ -53,13 +54,14 @@ public interface IWithdrawAO {
      * @param amount
      * @param toType
      * @param toCode
+     * @param toBelong
      * @param tradePwd
      * @return 
-     * @create: 2016年5月26日 下午3:14:16 myb858
+     * @create: 2016年6月15日 上午10:24:29 xieyj
      * @history:
      */
     public String doWithdrawOffline(String accountNumber, Long amount,
-            String toType, String toCode, String tradePwd);
+            String toType, String toCode, String toBelong, String tradePwd);
 
     public void doApproveWithdraw(String withdrawNo, String approveUser,
             String approveResult, String approveNote);

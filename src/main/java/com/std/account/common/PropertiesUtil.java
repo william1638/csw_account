@@ -14,7 +14,8 @@ public class PropertiesUtil {
     public static void init(String configFile) {
         props = new Properties();
         try {
-            InputStream in = PropertiesUtil.class.getResourceAsStream(configFile);
+            InputStream in = PropertiesUtil.class
+                .getResourceAsStream(configFile);
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             props.load(br);
         } catch (FileNotFoundException e) {
@@ -31,4 +32,9 @@ public class PropertiesUtil {
         return props.getProperty(key);
     }
 
+    public static final class Config {
+        public static String SMS_URL = props.getProperty("SMS_URL");
+
+        public static String USER_URL = props.getProperty("USER_URL");
+    }
 }

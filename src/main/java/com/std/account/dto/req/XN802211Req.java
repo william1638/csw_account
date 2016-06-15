@@ -10,6 +10,9 @@ public class XN802211Req {
     // 开户支行
     private String toCode;
 
+    // 归属
+    private String toBelong;
+
     // 金额（精确到厘）
     private String amount;
 
@@ -38,6 +41,14 @@ public class XN802211Req {
 
     public void setToCode(String toCode) {
         this.toCode = toCode;
+    }
+
+    public String getToBelong() {
+        return toBelong;
+    }
+
+    public void setToBelong(String toBelong) {
+        this.toBelong = toBelong;
     }
 
     public String getAmount() {
