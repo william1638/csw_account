@@ -14,7 +14,7 @@ public interface IChargeAO {
 
     String doChargeOfflineWithoutApp(String accountNumber, Long amount,
             String fromType, String fromCode, String pdf, String updater,
-            String remark);
+            String remark, String refNo);
 
     void doApproveCharge(String chargeNo, String approveUser,
             String approveResult, String approveNote, String refNo, Long fee);

@@ -56,13 +56,13 @@ public class ChargeAOImpl implements IChargeAO {
     @Override
     public String doChargeOfflineWithoutApp(String accountNumber, Long amount,
             String fromType, String fromCode, String pdf, String approveUser,
-            String approveNote) {
+            String approveNote, String refNo) {
         accountBO.getAccount(accountNumber);
         String orderNo = chargeBO.saveChargeOffline(accountNumber, amount,
             EFromType.getFromTypeMap().get(fromType), fromCode, pdf);
         chargeBO.refreshApproveOrder(orderNo, approveUser, EBoolean
             .getBooleanResultMap().get(EBoolean.YES.getCode()), approveNote,
-            null, 0L);
+            refNo, 0L);
 
         accountBO.refreshAmount(accountNumber, amount, orderNo, EBizType.AJ_CZ);
         return orderNo;

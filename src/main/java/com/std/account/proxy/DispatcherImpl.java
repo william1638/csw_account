@@ -29,7 +29,6 @@ public class DispatcherImpl implements IDispatcher {
                     classname = "com.std.account.api.impl.XN" + transcode;
                 }
             }
-            classname = "com.std.account.api.impl.XN" + transcode;
             IProcessor processor = (IProcessor) ReflectUtil
                 .getInstance(classname);
             // 接口调用

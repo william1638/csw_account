@@ -26,9 +26,6 @@ public class BizConnecter {
 
     public static final String USER_URL = PropertiesUtil.Config.USER_URL;
 
-    public static final String Identify_URL = PropertiesUtil
-        .getProperty("IDENTIFY_URL");
-
     public static final String POST_URL = "...";
 
     public static <T> T getBizData(String code, String json, Class<T> clazz) {
@@ -65,8 +62,8 @@ public class BizConnecter {
         String reqUrl = POST_URL;
         if (code.contains("799")) {
             reqUrl = SMS_URL;
-        } else if (code.contains("798")) {
-            reqUrl = Identify_URL;
+        } else if (code.contains("805")) {
+            reqUrl = USER_URL;
         } else {
             reqUrl = POST_URL;
         }

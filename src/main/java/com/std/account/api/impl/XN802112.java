@@ -28,7 +28,7 @@ public class XN802112 extends AProcessor {
         return new XN802112Res(chargeAO.doChargeOfflineWithoutApp(
             req.getAccountNumber(), amount, req.getFromType(),
             req.getFromCode(), req.getPdf(), req.getApproveUser(),
-            req.getApproveNote()));
+            req.getApproveNote(), req.getRefNo()));
     }
 
     @Override
