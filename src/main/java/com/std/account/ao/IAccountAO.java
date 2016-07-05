@@ -35,6 +35,19 @@ public interface IAccountAO {
             ECurrency currency);
 
     /**
+     * 分配账户送积分
+     * @param userId
+     * @param realName
+     * @param currency
+     * @param amount
+     * @return 
+     * @create: 2016年7月5日 下午3:22:13 xieyj
+     * @history:
+     */
+    public String distributeAccount(String userId, String realName,
+            ECurrency currency, Long amount);
+
+    /**
      * 分页查询账户
      * @param start
      * @param limit

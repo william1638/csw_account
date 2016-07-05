@@ -75,6 +75,30 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
     }
 
     @Override
+    public String distributeAccount(String userId, String realName,
+            ECurrency currency, Long amount) {
+        String accountNumber = null;
+        if (StringUtils.isNotBlank(userId)) {
+            accountNumber = OrderNoGenerater.generate("A");
+            Account data = new Account();
+            data.setAccountNumber(accountNumber);
+            data.setUserId(userId);
+            data.setRealName(realName);
+            data.setCurrency(currency.getCode());
+            data.setAmount(amount);
+
+            data.setFrozenAmount(0L);
+            data.setMd5(AccountUtil.md5(data.getAmount()));
+            data.setStatus(EAccountStatus.NORMAL.getCode());
+            data.setCreateDatetime(new Date());
+            accountDAO.insert(data);
+        } else {
+            throw new BizException("xn702000", "入参有问题");
+        }
+        return accountNumber;
+    }
+
+    @Override
     public void refreshAmount(String accountNumber, Long transAmount,
             String refNo, EBizType bizType) {
         Account dbAccount = this.getAccount(accountNumber);

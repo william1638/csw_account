@@ -47,6 +47,12 @@ public class AccountAOImpl implements IAccountAO {
     }
 
     @Override
+    public String distributeAccount(String userId, String realName,
+            ECurrency currency, Long amount) {
+        return accountBO.distributeAccount(userId, realName, currency, amount);
+    }
+
+    @Override
     public Paginable<Account> queryAccountPage(int start, int limit,
             Account condition) {
         return accountBO.getPaginable(start, limit, condition);
@@ -68,5 +74,4 @@ public class AccountAOImpl implements IAccountAO {
     public Account getAccountByUserId(String userId) {
         return accountBO.getAccountByUserId(userId);
     }
-
 }

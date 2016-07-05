@@ -34,6 +34,19 @@ public interface IAccountBO extends IPaginableBO<Account> {
             ECurrency currency);
 
     /**
+     * 分配账户
+     * @param userId
+     * @param realName
+     * @param currency
+     * @param amount
+     * @return 
+     * @create: 2016年7月5日 下午3:23:19 xieyj
+     * @history:
+     */
+    public String distributeAccount(String userId, String realName,
+            ECurrency currency, Long amount);
+
+    /**
      * 更新账户余额（形成需要对账的流水记录）
      * @param accountNumber 账号
      * @param transAmount 账户余额的发生金额(有正负之分)
