@@ -27,8 +27,8 @@ public class XN802001 extends AProcessor {
     public Object doBusiness() throws BizException {
         String currency = req.getCurrency().toUpperCase();
         ECurrency c = ECurrency.getCurrencyMap().get(currency);
-        String accountNumber = accountAO.distributeAccount(req.getUserId(),
-            req.getRealName(), c, Long.valueOf(req.getAmount()));
+        String accountNumber = accountAO.distributeAccountTwo(req.getUserId(),
+            req.getRealName(), c);
         return new XN802001Res(accountNumber);
     }
 

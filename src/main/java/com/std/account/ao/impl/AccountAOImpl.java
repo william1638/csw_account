@@ -10,15 +10,22 @@ package com.std.account.ao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.std.account.ao.IAccountAO;
+import com.std.account.bo.IAJourBO;
 import com.std.account.bo.IAccountBO;
 import com.std.account.bo.IHLOrderBO;
+import com.std.account.bo.IUserBO;
 import com.std.account.bo.IWithdrawBO;
 import com.std.account.bo.IZZOrderBO;
 import com.std.account.bo.base.Paginable;
+import com.std.account.common.PropertiesUtil;
 import com.std.account.domain.Account;
+import com.std.account.dto.res.XN805901Res;
+import com.std.account.enums.EBizType;
 import com.std.account.enums.ECurrency;
+import com.std.account.enums.EUserKind;
 import com.std.account.exception.BizException;
 
 /** 
@@ -32,6 +39,9 @@ public class AccountAOImpl implements IAccountAO {
     IAccountBO accountBO;
 
     @Autowired
+    IAJourBO aJourBO;
+
+    @Autowired
     IWithdrawBO withdrawBO;
 
     @Autowired
@@ -40,6 +50,9 @@ public class AccountAOImpl implements IAccountAO {
     @Autowired
     IZZOrderBO zzOrderBO;
 
+    @Autowired
+    IUserBO userBO;
+
     @Override
     public String distributeAccount(String userId, String realName,
             ECurrency currency) {
@@ -47,9 +60,58 @@ public class AccountAOImpl implements IAccountAO {
     }
 
     @Override
-    public String distributeAccount(String userId, String realName,
-            ECurrency currency, Long amount) {
-        return accountBO.distributeAccount(userId, realName, currency, amount);
+    @Transactional
+    public String distributeAccountTwo(String userId, String realName,
+            ECurrency currency) {
+        XN805901Res userRes = userBO.getRemoteUser(userId, userId);
+        if (userRes == null) {
+            throw new BizException("li779001", "用户编号不存在");
+        }
+        String f3UserId = userRes.getUserReferee();
+        XN805901Res f3UserRes = userBO.getRemoteUser(f3UserId, f3UserId);
+        if (f3UserRes == null) {
+            throw new BizException("li779001", "推荐人用户编号不存在");
+        }
+        Long amount = 0L;
+        if (EUserKind.f1.getCode().equals(userRes.getKind())) {
+            amount = Long.valueOf(PropertiesUtil.Config.FIRST_INTEGRAL);
+        }
+        Account f3Account = accountBO.getAccountByUserId(f3UserId);
+        String accountNumber = accountBO.distributeAccount(userId, realName,
+            currency, amount);
+        aJourBO.addJour(accountNumber, 0L, amount, EBizType.AJ_RZJ.getCode(),
+            f3Account.getAccountNumber(), EBizType.AJ_RZJ.getValue());
+        Account account = accountBO.getAccountByUserId(userId);
+        accountBO.refreshAmount(f3Account.getAccountNumber(), -amount,
+            account.getAccountNumber(), EBizType.AJ_RJQ);
+        return accountNumber;
+    }
+
+    /** 
+     * @see com.std.account.ao.IAccountAO#addIntegral(java.lang.String)
+     */
+    @Override
+    @Transactional
+    public void addIntegral(String userId) {
+        XN805901Res userRes = userBO.getRemoteUser(userId, userId);
+        if (userRes == null) {
+            throw new BizException("li779001", "用户编号不存在");
+        }
+        String f3UserId = userRes.getUserReferee();
+        XN805901Res f3UserRes = userBO.getRemoteUser(f3UserId, f3UserId);
+        if (f3UserRes == null) {
+            throw new BizException("li779001", "推荐人用户编号不存在");
+        }
+        Long amount = 0L;
+        if (EUserKind.f1.getCode().equals(userRes.getKind())) {
+            amount = Long.valueOf(PropertiesUtil.Config.SECOND_INTEGRAL);
+        }
+        Account account = accountBO.getAccountByUserId(userId);
+        Account f3Account = accountBO.getAccountByUserId(f3UserId);
+        accountBO.refreshAmount(account.getAccountNumber(), amount,
+            f3Account.getAccountNumber(), EBizType.AJ_TZJ);
+        accountBO.refreshAmount(f3Account.getAccountNumber(), -amount,
+            account.getAccountNumber(), EBizType.AJ_TJQ);
     }
 
     @Override

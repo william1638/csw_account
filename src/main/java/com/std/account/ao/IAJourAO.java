@@ -54,5 +54,4 @@ public interface IAJourAO {
      */
     void doApproveCheckJour(String hlNo, String approveUser,
             String approveResult, String approveNote);
-
 }

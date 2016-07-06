@@ -16,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import com.std.account.bo.IAJourBO;
 import com.std.account.bo.base.PaginableBOImpl;
+import com.std.account.common.DateUtil;
 import com.std.account.dao.IAJourDAO;
 import com.std.account.domain.AccountJour;
 import com.std.account.enums.EAccountJourStatus;
@@ -57,6 +58,29 @@ public class AJourBOImpl extends PaginableBOImpl<AccountJour> implements
             }
             aJourDAO.doCheckAccount(data);
         }
+    }
+
+    /** 
+     * @see com.xnjr.moom.bo.IFDAJourBO#addJour(java.lang.String, java.lang.Long, java.lang.Long, com.xnjr.moom.enums.EBizType, java.lang.String)
+     */
+    @Override
+    public void addJour(String accountNumber, Long preAmount, Long amount,
+            String bizType, String refNo, String remark) {
+        Long postAmount = preAmount + amount;
+        AccountJour accountJour = new AccountJour();
+        accountJour.setStatus(EAccountJourStatus.todoCheck.getCode());
+        accountJour.setBizType(bizType);
+        accountJour.setRefNo(refNo);
+
+        accountJour.setTransAmount(amount);
+        accountJour.setPreAmount(preAmount);
+        accountJour.setPostAmount(postAmount);
+        accountJour.setRemark(remark);
+        accountJour.setCreateDatetime(new Date());
+        accountJour.setWorkDate(DateUtil
+            .getToday(DateUtil.DB_DATE_FORMAT_STRING));
+        accountJour.setAccountNumber(accountNumber);
+        aJourDAO.insert(accountJour);
     }
 
 }

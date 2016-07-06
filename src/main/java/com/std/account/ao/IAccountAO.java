@@ -35,17 +35,24 @@ public interface IAccountAO {
             ECurrency currency);
 
     /**
-     * 分配账户送积分
      * @param userId
      * @param realName
      * @param currency
-     * @param amount
      * @return 
-     * @create: 2016年7月5日 下午3:22:13 xieyj
+     * @create: 2016年7月6日 下午5:56:42 xieyj
      * @history:
      */
-    public String distributeAccount(String userId, String realName,
-            ECurrency currency, Long amount);
+    public String distributeAccountTwo(String userId, String realName,
+            ECurrency currency);
+
+    /**
+     * 加积分
+     * @param userId
+     * @return 
+     * @create: 2016年7月6日 下午6:15:07 xieyj
+     * @history:
+     */
+    public void addIntegral(String userId);
 
     /**
      * 分页查询账户

@@ -36,5 +36,11 @@ public class PropertiesUtil {
         public static String SMS_URL = props.getProperty("SMS_URL");
 
         public static String USER_URL = props.getProperty("USER_URL");
+
+        public static String FIRST_INTEGRAL = props
+            .getProperty("FIRST_INTEGRAL");
+
+        public static String SECOND_INTEGRAL = props
+            .getProperty("SECOND_INTEGRAL");
     }
 }
