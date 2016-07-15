@@ -132,6 +132,39 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
     }
 
     @Override
+    public void refreshAmount(String accountNumber, Long transAmount,
+            String refNo, EBizType bizType, String remark) {
+        Account dbAccount = this.getAccount(accountNumber);
+        Long nowAmount = dbAccount.getAmount() + transAmount;
+        if (nowAmount < 0) {
+            throw new BizException("li779001", "账户余额不足");
+        }
+        Date now = new Date();
+        Account account = new Account();
+        account.setAccountNumber(accountNumber);
+        account.setAmount(nowAmount);
+        account.setMd5(AccountUtil.md5(account.getAmount()));
+        account.setUpdateDatetime(now);
+        accountDAO.updateAmount(account);
+        // 记录流水
+        AccountJour accountJour = new AccountJour();
+        accountJour.setBizType(bizType.getCode());
+        accountJour.setRefNo(refNo);
+        accountJour.setTransAmount(transAmount);
+        accountJour.setPreAmount(dbAccount.getAmount());
+        accountJour.setPostAmount(nowAmount);
+
+        accountJour.setRemark(remark);
+        accountJour.setCreateDatetime(now);
+        accountJour.setAccountNumber(accountNumber);
+        accountJour.setStatus(EAccountJourStatus.todoCheck.getCode());
+        accountJour.setWorkDate(DateUtil
+            .getToday(DateUtil.DB_DATE_FORMAT_STRING));
+        aJourDAO.insert(accountJour);
+
+    }
+
+    @Override
     public void refreshAmountWithoutCheck(String accountNumber,
             Long transAmount, String refNo, EBizType bizType) {
         Account dbAccount = this.getAccount(accountNumber);
@@ -171,12 +204,12 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
     public void freezeAmount(String accountNumber, Long freezeAmount,
             String refNo, EBizType bizType) {
         if (freezeAmount < 0) {
-            throw new BizException("xn702000", "冻结金额不能小于0");
+            throw new BizException("xn702000", "冻结积分不能小于0");
         }
         Account dbAccount = this.getAccount(accountNumber);
         Long nowAmount = dbAccount.getAmount() - freezeAmount;
         if (nowAmount < 0) {
-            throw new BizException("xn702000", "账户余额不足");
+            throw new BizException("xn702000", "账户积分不足");
         }
         Long nowFrozenAmount = dbAccount.getFrozenAmount() + freezeAmount;
         Date now = new Date();
@@ -221,12 +254,12 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
     public void unfreezeAmount(String accountNumber, Long unfreezeAmount,
             String refNo, EBizType bizType) {
         if (unfreezeAmount < 0) {
-            throw new BizException("xn702000", "解结金额不能小于0");
+            throw new BizException("xn702000", "解结积分不能小于0");
         }
         Account dbAccount = this.getAccount(accountNumber);
         Long nowFrozenAmount = dbAccount.getFrozenAmount() - unfreezeAmount;
         if (nowFrozenAmount < 0) {
-            throw new BizException("xn702000", "本次账户解冻金额，会使账户冻结金额小于0");
+            throw new BizException("xn702000", "本次账户解冻积分，会使账户冻结积分小于0");
         }
         Long nowAmount = dbAccount.getAmount();
         Date now = new Date();
@@ -256,12 +289,12 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
     public void unfreezeAmountToAmount(String accountNumber,
             Long unfreezeAmount, String refNo, EBizType bizType) {
         if (unfreezeAmount < 0) {
-            throw new BizException("xn702000", "解结金额不能小于0");
+            throw new BizException("xn702000", "解结积分不能小于0");
         }
         Account dbAccount = this.getAccount(accountNumber);
         Long nowFrozenAmount = dbAccount.getFrozenAmount() - unfreezeAmount;
         if (nowFrozenAmount < 0) {
-            throw new BizException("xn702000", "本次账户解冻金额，会使账户冻结金额小于0");
+            throw new BizException("xn702000", "本次账户解冻积分，会使账户冻结积分小于0");
         }
         Long nowAmount = dbAccount.getAmount() + unfreezeAmount;
         Date now = new Date();

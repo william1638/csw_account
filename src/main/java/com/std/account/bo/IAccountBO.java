@@ -59,6 +59,9 @@ public interface IAccountBO extends IPaginableBO<Account> {
     public void refreshAmount(String accountNumber, Long transAmount,
             String refNo, EBizType bizType);
 
+    public void refreshAmount(String accountNumber, Long transAmount,
+            String refNo, EBizType bizType, String remark);
+
     /**
      * 更新账户余额（形成不需要对账的流水记录）
      * @param accountNumber

@@ -28,15 +28,15 @@ public class XN802001 extends AProcessor {
         String currency = req.getCurrency().toUpperCase();
         ECurrency c = ECurrency.getCurrencyMap().get(currency);
         String accountNumber = accountAO.distributeAccountTwo(req.getUserId(),
-            req.getRealName(), c);
+            req.getRealName(), c, req.getUserReferee());
         return new XN802001Res(accountNumber);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802001Req.class);
-        StringValidater.validateAmount(req.getAmount());
-        StringValidater.validateBlank(req.getUserId(), req.getCurrency());
+        StringValidater.validateBlank(req.getUserId(), req.getCurrency(),
+            req.getUserReferee());
         String currency = req.getCurrency().toUpperCase();
         ECurrency c = ECurrency.getCurrencyMap().get(currency);
         if (c == null) {

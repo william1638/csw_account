@@ -43,7 +43,7 @@ public interface IAccountAO {
      * @history:
      */
     public String distributeAccountTwo(String userId, String realName,
-            ECurrency currency);
+            ECurrency currency, String userReferee);
 
     /**
      * 加积分
