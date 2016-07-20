@@ -17,7 +17,7 @@ import java.util.Map;
  * @history:
  */
 public enum ECurrency {
-    CNY("CNY", "人民币");
+    CNY("CNY", "人民币"), XNB("XNB", "积分虚拟币");
     public static Map<String, ECurrency> getCurrencyMap() {
         Map<String, ECurrency> map = new HashMap<String, ECurrency>();
         for (ECurrency currency : ECurrency.values()) {
