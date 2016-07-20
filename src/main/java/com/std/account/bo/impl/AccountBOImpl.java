@@ -383,4 +383,16 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         return data;
     }
 
+    @Override
+    public Account getAccountByUser(String userId, String currency) {
+        Account data = null;
+        if (StringUtils.isNotBlank(userId)) {
+            Account condition = new Account();
+            condition.setUserId(userId);
+            condition.setCurrency(currency);
+            data = accountDAO.select(condition);
+        }
+        return data;
+    }
+
 }

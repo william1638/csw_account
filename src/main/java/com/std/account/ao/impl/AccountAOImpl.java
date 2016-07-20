@@ -132,4 +132,12 @@ public class AccountAOImpl implements IAccountAO {
     public Account getAccountByUserId(String userId) {
         return accountBO.getAccountByUserId(userId);
     }
+
+    /** 
+     * @see com.std.account.ao.IAccountAO#getAccountByUserId(java.lang.String, java.lang.String)
+     */
+    @Override
+    public Account getAccountByUser(String userId, String currency) {
+        return accountBO.getAccountByUser(userId, currency);
+    }
 }

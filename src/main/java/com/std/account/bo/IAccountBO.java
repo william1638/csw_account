@@ -146,4 +146,14 @@ public interface IAccountBO extends IPaginableBO<Account> {
      */
     public Account getAccountByUserId(String userId);
 
+    /**
+     * 获取账户
+     * @param userId
+     * @param currency
+     * @return 
+     * @create: 2016年7月20日 下午11:50:17 xieyj
+     * @history:
+     */
+    public Account getAccountByUser(String userId, String currency);
+
 }

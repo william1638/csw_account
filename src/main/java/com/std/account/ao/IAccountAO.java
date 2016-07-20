@@ -84,4 +84,14 @@ public interface IAccountAO {
      */
     public Account getAccountByUserId(String userId);
 
+    /**
+     * 根据userId和币种查询账户
+     * @param userId
+     * @param currency
+     * @return 
+     * @create: 2016年7月20日 下午11:48:35 xieyj
+     * @history:
+     */
+    public Account getAccountByUser(String userId, String currency);
+
 }

@@ -24,6 +24,9 @@
 			<if test="accountNumber != null and accountNumber != '' ">
 				AND t.account_number = #{accountNumber}
 			</if>
+			<if test="currency != null and currency != '' ">
+				AND t.currency = #{currency}
+			</if>
 			<if test="status != null and status != '' ">
 				AND t.status = #{status}
 			</if>
