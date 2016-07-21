@@ -35,10 +35,12 @@
   rm -rf std-account/
   mv /mnt/wwwroot/std-account.war .
 
+4,起停tomcat_STD_account
+
   mv -f application.properties ./std-account/WEB-INF/classes/
   mv -f config.properties ./std-account/WEB-INF/classes/
   
-4,起停tomcat_STD_account
+
   ../bin/shutdown.sh
   ../bin/startup.sh
   
