@@ -73,6 +73,13 @@ public class ChargeAOImpl implements IChargeAO {
             accountBO.getAccount(data.getFromAccountNumber());
             accountBO.getAccount(data.getAccountNumber());
         } else if (ECurrency.XNB.equals(currency)) {
+            String refNo = data.getRefNo();
+            Charge condition = new Charge();
+            condition.setRefNo(refNo);
+            Long totalCount = chargeBO.getTotalCount(condition);
+            if (totalCount > 0) {
+                throw new BizException("xn000001", "该积分二维码已扫，不可再次扫描");
+            }
             // 校验账户是否存在,并赋值
             Account fromAccount = accountBO.getAccountByUser(
                 data.getFromUserId(), currency.getCode());
@@ -87,7 +94,7 @@ public class ChargeAOImpl implements IChargeAO {
         // 一键审核通过
         chargeBO.refreshApproveOrder(orderNo, data.getApproveUser(), EBoolean
             .getBooleanResultMap().get(EBoolean.YES.getCode()), data
-            .getApproveUser(), data.getRefNo(), data.getFee());
+            .getApproveNote(), data.getRefNo(), data.getFee());
         if (ECurrency.CNY.equals(currency)) {
             accountBO.refreshAmount(data.getAccountNumber(), data.getAmount(),
                 orderNo, EBizType.AJ_CZ);

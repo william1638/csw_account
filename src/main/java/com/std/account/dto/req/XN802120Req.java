@@ -4,7 +4,7 @@ public class XN802120Req {
     // 来方用户编号(必填)
     private String fromUserId;
 
-    // 去方用户编号账号(必填)
+    // 去方用户编号(必填)
     private String toUserId;
 
     // 充值金额（精确到厘）(必填)
@@ -18,6 +18,9 @@ public class XN802120Req {
 
     // pdf(必填)
     private String pdf;
+
+    // refNo(选填)
+    private String refNo;
 
     // 申请人(选填)
     private String applyUser;
@@ -78,4 +81,11 @@ public class XN802120Req {
         this.type = type;
     }
 
+    public String getRefNo() {
+        return refNo;
+    }
+
+    public void setRefNo(String refNo) {
+        this.refNo = refNo;
+    }
 }

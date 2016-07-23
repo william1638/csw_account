@@ -6,7 +6,7 @@ import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.domain.Charge;
 import com.std.account.dto.req.XN802120Req;
-import com.std.account.dto.res.XN802110Res;
+import com.std.account.dto.res.PKCodeRes;
 import com.std.account.enums.ECurrency;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
@@ -33,15 +33,16 @@ public class XN802120 extends AProcessor {
 
         data.setType(req.getType());
         data.setPdf(req.getPdf());
+        data.setRefNo(req.getRefNo());
         data.setApplyUser(req.getApplyUser());
-        return new XN802110Res(chargeAO.doChargeOffline(data, ECurrency.XNB));
+        return new PKCodeRes(chargeAO.doChargeOffline(data, ECurrency.XNB));
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802120Req.class);
         StringValidater.validateBlank(req.getFromUserId(), req.getToUserId(),
-            req.getType(), req.getPdf(), req.getApplyUser());
+            req.getType(), req.getApplyUser());
         StringValidater.validateAmount(req.getAmount(), req.getPrice());
     }
 }
