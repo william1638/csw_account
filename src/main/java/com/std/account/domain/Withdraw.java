@@ -24,12 +24,6 @@ public class Withdraw extends ABaseDO {
      */
     private static final long serialVersionUID = 7947903634077808099L;
 
-    // 查询条件1：创建起始时间
-    private Date createDatetimeStart;
-
-    // 查询条件2：创建终止时间
-    private Date createDatetimeEnd;
-
     // ---------db properties start--------------------------
     // 订单号
     private String code;
@@ -46,14 +40,23 @@ public class Withdraw extends ABaseDO {
     // 渠道
     private String channel;
 
+    // 类型(货品商 1，下家 2)
+    private String type;
+
     // 支付单号(支付成功时才有)
     private String refNo;
 
     // 金额（精确到厘）
     private Long amount;
 
+    // 人民币价格
+    private Long price;
+
     // 手续费（精确到厘）
     private Long fee;
+
+    // 申请人
+    private String applyUser;
 
     // 创建时间
     private Date createDatetime;
@@ -79,15 +82,28 @@ public class Withdraw extends ABaseDO {
     // 支付时间
     private Date payDatetime;
 
+    // 来方账号
+    private String fromAccountNumber;
+
     // 账号
     private String accountNumber;
 
     // ---------db properties end--------------------------
 
-    // -----show properties start-----------
+    // 查询条件1：创建起始时间
+    private Date createDatetimeStart;
+
+    // 查询条件2：创建终止时间
+    private Date createDatetimeEnd;
 
     // 真实姓名
     private String realName;
+
+    // 来方用户编号
+    private String fromUserId;
+
+    // 去方用户编号
+    private String toUserId;
 
     // -----show properties end-----------
     public Date getCreateDatetimeStart() {
@@ -250,4 +266,51 @@ public class Withdraw extends ABaseDO {
         this.realName = realName;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
+    public String getApplyUser() {
+        return applyUser;
+    }
+
+    public void setApplyUser(String applyUser) {
+        this.applyUser = applyUser;
+    }
+
+    public String getFromAccountNumber() {
+        return fromAccountNumber;
+    }
+
+    public void setFromAccountNumber(String fromAccountNumber) {
+        this.fromAccountNumber = fromAccountNumber;
+    }
+
+    public String getFromUserId() {
+        return fromUserId;
+    }
+
+    public void setFromUserId(String fromUserId) {
+        this.fromUserId = fromUserId;
+    }
+
+    public String getToUserId() {
+        return toUserId;
+    }
+
+    public void setToUserId(String toUserId) {
+        this.toUserId = toUserId;
+    }
 }

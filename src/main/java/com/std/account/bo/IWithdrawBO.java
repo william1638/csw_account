@@ -23,6 +23,8 @@ public interface IWithdrawBO extends IPaginableBO<Withdraw> {
     public String saveWithdrawOffline(String accountNumber, Long amount,
             EToType toType, String toCode, String toBelong);
 
+    public String saveWithdrawOffline(Withdraw data);
+
     public void refreshApproveOrder(String code, String approveUser,
             EBoolean approveResult, String approveNote);
 

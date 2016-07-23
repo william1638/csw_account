@@ -4,8 +4,10 @@ import com.std.account.ao.IChargeAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
+import com.std.account.domain.Charge;
 import com.std.account.dto.req.XN802110Req;
 import com.std.account.dto.res.XN802110Res;
+import com.std.account.enums.ECurrency;
 import com.std.account.enums.EFromType;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
@@ -24,9 +26,14 @@ public class XN802110 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        Long amount = StringValidater.toLong(req.getAmount());
-        return new XN802110Res(chargeAO.doChargeOffline(req.getAccountNumber(),
-            amount, req.getFromType(), req.getFromCode(), req.getPdf()));
+        Charge data = new Charge();
+        data.setAccountNumber(req.getAccountNumber());
+        data.setAmount(StringValidater.toLong(req.getAmount()));
+        data.setFromType(req.getFromType());
+        data.setFromCode(req.getFromCode());
+
+        data.setPdf(req.getPdf());
+        return new XN802110Res(chargeAO.doChargeOffline(data, ECurrency.CNY));
     }
 
     @Override

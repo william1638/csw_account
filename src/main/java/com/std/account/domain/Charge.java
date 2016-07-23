@@ -17,6 +17,12 @@ public class Charge extends ABaseDO {
     // 查询条件2：创建终止时间
     private Date createDatetimeEnd;
 
+    // 来方用户编号
+    private String fromUserId;
+
+    // 去方用户编号
+    private String toUserId;
+
     // ---------db properties start--------------------------
     // 订单号
     private String code;
@@ -30,17 +36,26 @@ public class Charge extends ABaseDO {
     // 渠道
     private String channel;
 
+    // 类型(下家 1，终端用户 2)
+    private String type;
+
     // 支付单号(支付成功时才有)
     private String refNo;
 
     // 金额（精确到厘）
     private Long amount;
 
+    // 人民币价格
+    private Long price;
+
     // 手续费（精确到厘）
     private Long fee;
 
     // pdf
     private String pdf;
+
+    // 申请人
+    private String applyUser;
 
     // 创建时间
     private Date createDatetime;
@@ -56,6 +71,9 @@ public class Charge extends ABaseDO {
 
     // 审批时间
     private Date approveDatetime;
+
+    // 来方账号
+    private String fromAccountNumber;
 
     // 账号
     private String accountNumber;
@@ -203,5 +221,53 @@ public class Charge extends ABaseDO {
 
     public void setPdf(String pdf) {
         this.pdf = pdf;
+    }
+
+    public Long getPrice() {
+        return price;
+    }
+
+    public void setPrice(Long price) {
+        this.price = price;
+    }
+
+    public String getApplyUser() {
+        return applyUser;
+    }
+
+    public void setApplyUser(String applyUser) {
+        this.applyUser = applyUser;
+    }
+
+    public String getFromAccountNumber() {
+        return fromAccountNumber;
+    }
+
+    public void setFromAccountNumber(String fromAccountNumber) {
+        this.fromAccountNumber = fromAccountNumber;
+    }
+
+    public String getFromUserId() {
+        return fromUserId;
+    }
+
+    public void setFromUserId(String fromUserId) {
+        this.fromUserId = fromUserId;
+    }
+
+    public String getToUserId() {
+        return toUserId;
+    }
+
+    public void setToUserId(String toUserId) {
+        this.toUserId = toUserId;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 }

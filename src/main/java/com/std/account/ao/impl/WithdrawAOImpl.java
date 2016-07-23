@@ -21,6 +21,7 @@ import com.std.account.domain.Account;
 import com.std.account.domain.Withdraw;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
+import com.std.account.enums.ECurrency;
 import com.std.account.enums.EOrderStatus;
 import com.std.account.enums.EToType;
 import com.std.account.exception.BizException;
@@ -59,7 +60,39 @@ public class WithdrawAOImpl implements IWithdrawAO {
         return orderNo;
     }
 
+    /** 
+     * @see com.std.account.ao.IWithdrawAO#doWithdrawOSS(com.std.account.domain.Withdraw)
+     */
     @Override
+    @Transactional
+    public String doWithdrawOSS(Withdraw data, ECurrency currency) {
+        if (ECurrency.CNY.equals(currency)) {
+            // 校验账户是否存在
+            accountBO.getAccount(data.getFromAccountNumber());
+            accountBO.getAccount(data.getAccountNumber());
+        } else if (ECurrency.XNB.equals(currency)) {
+            // 校验账户是否存在,并赋值
+            Account fromAccount = accountBO.getAccountByUser(
+                data.getFromUserId(), currency.getCode());
+            data.setFromAccountNumber(fromAccount.getAccountNumber());
+            // 校验账户是否存在,并赋值
+            Account toAccount = accountBO.getAccountByUser(data.getToUserId(),
+                currency.getCode());
+            data.setAccountNumber(toAccount.getAccountNumber());
+        }
+        String orderNo = withdrawBO.saveWithdrawOffline(data);
+        if (ECurrency.CNY.equals(currency)) {
+            accountBO.freezeAmount(data.getAccountNumber(), data.getAmount(),
+                orderNo, EBizType.AJ_QXDJ);
+        } else if (ECurrency.XNB.equals(currency)) {
+            accountBO.freezeAmount(data.getFromAccountNumber(),
+                data.getAmount(), orderNo, EBizType.AJ_DXDJ);
+        }
+        return orderNo;
+    }
+
+    @Override
+    @Transactional
     public String doWithdrawOffline(String accountNumber, Long amount,
             String toType, String toCode, String toBelong, String tradePwd) {
         Account account = accountBO.getAccount(accountNumber);
@@ -87,8 +120,9 @@ public class WithdrawAOImpl implements IWithdrawAO {
     }
 
     @Override
+    @Transactional
     public void doApproveWithdraw(String withdrawNo, String approveUser,
-            String approveResult, String approveNote) {
+            String approveResult, String approveNote, ECurrency currency) {
         Withdraw withdraw = withdrawBO.getWithdraw(withdrawNo);
         if (withdraw == null) {
             throw new BizException("xn702514", "无对应充取订单");
@@ -104,8 +138,15 @@ public class WithdrawAOImpl implements IWithdrawAO {
         // User user = userBO.getUser(account.getUserId());
         // String mobile = user.getMobile();
         if (EBoolean.NO.getCode().equalsIgnoreCase(approveResult)) {// 且验证不通过的话，就资金变动
-            accountBO.unfreezeAmountToAmount(withdraw.getAccountNumber(),
-                withdraw.getAmount(), withdraw.getCode(), EBizType.AJ_QXJD);
+            if (ECurrency.CNY.equals(currency)) {
+                accountBO.unfreezeAmountToAmount(withdraw.getAccountNumber(),
+                    withdraw.getAmount(), withdraw.getCode(), EBizType.AJ_QXJD);
+            } else if (ECurrency.XNB.equals(currency)) {
+                accountBO.unfreezeAmountToAmount(
+                    withdraw.getFromAccountNumber(), withdraw.getAmount(),
+                    withdraw.getCode(), EBizType.AJ_DXJD);
+            }
+
             // smsOutBO.sendSmsOut(
             // mobile,
             // "尊敬的"
@@ -121,8 +162,10 @@ public class WithdrawAOImpl implements IWithdrawAO {
     }
 
     @Override
+    @Transactional
     public void doPayWithdraw(String withdrawNo, String payUser,
-            String payResult, String payNote, String refNo, Long fee) {
+            String payResult, String payNote, String refNo, Long fee,
+            ECurrency currency) {
         Withdraw withdraw = withdrawBO.getWithdraw(withdrawNo);
         if (withdraw == null) {
             throw new BizException("xn702515", "无对应充取订单");
@@ -143,8 +186,18 @@ public class WithdrawAOImpl implements IWithdrawAO {
         // User user = userBO.getUser(account.getUserId());
         // String mobile = user.getMobile();
         if (EBoolean.YES.getCode().equalsIgnoreCase(payResult)) {
-            accountBO.unfreezeAmount(withdraw.getAccountNumber(),
-                withdraw.getAmount(), withdraw.getCode(), EBizType.AJ_QXCG);
+            if (ECurrency.CNY.equals(currency)) {
+                accountBO.unfreezeAmount(withdraw.getAccountNumber(),
+                    withdraw.getAmount(), withdraw.getCode(), EBizType.AJ_QXCG);
+            } else if (ECurrency.XNB.equals(currency)) {
+                accountBO
+                    .unfreezeAmount(withdraw.getFromAccountNumber(),
+                        withdraw.getAmount(), withdraw.getCode(),
+                        EBizType.AJ_DXJJF);
+                accountBO.refreshAmount(withdraw.getAccountNumber(),
+                    -withdraw.getAmount(), withdraw.getCode(),
+                    EBizType.AJ_DXKJF);
+            }
             // smsOutBO.sendSmsOut(mobile,
             // "尊敬的" + PhoneUtil.hideMobile(mobile) + "用户，您提交的"
             // + CalculationUtil.divi(withdraw.getAmount())
@@ -152,8 +205,14 @@ public class WithdrawAOImpl implements IWithdrawAO {
             // ESmsBizType.Withdraw_Yes.getCode(),
             // ESmsBizType.Withdraw_Yes.getValue());
         } else {
-            accountBO.unfreezeAmountToAmount(withdraw.getAccountNumber(),
-                withdraw.getAmount(), withdraw.getCode(), EBizType.AJ_QXJD);
+            if (ECurrency.CNY.equals(currency)) {
+                accountBO.unfreezeAmountToAmount(withdraw.getAccountNumber(),
+                    withdraw.getAmount(), withdraw.getCode(), EBizType.AJ_QXJD);
+            } else if (ECurrency.XNB.equals(currency)) {
+                accountBO.unfreezeAmountToAmount(
+                    withdraw.getFromAccountNumber(), withdraw.getAmount(),
+                    withdraw.getCode(), EBizType.AJ_DXJD);
+            }
             // smsOutBO.sendSmsOut(mobile,
             // "尊敬的" + PhoneUtil.hideMobile(mobile) + "用户,您提交的"
             // + CalculationUtil.divi(withdraw.getAmount())
@@ -164,5 +223,4 @@ public class WithdrawAOImpl implements IWithdrawAO {
         }
 
     }
-
 }

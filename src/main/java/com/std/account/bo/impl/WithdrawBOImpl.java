@@ -56,7 +56,28 @@ public class WithdrawBOImpl extends PaginableBOImpl<Withdraw> implements
             data.setAccountNumber(accountNumber);
             withdrawDAO.insert(data);
         } else {
-            throw new BizException("xn702000", "入参有问题");
+            throw new BizException("xn702000", "入参错误");
+        }
+        return code;
+    }
+
+    /** 
+     * @see com.std.account.bo.IWithdrawBO#saveWithdrawOffline(com.std.account.domain.Withdraw)
+     */
+    @Override
+    public String saveWithdrawOffline(Withdraw data) {
+        String code = null;
+        if (StringUtils.isNotBlank(data.getFromAccountNumber())
+                && StringUtils.isNotBlank(data.getAccountNumber())
+                && data.getAmount() != 0) {
+            code = OrderNoGenerater.generate("C");
+            data.setCode(code);
+            data.setChannel(EChannel.OFFLINE.getCode());
+            data.setCreateDatetime(new Date());
+            data.setStatus(EOrderStatus.todoAPPROVE.getCode());
+            withdrawDAO.insert(data);
+        } else {
+            throw new BizException("xn702000", "入参错误");
         }
         return code;
     }
@@ -79,7 +100,7 @@ public class WithdrawBOImpl extends PaginableBOImpl<Withdraw> implements
             data.setApproveDatetime(new Date());
             withdrawDAO.updateApproveOrder(data);
         } else {
-            throw new BizException("xn702000", "入参有问题");
+            throw new BizException("xn702000", "入参错误");
         }
 
     }
@@ -103,7 +124,7 @@ public class WithdrawBOImpl extends PaginableBOImpl<Withdraw> implements
             data.setPayDatetime(new Date());
             withdrawDAO.updatePayOrder(data);
         } else {
-            throw new BizException("xn702000", "入参有问题");
+            throw new BizException("xn702000", "入参错误");
         }
     }
 
@@ -117,5 +138,4 @@ public class WithdrawBOImpl extends PaginableBOImpl<Withdraw> implements
         }
         return data;
     }
-
 }

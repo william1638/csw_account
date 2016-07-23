@@ -13,7 +13,6 @@ import com.std.account.dao.IChargeDAO;
 import com.std.account.domain.Charge;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannel;
-import com.std.account.enums.EFromType;
 import com.std.account.enums.EOrderStatus;
 import com.std.account.exception.BizException;
 
@@ -23,27 +22,19 @@ public class ChargeBOImpl extends PaginableBOImpl<Charge> implements IChargeBO {
     private IChargeDAO chargeDAO;
 
     @Override
-    public String saveChargeOffline(String accountNumber, Long amount,
-            EFromType fromType, String fromCode, String pdf) {
+    public String saveChargeOffline(Charge data) {
         String code = null;
-        if (StringUtils.isNotBlank(accountNumber) && amount != 0
-                && StringUtils.isNotBlank(fromCode)) {
-            Charge data = new Charge();
+        if (StringUtils.isNotBlank(data.getFromAccountNumber())
+                && StringUtils.isNotBlank(data.getAccountNumber())
+                && data.getAmount() != 0) {
             code = OrderNoGenerater.generate("C");
             data.setCode(code);
-            data.setFromType(fromType.getCode());
-            data.setFromCode(fromCode);
-
-            data.setPdf(pdf);
             data.setChannel(EChannel.OFFLINE.getCode());
-            data.setAmount(amount);
             data.setCreateDatetime(new Date());
             data.setStatus(EOrderStatus.todoAPPROVE.getCode());
-
-            data.setAccountNumber(accountNumber);
             chargeDAO.insert(data);
         } else {
-            throw new BizException("xn702000", "入参有问题");
+            throw new BizException("xn702000", "入参错误");
         }
         return code;
     }
@@ -68,7 +59,7 @@ public class ChargeBOImpl extends PaginableBOImpl<Charge> implements IChargeBO {
             data.setFee(fee);
             chargeDAO.updateApproveOrder(data);
         } else {
-            throw new BizException("xn702000", "入参有问题");
+            throw new BizException("xn702000", "入参错误");
         }
 
     }

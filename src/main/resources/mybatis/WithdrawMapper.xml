@@ -8,20 +8,25 @@
 		<result column="to_code" property="toCode" />
 		<result column="to_belong" property="toBelong" />
 		<result column="channel" property="channel" />
-		<result column="ref_no" property="refNo" />
 		
+		<result column="type" property="type" />
+		<result column="ref_no" property="refNo" />
 		<result column="amount" property="amount" />
-		<result column="create_datetime" property="createDatetime" />	
+		<result column="price" property="price" />
+		<result column="apply_user" property="applyUser" />	
+		
+		<result column="create_datetime" property="createDatetime" />
 		<result column="status" property="status" />
 		<result column="approve_user" property="approveUser" />	
 		<result column="approve_note" property="approveNote" />	
-		
 		<result column="approve_datetime" property="approveDatetime" />
+		
 		<result column="pay_user" property="payUser" />	
 		<result column="pay_note" property="payNote" />		
 		<result column="pay_datetime" property="payDatetime" />
 		<result column="pay_fee" property="payFee" />	
-				
+		<result column="from_account_number" property="fromAccountNumber" />
+		
 		<result column="account_number" property="accountNumber" />
 	</resultMap>
 	<sql id="where_condition">
@@ -51,6 +56,9 @@
 			<if test="payUser != null and payUser != '' ">
 				AND t.pay_user = #{payUser}
 			</if>
+			<if test="fromAccountNumber != null and fromAccountNumber != '' ">
+				AND t.from_account_number = #{fromAccountNumber}
+			</if>
 			<if test="accountNumber != null and accountNumber != '' ">
 				AND t.account_number = #{accountNumber}
 			</if>
@@ -69,19 +77,24 @@
 		,t.to_code
 		,t.to_belong
 		,t.channel
+		
+		,t.type
 		,t.ref_no
-
 	    ,t.amount
+	    ,t.price
 	    ,t.fee	
+	    
+	    ,t.apply_user
 		,t.create_datetime
 		,t.status
 		,t.approve_user
-		
 		,t.approve_note
+		
 		,t.approve_datetime
 		,t.pay_user
 		,t.pay_note
 		,t.pay_datetime			
+		,t.from_account_number
 		
 		,t.account_number
 		FROM
@@ -107,9 +120,14 @@
 		,to_belong
 		,channel
 		
+		,type
 		,amount
-		,create_datetime	
+		,price
+		,apply_user
+		,create_datetime
+			
 		,status		
+		,from_account_number	
 		,account_number	
 		)
 		VALUES(
@@ -119,9 +137,14 @@
 		,#{toBelong}
 		,#{channel}
 		
+		,#{type}
 		,#{amount}
+		,#{price}
+		,#{applyUser}
 		,#{createDatetime}
+		
 	    ,#{status}
+	    ,#{fromAccountNumber}
 		,#{accountNumber}
 		)
 	</insert>
@@ -149,6 +172,4 @@
 		WHERE
 		code = #{code}				
 	</update>
-	
-	
 </mapper>

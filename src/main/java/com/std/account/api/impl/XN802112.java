@@ -4,8 +4,10 @@ import com.std.account.ao.IChargeAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
+import com.std.account.domain.Charge;
 import com.std.account.dto.req.XN802112Req;
 import com.std.account.dto.res.XN802112Res;
+import com.std.account.enums.ECurrency;
 import com.std.account.enums.EFromType;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
@@ -24,11 +26,18 @@ public class XN802112 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        Long amount = StringValidater.toLong(req.getAmount());
-        return new XN802112Res(chargeAO.doChargeOfflineWithoutApp(
-            req.getAccountNumber(), amount, req.getFromType(),
-            req.getFromCode(), req.getPdf(), req.getApproveUser(),
-            req.getApproveNote(), req.getRefNo()));
+        Charge data = new Charge();
+        data.setAccountNumber(req.getAccountNumber());
+        data.setAmount(StringValidater.toLong(req.getAmount()));
+        data.setFromType(req.getFromType());
+        data.setFromCode(req.getFromCode());
+
+        data.setPdf(req.getPdf());
+        data.setApproveUser(req.getApproveUser());
+        data.setApproveNote(req.getApproveNote());
+        data.setRefNo(req.getRefNo());
+        return new XN802112Res(chargeAO.doChargeOfflineWithoutApp(data,
+            ECurrency.CNY));
     }
 
     @Override

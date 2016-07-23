@@ -8,10 +8,11 @@ import com.std.account.ao.IChargeAO;
 import com.std.account.bo.IAccountBO;
 import com.std.account.bo.IChargeBO;
 import com.std.account.bo.base.Paginable;
+import com.std.account.domain.Account;
 import com.std.account.domain.Charge;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
-import com.std.account.enums.EFromType;
+import com.std.account.enums.ECurrency;
 import com.std.account.enums.EOrderStatus;
 import com.std.account.exception.BizException;
 
@@ -31,11 +32,22 @@ public class ChargeAOImpl implements IChargeAO {
 
     @Override
     @Transactional
-    public String doChargeOffline(String accountNumber, Long amount,
-            String fromType, String fromCode, String pdf) {
-        accountBO.getAccount(accountNumber);
-        String orderNo = chargeBO.saveChargeOffline(accountNumber, amount,
-            EFromType.getFromTypeMap().get(fromType), fromCode, pdf);
+    public String doChargeOffline(Charge data, ECurrency currency) {
+        if (ECurrency.CNY.equals(currency)) {
+            // 校验账户是否存在
+            accountBO.getAccount(data.getFromAccountNumber());
+            accountBO.getAccount(data.getAccountNumber());
+        } else if (ECurrency.XNB.equals(currency)) {
+            // 校验账户是否存在,并赋值
+            Account fromAccount = accountBO.getAccountByUser(
+                data.getFromUserId(), currency.getCode());
+            data.setFromAccountNumber(fromAccount.getAccountNumber());
+            // 校验账户是否存在,并赋值
+            Account toAccount = accountBO.getAccountByUser(data.getToUserId(),
+                currency.getCode());
+            data.setAccountNumber(toAccount.getAccountNumber());
+        }
+        String orderNo = chargeBO.saveChargeOffline(data);
         // 发送短信
         // User user = userBO.getUser(account.getUserId());
         // String mobile = user.getMobile();
@@ -54,26 +66,49 @@ public class ChargeAOImpl implements IChargeAO {
     }
 
     @Override
-    public String doChargeOfflineWithoutApp(String accountNumber, Long amount,
-            String fromType, String fromCode, String pdf, String approveUser,
-            String approveNote, String refNo) {
-        accountBO.getAccount(accountNumber);
-        String orderNo = chargeBO.saveChargeOffline(accountNumber, amount,
-            EFromType.getFromTypeMap().get(fromType), fromCode, pdf);
-        chargeBO.refreshApproveOrder(orderNo, approveUser, EBoolean
-            .getBooleanResultMap().get(EBoolean.YES.getCode()), approveNote,
-            refNo, 0L);
-
-        accountBO.refreshAmount(accountNumber, amount, orderNo, EBizType.AJ_CZ);
+    @Transactional
+    public String doChargeOfflineWithoutApp(Charge data, ECurrency currency) {
+        if (ECurrency.CNY.equals(currency)) {
+            // 校验账户是否存在
+            accountBO.getAccount(data.getFromAccountNumber());
+            accountBO.getAccount(data.getAccountNumber());
+        } else if (ECurrency.XNB.equals(currency)) {
+            // 校验账户是否存在,并赋值
+            Account fromAccount = accountBO.getAccountByUser(
+                data.getFromUserId(), currency.getCode());
+            data.setFromAccountNumber(fromAccount.getAccountNumber());
+            // 校验账户是否存在,并赋值
+            Account toAccount = accountBO.getAccountByUser(data.getToUserId(),
+                currency.getCode());
+            data.setAccountNumber(toAccount.getAccountNumber());
+        }
+        // 保存充值申请记录
+        String orderNo = chargeBO.saveChargeOffline(data);
+        // 一键审核通过
+        chargeBO.refreshApproveOrder(orderNo, data.getApproveUser(), EBoolean
+            .getBooleanResultMap().get(EBoolean.YES.getCode()), data
+            .getApproveUser(), data.getRefNo(), data.getFee());
+        if (ECurrency.CNY.equals(currency)) {
+            accountBO.refreshAmount(data.getAccountNumber(), data.getAmount(),
+                orderNo, EBizType.AJ_CZ);
+        } else if (ECurrency.XNB.equals(currency)) {
+            // 积分划拨
+            accountBO.refreshAmount(data.getFromAccountNumber(),
+                -data.getAmount(), orderNo, EBizType.AJ_GMKJF);
+            accountBO.refreshAmount(data.getAccountNumber(), data.getAmount(),
+                orderNo, EBizType.AJ_GMJJF);
+        }
         return orderNo;
     }
 
     @Override
+    @Transactional
     public void doApproveCharge(String chargeNo, String approveUser,
-            String approveResult, String approveNote, String refNo, Long fee) {
+            String approveResult, String approveNote, String refNo, Long fee,
+            ECurrency currency) {
         Charge cqOrder = chargeBO.getCharge(chargeNo);
         if (cqOrder == null) {
-            throw new BizException("xn000001", "无对应充值订单");
+            throw new BizException("xn000001", "无对应订单");
         }
         if (!EOrderStatus.todoAPPROVE.getCode().equalsIgnoreCase(
             cqOrder.getStatus())) {
@@ -86,8 +121,16 @@ public class ChargeAOImpl implements IChargeAO {
         // User user = userBO.getUser(account.getUserId());
         // String mobile = user.getMobile();
         if (EBoolean.YES.getCode().equalsIgnoreCase(approveResult)) {// 验证通过的话，就资金变动
-            accountBO.refreshAmount(cqOrder.getAccountNumber(),
-                cqOrder.getAmount(), cqOrder.getCode(), EBizType.AJ_CZ);
+            if (ECurrency.CNY.equals(currency)) {
+                accountBO.refreshAmount(cqOrder.getAccountNumber(),
+                    cqOrder.getAmount(), cqOrder.getCode(), EBizType.AJ_CZ);
+            } else if (ECurrency.XNB.equals(currency)) {
+                // 积分划拨
+                accountBO.refreshAmount(cqOrder.getFromAccountNumber(),
+                    -cqOrder.getAmount(), cqOrder.getCode(), EBizType.AJ_GMKJF);
+                accountBO.refreshAmount(cqOrder.getAccountNumber(),
+                    cqOrder.getAmount(), cqOrder.getCode(), EBizType.AJ_GMJJF);
+            }
             // smsOutBO.sendSmsOut(
             // mobile,
             // "尊敬的"

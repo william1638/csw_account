@@ -7,17 +7,22 @@
 		<result column="from_type" property="fromType" />
 		<result column="from_code" property="fromCode" />
 		<result column="channel" property="channel" />
-		<result column="ref_no" property="refNo" />
+		<result column="type" property="type" />
 		
+		<result column="ref_no" property="refNo" />
 		<result column="amount" property="amount" />
+		<result column="price" property="price" />
 		<result column="fee" property="fee" />
 		<result column="pdf" property="pdf" />
+		
+		<result column="apply_user" property="applyUser" />	
 		<result column="create_datetime" property="createDatetime" />	
 		<result column="status" property="status" />
-		
 		<result column="approve_user" property="approveUser" />	
 		<result column="approve_note" property="approveNote" />	
+		
 		<result column="approve_datetime" property="approveDatetime" />
+		<result column="from_account_number" property="fromAccountNumber" />
 		<result column="account_number" property="accountNumber" />
 	</resultMap>
 	<sql id="where_condition">
@@ -44,6 +49,9 @@
 			<if test="approveUser != null and approveUser != '' ">
 				AND t.approve_user = #{approveUser}
 			</if>
+			<if test="fromAccountNumber != null and fromAccountNumber != '' ">
+				AND t.from_account_number = #{fromAccountNumber}
+			</if>
 			<if test="accountNumber != null and accountNumber != '' ">
 				AND t.account_number = #{accountNumber}
 			</if>
@@ -64,14 +72,19 @@
 		,t.ref_no
 
 	    ,t.amount
+	    ,t.price
+	    ,t.type
 	    ,t.fee
 	    ,t.pdf
+	    ,t.apply_user
+	    
 		,t.create_datetime
 		,t.status
 		,t.approve_user
-		
 		,t.approve_note
 		,t.approve_datetime
+		
+		,t.from_account_number
 		,t.account_number
 		FROM
 		tstd_charge t 
@@ -96,9 +109,14 @@
 		,channel
 		,amount
 		
+		,price
 		,pdf
 		,status
-		,create_datetime		
+		,ref_no
+		,apply_user
+		
+		,create_datetime
+		,from_account_number		
 		,account_number	
 		)
 		VALUES(
@@ -108,13 +126,17 @@
 		,#{channel}
 		,#{amount}
 		
+		,#{price}
 		,#{pdf}
 		,#{status}
+		,#{refNo}
+		,#{applyUser}
+		
 		,#{createDatetime}
+		,#{fromAccountNumber}
 		,#{accountNumber}
 		)
 	</insert>
-	
 	
 	<update id="update_approve_order" parameterType="charge">
 		UPDATE tstd_charge

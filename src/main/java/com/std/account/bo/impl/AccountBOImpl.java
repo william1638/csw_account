@@ -69,7 +69,7 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
             data.setCreateDatetime(new Date());
             accountDAO.insert(data);
         } else {
-            throw new BizException("xn702000", "入参有问题");
+            throw new BizException("xn702000", "入参错误");
         }
         return accountNumber;
     }
@@ -93,7 +93,7 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
             data.setCreateDatetime(new Date());
             accountDAO.insert(data);
         } else {
-            throw new BizException("xn702000", "入参有问题");
+            throw new BizException("xn702000", "入参错误");
         }
         return accountNumber;
     }
@@ -391,6 +391,9 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
             condition.setUserId(userId);
             condition.setCurrency(currency);
             data = accountDAO.select(condition);
+            if (data == null) {
+                throw new BizException("xn702502", "无对应账户，请检查账号正确性");
+            }
         }
         return data;
     }
