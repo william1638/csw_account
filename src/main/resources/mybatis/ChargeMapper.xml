@@ -107,14 +107,15 @@
 		,from_type
 		,from_code
 		,channel
-		,amount
+		,type
 		
+		,amount
 		,price
 		,pdf
 		,status
 		,ref_no
-		,apply_user
 		
+		,apply_user
 		,create_datetime
 		,from_account_number		
 		,account_number	
@@ -124,14 +125,15 @@
 		,#{fromType}
 		,#{fromCode}
 		,#{channel}
-		,#{amount}
+		,#{type}
 		
+		,#{amount}
 		,#{price}
 		,#{pdf}
 		,#{status}
 		,#{refNo}
-		,#{applyUser}
 		
+		,#{applyUser}
 		,#{createDatetime}
 		,#{fromAccountNumber}
 		,#{accountNumber}
@@ -150,6 +152,5 @@
 		WHERE
 		code = #{code}					
 	</update>
-	
 </mapper>
 
