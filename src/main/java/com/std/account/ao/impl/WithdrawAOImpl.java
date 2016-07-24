@@ -190,13 +190,12 @@ public class WithdrawAOImpl implements IWithdrawAO {
                 accountBO.unfreezeAmount(withdraw.getAccountNumber(),
                     withdraw.getAmount(), withdraw.getCode(), EBizType.AJ_QXCG);
             } else if (ECurrency.XNB.equals(currency)) {
+                accountBO.unfreezeAmount(withdraw.getFromAccountNumber(),
+                    withdraw.getAmount(), withdraw.getCode(), EBizType.AJ_DXJD);
                 accountBO
-                    .unfreezeAmount(withdraw.getFromAccountNumber(),
+                    .refreshAmount(withdraw.getAccountNumber(),
                         withdraw.getAmount(), withdraw.getCode(),
                         EBizType.AJ_DXJJF);
-                accountBO.refreshAmount(withdraw.getAccountNumber(),
-                    -withdraw.getAmount(), withdraw.getCode(),
-                    EBizType.AJ_DXKJF);
             }
             // smsOutBO.sendSmsOut(mobile,
             // "尊敬的" + PhoneUtil.hideMobile(mobile) + "用户，您提交的"

@@ -42,8 +42,7 @@ public class ChargeBOImpl extends PaginableBOImpl<Charge> implements IChargeBO {
     @Override
     public void refreshApproveOrder(String code, String approveUser,
             EBoolean approveResult, String approveNote, String refNo, Long fee) {
-        if (StringUtils.isNotBlank(code) && StringUtils.isNotBlank(approveUser)
-                && StringUtils.isNotBlank(approveNote)) {
+        if (StringUtils.isNotBlank(code) && StringUtils.isNotBlank(approveUser)) {
             Charge data = new Charge();
             data.setCode(code);
             if (EBoolean.YES.getCode()
