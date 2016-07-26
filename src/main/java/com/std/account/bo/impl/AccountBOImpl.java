@@ -79,9 +79,8 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
             ECurrency currency, Long amount) {
         String accountNumber = null;
         if (StringUtils.isNotBlank(userId)) {
-            accountNumber = OrderNoGenerater.generate("A");
             Account data = new Account();
-            data.setAccountNumber(accountNumber);
+            data.setAccountNumber(userId);
             data.setUserId(userId);
             data.setRealName(realName);
             data.setCurrency(currency.getCode());
