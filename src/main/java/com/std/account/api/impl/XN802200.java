@@ -2,7 +2,6 @@ package com.std.account.api.impl;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.std.account.ao.IChargeAO;
 import com.std.account.ao.IWithdrawAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.DateUtil;
@@ -34,8 +33,8 @@ public class XN802200 extends AProcessor {
         condition.setCode(req.getCode());
         condition.setToType(req.getToType());
         condition.setToCode(req.getToCode());
-        condition.setChannel(req.getChannel());
 
+        condition.setChannel(req.getChannel());
         condition.setRefNo(req.getRefNo());
         condition.setStatus(req.getStatus());
         condition.setApproveUser(req.getApproveUser());
@@ -47,7 +46,7 @@ public class XN802200 extends AProcessor {
             true));
         String column = req.getOrderColumn();
         if (StringUtils.isBlank(column)) {
-            column = IChargeAO.DEFAULT_ORDER_COLUMN;
+            column = IWithdrawAO.DEFAULT_ORDER_COLUMN;
         }
         condition.setOrder(column, req.getOrderDir());
         int start = Integer.valueOf(req.getStart());
