@@ -1,11 +1,13 @@
 package com.std.account.dto.req;
 
-
 public class XN802100Req extends APageReq {
     /** 
      * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
      */
     private static final long serialVersionUID = -7706047277666843638L;
+
+    // 来方账号
+    private String fromAccountNumber;
 
     // 账号
     private String accountNumber;
@@ -95,4 +97,11 @@ public class XN802100Req extends APageReq {
         this.accountNumber = accountNumber;
     }
 
+    public String getFromAccountNumber() {
+        return fromAccountNumber;
+    }
+
+    public void setFromAccountNumber(String fromAccountNumber) {
+        this.fromAccountNumber = fromAccountNumber;
+    }
 }

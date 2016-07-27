@@ -27,18 +27,19 @@ public class XN802100 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         Charge condition = new Charge();
+        condition.setFromAccountNumber(req.getFromAccountNumber());
         condition.setAccountNumber(req.getAccountNumber());
         condition.setCode(req.getCode());
         condition.setFromType(req.getFromType());
         condition.setFromCode(req.getFromCode());
-        condition.setChannel(req.getChannel());
 
+        condition.setChannel(req.getChannel());
         condition.setRefNo(req.getRefNo());
         condition.setStatus(req.getStatus());
         condition.setApproveUser(req.getApproveUser());
-
         condition.setCreateDatetimeStart(DateUtil.getFrontDate(
             req.getDateStart(), false));
+
         condition.setCreateDatetimeEnd(DateUtil.getFrontDate(req.getDateEnd(),
             true));
         String column = req.getOrderColumn();

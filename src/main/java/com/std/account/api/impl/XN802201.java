@@ -30,6 +30,7 @@ public class XN802201 extends AProcessor {
     public Object doBusiness() throws BizException {
 
         Withdraw condition = new Withdraw();
+        condition.setFromAccountNumber(req.getFromAccountNumber());
         condition.setAccountNumber(req.getAccountNumber());
         condition.setCode(req.getCode());
         condition.setToType(req.getToType());

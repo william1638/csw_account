@@ -55,8 +55,12 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
             ECurrency currency) {
         String accountNumber = null;
         if (StringUtils.isNotBlank(userId)) {
-            accountNumber = OrderNoGenerater.generate("A");
             Account data = new Account();
+            if (ECurrency.XNB.equals(currency)) {
+                accountNumber = userId;
+            } else {
+                accountNumber = OrderNoGenerater.generate("A");
+            }
             data.setAccountNumber(accountNumber);
             data.setUserId(userId);
             data.setRealName(realName);
@@ -80,7 +84,12 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         String accountNumber = null;
         if (StringUtils.isNotBlank(userId)) {
             Account data = new Account();
-            data.setAccountNumber(userId);
+            if (ECurrency.XNB.equals(currency)) {
+                accountNumber = userId;
+            } else {
+                accountNumber = OrderNoGenerater.generate("A");
+            }
+            data.setAccountNumber(accountNumber);
             data.setUserId(userId);
             data.setRealName(realName);
             data.setCurrency(currency.getCode());

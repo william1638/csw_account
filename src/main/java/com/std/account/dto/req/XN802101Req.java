@@ -7,6 +7,9 @@ public class XN802101Req extends APageReq {
      */
     private static final long serialVersionUID = 8169710256402612607L;
 
+    // 来方账号
+    private String fromAccountNumber;
+
     // 账号
     private String accountNumber;
 
@@ -82,6 +85,14 @@ public class XN802101Req extends APageReq {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getFromAccountNumber() {
+        return fromAccountNumber;
+    }
+
+    public void setFromAccountNumber(String fromAccountNumber) {
+        this.fromAccountNumber = fromAccountNumber;
     }
 
 }
