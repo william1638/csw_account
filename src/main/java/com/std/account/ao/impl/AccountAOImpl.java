@@ -104,10 +104,10 @@ public class AccountAOImpl implements IAccountAO {
         Account account = accountBO.getAccountByUserId(userId);
         Account f3Account = accountBO.getAccountByUserId(f3UserId);
         accountBO.refreshAmount(account.getAccountNumber(), amount,
-            f3Account.getAccountNumber(), EBizType.AJ_TZJ,
+            f3Account.getAccountNumber(), EBizType.AJ_HDJJF,
             f3UserRes.getRealName() + "活动送积分");
         accountBO.refreshAmount(f3Account.getAccountNumber(), -amount,
-            account.getAccountNumber(), EBizType.AJ_TJQ);
+            account.getAccountNumber(), EBizType.AJ_HDKJF);
     }
 
     @Override

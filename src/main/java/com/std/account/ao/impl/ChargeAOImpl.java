@@ -73,13 +73,6 @@ public class ChargeAOImpl implements IChargeAO {
             accountBO.getAccount(data.getFromAccountNumber());
             accountBO.getAccount(data.getAccountNumber());
         } else if (ECurrency.XNB.equals(currency)) {
-            String refNo = data.getRefNo();
-            Charge condition = new Charge();
-            condition.setRefNo(refNo);
-            Long totalCount = chargeBO.getTotalCount(condition);
-            if (totalCount > 0) {
-                throw new BizException("xn000001", "该积分二维码已扫，不可再次扫描");
-            }
             // 校验账户是否存在,并赋值
             Account fromAccount = accountBO.getAccountByUser(
                 data.getFromUserId(), currency.getCode());
@@ -88,6 +81,15 @@ public class ChargeAOImpl implements IChargeAO {
             Account toAccount = accountBO.getAccountByUser(data.getToUserId(),
                 currency.getCode());
             data.setAccountNumber(toAccount.getAccountNumber());
+            // 根据积分二维码编号和来方账户编号判断是否已经存在记录
+            String refNo = data.getRefNo();
+            Charge condition = new Charge();
+            condition.setAccountNumber(toAccount.getAccountNumber());
+            condition.setRefNo(refNo);
+            Long totalCount = chargeBO.getTotalCount(condition);
+            if (totalCount > 0) {
+                throw new BizException("xn000001", "该积分二维码已扫，无需再次扫描");
+            }
         }
         // 保存充值申请记录
         String orderNo = chargeBO.saveChargeOffline(data);
@@ -101,9 +103,9 @@ public class ChargeAOImpl implements IChargeAO {
         } else if (ECurrency.XNB.equals(currency)) {
             // 积分划拨
             accountBO.refreshAmount(data.getFromAccountNumber(),
-                -data.getAmount(), orderNo, EBizType.AJ_GMKJF);
+                -data.getAmount(), orderNo, EBizType.AJ_HDKJF);
             accountBO.refreshAmount(data.getAccountNumber(), data.getAmount(),
-                orderNo, EBizType.AJ_GMJJF);
+                orderNo, EBizType.AJ_HDJJF);
         }
         return orderNo;
     }
