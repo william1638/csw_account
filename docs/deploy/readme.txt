@@ -17,32 +17,25 @@
   cd /Users/myb858/Documents/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp5/wtpwebapps
   
 2，打包
-  rm -rf account.tar.gz
-  tar zcvf account.tar.gz std-account/
-  scp -P57652 ./account.tar.gz root@121.43.101.148:/mnt/wwwroot/
-  
-    scp -P57652 ./std-account.war root@121.43.101.148:/mnt/wwwroot/
+   scp -P57652 ./std-account.war root@121.43.101.148:/home
   
 
 
 3，部署
   ssh root@121.43.101.148 -p 57652
   
-  cd /mnt/wwwroot/tomcat_STD_account/webapps
+  cd /home/wwwroot/caigo/tomcat_std_account/webapps
   rm -rf std-account.war
   cp ./std-account/WEB-INF/classes/application.properties .
   cp ./std-account/WEB-INF/classes/config.properties .
   rm -rf std-account/
-  mv /mnt/wwwroot/std-account.war .
+  mv /home/std-account.war .
 
 4,起停tomcat_STD_account
-
   mv -f application.properties ./std-account/WEB-INF/classes/
   mv -f config.properties ./std-account/WEB-INF/classes/
-  
-
   ../bin/shutdown.sh
   ../bin/startup.sh
   
-http://121.43.101.148:7102/std-account/api
+http://121.43.101.148:5306/std-account/api
 
