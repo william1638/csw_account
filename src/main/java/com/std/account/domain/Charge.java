@@ -57,6 +57,9 @@ public class Charge extends ABaseDO {
     // 申请人
     private String applyUser;
 
+    // 申请说明
+    private String applyNote;
+
     // 创建时间
     private Date createDatetime;
 
@@ -269,5 +272,13 @@ public class Charge extends ABaseDO {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getApplyNote() {
+        return applyNote;
+    }
+
+    public void setApplyNote(String applyNote) {
+        this.applyNote = applyNote;
     }
 }

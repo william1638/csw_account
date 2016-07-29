@@ -35,6 +35,7 @@ public class XN802120 extends AProcessor {
         data.setPdf(req.getPdf());
         data.setRefNo(req.getRefNo());
         data.setApplyUser(req.getApplyUser());
+        data.setApplyNote(req.getApplyNote());
         return new PKCodeRes(chargeAO.doChargeOffline(data, ECurrency.XNB));
     }
 

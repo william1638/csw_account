@@ -16,6 +16,7 @@
 		<result column="pdf" property="pdf" />
 		
 		<result column="apply_user" property="applyUser" />	
+		<result column="apply_note" property="applyNote" />	
 		<result column="create_datetime" property="createDatetime" />	
 		<result column="status" property="status" />
 		<result column="approve_user" property="approveUser" />	
@@ -46,6 +47,9 @@
 			<if test="status != null and status != '' ">
 				AND t.status = #{status}
 			</if>	
+			<if test="applyUser != null and applyUser != '' ">
+				AND t.apply_user = #{applyUser}
+			</if>
 			<if test="approveUser != null and approveUser != '' ">
 				AND t.approve_user = #{approveUser}
 			</if>
@@ -76,14 +80,15 @@
 	    ,t.type
 	    ,t.fee
 	    ,t.pdf
-	    ,t.apply_user
 	    
+	    ,t.apply_user
+	    ,t.apply_note
 		,t.create_datetime
 		,t.status
 		,t.approve_user
+		
 		,t.approve_note
 		,t.approve_datetime
-		
 		,t.from_account_number
 		,t.account_number
 		FROM
@@ -116,6 +121,7 @@
 		,ref_no
 		
 		,apply_user
+		,apply_note
 		,create_datetime
 		,from_account_number		
 		,account_number	
@@ -134,6 +140,7 @@
 		,#{refNo}
 		
 		,#{applyUser}
+		,#{applyNote}
 		,#{createDatetime}
 		,#{fromAccountNumber}
 		,#{accountNumber}

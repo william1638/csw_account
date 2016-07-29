@@ -22,8 +22,11 @@ public class XN802120Req {
     // refNo(选填)
     private String refNo;
 
-    // 申请人(选填)
+    // 申请人(必填)
     private String applyUser;
+
+    // 备注(选填)
+    private String applyNote;
 
     public String getFromUserId() {
         return fromUserId;
@@ -87,5 +90,13 @@ public class XN802120Req {
 
     public void setRefNo(String refNo) {
         this.refNo = refNo;
+    }
+
+    public String getApplyNote() {
+        return applyNote;
+    }
+
+    public void setApplyNote(String applyNote) {
+        this.applyNote = applyNote;
     }
 }
