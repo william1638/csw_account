@@ -1,0 +1,3 @@
+INSERT INTO `tstd_account` (`account_number`,`status`,`amount`,`frozen_amount`,`currency`,`md5`,`create_datetime`) VALUES ('SYS_ACCOUNT','0',0,0,'CNY',md5(0),now());
+INSERT INTO `tstd_account` (`account_number`,`user_id`,`real_name`,`currency`,`amount`,`frozen_amount`,`md5`,`status`,`create_datetime`,`update_datetime`) VALUES ('U201600000000000001','U201600000000000001','','XNB',1000000000000,0,'76c8527bc17bab8fd525cab5e5e4d354','0',now(),NULL);
+INSERT INTO `tstd_account` (`account_number`,`user_id`,`real_name`,`currency`,`amount`,`frozen_amount`,`md5`,`status`,`create_datetime`,`update_datetime`) VALUES ('U201600000000000002','U201600000000000001','','CNY',0,0,'76c8527bc17bab8fd525cab5e5e4d354','0',now(),NULL);
