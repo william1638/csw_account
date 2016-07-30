@@ -75,12 +75,12 @@ public class ZZOrderAOImpl implements IZZOrderAO {
         Long transAmount = null;
         EDirection dir = null;
         if (EDirection.PLUS.getCode().equalsIgnoreCase(direction)) {
-            bizType = EBizType.AJ_ZR;
+            bizType = EBizType.AJ_MH;
             transAmount = amount;
             dir = EDirection.PLUS;
         }
         if (EDirection.MINUS.getCode().equalsIgnoreCase(direction)) {
-            bizType = EBizType.AJ_ZC;
+            bizType = EBizType.AJ_XF;
             transAmount = -amount;
             dir = EDirection.MINUS;
         }
