@@ -48,7 +48,7 @@ CREATE TABLE `tstd_account_frozen_jour` (
   `create_datetime` datetime NOT NULL,
   `account_number` varchar(32) NOT NULL,
   PRIMARY KEY (`afj_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tstd_account_jour`
@@ -69,7 +69,7 @@ CREATE TABLE `tstd_account_jour` (
   `check_user` varchar(32) DEFAULT NULL,
   `check_datetime` datetime DEFAULT NULL,
   PRIMARY KEY (`aj_no`)
-) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tstd_charge`
