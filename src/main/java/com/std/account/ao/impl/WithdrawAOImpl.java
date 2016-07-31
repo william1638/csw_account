@@ -8,6 +8,7 @@
  */
 package com.std.account.ao.impl;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,7 @@ import com.std.account.bo.IWithdrawBO;
 import com.std.account.bo.base.Paginable;
 import com.std.account.domain.Account;
 import com.std.account.domain.Withdraw;
+import com.std.account.dto.res.XN805901Res;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.ECurrency;
@@ -76,6 +78,11 @@ public class WithdrawAOImpl implements IWithdrawAO {
                 data.getFromUserId(), currency.getCode());
             data.setFromAccountNumber(fromAccount.getAccountNumber());
             // 校验账户是否存在,并赋值
+            if (StringUtils.isBlank(data.getToUserId())) {
+                String userId = data.getFromUserId();
+                XN805901Res xn805901Res = userBO.getRemoteUser(userId, userId);
+                data.setToUserId(xn805901Res.getUserReferee());
+            }
             Account toAccount = accountBO.getAccountByUser(data.getToUserId(),
                 currency.getCode());
             data.setAccountNumber(toAccount.getAccountNumber());
