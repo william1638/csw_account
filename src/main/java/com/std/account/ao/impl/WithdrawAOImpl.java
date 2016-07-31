@@ -93,7 +93,7 @@ public class WithdrawAOImpl implements IWithdrawAO {
                 orderNo, EBizType.AJ_QXDJ);
         } else if (ECurrency.XNB.equals(currency)) {
             accountBO.freezeAmount(data.getFromAccountNumber(),
-                data.getAmount(), orderNo, EBizType.AJ_DXDJ);
+                data.getAmount(), orderNo, EBizType.AJ_DXKJF);
         }
         return orderNo;
     }
@@ -108,7 +108,7 @@ public class WithdrawAOImpl implements IWithdrawAO {
         String orderNo = withdrawBO.saveWithdrawOffline(accountNumber, amount,
             EToType.getToTypeMap().get(toType), toCode, toBelong);
         accountBO
-            .freezeAmount(accountNumber, amount, orderNo, EBizType.AJ_QXDJ);
+            .freezeAmount(accountNumber, amount, orderNo, EBizType.AJ_QXCG);
         // 发送短信
         // User user = userBO.getUser(account.getUserId());
         // String mobile = user.getMobile();
