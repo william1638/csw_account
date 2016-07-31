@@ -4,12 +4,12 @@
  Source Server         : 148
  Source Server Version : 50545
  Source Host           : 121.43.101.148
- Source Database       : develop_std_account
+ Source Database       : jf_std_account
 
  Target Server Version : 50545
  File Encoding         : utf-8
 
- Date: 07/27/2016 23:55:14 PM
+ Date: 07/31/2016 13:01:42 PM
 */
 
 SET NAMES utf8;
@@ -48,7 +48,7 @@ CREATE TABLE `tstd_account_frozen_jour` (
   `create_datetime` datetime NOT NULL,
   `account_number` varchar(32) NOT NULL,
   PRIMARY KEY (`afj_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tstd_account_jour`
@@ -69,7 +69,7 @@ CREATE TABLE `tstd_account_jour` (
   `check_user` varchar(32) DEFAULT NULL,
   `check_datetime` datetime DEFAULT NULL,
   PRIMARY KEY (`aj_no`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=79 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Table structure for `tstd_charge`
@@ -85,10 +85,10 @@ CREATE TABLE `tstd_charge` (
   `amount` bigint(32) DEFAULT NULL COMMENT '充值积分数量',
   `price` bigint(32) DEFAULT NULL COMMENT '人民币价格',
   `fee` bigint(32) DEFAULT NULL COMMENT '手续费',
-  `pdf` varchar(255) DEFAULT NULL COMMENT '水单',
+  `pdf` varchar(255) DEFAULT NULL,
   `status` varchar(2) DEFAULT NULL COMMENT '状态',
-  `apply_user` varchar(32) DEFAULT NULL COMMENT '申请人',
-  `apply_note` varchar(255) DEFAULT NULL COMMENT '申请说明',
+  `apply_user` varchar(32) DEFAULT NULL,
+  `apply_note` varchar(255) DEFAULT NULL,
   `create_datetime` datetime DEFAULT NULL COMMENT '创建时间',
   `approve_user` varchar(32) DEFAULT NULL COMMENT '审批人',
   `approve_note` varchar(255) DEFAULT NULL COMMENT '审批说明',
