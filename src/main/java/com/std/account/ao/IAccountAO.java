@@ -20,6 +20,7 @@ import com.std.account.enums.ECurrency;
  */
 @ServiceModule
 public interface IAccountAO {
+
     String DEFAULT_ORDER_COLUMN = "account_number";
 
     /** 
