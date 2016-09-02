@@ -12,7 +12,7 @@ import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 分配账户（方式二）
+ * 分配账户（方式二）: 注册送钱
  * @author: xieyj 
  * @since: 2016年7月5日 下午3:13:46 
  * @history:

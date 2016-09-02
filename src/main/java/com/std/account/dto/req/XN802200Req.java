@@ -36,6 +36,9 @@ public class XN802200Req extends APageReq {
     // 支付人（li为程序）
     private String payUser;
 
+    // 币种
+    private String currency;
+
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -114,5 +117,13 @@ public class XN802200Req extends APageReq {
 
     public void setFromAccountNumber(String fromAccountNumber) {
         this.fromAccountNumber = fromAccountNumber;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }

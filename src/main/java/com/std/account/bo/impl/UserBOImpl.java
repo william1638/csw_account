@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Component;
 
 import com.std.account.bo.IUserBO;
+import com.std.account.dto.req.XN805082Req;
 import com.std.account.dto.req.XN805901Req;
 import com.std.account.dto.req.XN805902Req;
 import com.std.account.dto.res.XN805901Res;
@@ -36,5 +37,17 @@ public class UserBOImpl implements IUserBO {
             throw new BizException("XN000000", "编号为" + userId + "的用户不存在");
         }
         return res;
+    }
+
+    /** 
+     * @see com.std.account.bo.IUserBO#firstSetRelation(java.lang.String, java.lang.String)
+     */
+    @Override
+    public void firstSetRelation(String userId, String toUser) {
+        XN805082Req req = new XN805082Req();
+        req.setUserId(userId);
+        req.setToUser(toUser);
+        BizConnecter.getBizData("805082", JsonUtils.object2Json(req),
+            Object.class);
     }
 }

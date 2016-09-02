@@ -30,6 +30,7 @@ public class XN802200 extends AProcessor {
         Withdraw condition = new Withdraw();
         condition.setFromAccountNumber(req.getFromAccountNumber());
         condition.setAccountNumber(req.getAccountNumber());
+        condition.setCurrency(req.getCurrency());
         condition.setCode(req.getCode());
         condition.setToType(req.getToType());
         condition.setToCode(req.getToCode());
@@ -58,7 +59,7 @@ public class XN802200 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802200Req.class);
         StringValidater.validateNumber(req.getStart(), req.getLimit());
-
+        StringValidater.validateBlank(req.getCurrency());
     }
 
 }

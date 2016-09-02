@@ -105,6 +105,9 @@ public class Withdraw extends ABaseDO {
     // 去方用户编号
     private String toUserId;
 
+    // 币种
+    private String currency;
+
     // -----show properties end-----------
     public Date getCreateDatetimeStart() {
         return createDatetimeStart;
@@ -312,5 +315,13 @@ public class Withdraw extends ABaseDO {
 
     public void setToUserId(String toUserId) {
         this.toUserId = toUserId;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }

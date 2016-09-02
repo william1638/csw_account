@@ -31,6 +31,9 @@ public class XN802101Req extends APageReq {
     // 状态
     private String status;
 
+    // 币种
+    private String currency;
+
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -95,4 +98,11 @@ public class XN802101Req extends APageReq {
         this.fromAccountNumber = fromAccountNumber;
     }
 
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 }

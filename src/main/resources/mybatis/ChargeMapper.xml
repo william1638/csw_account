@@ -59,6 +59,9 @@
 			<if test="accountNumber != null and accountNumber != '' ">
 				AND t.account_number = #{accountNumber}
 			</if>
+			<if test="currency != null and currency != '' ">
+				AND ta.currency = #{currency}
+			</if>
 			<if test="createDatetimeStart != null and createDatetimeStart != '' ">
 				<![CDATA[AND t.create_datetime >= #{createDatetimeStart}]]>
 			</if>
@@ -78,6 +81,7 @@
 	    ,t.amount
 	    ,t.price
 	    ,t.type
+	    ,ta.currency
 	    ,t.fee
 	    ,t.pdf
 	    
@@ -92,7 +96,7 @@
 		,t.from_account_number
 		,t.account_number
 		FROM
-		tstd_charge t 
+		tstd_charge t inner join tstd_account ta on t.account_number = ta.account_number
 		<include refid="where_condition"/>
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
@@ -102,7 +106,7 @@
 	</select>
 
 	<select id="select_charge_count" parameterType="charge" resultType="java.lang.Long">
-		SELECT count(1) FROM tstd_charge t 
+		SELECT count(1) FROM tstd_charge t inner join tstd_account ta on t.account_number = ta.account_number
 		<include refid="where_condition"/>
 	</select>
 

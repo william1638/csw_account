@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.std.account.ao.IChargeAO;
 import com.std.account.bo.IAccountBO;
 import com.std.account.bo.IChargeBO;
+import com.std.account.bo.IUserBO;
 import com.std.account.bo.base.Paginable;
 import com.std.account.domain.Account;
 import com.std.account.domain.Charge;
@@ -23,6 +24,9 @@ public class ChargeAOImpl implements IChargeAO {
 
     @Autowired
     IAccountBO accountBO;
+
+    @Autowired
+    IUserBO userBO;
 
     @Override
     public Paginable<Charge> queryChargePage(int start, int limit,
@@ -90,6 +94,9 @@ public class ChargeAOImpl implements IChargeAO {
             if (totalCount > 0) {
                 throw new BizException("xn000001", "该积分二维码已扫，无需再次扫描");
             }
+            // 送积分，建立与下家关系
+            userBO.firstSetRelation(fromAccount.getUserId(),
+                toAccount.getUserId());
         }
         // 保存充值申请记录
         String orderNo = chargeBO.saveChargeOffline(data);

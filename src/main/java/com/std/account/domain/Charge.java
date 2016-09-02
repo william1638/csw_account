@@ -88,6 +88,9 @@ public class Charge extends ABaseDO {
     // 真实姓名
     private String realName;
 
+    // 币种
+    private String currency;
+
     // -----show properties end-----------
 
     public Date getCreateDatetimeStart() {
@@ -280,5 +283,13 @@ public class Charge extends ABaseDO {
 
     public void setApplyNote(String applyNote) {
         this.applyNote = applyNote;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 }

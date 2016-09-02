@@ -67,7 +67,10 @@
 			</if>
 			<if test="createDatetimeEnd != null and createDatetimeEnd != '' ">
 				<![CDATA[AND t.create_datetime <= #{createDatetimeEnd}]]>
-			</if>			
+			</if>	
+			<if test="currency != null and currency != '' ">
+				AND ta.currency = #{currency}
+			</if>		
 		</trim>
 	</sql>
 	<select id="select_withdraw" parameterType="withdraw" resultMap="withdraw_DB_Result">
@@ -98,7 +101,7 @@
 		
 		,t.account_number
 		FROM
-		tstd_withdraw t 
+		tstd_withdraw t inner join tstd_account ta on t.from_account_number = ta.account_number
 		<include refid="where_condition"/>
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
@@ -108,7 +111,7 @@
 	</select>
 
 	<select id="select_withdraw_count" parameterType="withdraw" resultType="java.lang.Long">
-		SELECT count(1) FROM tstd_withdraw t 
+		SELECT count(1) FROM tstd_withdraw t inner join tstd_account ta on t.from_account_number = ta.account_number
 		<include refid="where_condition"/>
 	</select>
 
