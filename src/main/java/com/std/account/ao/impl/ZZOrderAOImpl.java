@@ -100,12 +100,12 @@ public class ZZOrderAOImpl implements IZZOrderAO {
         // 虚拟币划账
         Account fromXnbAccount = accountBO.getAccountByUser(fromUserId,
             ECurrency.XNB.getCode());
-        Account toXnbAccount = accountBO.getAccountByUser(fromUserId,
+        Account toXnbAccount = accountBO.getAccountByUser(toUserId,
             ECurrency.XNB.getCode());
         // 人民币划账
         Account fromCnyAccount = accountBO.getAccountByUser(fromUserId,
             ECurrency.CNY.getCode());
-        Account toCnyAccount = accountBO.getAccountByUser(fromUserId,
+        Account toCnyAccount = accountBO.getAccountByUser(toUserId,
             ECurrency.CNY.getCode());
 
         EBizType bizType1 = null;
