@@ -20,6 +20,7 @@ import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.IZZOrderDAO;
 import com.std.account.domain.ZZOrder;
 import com.std.account.enums.EDirection;
+import com.std.account.enums.EZzType;
 
 /** 
  * @author: miyb 
@@ -52,12 +53,40 @@ public class ZZOrderBOImpl extends PaginableBOImpl<ZZOrder> implements
             ZZOrder data = new ZZOrder();
             code = OrderNoGenerater.generate("ZZ");
             data.setCode(code);
+            data.setType(EZzType.ZZ.getCode());
             data.setDirection(direction.getCode());
             data.setAmount(amount);
             data.setFee(fee);
             data.setRemark(remark);
 
             data.setCreateDatetime(new Date());
+            data.setAccountNumber(accountNumber);
+            zzOrderDAO.insert(data);
+        }
+        return code;
+    }
+
+    /** 
+     * @see com.std.account.bo.IZZOrderBO#saveHzOrder(java.lang.String, java.lang.String, com.std.account.enums.EDirection, java.lang.Long, java.lang.Long, java.lang.String)
+     */
+    @Override
+    public String saveHZOrder(String fromAccountNumber, String accountNumber,
+            EDirection direction, Long amount, Long fee, String remark) {
+        String code = null;
+        if (StringUtils.isNotBlank(accountNumber) && amount != 0
+                && StringUtils.isNotBlank(remark)) {
+            ZZOrder data = new ZZOrder();
+
+            code = OrderNoGenerater.generate("ZZ");
+            data.setCode(code);
+            data.setType(EZzType.HZ.getCode());
+            data.setDirection(direction.getCode());
+            data.setAmount(amount);
+            data.setFee(fee);
+            data.setRemark(remark);
+
+            data.setCreateDatetime(new Date());
+            data.setFromAccountNumber(fromAccountNumber);
             data.setAccountNumber(accountNumber);
             zzOrderDAO.insert(data);
         }

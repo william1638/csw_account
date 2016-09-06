@@ -34,6 +34,9 @@ public class ZZOrder extends ABaseDO {
     // 流水号
     private String code;
 
+    // 类型 1 转账 2 划账
+    private String type;
+
     // 方向：1=转入；0=转出
     private String direction;
 
@@ -48,6 +51,9 @@ public class ZZOrder extends ABaseDO {
 
     // 创建时间
     private Date createDatetime;
+
+    // 来方账号
+    private String fromAccountNumber;
 
     // 账号
     private String accountNumber;
@@ -124,4 +130,19 @@ public class ZZOrder extends ABaseDO {
         this.accountNumber = accountNumber;
     }
 
+    public String getFromAccountNumber() {
+        return fromAccountNumber;
+    }
+
+    public void setFromAccountNumber(String fromAccountNumber) {
+        this.fromAccountNumber = fromAccountNumber;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

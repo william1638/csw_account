@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.std.account.common.PropertiesUtil;
 import com.std.account.dao.IWithdrawDAO;
 import com.std.account.dao.base.support.AMybatisTemplate;
 import com.std.account.domain.Withdraw;
@@ -45,6 +46,7 @@ public class WithdrawDAOImpl extends AMybatisTemplate implements IWithdrawDAO {
      */
     @Override
     public Withdraw select(Withdraw condition) {
+        condition.setUserDB(PropertiesUtil.Config.USER_DB);
         return super.select(NAMESPACE.concat("select_withdraw"), condition,
             Withdraw.class);
     }
@@ -54,6 +56,7 @@ public class WithdrawDAOImpl extends AMybatisTemplate implements IWithdrawDAO {
      */
     @Override
     public long selectTotalCount(Withdraw condition) {
+        condition.setUserDB(PropertiesUtil.Config.USER_DB);
         return super.selectTotalCount(
             NAMESPACE.concat("select_withdraw_count"), condition);
     }
@@ -63,6 +66,7 @@ public class WithdrawDAOImpl extends AMybatisTemplate implements IWithdrawDAO {
      */
     @Override
     public List<Withdraw> selectList(Withdraw condition) {
+        condition.setUserDB(PropertiesUtil.Config.USER_DB);
         return super.selectList(NAMESPACE.concat("select_withdraw"), condition,
             Withdraw.class);
     }
@@ -72,6 +76,7 @@ public class WithdrawDAOImpl extends AMybatisTemplate implements IWithdrawDAO {
      */
     @Override
     public List<Withdraw> selectList(Withdraw condition, int start, int count) {
+        condition.setUserDB(PropertiesUtil.Config.USER_DB);
         return super.selectList(NAMESPACE.concat("select_withdraw"), start,
             count, condition, Withdraw.class);
     }

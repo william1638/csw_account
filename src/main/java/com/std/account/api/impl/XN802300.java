@@ -29,6 +29,7 @@ public class XN802300 extends AProcessor {
     public Object doBusiness() throws BizException {
         ZZOrder condition = new ZZOrder();
         condition.setCode(req.getCode());
+        condition.setType(req.getType());
         condition.setDirection(req.getDirection());
         condition.setAccountNumber(req.getAccountNumber());
 

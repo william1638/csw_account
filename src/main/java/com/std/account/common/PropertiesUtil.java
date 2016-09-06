@@ -37,6 +37,8 @@ public class PropertiesUtil {
 
         public static String USER_URL = props.getProperty("USER_URL");
 
+        public static String USER_DB = props.getProperty("USER_DB");
+
         public static String FIRST_INTEGRAL = props
             .getProperty("FIRST_INTEGRAL");
 

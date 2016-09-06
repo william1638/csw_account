@@ -30,6 +30,7 @@ public class XN802200 extends AProcessor {
         Withdraw condition = new Withdraw();
         condition.setFromAccountNumber(req.getFromAccountNumber());
         condition.setAccountNumber(req.getAccountNumber());
+        condition.setMobileForLikeQuery(req.getMobile());
         condition.setCurrency(req.getCurrency());
         condition.setCode(req.getCode());
         condition.setToType(req.getToType());

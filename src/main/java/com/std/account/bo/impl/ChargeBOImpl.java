@@ -24,8 +24,7 @@ public class ChargeBOImpl extends PaginableBOImpl<Charge> implements IChargeBO {
     @Override
     public String saveChargeOffline(Charge data) {
         String code = null;
-        if (StringUtils.isNotBlank(data.getFromAccountNumber())
-                && StringUtils.isNotBlank(data.getAccountNumber())
+        if (StringUtils.isNotBlank(data.getAccountNumber())
                 && data.getAmount() != 0) {
             code = OrderNoGenerater.generate("C");
             data.setCode(code);

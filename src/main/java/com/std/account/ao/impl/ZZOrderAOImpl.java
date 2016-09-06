@@ -20,6 +20,7 @@ import com.std.account.bo.base.Paginable;
 import com.std.account.domain.Account;
 import com.std.account.domain.ZZOrder;
 import com.std.account.enums.EBizType;
+import com.std.account.enums.ECurrency;
 import com.std.account.enums.EDirection;
 import com.std.account.exception.BizException;
 
@@ -88,6 +89,81 @@ public class ZZOrderAOImpl implements IZZOrderAO {
             remark);
         // 资金变动
         accountBO.refreshAmount(accountNumber, transAmount, zzNo, bizType);
+        return zzNo;
+    }
+
+    @Override
+    @Transactional
+    public void doBuyTransfer(String fromUserId, String toUserId,
+            String direction, Long amount, Long cnyAmount, Long fee,
+            String remark) {
+        // 虚拟币划账
+        Account fromXnbAccount = accountBO.getAccountByUser(fromUserId,
+            ECurrency.XNB.getCode());
+        Account toXnbAccount = accountBO.getAccountByUser(fromUserId,
+            ECurrency.XNB.getCode());
+        // 人民币划账
+        Account fromCnyAccount = accountBO.getAccountByUser(fromUserId,
+            ECurrency.CNY.getCode());
+        Account toCnyAccount = accountBO.getAccountByUser(fromUserId,
+            ECurrency.CNY.getCode());
+
+        EBizType bizType1 = null;
+        EBizType bizType2 = null;
+        if (EDirection.PLUS.getCode().equalsIgnoreCase(direction)) {
+            bizType1 = EBizType.AJ_XF;
+            bizType2 = EBizType.AJ_MH;
+        } else if (EDirection.MINUS.getCode().equalsIgnoreCase(direction)) {
+            bizType1 = EBizType.AJ_TKFX;
+            bizType2 = EBizType.AJ_TKKK;
+        }
+        this.doHz(fromXnbAccount.getAccountNumber(),
+            toXnbAccount.getAccountNumber(), direction, amount, fee, bizType1,
+            bizType2, remark);
+        this.doHz(fromCnyAccount.getAccountNumber(),
+            toCnyAccount.getAccountNumber(), direction, cnyAmount, fee,
+            bizType1, bizType2, remark);
+    }
+
+    @Override
+    @Transactional
+    public String doHZOss(String fromAccountNumber, String accountNumber,
+            String direction, Long amount, Long fee, String remark) {
+        return this.doHz(fromAccountNumber, accountNumber, direction, amount,
+            fee, EBizType.AJ_HDKJF, EBizType.AJ_HDJJF, remark);
+    }
+
+    private String doHz(String fromAccountNumber, String accountNumber,
+            String direction, Long amount, Long fee, EBizType bizType1,
+            EBizType bizType2, String remark) {
+        String zzNo = null;
+        if (amount != null && amount != 0L) {
+            EBizType fromBizType = null;
+            EBizType bizType = null;
+            Long transAmount = null;
+            EDirection dir = null;
+            if (EDirection.PLUS.getCode().equalsIgnoreCase(direction)) {
+                fromBizType = bizType1;
+                bizType = bizType2;
+                transAmount = amount;
+                dir = EDirection.PLUS;
+            }
+            if (EDirection.MINUS.getCode().equalsIgnoreCase(direction)) {
+                fromBizType = EBizType.AJ_HDJJF;
+                bizType = EBizType.AJ_HDKJF;
+                fromBizType = bizType1;
+                bizType = bizType2;
+                transAmount = -amount;
+                dir = EDirection.MINUS;
+            }
+            zzNo = zzOrderBO.saveHZOrder(fromAccountNumber, accountNumber, dir,
+                amount, fee, remark);
+            // 资金变动
+            accountBO.refreshAmount(fromAccountNumber, -transAmount, zzNo,
+                fromBizType);
+            // 资金变动
+            accountBO.refreshAmount(accountNumber, transAmount, zzNo, bizType);
+        }
         return zzNo;
     }
 }

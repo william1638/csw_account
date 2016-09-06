@@ -4,12 +4,14 @@
 <mapper namespace="com.std.account.dao.IZZOrderDAO">
 	<resultMap id="zzOrder_DB_Result" type="zzOrder">
 		<result column="code" property="code" />
+		<result column="type" property="type" />
 		<result column="direction" property="direction" />
 		<result column="amount" property="amount" />
 		<result column="fee" property="fee" />
 		<result column="remark" property="remark" />
 		
 		<result column="create_datetime" property="createDatetime" />
+		<result column="from_account_number" property="fromAccountNumber" />
 		<result column="account_number" property="accountNumber" />
 	</resultMap>
 	
@@ -18,8 +20,14 @@
 			<if test="code != null and code != '' ">
 				AND t.code = #{code}
 			</if>
+			<if test="type != null and type != '' ">
+				AND t.type = #{type}
+			</if>	
 			<if test="direction != null and direction != '' ">
 				AND t.direction = #{direction}
+			</if>	
+			<if test="fromAccountNumber != null and fromAccountNumber != '' ">
+				AND t.from_account_number = #{fromAccountNumber}
 			</if>				
 			<if test="accountNumber != null and accountNumber != '' ">
 				AND t.account_number = #{accountNumber}
@@ -35,12 +43,14 @@
 	<select id="select_zzOrder" parameterType="zzOrder" resultMap="zzOrder_DB_Result">
 		SELECT 
 		code
+		,type
 		,direction
 		,amount
 		,fee
 		,remark		
 		
 		,create_datetime
+		,from_account_number
 		,account_number	
 		FROM
 		tstd_zzorder t
@@ -56,22 +66,26 @@
 	<insert id="insert_zzOrder" parameterType="zzOrder">
 		INSERT INTO tstd_zzorder(
 		code
+		,type
 		,direction
 		,amount
 		,fee
-		,remark		
 		
+		,remark		
 		,create_datetime
+		,from_account_number	
 		,account_number	
 		)
 		VALUES(
 		#{code}
+		,#{type}
 		,#{direction}
 		,#{amount}	
 		,#{fee}	
-		,#{remark}		
 		
+		,#{remark}		
 		,#{createDatetime}
+		,#{fromAccountNumber}
 		,#{accountNumber}
 		)
 	</insert>	

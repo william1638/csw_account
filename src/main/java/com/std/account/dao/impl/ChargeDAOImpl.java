@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.std.account.common.PropertiesUtil;
 import com.std.account.dao.IChargeDAO;
 import com.std.account.dao.base.support.AMybatisTemplate;
 import com.std.account.domain.Charge;
@@ -23,24 +24,28 @@ public class ChargeDAOImpl extends AMybatisTemplate implements IChargeDAO {
 
     @Override
     public Charge select(Charge condition) {
+        condition.setUserDB(PropertiesUtil.Config.USER_DB);
         return super.select(NAMESPACE.concat("select_charge"), condition,
             Charge.class);
     }
 
     @Override
     public long selectTotalCount(Charge condition) {
+        condition.setUserDB(PropertiesUtil.Config.USER_DB);
         return super.selectTotalCount(NAMESPACE.concat("select_charge_count"),
             condition);
     }
 
     @Override
     public List<Charge> selectList(Charge condition) {
+        condition.setUserDB(PropertiesUtil.Config.USER_DB);
         return super.selectList(NAMESPACE.concat("select_charge"), condition,
             Charge.class);
     }
 
     @Override
     public List<Charge> selectList(Charge condition, int start, int count) {
+        condition.setUserDB(PropertiesUtil.Config.USER_DB);
         return super.selectList(NAMESPACE.concat("select_charge"), start,
             count, condition, Charge.class);
     }

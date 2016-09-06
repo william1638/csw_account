@@ -108,6 +108,12 @@ public class Withdraw extends ABaseDO {
     // 币种
     private String currency;
 
+    // 手机号
+    private String mobileForLikeQuery;
+
+    // 手机号
+    private String mobile;
+
     // -----show properties end-----------
     public Date getCreateDatetimeStart() {
         return createDatetimeStart;
@@ -323,5 +329,21 @@ public class Withdraw extends ABaseDO {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public String getMobileForLikeQuery() {
+        return mobileForLikeQuery;
+    }
+
+    public void setMobileForLikeQuery(String mobileForLikeQuery) {
+        this.mobileForLikeQuery = mobileForLikeQuery;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }

@@ -72,7 +72,7 @@ public interface IWithdrawAO {
      * @history:
      */
     public String doWithdrawOffline(String accountNumber, Long amount,
-            String toType, String toCode, String toBelong, String tradePwd);
+            String toType, String toCode, String toBelong);
 
     public void doApproveWithdraw(String withdrawNo, String approveUser,
             String approveResult, String approveNote, ECurrency currency);

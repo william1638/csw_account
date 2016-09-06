@@ -9,6 +9,9 @@ public class XN802301Req extends APageReq {
     // 流水号
     private String code;
 
+    // 类型 1 转账 2 划账
+    private String type;
+
     // 方向：1=转入；0=转出
     private String direction;
 
@@ -39,4 +42,11 @@ public class XN802301Req extends APageReq {
         this.accountNumber = accountNumber;
     }
 
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
 }

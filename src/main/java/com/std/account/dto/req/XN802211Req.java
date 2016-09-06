@@ -16,9 +16,6 @@ public class XN802211Req {
     // 金额（精确到厘）
     private String amount;
 
-    // 交易密码(必填)
-    private String tradePwd;
-
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -58,13 +55,4 @@ public class XN802211Req {
     public void setAmount(String amount) {
         this.amount = amount;
     }
-
-    public String getTradePwd() {
-        return tradePwd;
-    }
-
-    public void setTradePwd(String tradePwd) {
-        this.tradePwd = tradePwd;
-    }
-
 }

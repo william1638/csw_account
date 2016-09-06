@@ -28,16 +28,14 @@ public class XN802211 extends AProcessor {
         Long amount = StringValidater.toLong(req.getAmount());
         return new XN802211Res(withdrawAO.doWithdrawOffline(
             req.getAccountNumber(), amount, req.getToType(), req.getToCode(),
-            req.getToBelong(), req.getTradePwd()));
-
+            req.getToBelong()));
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802211Req.class);
         StringValidater.validateBlank(req.getAccountNumber(), req.getAmount(),
-            req.getToType(), req.getToCode(), req.getToBelong(),
-            req.getTradePwd());
+            req.getToType(), req.getToCode(), req.getToBelong());
         StringValidater.validateAmount(req.getAmount());
 
         EToType c = EToType.getToTypeMap().get(req.getToType());

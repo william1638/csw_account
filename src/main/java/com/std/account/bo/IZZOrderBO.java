@@ -22,6 +22,9 @@ public interface IZZOrderBO extends IPaginableBO<ZZOrder> {
     public String saveZZOrder(String accountNumber, EDirection direction,
             Long amount, Long fee, String remark);
 
+    public String saveHZOrder(String fromAccountNumber, String accountNumber,
+            EDirection direction, Long amount, Long fee, String remark);
+
     public ZZOrder getZZOrder(String code);
 
 }

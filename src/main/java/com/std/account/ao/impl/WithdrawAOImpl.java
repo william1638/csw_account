@@ -101,10 +101,13 @@ public class WithdrawAOImpl implements IWithdrawAO {
     @Override
     @Transactional
     public String doWithdrawOffline(String accountNumber, Long amount,
-            String toType, String toCode, String toBelong, String tradePwd) {
-        Account account = accountBO.getAccount(accountNumber);
-        // 验证交易密码
-        userBO.checkTradePwd(account.getUserId(), tradePwd);
+            String toType, String toCode, String toBelong) {
+        // Account account = accountBO.getAccount(accountNumber);
+        // 验证短信
+        // XN805901Res res = userBO.getRemoteUser(account.getUserId(),
+        // account.getUserId());
+        // 短信验证码是否正确
+        // smsOutBO.checkCaptcha(res.getMobileFlag(), smsCaptcha, "802211");
         String orderNo = withdrawBO.saveWithdrawOffline(accountNumber, amount,
             EToType.getToTypeMap().get(toType), toCode, toBelong);
         accountBO

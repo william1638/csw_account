@@ -40,7 +40,7 @@ public class XN802110 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802110Req.class);
         StringValidater.validateBlank(req.getAccountNumber(),
-            req.getFromType(), req.getFromCode(), req.getPdf());
+            req.getFromType(), req.getFromCode());
         StringValidater.validateAmount(req.getAmount());
 
         EFromType c = EFromType.getFromTypeMap().get(req.getFromType());

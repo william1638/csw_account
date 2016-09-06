@@ -43,7 +43,7 @@ public class WithdrawBOImpl extends PaginableBOImpl<Withdraw> implements
         if (StringUtils.isNotBlank(accountNumber) && amount != 0
                 && StringUtils.isNotBlank(toCode)) {
             Withdraw data = new Withdraw();
-            code = OrderNoGenerater.generate("C");
+            code = OrderNoGenerater.generate("Q");
             data.setCode(code);
             data.setToType(toType.getCode());
             data.setToCode(toCode);
@@ -70,7 +70,7 @@ public class WithdrawBOImpl extends PaginableBOImpl<Withdraw> implements
         if (StringUtils.isNotBlank(data.getFromAccountNumber())
                 && StringUtils.isNotBlank(data.getAccountNumber())
                 && data.getAmount() != 0) {
-            code = OrderNoGenerater.generate("C");
+            code = OrderNoGenerater.generate("Q");
             data.setCode(code);
             data.setChannel(EChannel.OFFLINE.getCode());
             data.setCreateDatetime(new Date());

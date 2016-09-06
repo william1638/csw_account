@@ -28,7 +28,7 @@ public class XN802213 extends AProcessor {
         Long payFree = StringValidater.toLong(req.getFee());
         withdrawAO.doPayWithdraw(req.getWithdrawNo(), req.getPayUser(),
             req.getPayResult(), req.getPayNote(), req.getRefNo(), payFree,
-            ECurrency.XNB);
+            ECurrency.CNY);
         return new XN802213Res(true);
     }
 

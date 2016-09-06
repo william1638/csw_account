@@ -28,6 +28,7 @@
 		<result column="from_account_number" property="fromAccountNumber" />
 		
 		<result column="account_number" property="accountNumber" />
+		<result column="mobile" property="mobile" />
 	</resultMap>
 	<sql id="where_condition">
 		<trim prefix="WHERE" prefixOverrides="AND | OR">			
@@ -70,7 +71,10 @@
 			</if>	
 			<if test="currency != null and currency != '' ">
 				AND ta.currency = #{currency}
-			</if>		
+			</if>	
+			<if test="mobileForLikeQuery != null and mobileForLikeQuery != '' ">
+				AND tu.mobile like "%"#{mobileForLikeQuery}"%"
+			</if>	
 		</trim>
 	</sql>
 	<select id="select_withdraw" parameterType="withdraw" resultMap="withdraw_DB_Result">
@@ -100,8 +104,10 @@
 		,t.from_account_number
 		
 		,t.account_number
+		,ta.currency
+		,tu.mobile
 		FROM
-		tstd_withdraw t inner join tstd_account ta on t.from_account_number = ta.account_number
+		tstd_withdraw t INNER JOIN tstd_account ta ON t.account_number = ta.account_number INNER JOIN ${userDB}.tstd_user tu ON ta.user_id = tu.user_id
 		<include refid="where_condition"/>
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
@@ -111,7 +117,7 @@
 	</select>
 
 	<select id="select_withdraw_count" parameterType="withdraw" resultType="java.lang.Long">
-		SELECT count(1) FROM tstd_withdraw t inner join tstd_account ta on t.from_account_number = ta.account_number
+		SELECT count(1) FROM tstd_withdraw t INNER JOIN tstd_account ta ON t.account_number = ta.account_number INNER JOIN ${userDB}.tstd_user tu ON ta.user_id = tu.user_id
 		<include refid="where_condition"/>
 	</select>
 

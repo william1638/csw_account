@@ -12,6 +12,9 @@ public class XN802100Req extends APageReq {
     // 账号
     private String accountNumber;
 
+    // 手机号
+    private String mobile;
+
     // 订单号
     private String code;
 
@@ -114,5 +117,13 @@ public class XN802100Req extends APageReq {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }

@@ -23,6 +23,9 @@ public class Charge extends ABaseDO {
     // 去方用户编号
     private String toUserId;
 
+    // 手机号
+    private String mobileForLikeQuery;
+
     // ---------db properties start--------------------------
     // 订单号
     private String code;
@@ -90,6 +93,9 @@ public class Charge extends ABaseDO {
 
     // 币种
     private String currency;
+
+    // 手机号
+    private String mobile;
 
     // -----show properties end-----------
 
@@ -291,5 +297,21 @@ public class Charge extends ABaseDO {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public String getMobileForLikeQuery() {
+        return mobileForLikeQuery;
+    }
+
+    public void setMobileForLikeQuery(String mobileForLikeQuery) {
+        this.mobileForLikeQuery = mobileForLikeQuery;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }
