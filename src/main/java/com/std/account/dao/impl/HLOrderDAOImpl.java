@@ -12,6 +12,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
+import com.std.account.common.PropertiesUtil;
 import com.std.account.dao.IHLOrderDAO;
 import com.std.account.dao.base.support.AMybatisTemplate;
 import com.std.account.domain.HLOrder;
@@ -45,6 +46,7 @@ public class HLOrderDAOImpl extends AMybatisTemplate implements IHLOrderDAO {
      */
     @Override
     public HLOrder select(HLOrder condition) {
+        condition.setUserDB(PropertiesUtil.Config.USER_DB);
         return super.select(NAMESPACE.concat("select_hlOrder"), condition,
             HLOrder.class);
     }
@@ -54,6 +56,7 @@ public class HLOrderDAOImpl extends AMybatisTemplate implements IHLOrderDAO {
      */
     @Override
     public long selectTotalCount(HLOrder condition) {
+        condition.setUserDB(PropertiesUtil.Config.USER_DB);
         return super.selectTotalCount(NAMESPACE.concat("select_hlOrder_count"),
             condition);
     }
@@ -63,6 +66,7 @@ public class HLOrderDAOImpl extends AMybatisTemplate implements IHLOrderDAO {
      */
     @Override
     public List<HLOrder> selectList(HLOrder condition) {
+        condition.setUserDB(PropertiesUtil.Config.USER_DB);
         return super.selectList(NAMESPACE.concat("select_hlOrder"), condition,
             HLOrder.class);
     }
@@ -72,6 +76,7 @@ public class HLOrderDAOImpl extends AMybatisTemplate implements IHLOrderDAO {
      */
     @Override
     public List<HLOrder> selectList(HLOrder condition, int start, int count) {
+        condition.setUserDB(PropertiesUtil.Config.USER_DB);
         return super.selectList(NAMESPACE.concat("select_hlOrder"), start,
             count, condition, HLOrder.class);
     }

@@ -32,15 +32,17 @@ public class XN802700 extends AProcessor {
         condition.setCode(req.getCode());
         condition.setStatus(req.getStatus());
         condition.setDirection(req.getDirection());
+        condition.setMobileForLikeQuery(req.getMobile());
         condition.setApplyUser(req.getApplyUser());
-        condition.setApproveUser(req.getApproveUser());
 
+        condition.setApproveUser(req.getApproveUser());
         condition.setAccountNumber(req.getAccountNumber());
         condition.setCreateDatetimeStart(DateUtil.getFrontDate(
             req.getDateStart(), false));
         condition.setCreateDatetimeEnd(DateUtil.getFrontDate(req.getDateEnd(),
             true));
         String column = req.getOrderColumn();
+
         if (StringUtils.isBlank(column)) {
             column = IHLOrderAO.DEFAULT_ORDER_COLUMN;
         }

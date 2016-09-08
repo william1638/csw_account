@@ -15,6 +15,9 @@ public class XN802700Req extends APageReq {
     // 状态
     private String status;
 
+    // 手机号
+    private String mobile;
+
     // 申请人（li为程序）
     private String applyUser;
 
@@ -46,6 +49,14 @@ public class XN802700Req extends APageReq {
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 
     public String getApplyUser() {

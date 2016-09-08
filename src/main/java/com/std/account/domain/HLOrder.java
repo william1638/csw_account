@@ -65,6 +65,13 @@ public class HLOrder extends ABaseDO {
     private String accountNumber;
 
     // ---------db properties end--------------------------
+
+    // 手机号
+    private String mobileForLikeQuery;
+
+    // 手机号
+    private String mobile;
+
     public Date getCreateDatetimeStart() {
         return createDatetimeStart;
     }
@@ -169,4 +176,19 @@ public class HLOrder extends ABaseDO {
         this.accountNumber = accountNumber;
     }
 
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getMobileForLikeQuery() {
+        return mobileForLikeQuery;
+    }
+
+    public void setMobileForLikeQuery(String mobileForLikeQuery) {
+        this.mobileForLikeQuery = mobileForLikeQuery;
+    }
 }

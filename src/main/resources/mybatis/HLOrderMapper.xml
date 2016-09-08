@@ -9,12 +9,13 @@
 		<result column="status" property="status" />
 		<result column="apply_user" property="applyUser" />	
 		
+		<result column="mobile" property="mobile" />	
 		<result column="apply_note" property="applyNote" />		
 		<result column="apply_datetime" property="applyDatetime" />	
 		<result column="approve_user" property="approveUser" />	
-		<result column="approve_note" property="approveNote" />		
+		<result column="approve_note" property="approveNote" />	
+			
 		<result column="approve_datetime" property="approveDatetime" />		
-				
 		<result column="account_number" property="accountNumber" />
 	</resultMap>
 	<sql id="where_condition">
@@ -44,6 +45,9 @@
 			<if test="createDatetimeEnd != null and createDatetimeEnd != '' ">
 				<![CDATA[AND t.apply_datetime <= #{createDatetimeEnd}]]>
 			</if>		
+			<if test="mobileForLikeQuery != null and mobileForLikeQuery != '' ">
+				AND tu.mobile like "%"#{mobileForLikeQuery}"%"
+			</if>	
 		</trim>
 	</sql>
 	<select id="select_hlOrder" parameterType="hlOrder" resultMap="hlOrder_DB_Result">
@@ -61,8 +65,9 @@
 		,t.approve_datetime
 		
 		,t.account_number
+		,tu.mobile
 		FROM
-		tstd_hlorder t 
+		tstd_hlorder t INNER JOIN tstd_account ta ON t.account_number = ta.account_number INNER JOIN ${userDB}.tstd_user tu ON ta.user_id = tu.user_id
 		<include refid="where_condition"/>
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
@@ -72,7 +77,7 @@
 	</select>
 
 	<select id="select_hlOrder_count" parameterType="hlOrder" resultType="java.lang.Long">
-		SELECT count(1) FROM tstd_hlorder t 
+		SELECT count(1) FROM tstd_hlorder t INNER JOIN tstd_account ta ON t.account_number = ta.account_number INNER JOIN ${userDB}.tstd_user tu ON ta.user_id = tu.user_id
 		<include refid="where_condition"/>
 	</select>
 
