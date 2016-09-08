@@ -28,17 +28,19 @@ public class XN802020 extends AProcessor {
     public Object doBusiness() throws BizException {
         AccountJour condition = new AccountJour();
         condition.setAccountNumber(req.getAccountNumber());
+        condition.setCurrency(req.getCurrency());
         condition.setAjNo(StringValidater.toLong(req.getAjNo()));
         condition.setBizType(req.getBizType());
         condition.setRefNo(req.getRefNo());
+
         condition.setStatus(req.getStatus());
         condition.setWorkDate(DateUtil.remove_(req.getWorkDate()));
         condition.setCheckUser(req.getCheckUser());
-
         condition.setCreateDatetimeStart(DateUtil.getFrontDate(
             req.getDateStart(), false));
         condition.setCreateDatetimeEnd(DateUtil.getFrontDate(req.getDateEnd(),
             true));
+
         String column = req.getOrderColumn();
         if (StringUtils.isBlank(column)) {
             column = IAJourAO.DEFAULT_ORDER_COLUMN;

@@ -71,6 +71,8 @@ public class AccountJour extends ABaseDO {
     private Date checkDatetime;
 
     // ---------db properties end--------------------------
+    // 币种
+    private String currency;
 
     public Date getCreateDatetimeStart() {
         return createDatetimeStart;
@@ -192,4 +194,11 @@ public class AccountJour extends ABaseDO {
         this.checkDatetime = checkDatetime;
     }
 
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 }

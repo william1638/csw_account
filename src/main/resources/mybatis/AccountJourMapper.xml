@@ -17,7 +17,8 @@
 		
 		<result column="check_user" property="checkUser" />			
 		<result column="check_datetime" property="checkDatetime" />	
-		<result column="account_number" property="accountNumber" />				
+		<result column="account_number" property="accountNumber" />	
+		<result column="currency" property="currency" />	
 	</resultMap>
 	<sql id="where_condition">
 		<trim prefix="WHERE" prefixOverrides="AND | OR">	
@@ -38,9 +39,12 @@
 			</if>		
 			<if test="checkUser != null and checkUser != '' ">
 				AND t.check_user = #{checkUser}
-			</if>			
+			</if>
 			<if test="accountNumber != null and accountNumber != '' ">
 				AND t.account_number = #{accountNumber}
+			</if>	
+			<if test="currency != null and currency != '' ">
+				AND ta.currency = #{currency}
 			</if>		
 			<if test="createDatetimeStart != null and createDatetimeStart != '' ">
 				<![CDATA[AND t.create_datetime >= #{createDatetimeStart}]]>
@@ -52,29 +56,30 @@
 	</sql>
 	<select id="select_accountJour" parameterType="accountJour" resultMap="accountJour_DB_Result">
 		SELECT 
-		aj_no
-		,status
-		,biz_type
-		,ref_no
-		,trans_amount
+		t.aj_no
+		,t.status
+		,t.biz_type
+		,t.ref_no
+		,t.trans_amount
 		
-		,pre_amount	
-		,post_amount	
-		,remark		
-		,create_datetime
-		,work_date
+		,t.pre_amount	
+		,t.post_amount	
+		,t.remark		
+		,t.create_datetime
+		,t.work_date
 		
-		,check_user		
-		,check_datetime
-		,account_number
+		,t.check_user		
+		,t.check_datetime
+		,t.account_number
+		,ta.currency
 		FROM
-		tstd_account_jour t
+		tstd_account_jour t INNER JOIN tstd_account ta ON t.account_number = ta.account_number
 		<include refid="where_condition"/>
 		ORDER BY t.aj_no DESC	
 	</select>
 
 	<select id="select_accountJour_count" parameterType="accountJour" resultType="java.lang.Long">
-		SELECT count(1) FROM tstd_account_jour t
+		SELECT count(1) FROM tstd_account_jour t INNER JOIN tstd_account ta ON t.account_number = ta.account_number
 		<include refid="where_condition"/>
 	</select>
 

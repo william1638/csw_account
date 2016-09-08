@@ -9,6 +9,9 @@ public class XN802020Req extends APageReq {
     // 账号
     private String accountNumber;
 
+    // 币种
+    private String currency;
+
     // 流水号
     private String ajNo;
 
@@ -83,4 +86,11 @@ public class XN802020Req extends APageReq {
         this.accountNumber = accountNumber;
     }
 
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 }
