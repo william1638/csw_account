@@ -59,7 +59,7 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
             if (ECurrency.XNB.equals(currency)) {
                 accountNumber = userId;
             } else {
-                accountNumber = OrderNoGenerater.generate("A");
+                accountNumber = OrderNoGenerater.generate("U");
             }
             data.setAccountNumber(accountNumber);
             data.setUserId(userId);
