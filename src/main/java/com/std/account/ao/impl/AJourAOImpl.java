@@ -94,7 +94,6 @@ public class AJourAOImpl implements IAJourAO {
             if (EBoolean.YES.getCode().equalsIgnoreCase(approveResult)) { // 资金变动
                 accountBO.refreshAmountWithoutCheck(hlOrder.getAccountNumber(),
                     hlOrder.getAmount(), hlOrder.getCode(), EBizType.AJ_LB);
-
             }
         } else {
             if (EBoolean.YES.getCode().equalsIgnoreCase(approveResult)) { // 资金变动

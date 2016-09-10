@@ -30,6 +30,9 @@ public class XN802020Req extends APageReq {
     // 对账人（li为程序）
     private String checkUser;
 
+    // 手机号
+    private String mobile;
+
     public String getAjNo() {
         return ajNo;
     }
@@ -92,5 +95,13 @@ public class XN802020Req extends APageReq {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
     }
 }

@@ -74,6 +74,12 @@ public class AccountJour extends ABaseDO {
     // 币种
     private String currency;
 
+    // 手机号
+    private String mobile;
+
+    // 手机号
+    private String mobileForLikeQuery;
+
     public Date getCreateDatetimeStart() {
         return createDatetimeStart;
     }
@@ -200,5 +206,21 @@ public class AccountJour extends ABaseDO {
 
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public String getMobile() {
+        return mobile;
+    }
+
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getMobileForLikeQuery() {
+        return mobileForLikeQuery;
+    }
+
+    public void setMobileForLikeQuery(String mobileForLikeQuery) {
+        this.mobileForLikeQuery = mobileForLikeQuery;
     }
 }
