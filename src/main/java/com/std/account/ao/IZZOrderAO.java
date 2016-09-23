@@ -63,6 +63,30 @@ public interface IZZOrderAO {
             String remark);
 
     /**
+     * 前端商家消费，返现(积分+人民币)
+     * @param fromUserId
+     * @param toUserId
+     * @param amount
+     * @param cnyAmount
+     * @param jfCashBack
+     * @param cnyCashBack 
+     * @create: 2016年9月22日 下午8:23:01 xieyj
+     * @history:
+     */
+    public void doShopMerchant(String fromUserId, String toUserId, Long amount,
+            Long cnyAmount, Long jfCashBack, Long cnyCashBack);
+
+    /**
+     * 普通用户用人民币向顶级商家购买积分
+     * @param fromUserId
+     * @param cnyAmount 
+     * @param amount
+     * @create: 2016年9月22日 下午8:24:22 xieyj
+     * @history:
+     */
+    public void doBuyJf(String fromUserId, Long cnyAmount, Long amount);
+
+    /**
      * 前端划转金额
      * @param accountNumber
      * @param direction

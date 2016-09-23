@@ -22,6 +22,7 @@ import com.std.account.domain.ZZOrder;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.ECurrency;
 import com.std.account.enums.EDirection;
+import com.std.account.enums.EUser;
 import com.std.account.exception.BizException;
 
 /** 
@@ -131,6 +132,65 @@ public class ZZOrderAOImpl implements IZZOrderAO {
             String direction, Long amount, Long fee, String remark) {
         return this.doHz(fromAccountNumber, accountNumber, direction, amount,
             fee, EBizType.AJ_HDKJF, EBizType.AJ_HDJJF, remark);
+    }
+
+    // 商户消费
+    // 1、扣除消费积分，人民币，商户增加消费积分，人民币
+    // 2、用户增加返现积分，人民币
+    // 3、顶级商家扣除返现积分，人民币
+    @Override
+    public void doShopMerchant(String fromUserId, String toUserId, Long amount,
+            Long cnyAmount, Long jfCashBack, Long cnyCashBack) {
+        // 虚拟币划账
+        Account fromXnbAccount = accountBO.getAccountByUser(fromUserId,
+            ECurrency.XNB.getCode());
+        Account toXnbAccount = accountBO.getAccountByUser(toUserId,
+            ECurrency.XNB.getCode());
+        if (amount > 0) {
+            this.doHz(fromXnbAccount.getAccountNumber(),
+                toXnbAccount.getAccountNumber(), EDirection.PLUS.getCode(),
+                amount, new Long(0), EBizType.AJ_MDXKJF, EBizType.AJ_MDXJJF,
+                "线下商铺抵现消费");
+        }
+
+        // 人民币账户
+        Account fromCnyAccount = accountBO.getAccountByUser(fromUserId,
+            ECurrency.CNY.getCode());
+        // 顶级积分商
+        Account topCnyAccount = accountBO.getAccountByUser(
+            EUser.Top_Integral.getCode(), ECurrency.CNY.getCode());
+        if (cnyCashBack > 0) {
+            this.doHz(topCnyAccount.getAccountNumber(),
+                fromCnyAccount.getAccountNumber(), EDirection.PLUS.getCode(),
+                cnyCashBack, new Long(0), EBizType.AJ_FXKQ, EBizType.AJ_FXJQ,
+                "返现");
+        }
+    }
+
+    // 购买积分
+    // 1、用户增加积分，扣除人民币
+    // 2、商家增加人民币，扣除积分
+    @Override
+    public void doBuyJf(String fromUserId, Long cnyAmount, Long amount) {
+        String toUserId = EUser.Top_Integral.getCode();
+        // 虚拟币划账
+        Account fromXnbAccount = accountBO.getAccountByUser(fromUserId,
+            ECurrency.XNB.getCode());
+        Account toXnbAccount = accountBO.getAccountByUser(toUserId,
+            ECurrency.XNB.getCode());
+        // 人民币划账
+        Account fromCnyAccount = accountBO.getAccountByUser(fromUserId,
+            ECurrency.CNY.getCode());
+        Account toCnyAccount = accountBO.getAccountByUser(toUserId,
+            ECurrency.CNY.getCode());
+        this.doHz(fromCnyAccount.getAccountNumber(),
+            toCnyAccount.getAccountNumber(), EDirection.PLUS.getCode(),
+            cnyAmount, new Long(0), EBizType.AJ_GMJF, EBizType.AJ_DHSY,
+            "用户用现金向积分商购买积分");
+        this.doHz(toXnbAccount.getAccountNumber(),
+            fromXnbAccount.getAccountNumber(), EDirection.PLUS.getCode(),
+            amount, new Long(0), EBizType.AJ_GMKJF, EBizType.AJ_GMJJF,
+            "积分商向用户划转积分");
     }
 
     private String doHz(String fromAccountNumber, String accountNumber,
