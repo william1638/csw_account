@@ -7,6 +7,7 @@ import com.std.account.bo.IUserBO;
 import com.std.account.dto.req.XN805082Req;
 import com.std.account.dto.req.XN805901Req;
 import com.std.account.dto.req.XN805902Req;
+import com.std.account.dto.req.XN805903Req;
 import com.std.account.dto.res.XN805901Res;
 import com.std.account.exception.BizException;
 import com.std.account.http.BizConnecter;
@@ -48,6 +49,19 @@ public class UserBOImpl implements IUserBO {
         req.setUserId(userId);
         req.setToUser(toUser);
         BizConnecter.getBizData("805082", JsonUtils.object2Json(req),
+            Object.class);
+    }
+
+    /** 
+     * @see com.std.account.bo.IUserBO#sendSms(java.lang.String, java.lang.String)
+     */
+    @Override
+    public void sendSms(String tokenId, String userId, String content) {
+        XN805903Req req = new XN805903Req();
+        req.setTokenId(userId);
+        req.setUserId(userId);
+        req.setContent(content);
+        BizConnecter.getBizData("805903", JsonUtils.object2Json(req),
             Object.class);
     }
 }

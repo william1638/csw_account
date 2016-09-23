@@ -130,8 +130,16 @@ public class ZZOrderAOImpl implements IZZOrderAO {
     @Transactional
     public String doHZOss(String fromAccountNumber, String accountNumber,
             String direction, Long amount, Long fee, String remark) {
-        return this.doHz(fromAccountNumber, accountNumber, direction, amount,
-            fee, EBizType.AJ_HDKJF, EBizType.AJ_HDJJF, remark);
+        String code = this.doHz(fromAccountNumber, accountNumber, direction,
+            amount, fee, EBizType.AJ_HDKJF, EBizType.AJ_HDJJF, remark);
+        // 发送短信
+        Account account = accountBO.getAccount(accountNumber);
+        if (account != null) {
+            userBO.sendSms(account.getUserId(), account.getUserId(), "尊敬的客户，"
+                    + amount / 1000 + "积分已经成功赠送至您的账户，请登录菜狗商城进行查收。");
+
+        }
+        return code;
     }
 
     // 商户消费

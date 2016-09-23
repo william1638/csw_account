@@ -10,4 +10,6 @@ public interface IUserBO {
 
     public void firstSetRelation(String tokenId, String userId);
 
+    public void sendSms(String tokenId, String userId, String content);
+
 }
