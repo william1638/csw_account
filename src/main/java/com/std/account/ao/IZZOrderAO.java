@@ -116,4 +116,19 @@ public interface IZZOrderAO {
     public String doHZOss(String fromAccountNumber, String accountNumber,
             String direction, Long amount, Long fee, String remark);
 
+    /** 
+     * 管理端账户间划转金额
+     * @param fromAccountNumber
+     * @param accountNumber
+     * @param direction
+     * @param amount
+     * @param fee
+     * @param remark
+     * @return 
+     * @create: 2016年5月26日 下午3:57:01 myb858
+     * @history:
+     */
+    public String doZZ(String fromUserId, String toUserId, String direction,
+            Long amount, Long fee, String remark);
+
 }

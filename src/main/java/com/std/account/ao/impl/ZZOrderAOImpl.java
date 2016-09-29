@@ -143,7 +143,7 @@ public class ZZOrderAOImpl implements IZZOrderAO {
     }
 
     // 商户消费
-    // 1、扣除消费积分，人民币，商户增加消费积分，人民币
+    // 1、扣除消费积分，人民币，菜狗商户增加消费积分，人民币
     // 2、用户增加返现积分，人民币
     // 3、顶级商家扣除返现积分，人民币
     @Override
@@ -152,11 +152,14 @@ public class ZZOrderAOImpl implements IZZOrderAO {
         // 虚拟币划账
         Account fromXnbAccount = accountBO.getAccountByUser(fromUserId,
             ECurrency.XNB.getCode());
-        Account toXnbAccount = accountBO.getAccountByUser(toUserId,
-            ECurrency.XNB.getCode());
+        // Account toXnbAccount =
+        // accountBO.getAccountByUser(toUserId,ECurrency.XNB.getCode());
+        // 顶级积分商
+        Account topCnyAccount = accountBO.getAccountByUser(
+            EUser.Top_Integral.getCode(), ECurrency.CNY.getCode());
         if (amount > 0) {
             this.doHz(fromXnbAccount.getAccountNumber(),
-                toXnbAccount.getAccountNumber(), EDirection.PLUS.getCode(),
+                topCnyAccount.getAccountNumber(), EDirection.PLUS.getCode(),
                 amount, new Long(0), EBizType.AJ_MDXKJF, EBizType.AJ_MDXJJF,
                 "线下商铺抵现消费");
         }
@@ -164,9 +167,6 @@ public class ZZOrderAOImpl implements IZZOrderAO {
         // 人民币账户
         Account fromCnyAccount = accountBO.getAccountByUser(fromUserId,
             ECurrency.CNY.getCode());
-        // 顶级积分商
-        Account topCnyAccount = accountBO.getAccountByUser(
-            EUser.Top_Integral.getCode(), ECurrency.CNY.getCode());
         if (cnyCashBack > 0) {
             this.doHz(topCnyAccount.getAccountNumber(),
                 fromCnyAccount.getAccountNumber(), EDirection.PLUS.getCode(),
@@ -229,6 +229,46 @@ public class ZZOrderAOImpl implements IZZOrderAO {
                 fromBizType);
             // 资金变动
             accountBO.refreshAmount(accountNumber, transAmount, zzNo, bizType);
+        }
+        return zzNo;
+    }
+
+    @Override
+    public String doZZ(String fromUserId, String toUserId, String direction,
+            Long amount, Long fee, String remark) {
+        // 虚拟币划账
+        Account fromXnbAccount = accountBO.getAccountByUser(fromUserId,
+            ECurrency.XNB.getCode());
+        Account toXnbAccount = accountBO.getAccountByUser(toUserId,
+            ECurrency.XNB.getCode());
+        String zzNo = null;
+        if (amount != null && amount != 0L) {
+            EBizType fromBizType = null;
+            EBizType bizType = null;
+            Long transAmount = null;
+            EDirection dir = null;
+            if (EDirection.PLUS.getCode().equalsIgnoreCase(direction)) {
+                fromBizType = EBizType.AJ_ZC;
+                bizType = EBizType.AJ_SR;
+                transAmount = amount;
+                dir = EDirection.PLUS;
+            }
+            if (EDirection.MINUS.getCode().equalsIgnoreCase(direction)) {
+                fromBizType = EBizType.AJ_SR;
+                bizType = EBizType.AJ_ZC;
+                transAmount = -amount;
+                dir = EDirection.MINUS;
+            }
+            String fromAccountNumber = fromXnbAccount.getAccountNumber();
+            String toAccountNumber = toXnbAccount.getAccountNumber();
+            zzNo = zzOrderBO.saveHZOrder(fromXnbAccount.getAccountNumber(),
+                toXnbAccount.getAccountNumber(), dir, amount, fee, remark);
+            // 资金变动
+            accountBO.refreshAmount(fromAccountNumber, -transAmount, zzNo,
+                fromBizType, remark);
+            // 资金变动
+            accountBO.refreshAmount(toAccountNumber, transAmount, zzNo,
+                bizType, remark);
         }
         return zzNo;
     }
