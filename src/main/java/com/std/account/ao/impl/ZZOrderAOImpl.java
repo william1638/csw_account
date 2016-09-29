@@ -152,21 +152,21 @@ public class ZZOrderAOImpl implements IZZOrderAO {
         // 虚拟币划账
         Account fromXnbAccount = accountBO.getAccountByUser(fromUserId,
             ECurrency.XNB.getCode());
-        // Account toXnbAccount =
-        // accountBO.getAccountByUser(toUserId,ECurrency.XNB.getCode());
         // 顶级积分商
-        Account topCnyAccount = accountBO.getAccountByUser(
-            EUser.Top_Integral.getCode(), ECurrency.CNY.getCode());
+        Account topXnbAccount = accountBO.getAccountByUser(
+            EUser.Top_Integral.getCode(), ECurrency.XNB.getCode());
         if (amount > 0) {
             this.doHz(fromXnbAccount.getAccountNumber(),
-                topCnyAccount.getAccountNumber(), EDirection.PLUS.getCode(),
+                topXnbAccount.getAccountNumber(), EDirection.PLUS.getCode(),
                 amount, new Long(0), EBizType.AJ_MDXKJF, EBizType.AJ_MDXJJF,
                 "线下商铺抵现消费");
         }
 
-        // 人民币账户
         Account fromCnyAccount = accountBO.getAccountByUser(fromUserId,
             ECurrency.CNY.getCode());
+        // 人民币账户
+        Account topCnyAccount = accountBO.getAccountByUser(
+            EUser.Top_Integral.getCode(), ECurrency.CNY.getCode());
         if (cnyCashBack > 0) {
             this.doHz(topCnyAccount.getAccountNumber(),
                 fromCnyAccount.getAccountNumber(), EDirection.PLUS.getCode(),
