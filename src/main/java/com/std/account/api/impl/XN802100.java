@@ -14,7 +14,7 @@ import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 分页查询充值取现列表
+ * 分页查询充值列表
  * @author: myb858 
  * @since: 2015年10月27日 下午3:51:05 
  * @history:
