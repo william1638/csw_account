@@ -9,7 +9,7 @@ import org.unitils.spring.annotation.SpringBeanByType;
 import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.IChargeDAO;
 import com.std.account.domain.Charge;
-import com.std.account.enums.EChannel;
+import com.std.account.enums.EChannelType;
 import com.std.account.enums.EFromType;
 import com.std.account.enums.EOrderStatus;
 import com.std.account.enums.EUser;
@@ -26,7 +26,7 @@ public class IChargeDAOTest extends ADAOTest {
         data.setCode(code);
         data.setFromType(EFromType.Alipay.getCode());
         data.setFromCode("fromCode");
-        data.setChannel(EChannel.OFFLINE.getCode());
+        data.setChannel(EChannelType.OFFLINE.getCode());
 
         data.setAmount(1000L);
         data.setCreateDatetime(new Date());

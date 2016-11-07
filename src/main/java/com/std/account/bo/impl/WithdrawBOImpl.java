@@ -20,7 +20,7 @@ import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.IWithdrawDAO;
 import com.std.account.domain.Withdraw;
 import com.std.account.enums.EBoolean;
-import com.std.account.enums.EChannel;
+import com.std.account.enums.EChannelType;
 import com.std.account.enums.EOrderStatus;
 import com.std.account.enums.EToType;
 import com.std.account.exception.BizException;
@@ -48,7 +48,7 @@ public class WithdrawBOImpl extends PaginableBOImpl<Withdraw> implements
             data.setToType(toType.getCode());
             data.setToCode(toCode);
             data.setToBelong(toBelong);
-            data.setChannel(EChannel.OFFLINE.getCode());
+            data.setChannel(EChannelType.OFFLINE.getCode());
 
             data.setAmount(amount);
             data.setCreateDatetime(new Date());
@@ -72,7 +72,7 @@ public class WithdrawBOImpl extends PaginableBOImpl<Withdraw> implements
                 && data.getAmount() != 0) {
             code = OrderNoGenerater.generate("Q");
             data.setCode(code);
-            data.setChannel(EChannel.OFFLINE.getCode());
+            data.setChannel(EChannelType.OFFLINE.getCode());
             data.setCreateDatetime(new Date());
             data.setStatus(EOrderStatus.todoAPPROVE.getCode());
             withdrawDAO.insert(data);

@@ -17,7 +17,7 @@ import org.unitils.spring.annotation.SpringBeanByType;
 import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.IWithdrawDAO;
 import com.std.account.domain.Withdraw;
-import com.std.account.enums.EChannel;
+import com.std.account.enums.EChannelType;
 import com.std.account.enums.EOrderStatus;
 import com.std.account.enums.EToType;
 import com.std.account.enums.EUser;
@@ -40,7 +40,7 @@ public class IWithdrawDAOTest extends ADAOTest {
         data.setCode(code);
         data.setToType(EToType.BankCard.getCode());
         data.setToCode("myb858@hotmail.com");
-        data.setChannel(EChannel.OFFLINE.getCode());
+        data.setChannel(EChannelType.OFFLINE.getCode());
 
         data.setAmount(1000L);
         data.setCreateDatetime(new Date());

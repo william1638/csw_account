@@ -12,7 +12,7 @@ import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.IChargeDAO;
 import com.std.account.domain.Charge;
 import com.std.account.enums.EBoolean;
-import com.std.account.enums.EChannel;
+import com.std.account.enums.EChannelType;
 import com.std.account.enums.EOrderStatus;
 import com.std.account.exception.BizException;
 
@@ -28,7 +28,7 @@ public class ChargeBOImpl extends PaginableBOImpl<Charge> implements IChargeBO {
                 && data.getAmount() != 0) {
             code = OrderNoGenerater.generate("C");
             data.setCode(code);
-            data.setChannel(EChannel.OFFLINE.getCode());
+            data.setChannel(EChannelType.OFFLINE.getCode());
             data.setCreateDatetime(new Date());
             data.setStatus(EOrderStatus.todoAPPROVE.getCode());
             chargeDAO.insert(data);
