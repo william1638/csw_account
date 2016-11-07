@@ -3,12 +3,10 @@ package com.std.account.ao.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.fuiou.mpay.encrypt.DESCoderFUIOU;
 import com.std.account.ao.IFuiouAO;
-import com.std.account.bo.IChannelCompanyBO;
 import com.std.account.domain.ChannelCompany;
 import com.std.account.domain.FuiouPC;
 import com.std.account.domain.FuiouWAP;
@@ -22,8 +20,8 @@ import com.std.account.util.MD5;
 
 @Service
 public class FuiouAOImpl implements IFuiouAO {
-    @Autowired
-    IChannelCompanyBO channelCompanyBO;
+    // @Autowired
+    // IChannelCompanyBO channelCompanyBO;
 
     @Override
     public String getWapPayUrl(XN802152Req req) {
