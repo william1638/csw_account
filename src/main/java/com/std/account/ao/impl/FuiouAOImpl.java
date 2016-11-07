@@ -24,6 +24,47 @@ public class FuiouAOImpl implements IFuiouAO {
     // IChannelCompanyBO channelCompanyBO;
 
     @Override
+    public String getPCPayUrl(XN802150Req req) {
+        FuiouPC fuiouPC = new FuiouPC();
+        // ChannelCompany channelCompany = channelCompanyBO.getChannelCompany(
+        // req.getCompanyCode(), EChannelType.Fuiou, EPayType.PC);
+        ChannelCompany channelCompany = getPCCompany();
+        // 开始组装
+        String mchnt_cd = channelCompany.getPaycompany();// 商户代码
+        String order_id = req.getOrderId();// 商户订单号
+        String order_amt = req.getOrderAmt();// 交易金额
+        String order_pay_type = req.getOrderPayType();// 支付类型
+        String page_notify_url = channelCompany.getPageUrl();// 页面跳转 URL
+
+        String back_notify_url = channelCompany.getBackUrl();// 后台通知 URL
+        String order_valid_time = fuiouPC.getOrderValidTime();// 超时时间
+        // String iss_ins_cd = req.getIssInsCd();// 银行代码
+        String iss_ins_cd = getBank(req.getIssInsCd());// 银行代码
+        String goods_name = req.getGoodsName();// 商品名称
+
+        String goods_display_url = req.getGoodsDisplayUrl();// 商品展示网址
+        String rem = req.getRem();// 备注
+        String ver = fuiouPC.getVer();// 版本号
+        String md5 = null;// MD5 摘要数据
+        String mchnt_key = channelCompany.getPrivatekey(); // 32位的商户密钥
+        String signDataStr = mchnt_cd + "|" + order_id + "|" + order_amt + "|"
+                + order_pay_type + "|" + page_notify_url + "|"
+                + back_notify_url + "|" + order_valid_time + "|" + iss_ins_cd
+                + "|" + goods_name + "|" + goods_display_url + "|" + rem + "|"
+                + ver + "|" + mchnt_key;
+        md5 = MD5.MD5Encode(signDataStr);
+
+        return fuiouPC.getPayUrl() + "?mchnt_cd=" + mchnt_cd + "&order_id="
+                + order_id + "&order_amt=" + order_amt + "&order_pay_type="
+                + order_pay_type + "&page_notify_url=" + page_notify_url
+                + "&back_notify_url=" + back_notify_url + "&order_valid_time="
+                + order_valid_time + "&iss_ins_cd=" + iss_ins_cd
+                + "&goods_name=" + goods_name + "&goods_display_url="
+                + goods_display_url + "&rem=" + rem + "&ver=" + ver + "&md5="
+                + md5 + "&mchnt_key=" + mchnt_key;
+    }
+
+    @Override
     public String getWapPayUrl(XN802152Req req) {
         FuiouWAP fuiouWAP = new FuiouWAP();
         // ChannelCompany channelCompany = channelCompanyBO.getChannelCompany(
@@ -114,46 +155,6 @@ public class FuiouAOImpl implements IFuiouAO {
 
         return fuiouWAP.getPayUrl() + "?ENCTP=" + ENCTP + "&VERSION=" + VERSION
                 + "&LOGOTP=" + LOGOTP + "&MCHNTCD=" + MCHNTCD + "&FM=" + FM;
-    }
-
-    @Override
-    public String getPCPayUrl(XN802150Req req) {
-        FuiouPC fuiouPC = new FuiouPC();
-        // ChannelCompany channelCompany = channelCompanyBO.getChannelCompany(
-        // req.getCompanyCode(), EChannelType.Fuiou, EPayType.PC);
-        ChannelCompany channelCompany = getPCCompany();
-        // 开始组装
-        String mchnt_cd = channelCompany.getPaycompany();// 商户代码
-        String order_id = req.getOrderId();// 商户订单号
-        String order_amt = req.getOrderAmt();// 交易金额
-        String order_pay_type = req.getOrderPayType();// 支付类型
-        String page_notify_url = channelCompany.getPageUrl();// 页面跳转 URL
-
-        String back_notify_url = channelCompany.getBackUrl();// 后台通知 URL
-        String order_valid_time = fuiouPC.getOrderValidTime();// 超时时间
-        // String iss_ins_cd = req.getIssInsCd();// 银行代码
-        String iss_ins_cd = getBank(req.getIssInsCd());// 银行代码
-        String goods_name = req.getGoodsName();// 商品名称
-        String goods_display_url = req.getGoodsDisplayUrl();// 商品展示网址
-
-        String rem = req.getRem();// 备注
-        String ver = fuiouPC.getVer();// 版本号
-        String md5 = null;// MD5 摘要数据
-        String mchnt_key = channelCompany.getPrivatekey(); // 32位的商户密钥
-        String signDataStr = mchnt_cd + "|" + order_id + "|" + order_amt + "|"
-                + order_pay_type + "|" + page_notify_url + "|"
-                + back_notify_url + "|" + order_valid_time + "|" + iss_ins_cd
-                + "|" + goods_name + "|" + goods_display_url + "|" + rem + "|"
-                + ver + "|" + mchnt_key;
-        md5 = MD5.MD5Encode(signDataStr);
-        return fuiouPC.getPayUrl() + "?mchnt_cd=" + mchnt_cd + "&order_id="
-                + order_id + "&order_amt=" + order_amt + "&order_pay_type="
-                + order_pay_type + "&page_notify_url=" + page_notify_url
-                + "&back_notify_url=" + back_notify_url + "&order_valid_time="
-                + order_valid_time + "&iss_ins_cd=" + iss_ins_cd
-                + "&goods_name=" + goods_name + "&goods_display_url="
-                + goods_display_url + "&rem=" + rem + "&ver=" + ver + "&md5="
-                + md5 + "&mchnt_key=" + mchnt_key;
     }
 
     private String getBank(String issInsCd) {
