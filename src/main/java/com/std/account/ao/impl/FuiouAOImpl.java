@@ -62,7 +62,7 @@ public class FuiouAOImpl implements IFuiouAO {
                 + "|" + goods_name + "|" + goods_display_url + "|" + rem + "|"
                 + ver + "|" + mchnt_key;
         md5 = MD5.MD5Encode(signDataStr);
-
+        
         return fuiouPC.getPayUrl() + "?mchnt_cd=" + mchnt_cd + "&order_id="
                 + order_id + "&order_amt=" + order_amt + "&order_pay_type="
                 + order_pay_type + "&page_notify_url=" + page_notify_url
@@ -199,8 +199,10 @@ public class FuiouAOImpl implements IFuiouAO {
 
     private ChannelCompany getPCCompany() {
         ChannelCompany company = new ChannelCompany();
-        company.setBackUrl("http://10.201.31.2:8080/pay_test/result.jsp");
-        company.setPageUrl("http://10.201.31.2:8080/pay_test/result.jsp");
+        company
+            .setBackUrl("http://115.29.140.31:8703/xn-account-front/fuiou/charge/callback/serverFY");
+        company
+            .setPageUrl("http://115.29.140.31:8703/xn-account-front/fuiou/charge/return");
         company.setPaycompany("0001000F0040992");
         company.setPrivatekey("vau6p7ldawpezyaugc0kopdrrwm4gkpu");
         return company;
