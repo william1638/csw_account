@@ -15,6 +15,7 @@ import com.std.account.domain.BaofooWAP;
 import com.std.account.domain.ChannelCompany;
 import com.std.account.dto.req.XN802160Req;
 import com.std.account.dto.req.XN802161Req;
+import com.std.account.dto.req.XN802162Req;
 import com.std.account.dto.req.XN802163Req;
 import com.std.account.dto.req.XN802164Req;
 import com.std.account.dto.res.ChannelCallbackRes;
@@ -83,6 +84,7 @@ public class BaofooAOImpl implements IBaofooAO {
         company.setTerminalId("");
         company.setPageUrl("");
         company.setBackUrl("");
+        company.setErrorUrl("");
         return company;
     }
 
@@ -168,6 +170,15 @@ public class BaofooAOImpl implements IBaofooAO {
     }
 
     @Override
+    public String handlePCPay(XN802162Req req) {
+        ChannelCompany channelCompany = getPCCompany();
+        if ("1".equalsIgnoreCase(req.getResult())) {
+            return channelCompany.getPageUrl();
+        }
+        return channelCompany.getErrorUrl();
+    }
+
+    @Override
     public ChannelCallbackRes handlePCPay(XN802161Req req) {
         // ChannelCompany channelCompany = channelCompanyBO.getChannelCompany(
         // req.getCompanyCode(), EChannelType.Baofoo, EPayType.PC);
@@ -179,9 +190,9 @@ public class BaofooAOImpl implements IBaofooAO {
         String Result = req.getResult();// 支付结果
         String ResultDesc = req.getResultDesc();// 支付结果描述
         String factMoney = req.getFactMoney();// 实际成功金额，以分为单位
-        String a = new BigDecimal(factMoney).divide(BigDecimal.valueOf(100))
-            .setScale(2).toString(); // 使用元显示
-        String FactMoney = a;
+        // String a = new BigDecimal(factMoney).divide(BigDecimal.valueOf(100))
+        // .setScale(2).toString(); // 使用元显示
+        // String FactMoney = a;
         String AdditionalInfo = req.getAdditionalInfo();// 订单附加消息
         String SuccTime = req.getSuccTime();// 支付完成时间
         String Md5Sign = req.getMd5Sign();// MD5签名
