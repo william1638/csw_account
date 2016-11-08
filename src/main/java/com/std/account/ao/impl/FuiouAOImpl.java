@@ -3,6 +3,7 @@ package com.std.account.ao.impl;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.fuiou.mpay.encrypt.DESCoderFUIOU;
@@ -41,9 +42,17 @@ public class FuiouAOImpl implements IFuiouAO {
         // String iss_ins_cd = req.getIssInsCd();// 银行代码
         String iss_ins_cd = getBank(req.getIssInsCd());// 银行代码
         String goods_name = req.getGoodsName();// 商品名称
-
+        if (StringUtils.isBlank(goods_name)) {
+            goods_name = "goods_name";
+        }
         String goods_display_url = req.getGoodsDisplayUrl();// 商品展示网址
+        if (StringUtils.isBlank(goods_display_url)) {
+            goods_display_url = "goods_display_url";
+        }
         String rem = req.getRem();// 备注
+        if (StringUtils.isBlank(rem)) {
+            rem = "rem";
+        }
         String ver = fuiouPC.getVer();// 版本号
         String md5 = null;// MD5 摘要数据
         String mchnt_key = channelCompany.getPrivatekey(); // 32位的商户密钥
@@ -159,7 +168,29 @@ public class FuiouAOImpl implements IFuiouAO {
 
     private String getBank(String issInsCd) {
         Map<String, String> map = new HashMap<String, String>();
-        map.put("CEB", "0803030000");
+        map.put("ICBC", "0801020000"); // 中国工商银行  0801020000
+        map.put("CBC", "0801050000"); // 中国建设银行 0801050000
+        map.put("CMSB", "0803050000"); // 中国民生银行 0803050000
+        map.put("PSBC", "0801000000");// 中国邮政 0801000000
+        map.put("CEB", "0803030000"); // 中国光大银行 0803030000
+
+        map.put("HXB", "0803040000"); // 华夏银行 0803040000
+        map.put("CMBC", "0803080000"); // 招商银行 0803080000
+        map.put("LY", "0804184930"); // 洛阳市商业银行 0804184930
+        map.put("BOC", "0801040000"); // 中国银行 0801040000
+        map.put("BOCOM", "0803010000"); // 交通银行 0803010000
+
+        map.put("SPDB", "0803100000");// 上海浦东发展银行 0803100000
+        map.put("CIB", "0803080000");// 兴业银行 0803090000
+        map.put("CITIC", "0804184930"); // 中信银行 0803020000
+        map.put("BOB", "0801040000"); // 北京银行 0804031000
+        map.put("GDB", "0803010000");// 广东发展银行 0803060000
+
+        map.put("PAB", "0804100000"); // 平安银行 0804100000
+        map.put("CZB", "0803160000"); // 浙商银行 0803160000
+        map.put("ABC", "0801030000"); // 中国农业银行 0801030000
+        map.put("XH", "0803202220"); // 鑫汇村镇银行 0803202220
+        map.put("CUP", "0000000000"); // 银联 0000000000
         return map.get(issInsCd);
     }
 
