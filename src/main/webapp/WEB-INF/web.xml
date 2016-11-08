@@ -100,4 +100,12 @@ version="2.5">
     <servlet-name>api</servlet-name>
     <url-pattern>/api</url-pattern>
   </servlet-mapping>
+   <servlet>  
+    <servlet-name>callback</servlet-name>
+    <servlet-class>com.std.account.CallbackServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>callback</servlet-name>
+    <url-pattern>/callback</url-pattern>
+  </servlet-mapping>
 </web-app>
