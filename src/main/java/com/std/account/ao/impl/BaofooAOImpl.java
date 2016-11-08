@@ -190,9 +190,9 @@ public class BaofooAOImpl implements IBaofooAO {
         String Result = req.getResult();// 支付结果
         String ResultDesc = req.getResultDesc();// 支付结果描述
         String factMoney = req.getFactMoney();// 实际成功金额，以分为单位
-        String a = new BigDecimal(factMoney).divide(BigDecimal.valueOf(100))
-            .setScale(2).toString(); // 使用元显示
-        String FactMoney = a;
+        // String a = new BigDecimal(factMoney).divide(BigDecimal.valueOf(100))
+        // .setScale(2).toString(); // 使用元显示
+        // String FactMoney = a;
         String AdditionalInfo = req.getAdditionalInfo();// 订单附加消息
         String SuccTime = req.getSuccTime();// 支付完成时间
         String Md5Sign = req.getMd5Sign();// MD5签名
