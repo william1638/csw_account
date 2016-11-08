@@ -90,6 +90,9 @@ public class FuiouAOImpl implements IFuiouAO {
 
         String mchntOrderId = req.getMchntOrderId();
         String userId = req.getUserId();
+        if (StringUtils.isNotBlank(userId)) {
+            userId = userId.substring(0, 20);
+        }
         String amt = req.getAmt();
         String bankCard = req.getBankCard();
         String name = req.getName();
@@ -134,7 +137,7 @@ public class FuiouAOImpl implements IFuiouAO {
 
             .append("<HOMEURL>").append(HOME_URL).append("</HOMEURL>")
 
-            .append("<TYPE>11</TYPE>")
+            // .append("<TYPE>11</TYPE>")
 
             .append("<NAME>").append(name).append("</NAME>")
 
@@ -162,8 +165,11 @@ public class FuiouAOImpl implements IFuiouAO {
             throw new BizException("xn802151", "富友WAP端支付加密FM出错");
         }
 
-        return fuiouWAP.getPayUrl() + "?ENCTP=" + ENCTP + "&VERSION=" + VERSION
-                + "&LOGOTP=" + LOGOTP + "&MCHNTCD=" + MCHNTCD + "&FM=" + FM;
+        String result = fuiouWAP.getPayUrl() + "?ENCTP=" + ENCTP + "&VERSION="
+                + VERSION + "&LOGOTP=" + LOGOTP + "&MCHNTCD=" + MCHNTCD
+                + "&FM=" + orderPlain.toString();
+        System.out.println(result);
+        return result;
     }
 
     private String getBank(String issInsCd) {
@@ -205,11 +211,14 @@ public class FuiouAOImpl implements IFuiouAO {
 
     private ChannelCompany getWAPCompany() {
         ChannelCompany company = new ChannelCompany();
-        company.setBackUrl("http://10.201.31.2:8080/pay_test/result.jsp");
-        company.setPageUrl("http://10.201.31.2:8080/pay_test/result.jsp");
-        company.setErrorUrl("http://10.201.31.2:8080/pay_test/result.jsp");
-        company.setPaycompany("0001000F0040992");
-        company.setPrivatekey("vau6p7ldawpezyaugc0kopdrrwm4gkpu");
+        company
+            .setBackUrl("http://115.29.140.31:8607/xn-mobile/fuiou/charge/mobile/callbackFY");
+        company
+            .setPageUrl("http://115.29.140.31:8607/xn-mobile/user/center_out.htm");
+        company
+            .setErrorUrl("http://115.29.140.31:8607/xn-mobile/user/center_out.htm");
+        company.setPaycompany("0001000F0358674");
+        company.setPrivatekey("d8n0dh23w2yzrnez52ocqb4ckzp7t0fs");
         return company;
     }
 

@@ -2,7 +2,7 @@ package com.std.account.domain;
 
 public class FuiouWAP {
     // 加密标志(必填)是否对订单信息 FM 域的内容进行加 密,1 表示加密,0 表示不加密
-    private String ENCTP = "1";
+    private String ENCTP = "0";
 
     // 版本号(必填)
     private String VERSION = "2.0";
@@ -25,7 +25,7 @@ public class FuiouWAP {
     // 签名方式md5 或 rsa (必填)
     private String SIGNTP = "md5";
 
-    private String payUrl = "http://www-1.fuiou.com:8888/wg1_run/smpGate.do";
+    private String payUrl = "http://www-1.fuiou.com:18670/mobile_pay/h5pay/payAction.pay";
 
     public String getENCTP() {
         return ENCTP;
