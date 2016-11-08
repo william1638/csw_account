@@ -70,7 +70,7 @@ public class FuiouAOImpl implements IFuiouAO {
                 + order_valid_time + "&iss_ins_cd=" + iss_ins_cd
                 + "&goods_name=" + goods_name + "&goods_display_url="
                 + goods_display_url + "&rem=" + rem + "&ver=" + ver + "&md5="
-                + md5 + "&mchnt_key=" + mchnt_key;
+                + md5;
     }
 
     @Override
