@@ -4,7 +4,7 @@ public class XN802150Req {
     // 公司编号(必填)
     private String companyCode;
 
-    // 订单号(必填)
+    // 订单号(必填)-下一版：去掉此参数
     private String orderId;
 
     // 交易金额(必填)
