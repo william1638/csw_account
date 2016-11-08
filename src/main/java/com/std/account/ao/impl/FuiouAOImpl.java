@@ -80,7 +80,6 @@ public class FuiouAOImpl implements IFuiouAO {
         // req.getCompanyCode(), EChannelType.Fuiou, EPayType.WAP);
         ChannelCompany channelCompany = getWAPCompany();
         // 开始组装
-
         String ENCTP = fuiouWAP.getENCTP();
         String VERSION = fuiouWAP.getVERSION();
         String MCHNTCD = channelCompany.getPaycompany();// 商户代码
@@ -99,6 +98,7 @@ public class FuiouAOImpl implements IFuiouAO {
         String idType = req.getIdType();
         String idNo = req.getIdNo();
         String type = fuiouWAP.getTYPE();
+        String SIGNTP = fuiouWAP.getSIGNTP();
         String BACK_URL = channelCompany.getBackUrl();
         String RETURN_URL = channelCompany.getErrorUrl();
         String HOME_URL = channelCompany.getPageUrl();
@@ -109,7 +109,6 @@ public class FuiouAOImpl implements IFuiouAO {
                 + "|" + BACK_URL + "|" + name + "|" + idNo + "|" + idType + "|"
                 + LOGOTP + "|" + HOME_URL + "|" + RETURN_URL + "|" + MCHNT_KEY;
         String sign = MD5.MD5Encode(signPlain);
-        System.out.println("[签名明文:]" + signPlain + "[签名密文:]" + sign);
 
         StringBuffer orderPlain = new StringBuffer();
         orderPlain.append("<ORDER>")
@@ -137,8 +136,6 @@ public class FuiouAOImpl implements IFuiouAO {
 
             .append("<HOMEURL>").append(HOME_URL).append("</HOMEURL>")
 
-            // .append("<TYPE>11</TYPE>")
-
             .append("<NAME>").append(name).append("</NAME>")
 
             .append("<IDTYPE>").append(idType).append("</IDTYPE>")
@@ -151,16 +148,16 @@ public class FuiouAOImpl implements IFuiouAO {
 
             .append("<REM3>").append(userId).append("</REM3>")
 
-            .append("<SIGNTP>").append("md5").append("</SIGNTP>")
+            .append("<SIGNTP>").append(SIGNTP).append("</SIGNTP>")
 
             .append("<SIGN>").append(sign).append("</SIGN>")
 
             .append("</ORDER>");
-        System.out.println("[订单信息:]" + orderPlain.toString());
-
         try {
             FM = DESCoderFUIOU.desEncrypt(orderPlain.toString(),
                 DESCoderFUIOU.getKeyLength8(MCHNT_KEY));
+            System.out.println("[签名明文:]" + orderPlain.toString() + "[签名密文:]"
+                    + FM);
         } catch (Exception e) {
             throw new BizException("xn802151", "富友WAP端支付加密FM出错");
         }
