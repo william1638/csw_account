@@ -15,6 +15,7 @@ import com.std.account.domain.BaofooWAP;
 import com.std.account.domain.ChannelCompany;
 import com.std.account.dto.req.XN802160Req;
 import com.std.account.dto.req.XN802161Req;
+import com.std.account.dto.req.XN802162Req;
 import com.std.account.dto.req.XN802163Req;
 import com.std.account.dto.req.XN802164Req;
 import com.std.account.dto.res.ChannelCallbackRes;
@@ -83,6 +84,7 @@ public class BaofooAOImpl implements IBaofooAO {
         company.setTerminalId("");
         company.setPageUrl("");
         company.setBackUrl("");
+        company.setErrorUrl("");
         return company;
     }
 
@@ -165,6 +167,15 @@ public class BaofooAOImpl implements IBaofooAO {
             res.setErrorInfo(baofooResult.getResp_msg());
         }
         return res;
+    }
+
+    @Override
+    public String handlePCPay(XN802162Req req) {
+        ChannelCompany channelCompany = getPCCompany();
+        if ("1".equalsIgnoreCase(req.getResult())) {
+            return channelCompany.getPageUrl();
+        }
+        return channelCompany.getErrorUrl();
     }
 
     @Override
