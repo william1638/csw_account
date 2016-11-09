@@ -187,7 +187,7 @@ public class FuiouAOImpl implements IFuiouAO {
         map.put("CIB", "0803080000");// 兴业银行 0803090000
         map.put("CITIC", "0804184930"); // 中信银行 0803020000
         map.put("BOB", "0801040000"); // 北京银行 0804031000
-        map.put("GDB", "0803010000");// 广东发展银行 0803060000
+        map.put("CGB", "0803010000");// 广东发展银行 0803060000
 
         map.put("PAB", "0804100000"); // 平安银行 0804100000
         map.put("CZB", "0803160000"); // 浙商银行 0803160000
@@ -200,9 +200,9 @@ public class FuiouAOImpl implements IFuiouAO {
     private ChannelCompany getPCCompany() {
         ChannelCompany company = new ChannelCompany();
         company
-            .setBackUrl("http://115.29.140.31:8703/xn-account-front/fuiou/charge/callback/serverFY");
+            .setBackUrl("http://120.26.222.73:8703/xn-account-front/fuiou/charge/callback/serverFY");
         company
-            .setPageUrl("http://115.29.140.31:8703/xn-account-front/fuiou/charge/return");
+            .setPageUrl("http://120.26.222.73:8703/xn-account-front/fuiou/charge/return");
         company.setPaycompany("0001000F0040992");
         company.setPrivatekey("vau6p7ldawpezyaugc0kopdrrwm4gkpu");
         return company;
@@ -211,11 +211,11 @@ public class FuiouAOImpl implements IFuiouAO {
     private ChannelCompany getWAPCompany() {
         ChannelCompany company = new ChannelCompany();
         company
-            .setBackUrl("http://115.29.140.31:8607/xn-mobile/fuiou/charge/mobile/callbackFY");
+            .setBackUrl("http://120.26.222.73:8607/xn-mobile/fuiou/charge/mobile/callbackFY");
         company
-            .setPageUrl("http://115.29.140.31:8607/xn-mobile/user/center_out.htm");
+            .setPageUrl("http://120.26.222.73:8607/xn-mobile/user/center_out.htm");
         company
-            .setErrorUrl("http://115.29.140.31:8607/xn-mobile/user/center_out.htm");
+            .setErrorUrl("http://120.26.222.73:8607/xn-mobile/user/center_out.htm");
         company.setPaycompany("0001000F0358674");
         company.setPrivatekey("d8n0dh23w2yzrnez52ocqb4ckzp7t0fs");
         return company;
