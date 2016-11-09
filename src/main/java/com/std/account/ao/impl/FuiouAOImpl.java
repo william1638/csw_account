@@ -62,7 +62,7 @@ public class FuiouAOImpl implements IFuiouAO {
                 + "|" + goods_name + "|" + goods_display_url + "|" + rem + "|"
                 + ver + "|" + mchnt_key;
         md5 = MD5.MD5Encode(signDataStr);
-        
+
         return fuiouPC.getPayUrl() + "?mchnt_cd=" + mchnt_cd + "&order_id="
                 + order_id + "&order_amt=" + order_amt + "&order_pay_type="
                 + order_pay_type + "&page_notify_url=" + page_notify_url
@@ -172,16 +172,16 @@ public class FuiouAOImpl implements IFuiouAO {
     private String getBank(String issInsCd) {
         Map<String, String> map = new HashMap<String, String>();
         map.put("ICBC", "0801020000"); // 中国工商银行  0801020000
-        map.put("CBC", "0801050000"); // 中国建设银行 0801050000
-        map.put("CMSB", "0803050000"); // 中国民生银行 0803050000
+        map.put("CCB", "0801050000"); // 中国建设银行 0801050000
+        map.put("CMBC", "0803050000"); // 中国民生银行 0803050000
         map.put("PSBC", "0801000000");// 中国邮政 0801000000
         map.put("CEB", "0803030000"); // 中国光大银行 0803030000
 
         map.put("HXB", "0803040000"); // 华夏银行 0803040000
-        map.put("CMBC", "0803080000"); // 招商银行 0803080000
+        map.put("CMB", "0803080000"); // 招商银行 0803080000
         map.put("LY", "0804184930"); // 洛阳市商业银行 0804184930
         map.put("BOC", "0801040000"); // 中国银行 0801040000
-        map.put("BOCOM", "0803010000"); // 交通银行 0803010000
+        map.put("BCOM", "0803010000"); // 交通银行 0803010000
 
         map.put("SPDB", "0803100000");// 上海浦东发展银行 0803100000
         map.put("CIB", "0803080000");// 兴业银行 0803090000
