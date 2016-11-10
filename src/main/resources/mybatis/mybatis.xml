@@ -9,5 +9,8 @@
 		<typeAlias alias="hlOrder" type="com.std.account.domain.HLOrder" />
 		<typeAlias alias="charge" type="com.std.account.domain.Charge" />
 		<typeAlias alias="zzOrder" type="com.std.account.domain.ZZOrder" />
-	</typeAliases>	
-</configuration>	
+		
+		<typeAlias alias="companyChannel" type="com.std.account.domain.CompanyChannel" />
+		<typeAlias alias="channelBank" type="com.std.account.domain.ChannelBank" />
+	</typeAliases>
+</configuration>

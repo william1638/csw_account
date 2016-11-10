@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.std.account.dao.ICompanyChannelDAO">
+	<resultMap id="companyChannel_DB_Result" type="companyChannel">
+		<result column="id" property="id"/>
+		<result column="company_code" property="companyCode"/>
+		<result column="company_name" property="companyName"/>
+		<result column="channel_type" property="channelType"/>
+		<result column="pay_type" property="payType"/>
+		
+		<result column="status" property="status"/>
+		<result column="paycompany" property="paycompany"/>
+		<result column="privatekey" property="privatekey"/>
+		<result column="page_url" property="pageUrl"/>
+		<result column="error_url" property="errorUrl"/>
+		
+		<result column="back_url" property="backUrl"/>
+		<result column="fee" property="fee"/>
+		<result column="remark" property="remark"/>
+	</resultMap>
+	<sql id="where_condition">
+		<trim prefix="WHERE" prefixOverrides="AND | OR">
+			<if test="id != null and id != '' ">
+				AND t.id = #{id}
+			</if>
+			<if test="companyCode != null and companyCode != '' ">
+				AND t.company_code = #{companyCode}
+			</if>
+			<if test="companyName != null and companyName != '' ">
+				AND t.company_name = #{companyName}
+			</if>
+			<if test="channelType != null and channelType != '' ">
+				AND t.channel_type = #{channelType}
+			</if>
+			<if test="payType != null and payType != '' ">
+				AND t.pay_type = #{payType}
+			</if>
+			
+			<if test="status != null and status != '' ">
+				AND t.status = #{status}
+			</if>
+			<if test="paycompany != null and paycompany != '' ">
+				AND t.paycompany = #{paycompany}
+			</if>
+		</trim>
+	</sql>
+	
+	<select id="select_companyChannel" parameterType="companyChannel" resultMap="companyChannel_DB_Result">
+		SELECT
+		t.id
+		,t.company_code
+		,t.company_name
+		,t.channel_type
+		,t.pay_type
+		
+		,t.status
+		,t.paycompany
+		,t.privatekey
+		,t.page_url
+		,t.error_url
+		
+		,t.back_url
+		,t.fee
+		,t.remark
+		FROM
+		tstd_company_channel t
+		<include refid="where_condition"/>
+		<trim prefix="ORDER BY ">
+			<if test="order != null and order != '' ">
+				t.${order}
+			</if>
+		</trim>
+	</select>
+
+	<select id="select_companyChannel_count" parameterType="companyChannel"
+		resultType="java.lang.Long">
+		SELECT count(1) FROM tstd_company_channel t
+		<include refid="where_condition"/>
+	</select>
+
+	<insert id="insert_companyChannel" parameterType="companyChannel">
+		INSERT INTO
+		tstd_company_channel(
+		company_code
+		,company_name
+		,channel_type
+		,pay_type
+		,status
+		
+		,paycompany
+		,privatekey
+		,page_url
+		,error_url
+		,back_url
+		
+		,fee
+		,remark
+		)
+		VALUES(
+		#{companyCode}
+		,#{companyName}
+		,#{channelType}
+		,#{payType}
+		,#{status}
+		
+		,#{paycompany}
+		,#{privatekey}
+		,#{pageUrl}
+		,#{errorUrl}
+		,#{backUrl}
+		
+		,#{fee}
+		,#{remark}
+		)
+	</insert>
+
+	<update id="update_companyChannel" parameterType="companyChannel">
+		UPDATE tstd_company_channel
+		SET
+		company_name = #{companyName}
+		,channel_type = #{channelType}
+		,pay_type = #{payType}
+		,status = #{status}
+		,paycompany = #{paycompany}
+		
+		,privatekey = #{privatekey}
+		,page_url = #{pageUrl}
+		,error_url = #{errorUrl}
+		,back_url = #{backUrl}
+		,fee = #{fee}
+		
+		,remark = #{remark}
+		WHERE id = #{id}
+	</update>
+	
+	<delete id="delete_companyChannel" parameterType="companyChannel">
+		DELETE FROM tstd_company_channel
+		WHERE id = #{id}
+	</delete>
+</mapper>
