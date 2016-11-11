@@ -102,4 +102,21 @@ CREATE TABLE `tstd_company_channel` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- ----------------------------
+--  Table structure for `tsys_dict`
+-- ----------------------------
+DROP TABLE IF EXISTS `tsys_dict`;
+CREATE TABLE `tsys_dict` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号（自增长）',
+  `to_system` varchar(4) DEFAULT NULL COMMENT '针对系统',
+  `type` char(1) DEFAULT NULL COMMENT '类型（第一层/第二层）',
+  `parent_key` varchar(32) DEFAULT NULL COMMENT '父key',
+  `dkey` varchar(32) DEFAULT NULL COMMENT 'key',
+  `dvalue` varchar(255) DEFAULT NULL COMMENT '值',
+  `updater` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `update_datetime` datetime DEFAULT NULL COMMENT '更新时间',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 SET FOREIGN_KEY_CHECKS = 1;
