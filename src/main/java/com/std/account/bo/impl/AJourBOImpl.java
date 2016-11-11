@@ -17,10 +17,13 @@ import org.springframework.stereotype.Component;
 import com.std.account.bo.IAJourBO;
 import com.std.account.bo.base.PaginableBOImpl;
 import com.std.account.common.DateUtil;
+import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.IAJourDAO;
+import com.std.account.domain.Account;
 import com.std.account.domain.AccountJour;
 import com.std.account.enums.EAccountJourStatus;
 import com.std.account.enums.EBoolean;
+import com.std.account.enums.EGeneratePrefix;
 
 /** 
  * @author: miyb 
@@ -45,9 +48,46 @@ public class AJourBOImpl extends PaginableBOImpl<AccountJour> implements
     }
 
     @Override
+    public String addJour(Account account, String channelType, String payType,
+            String bizType, Long preAmount, Long amount, String remark) {
+        String order = OrderNoGenerater.generate(EGeneratePrefix.AJour
+            .getCode());
+        Long postAmount = preAmount + amount;
+        AccountJour accountJour = new AccountJour();
+        accountJour.setSystemCode(account.getSystemCode());
+        accountJour.setAccountName(account.getAccountName());
+        accountJour.setAccountNumber(account.getAccountNumber());
+        accountJour.setOrder(order);
+        accountJour.setChannelType(channelType);
+        accountJour.setPayType(payType);
+        accountJour.setBizType(bizType);
+        accountJour.setStatus(EAccountJourStatus.todoCallBack.getCode());
+        accountJour.setTransAmount(amount);
+        accountJour.setPreAmount(preAmount);
+        accountJour.setPostAmount(postAmount);
+        accountJour.setRemark(remark);
+        accountJour.setWorkDate(DateUtil
+            .getToday(DateUtil.DB_DATE_FORMAT_STRING));
+        aJourDAO.insert(accountJour);
+        return order;
+    }
+
+    @Override
+    public void doTransAccount(String order, String payOrder) {
+        if (StringUtils.isNotBlank(order) && StringUtils.isNotBlank(payOrder)) {
+            AccountJour data = new AccountJour();
+            data.setOrder(order);
+            data.setPayOrder(payOrder);
+            data.setTransDatetime(new Date());
+            data.setStatus(EAccountJourStatus.todoCheck.getCode());
+            aJourDAO.updateTrans(data);
+        }
+    }
+
+    @Override
     public void doCheckAccount(String order, String checkUser,
             EBoolean checkResult) {
-        if (StringUtils.isNotBlank(order) && StringUtils.isNotBlank(checkUser)) {
+        if (StringUtils.isNotBlank(order)) {
             AccountJour data = new AccountJour();
             data.setOrder(order);
             data.setCheckUser(checkUser);
@@ -57,44 +97,19 @@ public class AJourBOImpl extends PaginableBOImpl<AccountJour> implements
             } else {
                 data.setStatus(EAccountJourStatus.Checked_NO.getCode());
             }
-            aJourDAO.doCheckAccount(data);
+            aJourDAO.updateCheck(data);
         }
     }
 
-    /** 
-     * @see com.xnjr.moom.bo.IFDAJourBO#addJour(java.lang.String, java.lang.Long, java.lang.Long, com.xnjr.moom.enums.EBizType, java.lang.String)
-     */
     @Override
-    public void addJour(String accountNumber, Long preAmount, Long amount,
-            String bizType, String refNo, String remark) {
-        Long postAmount = preAmount + amount;
-        AccountJour accountJour = new AccountJour();
-        accountJour.setStatus(EAccountJourStatus.todoCheck.getCode());
-        accountJour.setBizType(bizType);
-        accountJour.setTransAmount(amount);
-        accountJour.setPreAmount(preAmount);
-        accountJour.setPostAmount(postAmount);
-        accountJour.setRemark(remark);
-        accountJour.setWorkDate(DateUtil
-            .getToday(DateUtil.DB_DATE_FORMAT_STRING));
-        accountJour.setAccountNumber(accountNumber);
-        aJourDAO.insert(accountJour);
-    }
-
-    /** 
-     * @see com.std.account.bo.IAJourBO#doAdjustAccount(java.lang.String, java.lang.String, com.std.account.enums.EBoolean)
-     */
-    @Override
-    public void doAdjustAccount(String order, String adjustUser,
-            EBoolean adjustResult) {
-    }
-
-    /** 
-     * @see com.std.account.bo.IAJourBO#doTransAccount(java.lang.String, java.lang.String, java.lang.String)
-     */
-    @Override
-    public void doTransAccount(String order, String status, String payOrder) {
-        // TODO Auto-generated method stub
-
+    public void doAdjustAccount(String order, String adjustUser) {
+        if (StringUtils.isNotBlank(order)) {
+            AccountJour data = new AccountJour();
+            data.setOrder(order);
+            data.setStatus(EAccountJourStatus.Adjusted.getCode());
+            data.setAdjustUser(adjustUser);
+            data.setAdjustDatetime(new Date());
+            aJourDAO.updateAdjust(data);
+        }
     }
 }

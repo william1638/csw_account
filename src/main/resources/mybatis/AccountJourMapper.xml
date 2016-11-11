@@ -8,16 +8,19 @@
 		<result column="account_number" property="accountNumber" />
 		<result column="order" property="order" />
 		<result column="channel_type" property="channelType" />
+		
 		<result column="pay_type" property="payType" />
 		<result column="pay_order" property="payOrder" />
 		<result column="biz_type" property="bizType" />
 		<result column="trans_amount" property="transAmount" />
 		<result column="pre_amount" property="preAmount" />
+		
 		<result column="post_amount" property="postAmount" />
 		<result column="trans_datetime" property="transDatetime" />
 		<result column="status" property="status" />
 		<result column="work_date" property="workDate" />
 		<result column="check_user" property="checkUser" />
+		
 		<result column="check_datetime" property="checkDatetime" />
 		<result column="adjust_user" property="adjustUser" />
 		<result column="adjust_datetime" property="adjustDatetime" />
@@ -53,7 +56,6 @@
 	</sql>
 	<select id="select_accountJour" parameterType="accountJour" resultMap="accountJour_DB_Result">
 		SELECT
-		t.code
 		,t.system_code
 		,t.account_name
 		,t.account_number
@@ -102,7 +104,6 @@
 		,trans_amount
 		,pre_amount
 		,post_amount
-		,trans_datetime
 		,status
 		,work_date
 		,remark
@@ -118,7 +119,6 @@
 		,#{transAmount}
 		,#{preAmount}
 		,#{postAmount}
-		,#{transDatetime}
 		,#{status}
 		,#{workDate}
 		,#{remark}

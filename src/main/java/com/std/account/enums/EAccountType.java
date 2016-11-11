@@ -1,11 +1,14 @@
 package com.std.account.enums;
 
-public enum EUser {
-    // li表示程序
-    LI("li", "程序"), Top_Model("U201600000000000001", "顶级货品商"), Top_Integral(
-            "U201600000000000001", "顶级积分商");
+/**
+ * @author: xieyj 
+ * @since: 2016年11月11日 上午10:54:16 
+ * @history:
+ */
+public enum EAccountType {
+    B("B", "B端账号"), C("C", "C端账号"), P("P", "平台账号");
 
-    EUser(String code, String value) {
+    EAccountType(String code, String value) {
         this.code = code;
         this.value = value;
     }

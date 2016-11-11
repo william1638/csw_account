@@ -26,7 +26,7 @@ public interface IAJourDAO extends IBaseDAO<AccountJour> {
      * @create: 2016年11月10日 下午6:05:41 xieyj
      * @history:
      */
-    public int doTransAccount(AccountJour data);
+    public int updateTrans(AccountJour data);
 
     /**
      * 对账结果录入
@@ -35,7 +35,7 @@ public interface IAJourDAO extends IBaseDAO<AccountJour> {
      * @create: 2016年11月10日 下午6:05:41 xieyj
      * @history:
      */
-    public int doCheckAccount(AccountJour data);
+    public int updateCheck(AccountJour data);
 
     /**
      * 调账结果录入
@@ -44,5 +44,5 @@ public interface IAJourDAO extends IBaseDAO<AccountJour> {
      * @create: 2016年11月10日 下午6:05:47 xieyj
      * @history:
      */
-    public int doAdjustAccount(AccountJour data);
+    public int updateAdjust(AccountJour data);
 }

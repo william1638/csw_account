@@ -38,32 +38,46 @@ public class AccountJour extends ABaseDO {
     // 渠道类型
     private String channelType;
 
+    // 支付类型
     private String payType;
 
+    // 渠道单号
     private String payOrder;
 
+    // 业务类型
     private String bizType;
 
+    // 变动金额，
     private Long transAmount;
 
+    // 变动前金额，
     private Long preAmount;
 
+    // 变动后金额，
     private Long postAmount;
 
+    // 金额变动时间
     private Date transDatetime;
 
+    // 状态（刚生成待回调，无需对账，已回调待对账，对账通过，对账不通过待调账，已调账）
     private String status;
 
+    // 拟对账时间
     private String workDate;
 
+    // 对账人
     private String checkUser;
 
+    // 对账时间
     private Date checkDatetime;
 
+    // 调账人
     private String adjustUser;
 
+    // 调账时间
     private Date adjustDatetime;
 
+    // 备注
     private String remark;
 
     public Date getCreateDatetimeStart() {

@@ -85,8 +85,6 @@
 		,frozen_amount
 		,md5
 		,create_datetime
-		
-		,last_order
 		)
 		VALUES(
 		#{systemCode}
@@ -100,8 +98,6 @@
 		,#{frozenAmount}
 		,#{md5}
 		,#{createDatetime}
-		
-		,#{lastOrder}
 		)
 	</insert>
 	<update id="update_amount" parameterType="account">
@@ -111,7 +107,7 @@
 		,md5 = #{md5}
 		,last_order = #{lastOrder}
 		WHERE
-		account_number = #{accountNumber}			
+		account_number = #{accountNumber}
 	</update>
 	
 	<update id="update_frozen_amount" parameterType="account">
@@ -122,7 +118,7 @@
 		,md5 = #{md5}
 		,last_order = #{lastOrder}
 		WHERE
-		account_number = #{accountNumber}			
+		account_number = #{accountNumber}
 	</update>
 	
 	<update id="update_status" parameterType="account">
@@ -130,6 +126,6 @@
 		SET
 		status= #{status}
 		WHERE
-		account_number = #{accountNumber}		
+		account_number = #{accountNumber}	
 	</update>
 </mapper>

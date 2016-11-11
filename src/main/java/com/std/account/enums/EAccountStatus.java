@@ -1,16 +1,8 @@
-/**
- * @Title EAccountState.java 
- * @Package com.ibis.account.enums 
- * @Description 
- * @author miyb  
- * @date 2015-2-26 下午2:42:59 
- * @version V1.0   
- */
 package com.std.account.enums;
 
-/** 
- * @author: miyb 
- * @since: 2015-2-26 下午2:42:59 
+/**
+ * @author: xieyj 
+ * @since: 2016年11月11日 上午10:54:16 
  * @history:
  */
 public enum EAccountStatus {

@@ -80,26 +80,26 @@ public class AJourDAOImpl extends AMybatisTemplate implements IAJourDAO {
     }
 
     /** 
-     * @see com.std.account.dao.IAJourDAO#doTransAccount(com.std.account.domain.AccountJour)
+     * @see com.std.account.dao.IAJourDAO#updateTrans(com.std.account.domain.AccountJour)
      */
     @Override
-    public int doTransAccount(AccountJour data) {
+    public int updateTrans(AccountJour data) {
         return super.update(NAMESPACE.concat("update_trans_account"), data);
     }
 
     /** 
-     * @see com.xnjr.account.dao.ibis.account.dao.IAJourDAO#updateCheckInfo(com.ibis.account.domain.AccountJour)
+     * @see com.xnjr.account.dao.ibis.account.dao.IAJourDAO#updateCheck(com.ibis.account.domain.AccountJour)
      */
     @Override
-    public int doCheckAccount(AccountJour data) {
+    public int updateCheck(AccountJour data) {
         return super.update(NAMESPACE.concat("update_check_account"), data);
     }
 
     /** 
-     * @see com.std.account.dao.IAJourDAO#doAdjustAccount(com.std.account.domain.AccountJour)
+     * @see com.std.account.dao.IAJourDAO#updateAdjust(com.std.account.domain.AccountJour)
      */
     @Override
-    public int doAdjustAccount(AccountJour data) {
+    public int updateAdjust(AccountJour data) {
         return super.update(NAMESPACE.concat("update_adjust_account"), data);
     }
 }

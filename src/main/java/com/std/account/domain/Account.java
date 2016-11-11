@@ -29,26 +29,37 @@ public class Account extends ABaseDO {
     // 创建终止时间
     private Date createDatetimeEnd;
 
+    // 系统编号
     private String systemCode;
 
+    // 户名
     private String accountName;
 
+    // 账户编号
     private String accountNumber;
 
+    // 类别（B端账号，C端账号，平台账号）
     private String type;
 
+    // 状态（正常/程序冻结/人工冻结）
     private String status;
 
+    // 币种
     private String currency;
 
-    private String amount;
+    // 余额
+    private Long amount;
 
-    private String frozenAmount;
+    // 冻结金额
+    private Long frozenAmount;
 
+    // md5
     private String md5;
 
-    private String createDatetime;
+    // 创建时间
+    private Date createDatetime;
 
+    // 最近一次变动对应的流水编号
     private String lastOrder;
 
     public Date getCreateDatetimeStart() {
@@ -115,19 +126,19 @@ public class Account extends ABaseDO {
         this.currency = currency;
     }
 
-    public String getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(Long amount) {
         this.amount = amount;
     }
 
-    public String getFrozenAmount() {
+    public Long getFrozenAmount() {
         return frozenAmount;
     }
 
-    public void setFrozenAmount(String frozenAmount) {
+    public void setFrozenAmount(Long frozenAmount) {
         this.frozenAmount = frozenAmount;
     }
 
@@ -139,11 +150,11 @@ public class Account extends ABaseDO {
         this.md5 = md5;
     }
 
-    public String getCreateDatetime() {
+    public Date getCreateDatetime() {
         return createDatetime;
     }
 
-    public void setCreateDatetime(String createDatetime) {
+    public void setCreateDatetime(Date createDatetime) {
         this.createDatetime = createDatetime;
     }
 
