@@ -5,6 +5,7 @@ import java.util.List;
 import com.std.account.bo.base.IPaginableBO;
 import com.std.account.domain.Account;
 import com.std.account.enums.EAccountStatus;
+import com.std.account.enums.EAccountType;
 import com.std.account.enums.ECurrency;
 
 /**
@@ -18,15 +19,14 @@ public interface IAccountBO extends IPaginableBO<Account> {
      * 分配账户
      * @param systemCode
      * @param accountName
-     * @param type
-     * @param realName
+     * @param accountType
      * @param currency
      * @return 
      * @create: 2016年11月11日 上午11:09:36 xieyj
      * @history:
      */
     public String distributeAccount(String systemCode, String accountName,
-            String type, String realName, ECurrency currency);
+            EAccountType accountType, ECurrency currency);
 
     /**
      * 直接变更账户金额

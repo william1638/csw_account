@@ -9,6 +9,12 @@ import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
+/**
+ * fuiouWap端-回调处理
+ * @author: xieyj 
+ * @since: 2016年11月11日 下午2:09:19 
+ * @history:
+ */
 public class XN802153 extends AProcessor {
     private IFuiouAO fuiouAO = SpringContextHolder.getBean(IFuiouAO.class);
 

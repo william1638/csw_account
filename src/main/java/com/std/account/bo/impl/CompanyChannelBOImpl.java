@@ -34,10 +34,21 @@ public class CompanyChannelBOImpl extends PaginableBOImpl<CompanyChannel>
     }
 
     @Override
-    public void saveCompanyChannel(CompanyChannel data) {
+    public long getCompanyChannelCount(String companyCode, String channelType) {
+        CompanyChannel condition = new CompanyChannel();
+        condition.setCompanyCode(companyCode);
+        condition.setChannelType(channelType);
+        return CompanyChannelDAO.selectTotalCount(condition);
+    }
+
+    @Override
+    public Long saveCompanyChannel(CompanyChannel data) {
+        Long id = null;
         if (data != null) {
             CompanyChannelDAO.insert(data);
+            id = data.getId();
         }
+        return id;
     }
 
     @Override

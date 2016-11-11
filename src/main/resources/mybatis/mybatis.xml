@@ -6,5 +6,7 @@
 		<typeAlias alias="accountJour" type="com.std.account.domain.AccountJour" />
 		<typeAlias alias="companyChannel" type="com.std.account.domain.CompanyChannel" />
 		<typeAlias alias="channelBank" type="com.std.account.domain.ChannelBank" />
+		
+		<typeAlias alias="sysDict" type="com.std.account.domain.SYSDict" />
 	</typeAliases>
 </configuration>

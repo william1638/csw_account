@@ -23,6 +23,7 @@ import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.IAccountDAO;
 import com.std.account.domain.Account;
 import com.std.account.enums.EAccountStatus;
+import com.std.account.enums.EAccountType;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.ECurrency;
 import com.std.account.enums.EGeneratePrefix;
@@ -41,7 +42,7 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
 
     @Override
     public String distributeAccount(String systemCode, String accountName,
-            String type, String realName, ECurrency currency) {
+            EAccountType accountType, ECurrency currency) {
         String accountNumber = null;
         if (StringUtils.isNotBlank(systemCode)
                 && StringUtils.isNotBlank(accountName)) {
@@ -51,7 +52,7 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
             data.setSystemCode(systemCode);
             data.setAccountName(accountName);
             data.setAccountNumber(accountNumber);
-            data.setType(type);
+            data.setType(accountType.getCode());
 
             data.setStatus(EAccountStatus.NORMAL.getCode());
             data.setCurrency(currency.getCode());

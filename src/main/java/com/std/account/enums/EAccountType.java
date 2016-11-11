@@ -6,7 +6,7 @@ package com.std.account.enums;
  * @history:
  */
 public enum EAccountType {
-    B("B", "B端账号"), C("C", "C端账号"), P("P", "平台账号");
+    Business("B", "B端账号"), Customer("C", "C端账号"), Plat("P", "平台账号");
 
     EAccountType(String code, String value) {
         this.code = code;

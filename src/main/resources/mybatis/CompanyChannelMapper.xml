@@ -79,7 +79,7 @@
 		<include refid="where_condition"/>
 	</select>
 
-	<insert id="insert_companyChannel" parameterType="companyChannel">
+	<insert id="insert_companyChannel" parameterType="companyChannel" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO
 		tstd_company_channel(
 		company_code

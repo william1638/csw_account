@@ -9,7 +9,9 @@ public interface ICompanyChannelBO extends IPaginableBO<CompanyChannel> {
 
     public boolean isCompanyChannelExist(Long id);
 
-    public void saveCompanyChannel(CompanyChannel data);
+    public long getCompanyChannelCount(String companyCode, String channelType);
+
+    public Long saveCompanyChannel(CompanyChannel data);
 
     public int removeCompanyChannel(Long id);
 

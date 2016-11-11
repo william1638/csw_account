@@ -76,7 +76,7 @@
 		<include refid="where_condition" />
 	</select>
 
-	<insert id="insert_channelBank" parameterType="channelBank">
+	<insert id="insert_channelBank" parameterType="channelBank" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO
 		tstd_channel_bank(
 		bank_code

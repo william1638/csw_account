@@ -1,21 +1,13 @@
-/**
- * @Title PageReq.java 
- * @Package com.ibis.account.dto.req 
- * @Description 
- * @author miyb  
- * @date 2015-5-7 上午10:23:31 
- * @version V1.0   
- */
 package com.std.account.dto.req;
 
 import java.io.Serializable;
 
-/** 
- * @author: miyb 
- * @since: 2015-5-7 上午10:23:31 
+/**
+ * @author: xieyj 
+ * @since: 2016年11月11日 下午1:53:25 
  * @history:
  */
-public abstract class APageReq implements Serializable {
+public abstract class ASearchReq implements Serializable {
     /** 
      * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
      */
@@ -26,12 +18,6 @@ public abstract class APageReq implements Serializable {
 
     // 创建终止时间(YYYY-MM-DD)
     private String dateEnd;
-
-    // 起始页数
-    private String start;
-
-    // 限制条数
-    private String limit;
 
     // 排序字段
     private String orderColumn;
@@ -53,22 +39,6 @@ public abstract class APageReq implements Serializable {
 
     public void setDateEnd(String dateEnd) {
         this.dateEnd = dateEnd;
-    }
-
-    public String getStart() {
-        return start;
-    }
-
-    public void setStart(String start) {
-        this.start = start;
-    }
-
-    public String getLimit() {
-        return limit;
-    }
-
-    public void setLimit(String limit) {
-        this.limit = limit;
     }
 
     public String getOrderColumn() {
