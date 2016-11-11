@@ -41,7 +41,7 @@ DROP TABLE IF EXISTS `tstd_account_jour`;
 CREATE TABLE `tstd_account_jour` (
   `system_code` varchar(32) NOT NULL COMMENT '系统编号',
   `account_name` varchar(32) NOT NULL COMMENT '户名',
-  `account_number` varchar(32) NOT NULL DEFAULT '' COMMENT '账号',
+  `account_number` varchar(32) NOT NULL DEFAULT NULL COMMENT '账号',
   `order` varchar(32) DEFAULT NULL COMMENT '流水编号',
   `channel_type` varchar(4) DEFAULT NULL COMMENT '渠道类型',
   `pay_type` varchar(4) DEFAULT NULL COMMENT '支付类型',
