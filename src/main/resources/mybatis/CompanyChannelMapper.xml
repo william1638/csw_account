@@ -118,18 +118,19 @@
 	<update id="update_companyChannel" parameterType="companyChannel">
 		UPDATE tstd_company_channel
 		SET
-		company_name = #{companyName}
+		company_code = #{companyCode}
+		,company_name = #{companyName}
 		,channel_type = #{channelType}
 		,pay_type = #{payType}
 		,status = #{status}
-		,paycompany = #{paycompany}
 		
+		,paycompany = #{paycompany}
 		,privatekey = #{privatekey}
 		,page_url = #{pageUrl}
 		,error_url = #{errorUrl}
 		,back_url = #{backUrl}
-		,fee = #{fee}
 		
+		,fee = #{fee}
 		,remark = #{remark}
 		WHERE id = #{id}
 	</update>

@@ -34,21 +34,22 @@ public class AJourBOImpl extends PaginableBOImpl<AccountJour> implements
     private IAJourDAO aJourDAO;
 
     @Override
-    public AccountJour getAccountJour(Long ajNo) {
+    public AccountJour getAccountJour(String order) {
         AccountJour data = null;
-        if (ajNo > 0) {
+        if (StringUtils.isNotBlank(order)) {
             AccountJour condition = new AccountJour();
-            condition.setAjNo(ajNo);
+            condition.setOrder(order);
             data = aJourDAO.select(condition);
         }
         return data;
     }
 
     @Override
-    public void doCheckAccount(Long aJNo, String checkUser, EBoolean checkResult) {
-        if (aJNo > 0 && StringUtils.isNotBlank(checkUser)) {
+    public void doCheckAccount(String order, String checkUser,
+            EBoolean checkResult) {
+        if (StringUtils.isNotBlank(order) && StringUtils.isNotBlank(checkUser)) {
             AccountJour data = new AccountJour();
-            data.setAjNo(aJNo);
+            data.setOrder(order);
             data.setCheckUser(checkUser);
             data.setCheckDatetime(new Date());
             if (EBoolean.YES.getCode().equalsIgnoreCase(checkResult.getCode())) {
@@ -70,17 +71,30 @@ public class AJourBOImpl extends PaginableBOImpl<AccountJour> implements
         AccountJour accountJour = new AccountJour();
         accountJour.setStatus(EAccountJourStatus.todoCheck.getCode());
         accountJour.setBizType(bizType);
-        accountJour.setRefNo(refNo);
-
         accountJour.setTransAmount(amount);
         accountJour.setPreAmount(preAmount);
         accountJour.setPostAmount(postAmount);
         accountJour.setRemark(remark);
-        accountJour.setCreateDatetime(new Date());
         accountJour.setWorkDate(DateUtil
             .getToday(DateUtil.DB_DATE_FORMAT_STRING));
         accountJour.setAccountNumber(accountNumber);
         aJourDAO.insert(accountJour);
     }
 
+    /** 
+     * @see com.std.account.bo.IAJourBO#doAdjustAccount(java.lang.String, java.lang.String, com.std.account.enums.EBoolean)
+     */
+    @Override
+    public void doAdjustAccount(String order, String adjustUser,
+            EBoolean adjustResult) {
+    }
+
+    /** 
+     * @see com.std.account.bo.IAJourBO#doTransAccount(java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public void doTransAccount(String order, String status, String payOrder) {
+        // TODO Auto-generated method stub
+
+    }
 }

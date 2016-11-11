@@ -99,10 +99,4 @@ public class AccountDAOImpl extends AMybatisTemplate implements IAccountDAO {
     public int updateStatus(Account data) {
         return super.update(NAMESPACE.concat("update_status"), data);
     }
-
-    @Override
-    public int updateRealName(Account data) {
-        return super.update(NAMESPACE.concat("update_realName"), data);
-    }
-
 }

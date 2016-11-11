@@ -51,14 +51,14 @@
 		,t.bank_name 
 		,t.channel_type
 		,t.pay_type
-		,t.status
 		
+		,t.status
 		,t.paybank
 		,t.max_order
 		,t.order_amount
 		,t.day_amount
-		,t.month_amount
 		
+		,t.month_amount
 		,t.remark
 		FROM
 		tstd_channel_bank t
@@ -113,7 +113,7 @@
 	<update id="update_channelBank" parameterType="channelBank">
 		UPDATE tstd_channel_bank
 		SET
-		bank_name  = #{bankName }
+		bank_name  = #{bankName}
 		,channel_type = #{channelType}
 		,pay_type = #{payType}
 		,status = #{status}

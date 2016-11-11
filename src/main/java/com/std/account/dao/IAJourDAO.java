@@ -19,12 +19,30 @@ import com.std.account.domain.AccountJour;
 public interface IAJourDAO extends IBaseDAO<AccountJour> {
     String NAMESPACE = IAJourDAO.class.getName().concat(".");
 
-    /** 
+    /**
+     * 金额发生变动
+     * @param data
+     * @return 
+     * @create: 2016年11月10日 下午6:05:41 xieyj
+     * @history:
+     */
+    public int doTransAccount(AccountJour data);
+
+    /**
      * 对账结果录入
      * @param data
      * @return 
-     * @create: 2015-2-23 下午4:28:41 miyb
-     * @history: 
+     * @create: 2016年11月10日 下午6:05:41 xieyj
+     * @history:
      */
     public int doCheckAccount(AccountJour data);
+
+    /**
+     * 调账结果录入
+     * @param data
+     * @return 
+     * @create: 2016年11月10日 下午6:05:47 xieyj
+     * @history:
+     */
+    public int doAdjustAccount(AccountJour data);
 }

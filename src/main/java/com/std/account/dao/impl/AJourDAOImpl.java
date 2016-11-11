@@ -46,7 +46,6 @@ public class AJourDAOImpl extends AMybatisTemplate implements IAJourDAO {
      */
     @Override
     public AccountJour select(AccountJour condition) {
-        condition.setUserDB(PropertiesUtil.Config.USER_DB);
         return super.select(NAMESPACE.concat("select_accountJour"), condition,
             AccountJour.class);
     }
@@ -66,7 +65,6 @@ public class AJourDAOImpl extends AMybatisTemplate implements IAJourDAO {
      */
     @Override
     public List<AccountJour> selectList(AccountJour condition) {
-        condition.setUserDB(PropertiesUtil.Config.USER_DB);
         return super.selectList(NAMESPACE.concat("select_accountJour"),
             condition, AccountJour.class);
     }
@@ -77,9 +75,16 @@ public class AJourDAOImpl extends AMybatisTemplate implements IAJourDAO {
     @Override
     public List<AccountJour> selectList(AccountJour condition, int start,
             int count) {
-        condition.setUserDB(PropertiesUtil.Config.USER_DB);
         return super.selectList(NAMESPACE.concat("select_accountJour"), start,
             count, condition, AccountJour.class);
+    }
+
+    /** 
+     * @see com.std.account.dao.IAJourDAO#doTransAccount(com.std.account.domain.AccountJour)
+     */
+    @Override
+    public int doTransAccount(AccountJour data) {
+        return super.update(NAMESPACE.concat("update_trans_account"), data);
     }
 
     /** 
@@ -90,4 +95,11 @@ public class AJourDAOImpl extends AMybatisTemplate implements IAJourDAO {
         return super.update(NAMESPACE.concat("update_check_account"), data);
     }
 
+    /** 
+     * @see com.std.account.dao.IAJourDAO#doAdjustAccount(com.std.account.domain.AccountJour)
+     */
+    @Override
+    public int doAdjustAccount(AccountJour data) {
+        return super.update(NAMESPACE.concat("update_adjust_account"), data);
+    }
 }

@@ -1,21 +1,13 @@
-/**
- * @Title AccountJour.java 
- * @Package com.ibis.account.domain 
- * @Description 
- * @author miyb  
- * @date 2015-2-12 下午8:38:25 
- * @version V1.0   
- */
 package com.std.account.domain;
 
 import java.util.Date;
 
 import com.std.account.dao.base.ABaseDO;
 
-/** 
- * 监控账户余额。
- * @author: miyb 
- * @since: 2015-2-12 下午8:38:25 
+/**
+ * 账户流水单号
+ * @author: xieyj 
+ * @since: 2016年11月10日 下午5:48:27 
  * @history:
  */
 public class AccountJour extends ABaseDO {
@@ -31,54 +23,48 @@ public class AccountJour extends ABaseDO {
     private Date createDatetimeEnd;
 
     // ---------db properties start--------------------------
-    // 流水号
-    private Long ajNo;
+    // 系统编号
+    private String systemCode;
 
-    // 业务类型
-    private String bizType;
-
-    // 关联单号
-    private String refNo;
-
-    // 发生金额（有正负之分）
-    private Long transAmount;
-
-    // 发生前金额
-    private Long preAmount;
-
-    // 发生后金额
-    private Long postAmount;
-
-    // 备注
-    private String remark;
-
-    // 创建时间
-    private Date createDatetime;
+    // 户名
+    private String accountName;
 
     // 账号
     private String accountNumber;
 
-    // 状态
+    // 流水编号
+    private String order;
+
+    // 渠道类型
+    private String channelType;
+
+    private String payType;
+
+    private String payOrder;
+
+    private String bizType;
+
+    private Long transAmount;
+
+    private Long preAmount;
+
+    private Long postAmount;
+
+    private Date transDatetime;
+
     private String status;
 
-    // 理应对账时间
     private String workDate;
 
-    // 对账人（li为程序）
     private String checkUser;
 
-    // 对账时间
     private Date checkDatetime;
 
-    // ---------db properties end--------------------------
-    // 币种
-    private String currency;
+    private String adjustUser;
 
-    // 手机号
-    private String mobile;
+    private Date adjustDatetime;
 
-    // 手机号
-    private String mobileForLikeQuery;
+    private String remark;
 
     public Date getCreateDatetimeStart() {
         return createDatetimeStart;
@@ -96,12 +82,60 @@ public class AccountJour extends ABaseDO {
         this.createDatetimeEnd = createDatetimeEnd;
     }
 
-    public Long getAjNo() {
-        return ajNo;
+    public String getSystemCode() {
+        return systemCode;
     }
 
-    public void setAjNo(Long ajNo) {
-        this.ajNo = ajNo;
+    public void setSystemCode(String systemCode) {
+        this.systemCode = systemCode;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public String getOrder() {
+        return order;
+    }
+
+    public void setOrder(String order) {
+        this.order = order;
+    }
+
+    public String getChannelType() {
+        return channelType;
+    }
+
+    public void setChannelType(String channelType) {
+        this.channelType = channelType;
+    }
+
+    public String getPayType() {
+        return payType;
+    }
+
+    public void setPayType(String payType) {
+        this.payType = payType;
+    }
+
+    public String getPayOrder() {
+        return payOrder;
+    }
+
+    public void setPayOrder(String payOrder) {
+        this.payOrder = payOrder;
     }
 
     public String getBizType() {
@@ -110,14 +144,6 @@ public class AccountJour extends ABaseDO {
 
     public void setBizType(String bizType) {
         this.bizType = bizType;
-    }
-
-    public String getRefNo() {
-        return refNo;
-    }
-
-    public void setRefNo(String refNo) {
-        this.refNo = refNo;
     }
 
     public Long getTransAmount() {
@@ -144,28 +170,12 @@ public class AccountJour extends ABaseDO {
         this.postAmount = postAmount;
     }
 
-    public String getRemark() {
-        return remark;
+    public Date getTransDatetime() {
+        return transDatetime;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
-    }
-
-    public Date getCreateDatetime() {
-        return createDatetime;
-    }
-
-    public void setCreateDatetime(Date createDatetime) {
-        this.createDatetime = createDatetime;
-    }
-
-    public String getAccountNumber() {
-        return accountNumber;
-    }
-
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+    public void setTransDatetime(Date transDatetime) {
+        this.transDatetime = transDatetime;
     }
 
     public String getStatus() {
@@ -200,27 +210,27 @@ public class AccountJour extends ABaseDO {
         this.checkDatetime = checkDatetime;
     }
 
-    public String getCurrency() {
-        return currency;
+    public String getAdjustUser() {
+        return adjustUser;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setAdjustUser(String adjustUser) {
+        this.adjustUser = adjustUser;
     }
 
-    public String getMobile() {
-        return mobile;
+    public Date getAdjustDatetime() {
+        return adjustDatetime;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setAdjustDatetime(Date adjustDatetime) {
+        this.adjustDatetime = adjustDatetime;
     }
 
-    public String getMobileForLikeQuery() {
-        return mobileForLikeQuery;
+    public String getRemark() {
+        return remark;
     }
 
-    public void setMobileForLikeQuery(String mobileForLikeQuery) {
-        this.mobileForLikeQuery = mobileForLikeQuery;
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }
