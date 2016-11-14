@@ -12,7 +12,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.std.account.common.PropertiesUtil;
 import com.std.account.dao.IAJourDAO;
 import com.std.account.dao.base.support.AMybatisTemplate;
 import com.std.account.domain.AccountJour;
@@ -55,7 +54,6 @@ public class AJourDAOImpl extends AMybatisTemplate implements IAJourDAO {
      */
     @Override
     public long selectTotalCount(AccountJour condition) {
-        condition.setUserDB(PropertiesUtil.Config.USER_DB);
         return super.selectTotalCount(
             NAMESPACE.concat("select_accountJour_count"), condition);
     }

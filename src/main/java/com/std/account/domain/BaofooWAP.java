@@ -1,31 +1,33 @@
 package com.std.account.domain;
 
+import com.std.account.common.BFPropertiesUtil;
+
 public class BaofooWAP {
     // 版本号
-    private String version = "4.0.0.1";
+    private String version = BFPropertiesUtil.Config.WAP_VER;
 
     // 字符集
-    private String inputCharset = "UTF-8";
+    private String inputCharset = BFPropertiesUtil.Config.WAP_INPUTCHARSET;
 
-    private String language = "1";
+    private String language = BFPropertiesUtil.Config.WAP_LANGUAGE;
 
-    private String txnType = "03311";
+    private String txnType = BFPropertiesUtil.Config.WAP_TXNTYPE;
 
-    private String txnSubType = "01";
+    private String txnSubType = BFPropertiesUtil.Config.WAP_TXNSUBTYPE;
 
     private String bizType;
 
-    private String pfxPath = "cer/bfkey_100000178@@100000916.pfx";
+    private String pfxPath = BFPropertiesUtil.Config.WAP_PFXPATH;
 
-    private String pfxPwd = "100000178_204500";
+    private String pfxPwd = BFPropertiesUtil.Config.WAP_PFXPWD;
 
-    private String cerPath = "/cer/baofoo_pub_test.cer";
+    private String cerPath = BFPropertiesUtil.Config.WAP_CERPATH;
 
     // 数据类型
-    private String dataType = "json";
+    private String dataType = BFPropertiesUtil.Config.WAP_DATATYPE;
 
     // 渠道访问地址
-    private String payUrl = "https://gw.baofoo.com/apipay/sdk";
+    private String payUrl = BFPropertiesUtil.Config.WAP_PAYURL;
 
     public String getVersion() {
         return version;

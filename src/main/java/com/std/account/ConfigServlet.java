@@ -3,6 +3,8 @@ package com.std.account;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
+import com.std.account.common.BFPropertiesUtil;
+import com.std.account.common.FYPropertiesUtil;
 import com.std.account.common.PropertiesUtil;
 
 public class ConfigServlet extends HttpServlet {
@@ -15,6 +17,7 @@ public class ConfigServlet extends HttpServlet {
     public void init() throws ServletException {
         super.init();
         PropertiesUtil.init("/config.properties");
+        BFPropertiesUtil.init("/baofooConfig.properties");
+        FYPropertiesUtil.init("/fuiouConfig.properties");
     }
-
 }
