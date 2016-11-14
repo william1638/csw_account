@@ -66,7 +66,7 @@ public class CompanyChannelBOImpl extends PaginableBOImpl<CompanyChannel>
     public int refreshCompanyChannel(CompanyChannel data) {
         int count = 0;
         if (data != null) {
-            count = CompanyChannelDAO.delete(data);
+            count = CompanyChannelDAO.update(data);
         }
         return count;
     }

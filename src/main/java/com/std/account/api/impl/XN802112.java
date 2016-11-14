@@ -41,7 +41,7 @@ public class XN802112 extends AProcessor {
         data.setDayAmount(StringValidater.toLong(req.getDayAmount()));
         data.setMonthAmount(StringValidater.toLong(req.getMonthAmount()));
         data.setRemark(req.getRemark());
-        channelBankAO.addChannelBank(data);
+        channelBankAO.editChannelBank(data);
         return new BooleanRes(true);
     }
 

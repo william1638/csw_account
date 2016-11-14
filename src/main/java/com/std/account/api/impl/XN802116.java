@@ -3,7 +3,6 @@ package com.std.account.api.impl;
 import com.std.account.ao.IChannelBankAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
-import com.std.account.core.StringValidater;
 import com.std.account.domain.ChannelBank;
 import com.std.account.dto.req.XN802116Req;
 import com.std.account.exception.BizException;
@@ -43,8 +42,5 @@ public class XN802116 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802116Req.class);
-        StringValidater.validateBlank(req.getBankCode(), req.getBankName(),
-            req.getChannelType(), req.getPayType(), req.getStatus(),
-            req.getPaybank());
     }
 }

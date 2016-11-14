@@ -113,16 +113,18 @@
 	<update id="update_channelBank" parameterType="channelBank">
 		UPDATE tstd_channel_bank
 		SET
-		bank_name  = #{bankName}
+		bank_code = #{bankCode}
+		,bank_name  = #{bankName}
 		,channel_type = #{channelType}
 		,pay_type = #{payType}
 		,status = #{status}
-		,paybank = #{paybank}
 		
+		,paybank = #{paybank}
 		,max_order = #{maxOrder}
 		,order_amount = #{orderAmount}
 		,day_amount = #{dayAmount}
 		,month_amount = #{monthAmount}
+		
 		,remark = #{remark}
 		WHERE id = #{id}
 	</update>
