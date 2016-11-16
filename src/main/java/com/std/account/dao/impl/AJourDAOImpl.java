@@ -12,7 +12,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.std.account.common.PropertiesUtil;
 import com.std.account.dao.IAJourDAO;
 import com.std.account.dao.base.support.AMybatisTemplate;
 import com.std.account.domain.AccountJour;
@@ -46,7 +45,6 @@ public class AJourDAOImpl extends AMybatisTemplate implements IAJourDAO {
      */
     @Override
     public AccountJour select(AccountJour condition) {
-        condition.setUserDB(PropertiesUtil.Config.USER_DB);
         return super.select(NAMESPACE.concat("select_accountJour"), condition,
             AccountJour.class);
     }
@@ -56,7 +54,6 @@ public class AJourDAOImpl extends AMybatisTemplate implements IAJourDAO {
      */
     @Override
     public long selectTotalCount(AccountJour condition) {
-        condition.setUserDB(PropertiesUtil.Config.USER_DB);
         return super.selectTotalCount(
             NAMESPACE.concat("select_accountJour_count"), condition);
     }
@@ -66,7 +63,6 @@ public class AJourDAOImpl extends AMybatisTemplate implements IAJourDAO {
      */
     @Override
     public List<AccountJour> selectList(AccountJour condition) {
-        condition.setUserDB(PropertiesUtil.Config.USER_DB);
         return super.selectList(NAMESPACE.concat("select_accountJour"),
             condition, AccountJour.class);
     }
@@ -77,17 +73,31 @@ public class AJourDAOImpl extends AMybatisTemplate implements IAJourDAO {
     @Override
     public List<AccountJour> selectList(AccountJour condition, int start,
             int count) {
-        condition.setUserDB(PropertiesUtil.Config.USER_DB);
         return super.selectList(NAMESPACE.concat("select_accountJour"), start,
             count, condition, AccountJour.class);
     }
 
     /** 
-     * @see com.xnjr.account.dao.ibis.account.dao.IAJourDAO#updateCheckInfo(com.ibis.account.domain.AccountJour)
+     * @see com.std.account.dao.IAJourDAO#updateTrans(com.std.account.domain.AccountJour)
      */
     @Override
-    public int doCheckAccount(AccountJour data) {
+    public int updateTrans(AccountJour data) {
+        return super.update(NAMESPACE.concat("update_trans_account"), data);
+    }
+
+    /** 
+     * @see com.xnjr.account.dao.ibis.account.dao.IAJourDAO#updateCheck(com.ibis.account.domain.AccountJour)
+     */
+    @Override
+    public int updateCheck(AccountJour data) {
         return super.update(NAMESPACE.concat("update_check_account"), data);
     }
 
+    /** 
+     * @see com.std.account.dao.IAJourDAO#updateAdjust(com.std.account.domain.AccountJour)
+     */
+    @Override
+    public int updateAdjust(AccountJour data) {
+        return super.update(NAMESPACE.concat("update_adjust_account"), data);
+    }
 }

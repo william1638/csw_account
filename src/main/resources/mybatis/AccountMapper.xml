@@ -3,32 +3,32 @@
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.std.account.dao.IAccountDAO">
 	<resultMap id="account_DB_Result" type="account">
-		<result column="user_id" property="userId" />
-		<result column="real_name" property="realName" />		
+		<result column="system_code" property="systemCode" />
+		<result column="account_name" property="accountName" />
 		<result column="account_number" property="accountNumber" />
 		<result column="status" property="status" />
 		<result column="amount" property="amount" />
-		
 		<result column="frozen_amount" property="frozenAmount" />
 		<result column="currency" property="currency" />		
 		<result column="create_datetime" property="createDatetime" />	
+		<result column="last_order" property="lastOrder" />	
 	</resultMap>
 	<sql id="where_condition">
 		<trim prefix="WHERE" prefixOverrides="AND | OR">	
-			<if test="userId != null and userId != '' ">
-				AND t.user_id = #{userId}
-			</if>	
-			<if test="realName != null and realName != '' ">
-				AND t.real_name = #{realName}
-			</if>	
+			<if test="systemCode != null and systemCode != '' ">
+				AND t.system_code = #{systemCode}
+			</if>
+			<if test="accountName != null and accountName != '' ">
+				AND t.account_name = #{accountName}
+			</if>
 			<if test="accountNumber != null and accountNumber != '' ">
 				AND t.account_number = #{accountNumber}
 			</if>
-			<if test="currency != null and currency != '' ">
-				AND t.currency = #{currency}
-			</if>
 			<if test="status != null and status != '' ">
 				AND t.status = #{status}
+			</if>
+			<if test="currency != null and currency != '' ">
+				AND t.currency = #{currency}
 			</if>
 			<if test="createDatetimeStart != null and createDatetimeStart != '' ">
 				<![CDATA[AND t.create_datetime >= #{createDatetimeStart}]]>
@@ -36,30 +36,29 @@
 			<if test="createDatetimeEnd != null and createDatetimeEnd != '' ">
 				<![CDATA[AND t.create_datetime <= #{createDatetimeEnd}]]>
 			</if>
-			<choose>
-			     <when test="type == 'user'">
-				  AND t.account_number NOT IN ('SYS_ACCOUNT')
-				 </when>
-				 <otherwise>
-				  AND 1 = 1
-				 </otherwise>
-			</choose>
+			<if test="lastOrder != null and lastOrder != '' ">
+				AND t.last_order = #{lastOrder}
+			</if>
 		</trim>
 	</sql>
 	
 	<select id="select_account" parameterType="account" resultMap="account_DB_Result">
-		SELECT 
-		t.user_id
-		,t.real_name
+		SELECT
+		t.system_code
+		,t.account_name
 		,t.account_number
+		,t.type
 		,t.status
-		,t.amount
 		
-		,t.frozen_amount
 		,t.currency
+		,t.amount
+		,t.frozen_amount
+		,t.md5
 		,t.create_datetime
+		
+		,t.last_order
 		FROM
-		tstd_account t 
+		tstd_account t
 		<include refid="where_condition"/>
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
@@ -75,64 +74,58 @@
 
 	<insert id="insert_account" parameterType="account">
 		INSERT INTO tstd_account(
-		account_number
-		,user_id
-		,real_name
+		system_code
+		,account_name
+		,account_number
+		,type
+		,status
+		
 		,currency
 		,amount
-		
 		,frozen_amount
 		,md5
-		,status
 		,create_datetime
 		)
 		VALUES(
-		#{accountNumber}
-		,#{userId}
-		,#{realName}
+		#{systemCode}
+		,#{accountName}
+		,#{accountNumber}
+		,#{type}
+		,#{status}
+		
 		,#{currency}
 		,#{amount}
-		
 		,#{frozenAmount}
 		,#{md5}
-		,#{status}
 		,#{createDatetime}
 		)
 	</insert>
 	<update id="update_amount" parameterType="account">
 		UPDATE tstd_account
 		SET
-		 amount= #{amount}
+		amount= #{amount}
 		,md5 = #{md5}
-		,update_datetime = #{updateDatetime}
+		,last_order = #{lastOrder}
 		WHERE
-		account_number = #{accountNumber}			
+		account_number = #{accountNumber}
 	</update>
+	
 	<update id="update_frozen_amount" parameterType="account">
 		UPDATE tstd_account
 		SET
-		 amount= #{amount}
+		amount= #{amount}
 		,frozen_amount = #{frozenAmount}
 		,md5 = #{md5}
-		,update_datetime = #{updateDatetime}
+		,last_order = #{lastOrder}
 		WHERE
-		account_number = #{accountNumber}			
+		account_number = #{accountNumber}
 	</update>
+	
 	<update id="update_status" parameterType="account">
 		UPDATE tstd_account
 		SET
-		 status= #{status}
-		,update_datetime = #{updateDatetime}
+		status= #{status}
 		WHERE
-		account_number = #{accountNumber}		
-	</update>
-	
-	<update id="update_realName" parameterType="account">
-		UPDATE tstd_account
-		SET
-		 real_name= #{realName}
-		 ,update_datetime = #{updateDatetime}
-		WHERE
-		user_id = #{userId}		
+		account_number = #{accountNumber}	
 	</update>
 </mapper>

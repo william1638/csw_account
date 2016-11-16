@@ -1,13 +1,15 @@
 package com.std.account.domain;
 
+import com.std.account.common.FYPropertiesUtil;
+
 public class FuiouPC {
     // (非必填)
-    private String orderValidTime = "10m";
+    private String orderValidTime = FYPropertiesUtil.Config.PC_ORDERVALIDTIME;
 
     // (必填)
-    private String ver = "1.0.1";
+    private String ver = FYPropertiesUtil.Config.PC_VER;
 
-    private String payUrl = "http://www-1.fuiou.com:8888/wg1_run/smpGate.do";
+    private String payUrl = FYPropertiesUtil.Config.PC_PAYURL;
 
     public String getOrderValidTime() {
         return orderValidTime;

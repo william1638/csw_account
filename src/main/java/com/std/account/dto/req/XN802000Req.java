@@ -1,38 +1,75 @@
 package com.std.account.dto.req;
 
+/**
+ * @author: xieyj 
+ * @since: 2016年9月17日 下午1:39:41 
+ * @history:
+ */
 public class XN802000Req {
 
-    // userid（必填）
-    private String userId;
+    // 类型（第一层/第二层）（必填）
+    private String type;
 
-    // 真实姓名（必填）
-    private String realName;
+    // 父key（第二层必填）
+    private String parentKey;
 
-    // 币种（必填）
-    private String currency;
+    // key（必填）
+    private String dkey;
 
-    public String getUserId() {
-        return userId;
+    // value（必填）
+    private String dvalue;
+
+    // 修改人（必填）
+    private String updater;
+
+    // 备注（选填）
+    private String remark;
+
+    public String getType() {
+        return type;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getRealName() {
-        return realName;
+    public String getParentKey() {
+        return parentKey;
     }
 
-    public void setRealName(String realName) {
-        this.realName = realName;
+    public void setParentKey(String parentKey) {
+        this.parentKey = parentKey;
     }
 
-    public String getCurrency() {
-        return currency;
+    public String getDkey() {
+        return dkey;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setDkey(String dkey) {
+        this.dkey = dkey;
     }
 
+    public String getDvalue() {
+        return dvalue;
+    }
+
+    public void setDvalue(String dvalue) {
+        this.dvalue = dvalue;
+    }
+
+    public String getUpdater() {
+        return updater;
+    }
+
+    public void setUpdater(String updater) {
+        this.updater = updater;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
 }

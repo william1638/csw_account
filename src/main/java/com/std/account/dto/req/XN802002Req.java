@@ -1,15 +1,52 @@
 package com.std.account.dto.req;
 
+/**
+ * @author: xieyj 
+ * @since: 2016年9月17日 下午4:09:03 
+ * @history:
+ */
 public class XN802002Req {
+    // 编号（必填）
+    private String id;
 
-    // userid（必填）
-    private String userId;
+    // value（必填）
+    private String dvalue;
 
-    public String getUserId() {
-        return userId;
+    // 修改人（必填）
+    private String updater;
+
+    // 备注（选填）
+    private String remark;
+
+    public String getId() {
+        return id;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getDvalue() {
+        return dvalue;
+    }
+
+    public void setDvalue(String dvalue) {
+        this.dvalue = dvalue;
+    }
+
+    public String getUpdater() {
+        return updater;
+    }
+
+    public void setUpdater(String updater) {
+        this.updater = updater;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

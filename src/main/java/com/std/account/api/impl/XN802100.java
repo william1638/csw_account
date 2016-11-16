@@ -1,63 +1,60 @@
 package com.std.account.api.impl;
 
-import org.apache.commons.lang3.StringUtils;
-
-import com.std.account.ao.IChargeAO;
+import com.std.account.ao.ICompanyChannelAO;
 import com.std.account.api.AProcessor;
-import com.std.account.common.DateUtil;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
-import com.std.account.domain.Charge;
+import com.std.account.domain.CompanyChannel;
 import com.std.account.dto.req.XN802100Req;
+import com.std.account.dto.res.BooleanRes;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 分页查询充值列表
- * @author: myb858 
- * @since: 2015年10月27日 下午3:51:05 
+ * 新增公司渠道
+ * @author: xieyj 
+ * @since: 2016年11月11日 下午3:18:19 
  * @history:
  */
 public class XN802100 extends AProcessor {
-    private IChargeAO chargeAO = SpringContextHolder.getBean(IChargeAO.class);
+    private ICompanyChannelAO companyChannelAO = SpringContextHolder
+        .getBean(ICompanyChannelAO.class);
 
     private XN802100Req req = null;
 
+    /** 
+     * @see com.xnjr.base.api.IProcessor#doBusiness()
+     */
     @Override
     public Object doBusiness() throws BizException {
-        Charge condition = new Charge();
-        condition.setFromAccountNumber(req.getFromAccountNumber());
-        condition.setAccountNumber(req.getAccountNumber());
-        condition.setMobileForLikeQuery(req.getMobile());
-        condition.setCurrency(req.getCurrency());
-        condition.setCode(req.getCode());
-        condition.setFromType(req.getFromType());
-        condition.setFromCode(req.getFromCode());
-
-        condition.setChannel(req.getChannel());
-        condition.setRefNo(req.getRefNo());
-        condition.setStatus(req.getStatus());
-        condition.setApproveUser(req.getApproveUser());
-        condition.setCreateDatetimeStart(DateUtil.getFrontDate(
-            req.getDateStart(), false));
-
-        condition.setCreateDatetimeEnd(DateUtil.getFrontDate(req.getDateEnd(),
-            true));
-        String column = req.getOrderColumn();
-        if (StringUtils.isBlank(column)) {
-            column = IChargeAO.DEFAULT_ORDER_COLUMN;
-        }
-        condition.setOrder(column, req.getOrderDir());
-        int start = Integer.valueOf(req.getStart());
-        int limit = Integer.valueOf(req.getLimit());
-        return chargeAO.queryChargePage(start, limit, condition);
+        CompanyChannel data = new CompanyChannel();
+        data.setCompanyCode(req.getCompanyCode());
+        data.setCompanyName(req.getCompanyName());
+        data.setChannelType(req.getChannelType());
+        data.setPayType(req.getPayType());
+        data.setStatus(req.getStatus());
+        data.setPaycompany(req.getPaycompany());
+        data.setPrivatekey(req.getPrivatekey());
+        data.setPageUrl(req.getPageUrl());
+        data.setErrorUrl(req.getErrorUrl());
+        data.setBackUrl(req.getBackUrl());
+        data.setFee(StringValidater.toLong(req.getFee()));
+        data.setRemark(req.getRemark());
+        companyChannelAO.addCompanyChannel(data);
+        return new BooleanRes(true);
     }
 
+    /** 
+     * @see com.xnjr.base.api.IProcessor#doCheck(java.lang.String)
+     */
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802100Req.class);
-        StringValidater.validateNumber(req.getStart(), req.getLimit());
-        StringValidater.validateBlank(req.getCurrency());
+        StringValidater.validateBlank(req.getCompanyCode(),
+            req.getCompanyName(), req.getChannelType(), req.getPayType(),
+            req.getStatus(), req.getPaycompany(), req.getPrivatekey(),
+            req.getPageUrl(), req.getErrorUrl(), req.getBackUrl());
+        StringValidater.validateAmount(req.getFee());
     }
 }

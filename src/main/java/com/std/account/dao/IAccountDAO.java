@@ -45,6 +45,4 @@ public interface IAccountDAO extends IBaseDAO<Account> {
      * @history: 
      */
     public int updateStatus(Account data);
-
-    public int updateRealName(Account data);
 }

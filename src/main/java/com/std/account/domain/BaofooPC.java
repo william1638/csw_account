@@ -1,17 +1,19 @@
 package com.std.account.domain;
 
+import com.std.account.common.BFPropertiesUtil;
+
 public class BaofooPC {
     // 版本号
-    private String interfaceVersion = "4.0";
+    private String interfaceVersion = BFPropertiesUtil.Config.PC_VER;
 
     // 加密类型
-    private String keyType = "1";
+    private String keyType = BFPropertiesUtil.Config.PC_KEYTYPE;
 
     // 通知类型：固定数字1
-    private String noticeType = "1";
+    private String noticeType = BFPropertiesUtil.Config.PC_NOTICETYPE;
 
     // 渠道访问地址
-    private String payUrl = "https://gw.baofoo.com/payindex";
+    private String payUrl = BFPropertiesUtil.Config.PC_PAYURL;
 
     public String getInterfaceVersion() {
         return interfaceVersion;

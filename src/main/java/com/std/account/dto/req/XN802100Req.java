@@ -1,82 +1,78 @@
 package com.std.account.dto.req;
 
-public class XN802100Req extends APageReq {
-    /** 
-     * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
-     */
-    private static final long serialVersionUID = -7706047277666843638L;
+/**
+ * 新增渠道公司
+ * @author: xieyj 
+ * @since: 2016年9月17日 下午4:09:23 
+ * @history:
+ */
+public class XN802100Req {
+    // 公司编号(必填)
+    private String companyCode;
 
-    // 来方账号
-    private String fromAccountNumber;
+    // 公司名称(必填)
+    private String companyName;
 
-    // 账号
-    private String accountNumber;
+    // 渠道类型(必填)
+    private String channelType;
 
-    // 手机号
-    private String mobile;
+    // 支付类型(必填)
+    private String payType;
 
-    // 订单号
-    private String code;
-
-    // 来方类型
-    private String fromType;
-
-    // 来方编号
-    private String fromCode;
-
-    // 渠道
-    private String channel;
-
-    // 支付单号(支付成功时才有)
-    private String refNo;
-
-    // 状态
+    // 状态(必填)（启用/不启用）
     private String status;
 
-    // 审批人（li为程序）
-    private String approveUser;
+    // 渠道给公司的代号(必填)
+    private String paycompany;
 
-    // 币种
-    private String currency;
+    // 秘钥(必填)
+    private String privatekey;
 
-    public String getCode() {
-        return code;
+    // 界面正确回调地址(必填)
+    private String pageUrl;
+
+    // 界面错误回调地址(选填)
+    private String errorUrl;
+
+    // 服务器回调地址(必填)
+    private String backUrl;
+
+    // 手续费(必填)
+    private String fee;
+
+    // 备注((选填)
+    private String remark;
+
+    public String getCompanyCode() {
+        return companyCode;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
 
-    public String getFromType() {
-        return fromType;
+    public String getCompanyName() {
+        return companyName;
     }
 
-    public void setFromType(String fromType) {
-        this.fromType = fromType;
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 
-    public String getFromCode() {
-        return fromCode;
+    public String getChannelType() {
+        return channelType;
     }
 
-    public void setFromCode(String fromCode) {
-        this.fromCode = fromCode;
+    public void setChannelType(String channelType) {
+        this.channelType = channelType;
     }
 
-    public String getChannel() {
-        return channel;
+    public String getPayType() {
+        return payType;
     }
 
-    public void setChannel(String channel) {
-        this.channel = channel;
-    }
-
-    public String getRefNo() {
-        return refNo;
-    }
-
-    public void setRefNo(String refNo) {
-        this.refNo = refNo;
+    public void setPayType(String payType) {
+        this.payType = payType;
     }
 
     public String getStatus() {
@@ -87,43 +83,59 @@ public class XN802100Req extends APageReq {
         this.status = status;
     }
 
-    public String getApproveUser() {
-        return approveUser;
+    public String getPaycompany() {
+        return paycompany;
     }
 
-    public void setApproveUser(String approveUser) {
-        this.approveUser = approveUser;
+    public void setPaycompany(String paycompany) {
+        this.paycompany = paycompany;
     }
 
-    public String getAccountNumber() {
-        return accountNumber;
+    public String getPrivatekey() {
+        return privatekey;
     }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+    public void setPrivatekey(String privatekey) {
+        this.privatekey = privatekey;
     }
 
-    public String getFromAccountNumber() {
-        return fromAccountNumber;
+    public String getPageUrl() {
+        return pageUrl;
     }
 
-    public void setFromAccountNumber(String fromAccountNumber) {
-        this.fromAccountNumber = fromAccountNumber;
+    public void setPageUrl(String pageUrl) {
+        this.pageUrl = pageUrl;
     }
 
-    public String getCurrency() {
-        return currency;
+    public String getErrorUrl() {
+        return errorUrl;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setErrorUrl(String errorUrl) {
+        this.errorUrl = errorUrl;
     }
 
-    public String getMobile() {
-        return mobile;
+    public String getBackUrl() {
+        return backUrl;
     }
 
-    public void setMobile(String mobile) {
-        this.mobile = mobile;
+    public void setBackUrl(String backUrl) {
+        this.backUrl = backUrl;
+    }
+
+    public String getFee() {
+        return fee;
+    }
+
+    public void setFee(String fee) {
+        this.fee = fee;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

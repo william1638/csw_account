@@ -1,91 +1,140 @@
 package com.std.account.dto.req;
 
+/**
+ * @author: xieyj 
+ * @since: 2016年9月17日 下午4:09:23 
+ * @history:
+ */
 public class XN802112Req {
-    // 用户账号
-    private String accountNumber;
+    // 编号（必填）
+    private String id;
 
-    // 充值金额（精确到厘）
-    private String amount;
+    // 银行编号(必填)
+    private String bankCode;
 
-    // 来方类型
-    private String fromType;
+    // 银行名称(必填)
+    private String bankName;
 
-    // 来方编号
-    private String fromCode;
+    // 渠道类型(必填)
+    private String channelType;
 
-    // pdf
-    private String pdf;
+    // 支付类型(必填)
+    private String payType;
 
-    // 审核人
-    private String approveUser;
+    // 状态(必填)(1 启用 0 不启用)
+    private String status;
 
-    // 审核意见
-    private String approveNote;
+    // 渠道给银行的代号(必填)
+    private String paybank;
 
-    // refNo
-    private String refNo;
+    // 每日笔数限制(必填)
+    private String maxOrder;
 
-    public String getAccountNumber() {
-        return accountNumber;
+    // 单笔限额(必填)
+    private String orderAmount;
+
+    // 每日限额(必填)
+    private String dayAmount;
+
+    // 每月限额(必填)
+    private String monthAmount;
+
+    // 备注(选填)
+    private String remark;
+
+    public String getBankCode() {
+        return bankCode;
     }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
     }
 
-    public String getAmount() {
-        return amount;
+    public String getBankName() {
+        return bankName;
     }
 
-    public void setAmount(String amount) {
-        this.amount = amount;
+    public void setBankName(String bankName) {
+        this.bankName = bankName;
     }
 
-    public String getFromType() {
-        return fromType;
+    public String getChannelType() {
+        return channelType;
     }
 
-    public void setFromType(String fromType) {
-        this.fromType = fromType;
+    public void setChannelType(String channelType) {
+        this.channelType = channelType;
     }
 
-    public String getFromCode() {
-        return fromCode;
+    public String getPayType() {
+        return payType;
     }
 
-    public void setFromCode(String fromCode) {
-        this.fromCode = fromCode;
+    public void setPayType(String payType) {
+        this.payType = payType;
     }
 
-    public String getPdf() {
-        return pdf;
+    public String getStatus() {
+        return status;
     }
 
-    public void setPdf(String pdf) {
-        this.pdf = pdf;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
-    public String getApproveUser() {
-        return approveUser;
+    public String getPaybank() {
+        return paybank;
     }
 
-    public void setApproveUser(String approveUser) {
-        this.approveUser = approveUser;
+    public void setPaybank(String paybank) {
+        this.paybank = paybank;
     }
 
-    public String getApproveNote() {
-        return approveNote;
+    public String getMaxOrder() {
+        return maxOrder;
     }
 
-    public void setApproveNote(String approveNote) {
-        this.approveNote = approveNote;
+    public void setMaxOrder(String maxOrder) {
+        this.maxOrder = maxOrder;
     }
 
-    public String getRefNo() {
-        return refNo;
+    public String getOrderAmount() {
+        return orderAmount;
     }
 
-    public void setRefNo(String refNo) {
-        this.refNo = refNo;
+    public void setOrderAmount(String orderAmount) {
+        this.orderAmount = orderAmount;
+    }
+
+    public String getDayAmount() {
+        return dayAmount;
+    }
+
+    public void setDayAmount(String dayAmount) {
+        this.dayAmount = dayAmount;
+    }
+
+    public String getMonthAmount() {
+        return monthAmount;
+    }
+
+    public void setMonthAmount(String monthAmount) {
+        this.monthAmount = monthAmount;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 }

@@ -27,13 +27,17 @@ public abstract class APageReq implements Serializable {
     // 创建终止时间(YYYY-MM-DD)
     private String dateEnd;
 
+    // 起始页数
     private String start;
 
+    // 限制条数
     private String limit;
 
-    private String orderColumn;// 分页字段
+    // 排序字段
+    private String orderColumn;
 
-    private String orderDir;// 分页方向
+    // 排序方向
+    private String orderDir;
 
     public String getDateStart() {
         return dateStart;

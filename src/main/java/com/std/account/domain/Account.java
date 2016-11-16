@@ -29,41 +29,38 @@ public class Account extends ABaseDO {
     // 创建终止时间
     private Date createDatetimeEnd;
 
-    // 账户类型 1-用户账户 2-系统账户
-    private String type;
+    // 系统编号
+    private String systemCode;
 
-    // -----db properties start---------------
-    // 账号
+    // 户名
+    private String accountName;
+
+    // 账户编号
     private String accountNumber;
 
-    // userid
-    private String userId;
+    // 类别（B端账号，C端账号，平台账号）
+    private String type;
 
-    // 真实姓名
-    private String realName;
-
-    // 币种（默认CNY）
-    private String currency;
-
-    // 账户余额(精确到厘）
-    private Long amount;
-
-    // 冻结金额（精确到厘）
-    private Long frozenAmount;
-
-    // MD5值
-    private String md5;
-
-    // 状态(0正常,1程序锁定,2人工锁定)
+    // 状态（正常/程序冻结/人工冻结）
     private String status;
 
-    // 记录创建时间
+    // 币种
+    private String currency;
+
+    // 余额
+    private Long amount;
+
+    // 冻结金额
+    private Long frozenAmount;
+
+    // md5
+    private String md5;
+
+    // 创建时间
     private Date createDatetime;
 
-    // 记录更新时间
-    private Date updateDatetime;
-
-    // -----db properties end---------------
+    // 最近一次变动对应的流水编号
+    private String lastOrder;
 
     public Date getCreateDatetimeStart() {
         return createDatetimeStart;
@@ -81,6 +78,22 @@ public class Account extends ABaseDO {
         this.createDatetimeEnd = createDatetimeEnd;
     }
 
+    public String getSystemCode() {
+        return systemCode;
+    }
+
+    public void setSystemCode(String systemCode) {
+        this.systemCode = systemCode;
+    }
+
+    public String getAccountName() {
+        return accountName;
+    }
+
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
     public String getAccountNumber() {
         return accountNumber;
     }
@@ -89,20 +102,20 @@ public class Account extends ABaseDO {
         this.accountNumber = accountNumber;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getType() {
+        return type;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getRealName() {
-        return realName;
+    public String getStatus() {
+        return status;
     }
 
-    public void setRealName(String realName) {
-        this.realName = realName;
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public String getCurrency() {
@@ -137,14 +150,6 @@ public class Account extends ABaseDO {
         this.md5 = md5;
     }
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public Date getCreateDatetime() {
         return createDatetime;
     }
@@ -153,20 +158,11 @@ public class Account extends ABaseDO {
         this.createDatetime = createDatetime;
     }
 
-    public Date getUpdateDatetime() {
-        return updateDatetime;
+    public String getLastOrder() {
+        return lastOrder;
     }
 
-    public void setUpdateDatetime(Date updateDatetime) {
-        this.updateDatetime = updateDatetime;
+    public void setLastOrder(String lastOrder) {
+        this.lastOrder = lastOrder;
     }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
 }

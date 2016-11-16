@@ -10,7 +10,6 @@ package com.std.account.http;
 
 import java.util.Properties;
 
-import com.std.account.common.PropertiesUtil;
 import com.std.account.exception.BizException;
 import com.std.account.util.RegexUtils;
 
@@ -21,10 +20,6 @@ import com.std.account.util.RegexUtils;
  */
 public class BizConnecter {
     public static final String YES = "0";
-
-    public static final String SMS_URL = PropertiesUtil.Config.SMS_URL;
-
-    public static final String USER_URL = PropertiesUtil.Config.USER_URL;
 
     public static final String POST_URL = "...";
 
@@ -60,13 +55,6 @@ public class BizConnecter {
 
     private static String getPostUrl(String code) {
         String reqUrl = POST_URL;
-        if (code.contains("799")) {
-            reqUrl = SMS_URL;
-        } else if (code.contains("805")) {
-            reqUrl = USER_URL;
-        } else {
-            reqUrl = POST_URL;
-        }
         return reqUrl;
     }
 }
