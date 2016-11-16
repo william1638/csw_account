@@ -1,8 +1,8 @@
 package com.std.account.dto.req;
 
 public class XN802601Req {
-    // 公司编号(必填-保证同一体系内)
-    private String companyCode;
+    // 系统编号(必填)
+    private String systemCode;
 
     // 来方-户名(必填)
     private String FromAccountName;
@@ -22,15 +22,15 @@ public class XN802601Req {
     // 业务类型(必填-划转业务类型)
     private String bizType;
 
-    // 备注(选填-划转说明)
-    private String remark;
+    // 业务说明(必填-划转业务说明)
+    private String bizNote;
 
-    public String getCompanyCode() {
-        return companyCode;
+    public String getSystemCode() {
+        return systemCode;
     }
 
-    public void setCompanyCode(String companyCode) {
-        this.companyCode = companyCode;
+    public void setSystemCode(String systemCode) {
+        this.systemCode = systemCode;
     }
 
     public String getFromAccountName() {
@@ -81,11 +81,12 @@ public class XN802601Req {
         this.bizType = bizType;
     }
 
-    public String getRemark() {
-        return remark;
+    public String getBizNote() {
+        return bizNote;
     }
 
-    public void setRemark(String remark) {
-        this.remark = remark;
+    public void setBizNote(String bizNote) {
+        this.bizNote = bizNote;
     }
+
 }

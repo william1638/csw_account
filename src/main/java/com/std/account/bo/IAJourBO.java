@@ -9,9 +9,11 @@
 package com.std.account.bo;
 
 import com.std.account.bo.base.IPaginableBO;
-import com.std.account.domain.Account;
 import com.std.account.domain.AccountJour;
+import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
+import com.std.account.enums.EChannelType;
+import com.std.account.enums.EPayType;
 
 /** 
  * @author: miyb 
@@ -30,19 +32,40 @@ public interface IAJourBO extends IPaginableBO<AccountJour> {
     public AccountJour getAccountJour(String order);
 
     /**
-     * 新增流水
-     * @param account
+     * 新增未变动金额之流水
+     * @param systemCode
+     * @param accountName
+     * @param accountNumber
      * @param channelType
      * @param payType
      * @param bizType
      * @param preAmount
-     * @param amount
-     * @param remark 
-     * @create: 2016年11月11日 上午10:07:01 xieyj
+     * @param transAmount
+     * @return 
+     * @create: 2016年11月16日 下午8:53:18 myb858
      * @history:
      */
-    public String addJour(Account account, String channelType, String payType,
-            String bizType, Long preAmount, Long amount, String remark);
+    public String addTochangeJour(String systemCode, String accountName,
+            String accountNumber, EChannelType channelType, EPayType payType,
+            EBizType bizType, Long preAmount, Long transAmount);
+
+    /**
+     * 新增已变动金额之流水
+     * @param systemCode
+     * @param accountName
+     * @param accountNumber
+     * @param bizType
+     * @param bizNote
+     * @param preAmount
+     * @param amount
+     * @param remark
+     * @return 
+     * @create: 2016年11月16日 下午5:39:58 myb858
+     * @history:
+     */
+    public String addChangedJour(String systemCode, String accountName,
+            String accountNumber, EChannelType channelType, EPayType payType,
+            String bizType, String bizNote, Long preAmount, Long amount);
 
     /**
      * 账户金额发生变动

@@ -47,6 +47,9 @@ public class AccountJour extends ABaseDO {
     // 业务类型
     private String bizType;
 
+    // 业务说明
+    private String bizNote;
+
     // 变动金额，
     private Long transAmount;
 
@@ -59,7 +62,7 @@ public class AccountJour extends ABaseDO {
     // 金额变动时间
     private Date transDatetime;
 
-    // 状态（刚生成待回调，无需对账，已回调待对账，对账通过，对账不通过待调账，已调账）
+    // 状态（生成待回调，无需对账，已回调待对账，对账通过，对账不通过待调账，已调账）
     private String status;
 
     // 拟对账时间
@@ -160,6 +163,14 @@ public class AccountJour extends ABaseDO {
         this.bizType = bizType;
     }
 
+    public String getBizNote() {
+        return bizNote;
+    }
+
+    public void setBizNote(String bizNote) {
+        this.bizNote = bizNote;
+    }
+
     public Long getTransAmount() {
         return transAmount;
     }
@@ -247,4 +258,5 @@ public class AccountJour extends ABaseDO {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
 }

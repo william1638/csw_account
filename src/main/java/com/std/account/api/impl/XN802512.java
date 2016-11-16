@@ -1,16 +1,22 @@
 package com.std.account.api.impl;
 
 import com.std.account.api.AProcessor;
+import com.std.account.dto.req.XN802651Req;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 
 /**
- * 外部账手工对账
+ * 内部账不平账调整
  * @author: myb858 
- * @since: 2016年11月16日 下午1:45:59 
+ * @since: 2016年11月16日 下午3:26:18 
  * @history:
  */
-public class XN802500 extends AProcessor {
+public class XN802512 extends AProcessor {
+
+    // private ILedgerAO ledgerAO =
+    // SpringContextHolder.getBean(ILedgerAO.class);
+
+    private XN802651Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {

@@ -6,7 +6,9 @@ import com.std.account.bo.base.IPaginableBO;
 import com.std.account.domain.Account;
 import com.std.account.enums.EAccountStatus;
 import com.std.account.enums.EAccountType;
+import com.std.account.enums.EChannelType;
 import com.std.account.enums.ECurrency;
+import com.std.account.enums.EPayType;
 
 /**
  * @author: xieyj
@@ -29,15 +31,21 @@ public interface IAccountBO extends IPaginableBO<Account> {
             EAccountType accountType, ECurrency currency);
 
     /**
-     * 直接变更账户金额
+     * 内部账划拨
+     * @param systemCode
+     * @param accountName
      * @param accountNumber
-     * @param transAmount 发生金额正负
-     * @param lastOrder 
-     * @create: 2016年11月11日 上午11:17:33 xieyj
+     * @param channelType
+     * @param payType
+     * @param transAmount
+     * @param bizType
+     * @param bizNote 
+     * @create: 2016年11月16日 下午5:49:19 myb858
      * @history:
      */
-    public void refreshAmount(String accountNumber, Long transAmount,
-            String lastOrder);
+    public void transAmount(String systemCode, String accountName,
+            String accountNumber, EChannelType channelType, EPayType payType,
+            Long transAmount, String bizType, String bizNote);
 
     /**
      * 冻结账户金额
@@ -47,8 +55,8 @@ public interface IAccountBO extends IPaginableBO<Account> {
      * @create: 2016年11月11日 上午11:18:36 xieyj
      * @history:
      */
-    public void frozenAmount(String accountNumber, Long freezeAmount,
-            String lastOrder);
+    public void frozenAmount(String systemCode, String accountName,
+            String accountNumber, Long freezeAmount, String lastOrder);
 
     /**
      * 解冻账户金额
@@ -59,8 +67,9 @@ public interface IAccountBO extends IPaginableBO<Account> {
      * @create: 2016年11月11日 上午11:20:03 xieyj
      * @history:
      */
-    public void unfrozenAmount(String accountNumber, Long unfreezeAmount,
-            Boolean unfrozenResult, String lastOrder);
+    public void unfrozenAmount(String systemCode, String accountName,
+            String accountNumber, Long unfreezeAmount, Boolean unfrozenResult,
+            String lastOrder);
 
     /**
      * 更新账户状态
@@ -69,26 +78,20 @@ public interface IAccountBO extends IPaginableBO<Account> {
      * @create: 2016年11月11日 上午11:11:04 xieyj
      * @history:
      */
-    public void refreshStatus(String accountNumber, EAccountStatus status);
+    public void refreshStatus(String systemCode, String accountName,
+            String accountNumber, EAccountStatus status);
 
     /**
      * 获取账户
-     * @param accountNumber
-     * @return 
-     * @create: 2016年11月11日 上午10:52:24 xieyj
-     * @history:
-     */
-    public Account getAccount(String accountNumber);
-
-    /**
-     * 根据户名获取账户
      * @param systemCode
      * @param accountName
+     * @param accountNumber
      * @return 
-     * @create: 2016年11月11日 上午11:22:48 xieyj
+     * @create: 2016年11月16日 下午4:46:39 myb858
      * @history:
      */
-    public Account getAccountByAccountName(String systemCode, String accountName);
+    public Account getAccount(String systemCode, String accountName,
+            String accountNumber);
 
     /**
      * 获取账户列表

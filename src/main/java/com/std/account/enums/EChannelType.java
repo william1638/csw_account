@@ -1,8 +1,8 @@
 package com.std.account.enums;
 
 public enum EChannelType {
-    Yeepay("11", "线上-易宝支付"), Baofoo("12", "线上-宝付支付"), Fuiou("13", "富友支付"), OFFLINE(
-            "01", "线下");
+    Yeepay("11", "线上-易宝支付"), Baofoo("12", "线上-宝付支付"), Fuiou("13", "富友支付"), CZB(
+            "01", "橙账本");
 
     EChannelType(String code, String value) {
         this.code = code;

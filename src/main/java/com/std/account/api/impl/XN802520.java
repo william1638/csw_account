@@ -1,21 +1,19 @@
 package com.std.account.api.impl;
 
 import com.std.account.api.AProcessor;
-import com.std.account.dto.req.XN802601Req;
+import com.std.account.dto.req.XN802400Req;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 
 /**
- * 本系统账户间资金划转：内部账划转。
+ * 最优渠道查找（智能路由）
  * @author: myb858 
- * @since: 2016年11月5日 下午12:45:09 
+ * @since: 2016年11月16日 下午1:28:09 
  * @history:
  */
-public class XN802630 extends AProcessor {
-    // private ILedgerAO ledgerAO =
-    // SpringContextHolder.getBean(ILedgerAO.class);
+public class XN802520 extends AProcessor {
 
-    private XN802601Req req = null;
+    private XN802400Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
@@ -25,7 +23,9 @@ public class XN802630 extends AProcessor {
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        // TODO Auto-generated method stub
+        // req = JsonUtil.json2Bean(inputparams, XN802500Req.class);
+        // StringValidater.validateBlank(req.getCompanyCode(),
+        // req.getChannelType());
 
     }
 

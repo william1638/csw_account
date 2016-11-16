@@ -19,11 +19,13 @@ import com.std.account.bo.base.PaginableBOImpl;
 import com.std.account.common.DateUtil;
 import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.IAJourDAO;
-import com.std.account.domain.Account;
 import com.std.account.domain.AccountJour;
 import com.std.account.enums.EAccountJourStatus;
+import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
+import com.std.account.enums.EChannelType;
 import com.std.account.enums.EGeneratePrefix;
+import com.std.account.enums.EPayType;
 
 /** 
  * @author: miyb 
@@ -48,24 +50,58 @@ public class AJourBOImpl extends PaginableBOImpl<AccountJour> implements
     }
 
     @Override
-    public String addJour(Account account, String channelType, String payType,
-            String bizType, Long preAmount, Long amount, String remark) {
+    public String addTochangeJour(String systemCode, String accountName,
+            String accountNumber, EChannelType channelType, EPayType payType,
+            EBizType bizType, Long preAmount, Long transAmount) {
         String order = OrderNoGenerater.generate(EGeneratePrefix.AJour
             .getCode());
-        Long postAmount = preAmount + amount;
+        Long postAmount = preAmount + transAmount;
         AccountJour accountJour = new AccountJour();
-        accountJour.setSystemCode(account.getSystemCode());
-        accountJour.setAccountName(account.getAccountName());
-        accountJour.setAccountNumber(account.getAccountNumber());
+        accountJour.setSystemCode(systemCode);
+        accountJour.setAccountName(accountName);
+        accountJour.setAccountNumber(accountNumber);
         accountJour.setOrder(order);
-        accountJour.setChannelType(channelType);
-        accountJour.setPayType(payType);
-        accountJour.setBizType(bizType);
-        accountJour.setStatus(EAccountJourStatus.todoCallBack.getCode());
-        accountJour.setTransAmount(amount);
+        accountJour.setChannelType(channelType.getCode());
+
+        accountJour.setPayType(payType.getCode());
+        accountJour.setPayOrder(null);
+        accountJour.setBizType(bizType.getCode());
+        accountJour.setBizNote(bizType.getValue());
+        accountJour.setTransAmount(transAmount);
+
         accountJour.setPreAmount(preAmount);
         accountJour.setPostAmount(postAmount);
-        accountJour.setRemark(remark);
+        accountJour.setTransDatetime(null);
+        accountJour.setStatus(EAccountJourStatus.todoCallBack.getCode());
+        accountJour.setWorkDate(null);
+        aJourDAO.insert(accountJour);
+        return order;
+    }
+
+    @Override
+    public String addChangedJour(String systemCode, String accountName,
+            String accountNumber, EChannelType channelType, EPayType payType,
+            String bizType, String bizNote, Long preAmount, Long transAmount) {
+        String order = OrderNoGenerater.generate(EGeneratePrefix.AJour
+            .getCode());
+        Long postAmount = preAmount + transAmount;
+        AccountJour accountJour = new AccountJour();
+        accountJour.setSystemCode(systemCode);
+        accountJour.setAccountName(accountName);
+        accountJour.setAccountNumber(accountNumber);
+        accountJour.setOrder(order);
+        accountJour.setChannelType(channelType.getCode());
+
+        accountJour.setPayType(payType.getCode());
+        accountJour.setPayOrder("NA");
+        accountJour.setBizType(bizType);
+        accountJour.setBizNote(bizNote);
+        accountJour.setTransAmount(transAmount);
+
+        accountJour.setPreAmount(preAmount);
+        accountJour.setPostAmount(postAmount);
+        accountJour.setTransDatetime(new Date());
+        accountJour.setStatus(EAccountJourStatus.todoCheck.getCode());
         accountJour.setWorkDate(DateUtil
             .getToday(DateUtil.DB_DATE_FORMAT_STRING));
         aJourDAO.insert(accountJour);
@@ -112,4 +148,5 @@ public class AJourBOImpl extends PaginableBOImpl<AccountJour> implements
             aJourDAO.updateAdjust(data);
         }
     }
+
 }

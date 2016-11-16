@@ -1,5 +1,5 @@
 package com.std.account.api.impl;
 
-public class XN802610 {
+public class XN802594 {
 
 }
