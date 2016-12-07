@@ -119,4 +119,24 @@ CREATE TABLE `tsys_dict` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- ----------------------------
+--  Table structure for `tstd_bankcard`
+-- ----------------------------
+DROP TABLE IF EXISTS `tstd_bankcard`;
+CREATE TABLE `tstd_bankcard` (
+  `code` varchar(32) NOT NULL COMMENT '编号',
+  `user_id` varchar(32) DEFAULT NULL COMMENT '用户编号',
+  `real_name` varchar(16) DEFAULT NULL COMMENT '真实姓名',
+  `bank_code` varchar(8) DEFAULT NULL COMMENT '银行行号',
+  `bank_name` varchar(32) DEFAULT NULL COMMENT '银行名称',
+  `subbranch` varchar(255) DEFAULT NULL COMMENT '开户支行',
+  `bankcard_no` varchar(64) DEFAULT NULL COMMENT '银行卡编号',
+  `bind_mobile` varchar(32) DEFAULT NULL COMMENT '银行卡绑定手机号',
+  `status` varchar(2) DEFAULT NULL COMMENT '状态',
+  `updater` varchar(32) DEFAULT NULL COMMENT '修改人',
+  `update_datetime` datetime DEFAULT NULL COMMENT '修改时间',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  PRIMARY KEY (`code`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 SET FOREIGN_KEY_CHECKS = 1;
