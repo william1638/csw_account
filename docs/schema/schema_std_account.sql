@@ -69,8 +69,8 @@ CREATE TABLE `tstd_bankcard` (
 
 
 
-DROP TABLE IF EXISTS `tstd_dict`;
-CREATE TABLE `tstd_dict` (
+DROP TABLE IF EXISTS `tsys_dict`;
+CREATE TABLE `tsys_dict` (
   `id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT '编号（自增长）',
   `type` varchar(4) DEFAULT NULL COMMENT '类型（第一层/第二层）',
   `parent_key` varchar(32) DEFAULT NULL COMMENT '父key',

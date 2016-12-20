@@ -10,7 +10,7 @@ import com.std.account.dao.base.ABaseDO;
  * @since: 2016年11月10日 下午5:48:27 
  * @history:
  */
-public class AccountJour extends ABaseDO {
+public class Jour extends ABaseDO {
     /** 
      * @Fields serialVersionUID : TODO(用一句话描述这个变量表示什么) 
      */

@@ -9,7 +9,7 @@
 package com.std.account.bo;
 
 import com.std.account.bo.base.IPaginableBO;
-import com.std.account.domain.AccountJour;
+import com.std.account.domain.Jour;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
@@ -20,7 +20,7 @@ import com.std.account.enums.EPayType;
  * @since: 2015-3-15 下午3:19:46 
  * @history:
  */
-public interface IAJourBO extends IPaginableBO<AccountJour> {
+public interface IAJourBO extends IPaginableBO<Jour> {
 
     /**
      * 获取详情
@@ -29,7 +29,7 @@ public interface IAJourBO extends IPaginableBO<AccountJour> {
      * @create: 2016年11月10日 下午6:10:50 xieyj
      * @history:
      */
-    public AccountJour getAccountJour(String order);
+    public Jour getAccountJour(String order);
 
     /**
      * 新增未变动金额之流水

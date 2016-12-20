@@ -19,7 +19,7 @@ import com.std.account.bo.base.PaginableBOImpl;
 import com.std.account.common.DateUtil;
 import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.IAJourDAO;
-import com.std.account.domain.AccountJour;
+import com.std.account.domain.Jour;
 import com.std.account.enums.EAccountJourStatus;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
@@ -33,16 +33,16 @@ import com.std.account.enums.EPayType;
  * @history:
  */
 @Component
-public class AJourBOImpl extends PaginableBOImpl<AccountJour> implements
+public class AJourBOImpl extends PaginableBOImpl<Jour> implements
         IAJourBO {
     @Autowired
     private IAJourDAO aJourDAO;
 
     @Override
-    public AccountJour getAccountJour(String order) {
-        AccountJour data = null;
+    public Jour getAccountJour(String order) {
+        Jour data = null;
         if (StringUtils.isNotBlank(order)) {
-            AccountJour condition = new AccountJour();
+            Jour condition = new Jour();
             condition.setOrder(order);
             data = aJourDAO.select(condition);
         }
@@ -56,7 +56,7 @@ public class AJourBOImpl extends PaginableBOImpl<AccountJour> implements
         String order = OrderNoGenerater.generate(EGeneratePrefix.AJour
             .getCode());
         Long postAmount = preAmount + transAmount;
-        AccountJour accountJour = new AccountJour();
+        Jour accountJour = new Jour();
         accountJour.setSystemCode(systemCode);
         accountJour.setAccountName(accountName);
         accountJour.setAccountNumber(accountNumber);
@@ -85,7 +85,7 @@ public class AJourBOImpl extends PaginableBOImpl<AccountJour> implements
         String order = OrderNoGenerater.generate(EGeneratePrefix.AJour
             .getCode());
         Long postAmount = preAmount + transAmount;
-        AccountJour accountJour = new AccountJour();
+        Jour accountJour = new Jour();
         accountJour.setSystemCode(systemCode);
         accountJour.setAccountName(accountName);
         accountJour.setAccountNumber(accountNumber);
@@ -111,7 +111,7 @@ public class AJourBOImpl extends PaginableBOImpl<AccountJour> implements
     @Override
     public void doTransAccount(String order, String payOrder) {
         if (StringUtils.isNotBlank(order) && StringUtils.isNotBlank(payOrder)) {
-            AccountJour data = new AccountJour();
+            Jour data = new Jour();
             data.setOrder(order);
             data.setPayOrder(payOrder);
             data.setTransDatetime(new Date());
@@ -124,7 +124,7 @@ public class AJourBOImpl extends PaginableBOImpl<AccountJour> implements
     public void doCheckAccount(String order, String checkUser,
             EBoolean checkResult) {
         if (StringUtils.isNotBlank(order)) {
-            AccountJour data = new AccountJour();
+            Jour data = new Jour();
             data.setOrder(order);
             data.setCheckUser(checkUser);
             data.setCheckDatetime(new Date());
@@ -140,7 +140,7 @@ public class AJourBOImpl extends PaginableBOImpl<AccountJour> implements
     @Override
     public void doAdjustAccount(String order, String adjustUser) {
         if (StringUtils.isNotBlank(order)) {
-            AccountJour data = new AccountJour();
+            Jour data = new Jour();
             data.setOrder(order);
             data.setStatus(EAccountJourStatus.Adjusted.getCode());
             data.setAdjustUser(adjustUser);
