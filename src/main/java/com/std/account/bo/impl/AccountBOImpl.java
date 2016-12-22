@@ -55,7 +55,7 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
                 .getCode());
             Account data = new Account();
             data.setSystemCode(systemCode);
-            data.setAccountName(accountName);
+            data.setRealName(accountName);
             data.setAccountNumber(accountNumber);
             data.setType(accountType.getCode());
 
@@ -162,7 +162,7 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         if (StringUtils.isNotBlank(accountNumber)) {
             Account condition = new Account();
             condition.setSystemCode(systemCode);
-            condition.setAccountName(accountName);
+            condition.setRealName(accountName);
             condition.setAccountNumber(accountNumber);
             data = accountDAO.select(condition);
             if (data == null) {

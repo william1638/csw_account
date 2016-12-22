@@ -29,7 +29,7 @@ public class XN802600 extends AProcessor {
             req.getAccountName(), req.getAccountNumber());
         XN802600Res res = new XN802600Res();
         res.setSystemCode(account.getSystemCode());
-        res.setAccountName(account.getAccountName());
+        res.setAccountName(account.getRealName());
         res.setAccountNumber(account.getAccountNumber());
         res.setStatus(account.getStatus());
         res.setCurrency(account.getCurrency());

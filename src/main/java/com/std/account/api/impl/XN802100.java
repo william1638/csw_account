@@ -32,15 +32,15 @@ public class XN802100 extends AProcessor {
         data.setCompanyCode(req.getCompanyCode());
         data.setCompanyName(req.getCompanyName());
         data.setChannelType(req.getChannelType());
-        data.setPayType(req.getPayType());
         data.setStatus(req.getStatus());
-        data.setPaycompany(req.getPaycompany());
+        data.setChannelCompany(req.getPaycompany());
         data.setPrivatekey(req.getPrivatekey());
         data.setPageUrl(req.getPageUrl());
         data.setErrorUrl(req.getErrorUrl());
         data.setBackUrl(req.getBackUrl());
         data.setFee(StringValidater.toLong(req.getFee()));
         data.setRemark(req.getRemark());
+        data.setSystemCode(req.getSystemCode());
         companyChannelAO.addCompanyChannel(data);
         return new BooleanRes(true);
     }
@@ -52,9 +52,9 @@ public class XN802100 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802100Req.class);
         StringValidater.validateBlank(req.getCompanyCode(),
-            req.getCompanyName(), req.getChannelType(), req.getPayType(),
-            req.getStatus(), req.getPaycompany(), req.getPrivatekey(),
-            req.getPageUrl(), req.getErrorUrl(), req.getBackUrl());
+            req.getCompanyName(), req.getChannelType(), req.getStatus(),
+            req.getPaycompany(), req.getPrivatekey(), req.getPageUrl(),
+            req.getErrorUrl(), req.getBackUrl());
         StringValidater.validateAmount(req.getFee());
     }
 }

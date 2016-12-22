@@ -30,9 +30,8 @@ public class XN802106 extends AProcessor {
         condition.setCompanyCode(req.getCompanyCode());
         condition.setCompanyName(req.getCompanyName());
         condition.setChannelType(req.getChannelType());
-        condition.setPayType(req.getPayType());
         condition.setStatus(req.getStatus());
-        condition.setPaycompany(req.getPaycompany());
+        condition.setChannelCompany(req.getPaycompany());
         return companyChannelAO.queryCompanyChannelList(condition);
     }
 

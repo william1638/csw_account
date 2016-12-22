@@ -33,7 +33,10 @@ public class Account extends ABaseDO {
     private String systemCode;
 
     // 户名
-    private String accountName;
+    private String realName;
+
+    // 用户编号
+    private String userId;
 
     // 账户编号
     private String accountNumber;
@@ -84,14 +87,6 @@ public class Account extends ABaseDO {
 
     public void setSystemCode(String systemCode) {
         this.systemCode = systemCode;
-    }
-
-    public String getAccountName() {
-        return accountName;
-    }
-
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
     }
 
     public String getAccountNumber() {
@@ -164,5 +159,21 @@ public class Account extends ABaseDO {
 
     public void setLastOrder(String lastOrder) {
         this.lastOrder = lastOrder;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 }

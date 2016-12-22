@@ -7,17 +7,17 @@
 		<result column="company_code" property="companyCode"/>
 		<result column="company_name" property="companyName"/>
 		<result column="channel_type" property="channelType"/>
-		<result column="pay_type" property="payType"/>
-		
 		<result column="status" property="status"/>
-		<result column="paycompany" property="paycompany"/>
-		<result column="privatekey" property="privatekey"/>
+		
+		<result column="channel_company" property="channelCompany"/>
+		<result column="private_key" property="privatekey"/>
 		<result column="page_url" property="pageUrl"/>
 		<result column="error_url" property="errorUrl"/>
 		
 		<result column="back_url" property="backUrl"/>
 		<result column="fee" property="fee"/>
 		<result column="remark" property="remark"/>
+		<result column="system_code" property="systemCode"/>
 	</resultMap>
 	<sql id="where_condition">
 		<trim prefix="WHERE" prefixOverrides="AND | OR">
@@ -33,15 +33,12 @@
 			<if test="channelType != null and channelType != '' ">
 				AND t.channel_type = #{channelType}
 			</if>
-			<if test="payType != null and payType != '' ">
-				AND t.pay_type = #{payType}
-			</if>
 			
 			<if test="status != null and status != '' ">
 				AND t.status = #{status}
 			</if>
-			<if test="paycompany != null and paycompany != '' ">
-				AND t.paycompany = #{paycompany}
+			<if test="channelCompany != null and channelCompany != '' ">
+				AND t.channel_company = #{channelCompany}
 			</if>
 		</trim>
 	</sql>
@@ -52,17 +49,17 @@
 		,t.company_code
 		,t.company_name
 		,t.channel_type
-		,t.pay_type
 		
 		,t.status
-		,t.paycompany
-		,t.privatekey
+		,t.channel_company
+		,t.private_key
 		,t.page_url
 		,t.error_url
 		
 		,t.back_url
 		,t.fee
 		,t.remark
+		,t.system_code
 		FROM
 		tstd_company_channel t
 		<include refid="where_condition"/>
@@ -85,26 +82,25 @@
 		company_code
 		,company_name
 		,channel_type
-		,pay_type
 		,status
 		
-		,paycompany
-		,privatekey
+		,channel_company
+		,private_key
 		,page_url
 		,error_url
 		,back_url
 		
 		,fee
 		,remark
+		,system_code
 		)
 		VALUES(
 		#{companyCode}
 		,#{companyName}
 		,#{channelType}
-		,#{payType}
 		,#{status}
 		
-		,#{paycompany}
+		,#{channelCompany}
 		,#{privatekey}
 		,#{pageUrl}
 		,#{errorUrl}
@@ -112,6 +108,7 @@
 		
 		,#{fee}
 		,#{remark}
+		,#{systemCode}
 		)
 	</insert>
 
@@ -121,11 +118,10 @@
 		company_code = #{companyCode}
 		,company_name = #{companyName}
 		,channel_type = #{channelType}
-		,pay_type = #{payType}
 		,status = #{status}
 		
-		,paycompany = #{paycompany}
-		,privatekey = #{privatekey}
+		,channel_company = #{channelCompany}
+		,private_key = #{privatekey}
 		,page_url = #{pageUrl}
 		,error_url = #{errorUrl}
 		,back_url = #{backUrl}

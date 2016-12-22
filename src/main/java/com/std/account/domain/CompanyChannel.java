@@ -18,14 +18,11 @@ public class CompanyChannel extends ABaseDO {
     // 渠道类型
     private String channelType;
 
-    // 支付类型
-    private String payType;
-
     // 状态（启用/不启用）
     private String status;
 
     // 渠道给公司的代号
-    private String paycompany;
+    private String channelCompany;
 
     // 秘钥
     private String privatekey;
@@ -44,6 +41,9 @@ public class CompanyChannel extends ABaseDO {
 
     // 备注
     private String remark;
+
+    // 系统编号
+    public String systemCode;
 
     public String getCompanyCode() {
         return companyCode;
@@ -69,28 +69,12 @@ public class CompanyChannel extends ABaseDO {
         this.channelType = channelType;
     }
 
-    public String getPayType() {
-        return payType;
-    }
-
-    public void setPayType(String payType) {
-        this.payType = payType;
-    }
-
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getPaycompany() {
-        return paycompany;
-    }
-
-    public void setPaycompany(String paycompany) {
-        this.paycompany = paycompany;
     }
 
     public String getPrivatekey() {
@@ -147,5 +131,21 @@ public class CompanyChannel extends ABaseDO {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getSystemCode() {
+        return systemCode;
+    }
+
+    public void setSystemCode(String systemCode) {
+        this.systemCode = systemCode;
+    }
+
+    public String getChannelCompany() {
+        return channelCompany;
+    }
+
+    public void setChannelCompany(String channelCompany) {
+        this.channelCompany = channelCompany;
     }
 }

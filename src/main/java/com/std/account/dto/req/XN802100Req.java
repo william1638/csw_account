@@ -16,9 +16,6 @@ public class XN802100Req {
     // 渠道类型(必填)
     private String channelType;
 
-    // 支付类型(必填)
-    private String payType;
-
     // 状态(必填)（启用/不启用）
     private String status;
 
@@ -43,6 +40,9 @@ public class XN802100Req {
     // 备注((选填)
     private String remark;
 
+    //
+    private String systemCode;
+
     public String getCompanyCode() {
         return companyCode;
     }
@@ -65,14 +65,6 @@ public class XN802100Req {
 
     public void setChannelType(String channelType) {
         this.channelType = channelType;
-    }
-
-    public String getPayType() {
-        return payType;
-    }
-
-    public void setPayType(String payType) {
-        this.payType = payType;
     }
 
     public String getStatus() {
@@ -137,5 +129,13 @@ public class XN802100Req {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getSystemCode() {
+        return systemCode;
+    }
+
+    public void setSystemCode(String systemCode) {
+        this.systemCode = systemCode;
     }
 }
