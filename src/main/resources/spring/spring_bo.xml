@@ -28,4 +28,8 @@
 	<bean id="sysDictBO" class="com.std.account.bo.impl.SYSDictBOImpl">
 		<property name="paginableDAO" ref="sysDictDAOImpl"/>
 	</bean>	
+	
+	<bean id="bankcardBO" class="com.std.account.bo.impl.BankcardBOImpl">
+		<property name="paginableDAO" ref="bankcardDAOImpl"/>
+	</bean>	
 </beans>

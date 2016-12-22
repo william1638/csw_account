@@ -1,5 +1,45 @@
 package com.std.account.api.impl;
 
-public class XN802012 {
+import com.std.account.ao.IBankcardAO;
+import com.std.account.api.AProcessor;
+import com.std.account.common.JsonUtil;
+import com.std.account.core.StringValidater;
+import com.std.account.domain.BankCard;
+import com.std.account.dto.req.XN802012Req;
+import com.std.account.exception.BizException;
+import com.std.account.exception.ParaException;
+import com.std.account.spring.SpringContextHolder;
+
+/**
+ * 
+ * @author: asus 
+ * @since: 2016年12月22日 下午6:08:06 
+ * @history:
+ */
+public class XN802012 extends AProcessor {
+    private IBankcardAO bankCardAO = SpringContextHolder
+        .getBean(IBankcardAO.class);
+
+    private XN802012Req req = null;
+
+    @Override
+    public Object doBusiness() throws BizException {
+        BankCard data = new BankCard();
+        data.setCode(req.getCode());
+        data.setBankcardNumber(req.getBankcardNumber());
+        data.setBankName(req.getBankName());
+        data.setSubbranch(req.getSubbranch());
+        data.setBindMobile(req.getBindMobile());
+        data.setStatus(req.getStatus());
+        data.setRemark(req.getRemark());
+        return bankCardAO.editBankcard(data);
+    }
+
+    @Override
+    public void doCheck(String inputparams) throws ParaException {
+        req = JsonUtil.json2Bean(inputparams, XN802012Req.class);
+        StringValidater.validateBlank(req.getCode(), req.getBankcardNumber(),
+            req.getBankName());
+    }
 
 }
