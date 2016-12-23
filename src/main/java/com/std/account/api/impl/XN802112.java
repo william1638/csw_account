@@ -33,9 +33,8 @@ public class XN802112 extends AProcessor {
         data.setBankCode(req.getBankCode());
         data.setBankName(req.getBankName());
         data.setChannelType(req.getChannelType());
-        data.setPayType(req.getPayType());
         data.setStatus(req.getStatus());
-        data.setPaybank(req.getPaybank());
+        data.setChannelBank(req.getChannelBank());
         data.setMaxOrder(StringValidater.toLong(req.getMaxOrder()));
         data.setOrderAmount(StringValidater.toLong(req.getOrderAmount()));
         data.setDayAmount(StringValidater.toLong(req.getDayAmount()));
@@ -52,8 +51,8 @@ public class XN802112 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802112Req.class);
         StringValidater.validateBlank(req.getId(), req.getBankCode(),
-            req.getBankName(), req.getChannelType(), req.getPayType(),
-            req.getStatus(), req.getPaybank());
+            req.getBankName(), req.getChannelType(), req.getStatus(),
+            req.getChannelBank());
         StringValidater.validateAmount(req.getMaxOrder(), req.getOrderAmount(),
             req.getDayAmount(), req.getMonthAmount());
     }

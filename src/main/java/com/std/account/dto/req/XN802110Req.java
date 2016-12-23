@@ -16,14 +16,11 @@ public class XN802110Req {
     // 渠道类型(必填)
     private String channelType;
 
-    // 支付类型(必填)
-    private String payType;
-
     // 状态(必填)(1 启用 0 不启用)
     private String status;
 
     // 渠道给银行的代号(必填)
-    private String paybank;
+    private String channelbank;
 
     // 每日笔数限制(必填)
     private String maxOrder;
@@ -64,28 +61,12 @@ public class XN802110Req {
         this.channelType = channelType;
     }
 
-    public String getPayType() {
-        return payType;
-    }
-
-    public void setPayType(String payType) {
-        this.payType = payType;
-    }
-
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getPaybank() {
-        return paybank;
-    }
-
-    public void setPaybank(String paybank) {
-        this.paybank = paybank;
     }
 
     public String getMaxOrder() {
@@ -126,5 +107,13 @@ public class XN802110Req {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getChannelbank() {
+        return channelbank;
+    }
+
+    public void setChannelbank(String channelbank) {
+        this.channelbank = channelbank;
     }
 }

@@ -30,9 +30,8 @@ public class XN802116 extends AProcessor {
         condition.setBankCode(req.getBankCode());
         condition.setBankName(req.getBankName());
         condition.setChannelType(req.getChannelType());
-        condition.setPayType(req.getPayType());
         condition.setStatus(req.getStatus());
-        condition.setPaybank(req.getPaybank());
+        condition.setChannelBank(req.getChannelBank());
         return channelBankAO.queryChannelBankList(condition);
     }
 

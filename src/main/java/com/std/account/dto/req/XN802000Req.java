@@ -25,6 +25,9 @@ public class XN802000Req {
     // 备注（选填）
     private String remark;
 
+    // 系统编号
+    private String systemCode;
+
     public String getType() {
         return type;
     }
@@ -71,5 +74,13 @@ public class XN802000Req {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getSystemCode() {
+        return systemCode;
+    }
+
+    public void setSystemCode(String systemCode) {
+        this.systemCode = systemCode;
     }
 }

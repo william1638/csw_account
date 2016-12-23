@@ -15,17 +15,14 @@ public class ChannelBank extends ABaseDO {
     // 银行名称
     private String bankName;
 
-    // 渠道类型
+    // 渠道银行
     private String channelType;
-
-    // 支付类型
-    private String payType;
 
     // 状态(1 启用 0 不启用)
     private String status;
 
-    // 渠道给银行的代号
-    private String paybank;
+    // 渠道银行代号
+    private String channelBank;
 
     // 每日笔数限制
     private Long maxOrder;
@@ -74,28 +71,12 @@ public class ChannelBank extends ABaseDO {
         this.channelType = channelType;
     }
 
-    public String getPayType() {
-        return payType;
-    }
-
-    public void setPayType(String payType) {
-        this.payType = payType;
-    }
-
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getPaybank() {
-        return paybank;
-    }
-
-    public void setPaybank(String paybank) {
-        this.paybank = paybank;
     }
 
     public Long getMaxOrder() {
@@ -136,5 +117,13 @@ public class ChannelBank extends ABaseDO {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getChannelBank() {
+        return channelBank;
+    }
+
+    public void setChannelBank(String channelBank) {
+        this.channelBank = channelBank;
     }
 }
