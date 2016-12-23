@@ -4,7 +4,7 @@ import com.std.account.ao.IBankcardAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
-import com.std.account.domain.BankCard;
+import com.std.account.domain.Bankcard;
 import com.std.account.dto.req.XN802016Req;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
@@ -24,7 +24,7 @@ public class XN802016 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        BankCard condition = new BankCard();
+        Bankcard condition = new Bankcard();
         condition.setSystemCode(req.getSystemCode());
         condition.setBankName(req.getBankName());
         condition.setBankcardNumber(req.getBankcardNumber());

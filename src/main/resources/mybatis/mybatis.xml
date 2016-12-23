@@ -8,6 +8,6 @@
 		<typeAlias alias="channelBank" type="com.std.account.domain.ChannelBank" />
 		
 		<typeAlias alias="sysDict" type="com.std.account.domain.SYSDict" />
-		<typeAlias alias="bankCard" type="com.std.account.domain.BankCard" />
+		<typeAlias alias="bankcard" type="com.std.account.domain.Bankcard" />
 	</typeAliases>
 </configuration>

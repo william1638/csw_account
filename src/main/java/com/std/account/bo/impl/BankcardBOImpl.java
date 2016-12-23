@@ -11,7 +11,7 @@ import com.std.account.bo.IBankcardBO;
 import com.std.account.bo.base.PaginableBOImpl;
 import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.IBankCardDAO;
-import com.std.account.domain.BankCard;
+import com.std.account.domain.Bankcard;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EGeneratePrefix;
 import com.std.account.exception.BizException;
@@ -23,7 +23,7 @@ import com.std.account.exception.BizException;
  * @history:
  */
 @Component
-public class BankcardBOImpl extends PaginableBOImpl<BankCard> implements
+public class BankcardBOImpl extends PaginableBOImpl<Bankcard> implements
         IBankcardBO {
 
     @Autowired
@@ -31,7 +31,7 @@ public class BankcardBOImpl extends PaginableBOImpl<BankCard> implements
 
     @Override
     public boolean isBankcardExist(String code) {
-        BankCard condition = new BankCard();
+        Bankcard condition = new Bankcard();
         condition.setCode(code);
         if (bankcardDAO.selectTotalCount(condition) > 0) {
             return true;
@@ -40,7 +40,7 @@ public class BankcardBOImpl extends PaginableBOImpl<BankCard> implements
     }
 
     @Override
-    public String saveBankcard(BankCard data) {
+    public String saveBankcard(Bankcard data) {
         String code = null;
         if (data != null) {
             code = OrderNoGenerater
@@ -57,7 +57,7 @@ public class BankcardBOImpl extends PaginableBOImpl<BankCard> implements
     public int removeBankcard(String code) {
         int count = 0;
         if (StringUtils.isNotBlank(code)) {
-            BankCard data = new BankCard();
+            Bankcard data = new Bankcard();
             data.setCode(code);
             count = bankcardDAO.delete(data);
         }
@@ -65,7 +65,7 @@ public class BankcardBOImpl extends PaginableBOImpl<BankCard> implements
     }
 
     @Override
-    public int refreshBankcard(BankCard data) {
+    public int refreshBankcard(Bankcard data) {
         int count = 0;
         if (StringUtils.isNotBlank(data.getCode())) {
             count = bankcardDAO.update(data);
@@ -74,15 +74,15 @@ public class BankcardBOImpl extends PaginableBOImpl<BankCard> implements
     }
 
     @Override
-    public List<BankCard> queryBankcardList(BankCard condition) {
+    public List<Bankcard> queryBankcardList(Bankcard condition) {
         return bankcardDAO.selectList(condition);
     }
 
     @Override
-    public BankCard getBankcard(String code) {
-        BankCard data = null;
+    public Bankcard getBankcard(String code) {
+        Bankcard data = null;
         if (StringUtils.isNotBlank(code)) {
-            BankCard condition = new BankCard();
+            Bankcard condition = new Bankcard();
             condition.setCode(code);
             data = bankcardDAO.select(condition);
             if (data == null) {

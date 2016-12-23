@@ -4,7 +4,7 @@ import com.std.account.ao.IBankcardAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
-import com.std.account.domain.BankCard;
+import com.std.account.domain.Bankcard;
 import com.std.account.dto.req.XN802010Req;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
@@ -24,9 +24,9 @@ public class XN802010 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        BankCard data = new BankCard();
+        Bankcard data = new Bankcard();
         data.setSystemCode(req.getSystemCode());
-        data.setBankcardNumber(req.getBankCardNumber());
+        data.setBankcardNumber(req.getBankcardNumber());
         data.setBankName(req.getBankName());
         data.setSubbranch(req.getSubbranch());
         data.setBindMobile(req.getBindMobile());
@@ -42,7 +42,7 @@ public class XN802010 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802010Req.class);
         StringValidater.validateBlank(req.getSystemCode(),
-            req.getBankCardNumber(), req.getBankName(), req.getSubbranch(),
+            req.getBankcardNumber(), req.getBankName(), req.getSubbranch(),
             req.getBindMobile(), req.getUserId(), req.getRealName(),
             req.getType());
     }

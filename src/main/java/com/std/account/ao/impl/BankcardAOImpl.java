@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import com.std.account.ao.IBankcardAO;
 import com.std.account.bo.IBankcardBO;
 import com.std.account.bo.base.Paginable;
-import com.std.account.domain.BankCard;
+import com.std.account.domain.Bankcard;
 import com.std.account.exception.BizException;
 
 /**
@@ -24,12 +24,12 @@ public class BankcardAOImpl implements IBankcardAO {
     private IBankcardBO bankcardBO;
 
     @Override
-    public String addBankcard(BankCard data) {
+    public String addBankcard(Bankcard data) {
         return bankcardBO.saveBankcard(data);
     }
 
     @Override
-    public int editBankcard(BankCard data) {
+    public int editBankcard(Bankcard data) {
         if (!bankcardBO.isBankcardExist(data.getCode())) {
             throw new BizException("xn0000", "记录编号不存在");
         }
@@ -45,18 +45,18 @@ public class BankcardAOImpl implements IBankcardAO {
     }
 
     @Override
-    public Paginable<BankCard> queryBankcardPage(int start, int limit,
-            BankCard condition) {
+    public Paginable<Bankcard> queryBankcardPage(int start, int limit,
+            Bankcard condition) {
         return bankcardBO.getPaginable(start, limit, condition);
     }
 
     @Override
-    public List<BankCard> queryBankcardList(BankCard condition) {
+    public List<Bankcard> queryBankcardList(Bankcard condition) {
         return bankcardBO.queryBankcardList(condition);
     }
 
     @Override
-    public BankCard getBankcard(String code) {
+    public Bankcard getBankcard(String code) {
         return bankcardBO.getBankcard(code);
     }
 }
