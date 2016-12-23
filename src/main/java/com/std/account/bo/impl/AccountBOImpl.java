@@ -16,7 +16,6 @@ import com.std.account.dao.IAccountDAO;
 import com.std.account.domain.Account;
 import com.std.account.enums.EAccountStatus;
 import com.std.account.enums.EAccountType;
-import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
 import com.std.account.enums.EGeneratePrefix;
 import com.std.account.exception.BizException;
@@ -107,15 +106,12 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
 
     @Override
     public void unfrozenAmount(String systemCode, String accountNumber,
-            Long unfreezeAmount, Boolean unfrozenResult, String lastOrder) {
+            Long unfreezeAmount, String lastOrder) {
         if (unfreezeAmount <= 0) {
             throw new BizException("xn000000", "解冻金额需大于0");
         }
         Account dbAccount = this.getAccount(systemCode, accountNumber);
         Long nowAmount = dbAccount.getAmount();
-        if (EBoolean.NO.getCode().equals(unfrozenResult)) {
-            nowAmount = nowAmount + unfreezeAmount;
-        }
         Long nowFrozenAmount = dbAccount.getFrozenAmount() - unfreezeAmount;
         if (nowFrozenAmount < 0) {
             throw new BizException("xn000000", "本次解冻会使账户冻结金额小于0");

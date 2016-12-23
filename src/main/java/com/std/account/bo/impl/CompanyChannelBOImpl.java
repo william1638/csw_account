@@ -10,7 +10,6 @@ import com.std.account.bo.base.PaginableBOImpl;
 import com.std.account.dao.ICompanyChannelDAO;
 import com.std.account.domain.CompanyChannel;
 import com.std.account.enums.EChannelType;
-import com.std.account.enums.EPayType;
 import com.std.account.exception.BizException;
 
 /**
@@ -93,14 +92,14 @@ public class CompanyChannelBOImpl extends PaginableBOImpl<CompanyChannel>
     }
 
     @Override
-    public EChannelType getBestChannel(String companyCode, EPayType payType) {
+    public EChannelType getBestChannel(String companyCode,
+            EChannelType channelType) {
         return EChannelType.Fuiou;
     }
 
     @Override
     public void transAmountPC(String companyCode, EChannelType channelType,
-            EPayType pc, Long transAmount, String order, String bankCode) {
+            Long transAmount, String order, String bankCode) {
         // TODO Auto-generated method stub
-
     }
 }

@@ -11,7 +11,6 @@ import com.std.account.bo.IJourBO;
 import com.std.account.domain.Account;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EChannelType;
-import com.std.account.enums.EPayType;
 
 @Service
 public class AccountAOImpl implements IAccountAO {
@@ -27,7 +26,7 @@ public class AccountAOImpl implements IAccountAO {
     @Override
     public Account getAccount(String systemCode, String accountName,
             String accountNumber) {
-        return accountBO.getAccount(systemCode, accountName, accountNumber);
+        return accountBO.getAccount(systemCode, accountNumber);
     }
 
     @Override
