@@ -3,7 +3,7 @@
 <configuration>
 	<typeAliases>		
 		<typeAlias alias="account" type="com.std.account.domain.Account" />
-		<typeAlias alias="accountJour" type="com.std.account.domain.AccountJour" />
+		<typeAlias alias="jour" type="com.std.account.domain.Jour" />
 		<typeAlias alias="companyChannel" type="com.std.account.domain.CompanyChannel" />
 		<typeAlias alias="channelBank" type="com.std.account.domain.ChannelBank" />
 		

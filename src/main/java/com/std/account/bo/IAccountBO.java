@@ -7,8 +7,6 @@ import com.std.account.domain.Account;
 import com.std.account.enums.EAccountStatus;
 import com.std.account.enums.EAccountType;
 import com.std.account.enums.EChannelType;
-import com.std.account.enums.ECurrency;
-import com.std.account.enums.EPayType;
 
 /**
  * @author: xieyj
@@ -19,79 +17,78 @@ public interface IAccountBO extends IPaginableBO<Account> {
 
     /**
      * 分配账户
-     * @param systemCode
-     * @param accountName
+     * @param userId
+     * @param realName
      * @param accountType
      * @param currency
+     * @param systemCode
      * @return 
-     * @create: 2016年11月11日 上午11:09:36 xieyj
+     * @create: 2016年12月23日 下午12:35:22 xieyj
      * @history:
      */
-    public String distributeAccount(String systemCode, String accountName,
-            EAccountType accountType, ECurrency currency);
+    public String distributeAccount(String userId, String realName,
+            EAccountType accountType, String currency, String systemCode);
 
     /**
      * 内部账划拨
      * @param systemCode
-     * @param accountName
      * @param accountNumber
      * @param channelType
-     * @param payType
+     * @param channelOrder
      * @param transAmount
      * @param bizType
      * @param bizNote 
-     * @create: 2016年11月16日 下午5:49:19 myb858
+     * @create: 2016年12月23日 下午5:58:06 xieyj
      * @history:
      */
-    public void transAmount(String systemCode, String accountName,
-            String accountNumber, EChannelType channelType, EPayType payType,
-            Long transAmount, String bizType, String bizNote);
+    public void transAmount(String systemCode, String accountNumber,
+            EChannelType channelType, String channelOrder, Long transAmount,
+            String bizType, String bizNote);
 
     /**
      * 冻结账户金额
+     * @param systemCode
      * @param accountNumber
-     * @param freezeAmount 冻结金额正
+     * @param freezeAmount
      * @param lastOrder 
-     * @create: 2016年11月11日 上午11:18:36 xieyj
+     * @create: 2016年12月23日 下午5:25:55 xieyj
      * @history:
      */
-    public void frozenAmount(String systemCode, String accountName,
-            String accountNumber, Long freezeAmount, String lastOrder);
+    public void frozenAmount(String systemCode, String accountNumber,
+            Long freezeAmount, String lastOrder);
 
     /**
      * 解冻账户金额
+     * @param systemCode
      * @param accountNumber
      * @param unfreezeAmount
-     * @param lastOrder
-     * @param unfrozenResult(1 解冻成功，冻结金额清零，0 解冻不成功，冻结金额返回)
-     * @create: 2016年11月11日 上午11:20:03 xieyj
+     * @param lastOrder 
+     * @create: 2016年12月23日 下午5:26:20 xieyj
      * @history:
      */
-    public void unfrozenAmount(String systemCode, String accountName,
-            String accountNumber, Long unfreezeAmount, Boolean unfrozenResult,
-            String lastOrder);
+    public void unfrozenAmount(String systemCode, String accountNumber,
+            Long unfreezeAmount, String lastOrder);
 
     /**
      * 更新账户状态
+     * @param systemCode
      * @param accountNumber
      * @param status 
-     * @create: 2016年11月11日 上午11:11:04 xieyj
+     * @create: 2016年12月23日 下午5:27:04 xieyj
      * @history:
      */
-    public void refreshStatus(String systemCode, String accountName,
-            String accountNumber, EAccountStatus status);
+    public void refreshStatus(String systemCode, String accountNumber,
+            EAccountStatus status);
 
     /**
      * 获取账户
      * @param systemCode
-     * @param accountName
      * @param accountNumber
      * @return 
-     * @create: 2016年11月16日 下午4:46:39 myb858
+     * @create: 2016年12月23日 下午5:27:22 xieyj
      * @history:
      */
-    public Account getAccount(String systemCode, String accountName,
-            String accountNumber);
+    public Account getAccount(String systemCode, String accountNumber);
 
     /**
      * 获取账户列表

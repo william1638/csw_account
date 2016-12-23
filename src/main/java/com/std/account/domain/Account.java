@@ -12,9 +12,9 @@ import java.util.Date;
 
 import com.std.account.dao.base.ABaseDO;
 
-/** 
- * @author: miyb 
- * @since: 2015-2-12 下午8:38:03 
+/**
+ * @author: xieyj 
+ * @since: 2016年12月23日 上午10:41:45 
  * @history:
  */
 public class Account extends ABaseDO {
@@ -23,23 +23,14 @@ public class Account extends ABaseDO {
      */
     private static final long serialVersionUID = 8322573358554172531L;
 
-    // 创建起始时间
-    private Date createDatetimeStart;
-
-    // 创建终止时间
-    private Date createDatetimeEnd;
-
-    // 系统编号
-    private String systemCode;
-
-    // 户名
-    private String realName;
+    // 账户编号
+    private String accountNumber;
 
     // 用户编号
     private String userId;
 
-    // 账户编号
-    private String accountNumber;
+    // 户名
+    private String realName;
 
     // 类别（B端账号，C端账号，平台账号）
     private String type;
@@ -64,6 +55,17 @@ public class Account extends ABaseDO {
 
     // 最近一次变动对应的流水编号
     private String lastOrder;
+
+    // 系统编号
+    private String systemCode;
+
+    // **************************db properties **************************
+
+    // 创建起始时间
+    private Date createDatetimeStart;
+
+    // 创建终止时间
+    private Date createDatetimeEnd;
 
     public Date getCreateDatetimeStart() {
         return createDatetimeStart;

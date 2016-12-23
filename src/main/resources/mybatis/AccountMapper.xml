@@ -18,14 +18,14 @@
 	</resultMap>
 	<sql id="where_condition">
 		<trim prefix="WHERE" prefixOverrides="AND | OR">	
-			<if test="systemCode != null and systemCode != '' ">
-				AND t.system_code = #{systemCode}
+			<if test="accountNumber != null and accountNumber != '' ">
+				AND t.account_number = #{accountNumber}
 			</if>
 			<if test="userId != null and userId != '' ">
 				AND t.user_id = #{userId}
 			</if>
-			<if test="accountNumber != null and accountNumber != '' ">
-				AND t.account_number = #{accountNumber}
+			<if test="type != null and type != '' ">
+				AND t.type = #{type}
 			</if>
 			<if test="status != null and status != '' ">
 				AND t.status = #{status}
@@ -41,6 +41,9 @@
 			</if>
 			<if test="lastOrder != null and lastOrder != '' ">
 				AND t.last_order = #{lastOrder}
+			</if>
+			<if test="systemCode != null and systemCode != '' ">
+				AND t.system_code = #{systemCode}
 			</if>
 		</trim>
 	</sql>
@@ -106,7 +109,16 @@
 		,#{systemCode}
 		)
 	</insert>
-	<update id="update_amount" parameterType="account">
+	
+	<update id="update_realName" parameterType="account">
+		UPDATE tstd_account
+		SET
+		real_name= #{realName}
+		WHERE
+		account_number = #{accountNumber}
+	</update>
+	
+	<update id="update_account_amount" parameterType="account">
 		UPDATE tstd_account
 		SET
 		amount= #{amount}
@@ -116,7 +128,7 @@
 		account_number = #{accountNumber}
 	</update>
 	
-	<update id="update_frozen_amount" parameterType="account">
+	<update id="update_account_frozen_amount" parameterType="account">
 		UPDATE tstd_account
 		SET
 		amount= #{amount}
@@ -127,7 +139,7 @@
 		account_number = #{accountNumber}
 	</update>
 	
-	<update id="update_status" parameterType="account">
+	<update id="update_account_status" parameterType="account">
 		UPDATE tstd_account
 		SET
 		status= #{status}

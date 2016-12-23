@@ -5,9 +5,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.std.account.ao.IAccountAO;
-import com.std.account.bo.IAJourBO;
 import com.std.account.bo.IAccountBO;
 import com.std.account.bo.ICompanyChannelBO;
+import com.std.account.bo.IJourBO;
 import com.std.account.domain.Account;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EChannelType;
@@ -22,7 +22,7 @@ public class AccountAOImpl implements IAccountAO {
     private ICompanyChannelBO companyChannelBO;
 
     @Autowired
-    private IAJourBO aJourBO;
+    private IJourBO jourBO;
 
     @Override
     public Account getAccount(String systemCode, String accountName,
@@ -58,12 +58,11 @@ public class AccountAOImpl implements IAccountAO {
         if (transAmount < 0) {
             bizType = EBizType.AJ_QX;
         }
-        String order = aJourBO.addTochangeJour(systemCode, accountName,
+        String order = jourBO.addTochangeJour(systemCode, accountName,
             accountNumber, channelType, EPayType.PC, bizType,
             dbAccount.getAmount(), transAmount);
         companyChannelBO.transAmountPC(companyCode, channelType, EPayType.PC,
             transAmount, order, bankCode);
-
     }
 
     @Override
