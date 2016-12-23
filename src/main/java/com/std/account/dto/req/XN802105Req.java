@@ -27,7 +27,10 @@ public class XN802105Req extends APageReq {
     private String status;
 
     // 渠道给公司的代号(选填)
-    private String paycompany;
+    private String channelCompany;
+
+    // 系统编号
+    private String systemCode;
 
     public String getCompanyCode() {
         return companyCode;
@@ -69,11 +72,20 @@ public class XN802105Req extends APageReq {
         this.status = status;
     }
 
-    public String getPaycompany() {
-        return paycompany;
+    public String getChannelCompany() {
+        return channelCompany;
     }
 
-    public void setPaycompany(String paycompany) {
-        this.paycompany = paycompany;
+    public void setChannelCompany(String channelCompany) {
+        this.channelCompany = channelCompany;
     }
+
+    public String getSystemCode() {
+        return systemCode;
+    }
+
+    public void setSystemCode(String systemCode) {
+        this.systemCode = systemCode;
+    }
+
 }

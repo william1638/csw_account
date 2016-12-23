@@ -84,7 +84,6 @@
 		,order_amount
 		,day_amount
 		,month_amount
-		
 		,remark
 		)
 		VALUES(
@@ -94,7 +93,6 @@
 		,#{status}
 		,#{channelBank}
 		
-		,#{paybank}
 		,#{maxOrder}
 		,#{orderAmount}
 		,#{dayAmount}
