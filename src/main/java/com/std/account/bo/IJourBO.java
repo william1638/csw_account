@@ -2,7 +2,6 @@ package com.std.account.bo;
 
 import com.std.account.bo.base.IPaginableBO;
 import com.std.account.domain.Jour;
-import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
 
@@ -20,7 +19,7 @@ public interface IJourBO extends IPaginableBO<Jour> {
      * @create: 2016年11月10日 下午6:10:50 xieyj
      * @history:
      */
-    public Jour getAccountJour(String code);
+    public Jour getJour(String code);
 
     /**
      * 新增未变动金额之流水
@@ -37,8 +36,8 @@ public interface IJourBO extends IPaginableBO<Jour> {
      * @history:
      */
     public String addToChangeJour(String systemCode, String accountNumber,
-            EChannelType channelType, EBizType bizType, String bizNote,
-            Long preAmount, Long transAmount);
+            String channelType, String bizType, String bizNote, Long preAmount,
+            Long transAmount);
 
     /**
      * 回调处理流水

@@ -18,6 +18,17 @@ public interface ICompanyChannelBO extends IPaginableBO<CompanyChannel> {
     public EChannelType getBestChannel(String companyCode,
             EChannelType channelType);
 
+    /**
+     * 获取最优且可行的渠道
+     * @param companyCode
+     * @param channelTypeList
+     * @return 
+     * @create: 2016年12月23日 下午9:21:14 xieyj
+     * @history:
+     */
+    public EChannelType getBestChannel(String companyCode,
+            List<String> channelTypeList);
+
     public void transAmountPC(String companyCode, EChannelType channelType,
             Long transAmount, String order, String bankCode);
 

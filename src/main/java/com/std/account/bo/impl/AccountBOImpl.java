@@ -64,6 +64,9 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
             EChannelType channelType, String channelOrder, Long transAmount,
             String bizType, String bizNote) {
         Account dbAccount = this.getAccount(systemCode, accountNumber);
+        if (StringUtils.isNotBlank(bizType) && Long.valueOf(bizType) < 0) {
+            transAmount = -transAmount;
+        }
         Long nowAmount = dbAccount.getAmount() + transAmount;
         if (nowAmount < 0) {
             throw new BizException("xn000000", "账户余额不足");
@@ -72,6 +75,28 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         String lastOrder = jourBO.addChangedJour(systemCode, accountNumber,
             channelType, channelOrder, bizType, bizNote, dbAccount.getAmount(),
             transAmount);
+        // 更改余额
+        Account data = new Account();
+        data.setAccountNumber(accountNumber);
+        data.setAmount(nowAmount);
+        data.setMd5(AccountUtil.md5(dbAccount.getMd5(), dbAccount.getAmount(),
+            nowAmount));
+        data.setLastOrder(lastOrder);
+        accountDAO.updateAmount(data);
+    }
+
+    @Override
+    public void transAmountNoJour(String systemCode, String accountNumber,
+            EChannelType channelType, String channelOrder, Long transAmount,
+            String bizType, String bizNote, String lastOrder) {
+        Account dbAccount = this.getAccount(systemCode, accountNumber);
+        if (StringUtils.isNotBlank(bizType) && Long.valueOf(bizType) < 0) {
+            transAmount = -transAmount;
+        }
+        Long nowAmount = dbAccount.getAmount() + transAmount;
+        if (nowAmount < 0) {
+            throw new BizException("xn000000", "账户余额不足");
+        }
         // 更改余额
         Account data = new Account();
         data.setAccountNumber(accountNumber);

@@ -22,13 +22,13 @@ public class CompanyChannelBOImpl extends PaginableBOImpl<CompanyChannel>
         implements ICompanyChannelBO {
 
     @Autowired
-    private ICompanyChannelDAO CompanyChannelDAO;
+    private ICompanyChannelDAO companyChannelDAO;
 
     @Override
     public boolean isCompanyChannelExist(Long id) {
         CompanyChannel condition = new CompanyChannel();
         condition.setId(id);
-        if (CompanyChannelDAO.selectTotalCount(condition) > 0) {
+        if (companyChannelDAO.selectTotalCount(condition) > 0) {
             return true;
         }
         return false;
@@ -39,14 +39,14 @@ public class CompanyChannelBOImpl extends PaginableBOImpl<CompanyChannel>
         CompanyChannel condition = new CompanyChannel();
         condition.setCompanyCode(companyCode);
         condition.setChannelType(channelType);
-        return CompanyChannelDAO.selectTotalCount(condition);
+        return companyChannelDAO.selectTotalCount(condition);
     }
 
     @Override
     public Long saveCompanyChannel(CompanyChannel data) {
         Long id = null;
         if (data != null) {
-            CompanyChannelDAO.insert(data);
+            companyChannelDAO.insert(data);
             id = data.getId();
         }
         return id;
@@ -58,7 +58,7 @@ public class CompanyChannelBOImpl extends PaginableBOImpl<CompanyChannel>
         if (id != null) {
             CompanyChannel data = new CompanyChannel();
             data.setId(id);
-            count = CompanyChannelDAO.delete(data);
+            count = companyChannelDAO.delete(data);
         }
         return count;
     }
@@ -67,14 +67,14 @@ public class CompanyChannelBOImpl extends PaginableBOImpl<CompanyChannel>
     public int refreshCompanyChannel(CompanyChannel data) {
         int count = 0;
         if (data != null) {
-            count = CompanyChannelDAO.update(data);
+            count = companyChannelDAO.update(data);
         }
         return count;
     }
 
     @Override
     public List<CompanyChannel> queryCompanyChannelList(CompanyChannel condition) {
-        return CompanyChannelDAO.selectList(condition);
+        return companyChannelDAO.selectList(condition);
     }
 
     @Override
@@ -83,7 +83,7 @@ public class CompanyChannelBOImpl extends PaginableBOImpl<CompanyChannel>
         if (id != null) {
             CompanyChannel condition = new CompanyChannel();
             condition.setId(id);
-            data = CompanyChannelDAO.select(condition);
+            data = companyChannelDAO.select(condition);
             if (data == null) {
                 throw new BizException("xn0000", "公司渠道不存在");
             }
@@ -94,7 +94,16 @@ public class CompanyChannelBOImpl extends PaginableBOImpl<CompanyChannel>
     @Override
     public EChannelType getBestChannel(String companyCode,
             EChannelType channelType) {
-        return EChannelType.Fuiou;
+        return EChannelType.Fuiou_PC;
+    }
+
+    /** 
+     * @see com.std.account.bo.ICompanyChannelBO#getBestChannel(java.lang.String, java.util.List)
+     */
+    @Override
+    public EChannelType getBestChannel(String companyCode,
+            List<String> channelTypeList) {
+        return EChannelType.CZB;
     }
 
     @Override

@@ -59,7 +59,7 @@ public class Jour extends ABaseDO {
     private String rollbackUser;
 
     // 处理回调时间
-    private String rollbackDatetime;
+    private Date rollbackDatetime;
 
     // 拟对账时间
     private String workDate;
@@ -226,11 +226,11 @@ public class Jour extends ABaseDO {
         this.rollbackUser = rollbackUser;
     }
 
-    public String getRollbackDatetime() {
+    public Date getRollbackDatetime() {
         return rollbackDatetime;
     }
 
-    public void setRollbackDatetime(String rollbackDatetime) {
+    public void setRollbackDatetime(Date rollbackDatetime) {
         this.rollbackDatetime = rollbackDatetime;
     }
 

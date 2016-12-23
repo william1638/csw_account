@@ -14,16 +14,17 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.std.account.bo.IAccountBO;
 import com.std.account.bo.IJourBO;
 import com.std.account.bo.base.PaginableBOImpl;
 import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.IJourDAO;
 import com.std.account.domain.Jour;
-import com.std.account.enums.EAccountJourStatus;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
 import com.std.account.enums.EGeneratePrefix;
+import com.std.account.enums.EJourStatus;
 
 /** 
  * @author: miyb 
@@ -35,12 +36,15 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
     @Autowired
     private IJourDAO jourDAO;
 
+    @Autowired
+    private IAccountBO accountBO;
+
     @Override
-    public Jour getAccountJour(String order) {
+    public Jour getJour(String code) {
         Jour data = null;
-        if (StringUtils.isNotBlank(order)) {
+        if (StringUtils.isNotBlank(code)) {
             Jour condition = new Jour();
-            condition.setCode(order);
+            condition.setCode(code);
             data = jourDAO.select(condition);
         }
         return data;
@@ -48,25 +52,32 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
 
     @Override
     public String addToChangeJour(String systemCode, String accountNumber,
-            EChannelType channelType, EBizType bizType, String bizNote,
-            Long preAmount, Long transAmount) {
+            String channelType, String bizType, String bizNote, Long preAmount,
+            Long transAmount) {
         String code = OrderNoGenerater
             .generate(EGeneratePrefix.AJour.getCode());
         Long postAmount = preAmount + transAmount;
         Jour jour = new Jour();
         jour.setSystemCode(systemCode);
         jour.setAccountNumber(accountNumber);
-        jour.setChannelType(channelType.getCode());
-        jour.setBizType(bizType.getCode());
-        jour.setBizNote(bizType.getValue());
+        jour.setChannelType(channelType);
+        jour.setBizType(bizType);
+        jour.setBizNote(bizNote);
         jour.setTransAmount(transAmount);
 
         jour.setPreAmount(preAmount);
         jour.setPostAmount(postAmount);
         jour.setCreateDatetime(new Date());
-        jour.setStatus(EAccountJourStatus.todoCallBack.getCode());
+        jour.setStatus(EJourStatus.todoCallBack.getCode());
         jour.setWorkDate(null);
         jourDAO.insert(jour);
+        // 取现冻结
+        if (EBizType.AJ_QX.getCode().equals(bizType)) {
+            if (EChannelType.CZB.getCode().equals(channelType)) {
+                accountBO.frozenAmount(systemCode, accountNumber, transAmount,
+                    code);
+            }
+        }
         return code;
     }
 
@@ -76,8 +87,13 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
     @Override
     public int callBackChangeJour(String code, String rollbackUser,
             String rollbackNote) {
-        return 0;
-
+        Jour data = new Jour();
+        data.setCode(code);
+        data.setStatus(EJourStatus.todoCheck.getCode());
+        data.setRollbackUser(rollbackUser);
+        data.setRollbackDatetime(new Date());
+        data.setRemark(rollbackNote);
+        return jourDAO.insert(data);
     }
 
     /** 
@@ -101,7 +117,7 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
         jour.setPreAmount(preAmount);
         jour.setPostAmount(postAmount);
         jour.setCreateDatetime(new Date());
-        jour.setStatus(EAccountJourStatus.todoCheck.getCode());
+        jour.setStatus(EJourStatus.todoCheck.getCode());
         jour.setWorkDate(null);
         jourDAO.insert(jour);
         return code;

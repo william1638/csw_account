@@ -67,6 +67,17 @@ public class Account extends ABaseDO {
     // 创建终止时间
     private Date createDatetimeEnd;
 
+    // 户名
+    private String realNameQuery;
+
+    public String getRealNameQuery() {
+        return realNameQuery;
+    }
+
+    public void setRealNameQuery(String realNameQuery) {
+        this.realNameQuery = realNameQuery;
+    }
+
     public Date getCreateDatetimeStart() {
         return createDatetimeStart;
     }

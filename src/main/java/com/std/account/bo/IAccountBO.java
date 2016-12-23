@@ -30,7 +30,7 @@ public interface IAccountBO extends IPaginableBO<Account> {
             EAccountType accountType, String currency, String systemCode);
 
     /**
-     * 内部账划拨
+     * 划转资金
      * @param systemCode
      * @param accountNumber
      * @param channelType
@@ -44,6 +44,23 @@ public interface IAccountBO extends IPaginableBO<Account> {
     public void transAmount(String systemCode, String accountNumber,
             EChannelType channelType, String channelOrder, Long transAmount,
             String bizType, String bizNote);
+
+    /**
+     * 划转资金无流水
+     * @param systemCode
+     * @param accountNumber
+     * @param channelType
+     * @param channelOrder
+     * @param transAmount
+     * @param bizType
+     * @param bizNote
+     * @param lastOrder 
+     * @create: 2016年12月23日 下午10:27:10 xieyj
+     * @history:
+     */
+    public void transAmountNoJour(String systemCode, String accountNumber,
+            EChannelType channelType, String channelOrder, Long transAmount,
+            String bizType, String bizNote, String lastOrder);
 
     /**
      * 冻结账户金额
