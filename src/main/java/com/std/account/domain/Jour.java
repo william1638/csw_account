@@ -90,6 +90,28 @@ public class Jour extends ABaseDO {
     // 查询条件2：创建终止时间
     private Date createDatetimeEnd;
 
+    // 户名
+    private String realNameQuery;
+
+    // 类型
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getRealNameQuery() {
+        return realNameQuery;
+    }
+
+    public void setRealNameQuery(String realNameQuery) {
+        this.realNameQuery = realNameQuery;
+    }
+
     public Date getCreateDatetimeStart() {
         return createDatetimeStart;
     }

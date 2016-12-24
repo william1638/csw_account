@@ -27,7 +27,7 @@ public class XN802511 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         jourAO.doCallBackChange(req.getCode(), req.getRollbackResult(),
-            req.getRollbackUser(), req.getRollbackNote());
+            req.getRollbackUser(), req.getRollbackNote(), req.getSystemCode());
         return new BooleanRes(true);
     }
 
@@ -38,6 +38,6 @@ public class XN802511 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802511Req.class);
         StringValidater.validateBlank(req.getCode(), req.getRollbackUser(),
-            req.getRollbackNote());
+            req.getRollbackNote(), req.getSystemCode());
     }
 }

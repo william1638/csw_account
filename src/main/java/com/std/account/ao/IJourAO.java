@@ -11,6 +11,8 @@ package com.std.account.ao;
 import java.util.List;
 
 import com.std.account.annotation.ServiceModule;
+import com.std.account.bo.base.Paginable;
+import com.std.account.domain.Jour;
 
 /** 
  * @author: xieyj 
@@ -41,10 +43,37 @@ public interface IJourAO {
      * @param rollbackResult
      * @param rollbackUser
      * @param rollbackNote
-     * @create: 2016年12月23日 下午10:06:56 xieyj
+     * @param systemCode 
+     * @create: 2016年12月24日 上午8:21:37 xieyj
      * @history:
      */
     public void doCallBackChange(String code, String rollbackResult,
-            String rollbackUser, String rollbackNote);
+            String rollbackUser, String rollbackNote, String systemCode);
 
+    /**
+     * @param start
+     * @param limit
+     * @param condition
+     * @return 
+     * @create: 2016年12月24日 上午7:55:52 xieyj
+     * @history:
+     */
+    public Paginable<Jour> queryJourPage(int start, int limit, Jour condition);
+
+    /**
+     * @param condition
+     * @return 
+     * @create: 2016年12月24日 上午7:55:59 xieyj
+     * @history:
+     */
+    public List<Jour> queryJourList(Jour condition);
+
+    /**
+     * @param code
+     * @param systemCode
+     * @return 
+     * @create: 2016年12月24日 上午8:20:47 xieyj
+     * @history:
+     */
+    public Jour getJour(String code, String systemCode);
 }

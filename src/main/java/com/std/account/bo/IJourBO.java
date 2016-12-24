@@ -1,5 +1,7 @@
 package com.std.account.bo;
 
+import java.util.List;
+
 import com.std.account.bo.base.IPaginableBO;
 import com.std.account.domain.Jour;
 import com.std.account.enums.EBoolean;
@@ -11,15 +13,6 @@ import com.std.account.enums.EChannelType;
  * @history:
  */
 public interface IJourBO extends IPaginableBO<Jour> {
-
-    /**
-     * 获取详情
-     * @param code
-     * @return 
-     * @create: 2016年11月10日 下午6:10:50 xieyj
-     * @history:
-     */
-    public Jour getJour(String code);
 
     /**
      * 新增未变动金额之流水
@@ -91,5 +84,24 @@ public interface IJourBO extends IPaginableBO<Jour> {
      */
     public void doAdjustAccount(String code, EBoolean adjustResult,
             String adjustUser);
+
+    /**
+     * 获取流水列表
+     * @param data
+     * @return 
+     * @create: 2016年11月11日 上午10:52:08 xieyj
+     * @history:
+     */
+    public List<Jour> queryJourList(Jour condition);
+
+    /**
+     * 获取详情
+     * @param code
+     * @param systemCode
+     * @return 
+     * @create: 2016年12月24日 上午8:19:51 xieyj
+     * @history:
+     */
+    public Jour getJour(String code, String systemCode);
 
 }

@@ -1,6 +1,5 @@
 package com.std.account.dto.req;
 
-
 public class XN802511Req {
     // 订单编号(必填)
     private String code;
@@ -13,6 +12,17 @@ public class XN802511Req {
 
     // 回调结果(选填)
     private String rollbackResult;
+
+    // 系统编号(必填)
+    private String systemCode;
+
+    public String getSystemCode() {
+        return systemCode;
+    }
+
+    public void setSystemCode(String systemCode) {
+        this.systemCode = systemCode;
+    }
 
     public String getCode() {
         return code;

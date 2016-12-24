@@ -18,6 +18,7 @@ import com.std.account.ao.IJourAO;
 import com.std.account.bo.IAccountBO;
 import com.std.account.bo.ICompanyChannelBO;
 import com.std.account.bo.IJourBO;
+import com.std.account.bo.base.Paginable;
 import com.std.account.domain.Account;
 import com.std.account.domain.Jour;
 import com.std.account.enums.EBizType;
@@ -64,8 +65,8 @@ public class JourAOImpl implements IJourAO {
     @Override
     @Transactional
     public void doCallBackChange(String code, String rollbackResult,
-            String rollbackUser, String rollbackNote) {
-        Jour data = jourBO.getJour(code);
+            String rollbackUser, String rollbackNote, String systemCode) {
+        Jour data = jourBO.getJour(code, systemCode);
         jourBO.callBackChangeJour(code, rollbackUser, rollbackNote);
         if (EBizType.AJ_CZ.getCode().equals(data.getBizType())) {
             // 更新记录，账户加钱
@@ -78,5 +79,23 @@ public class JourAOImpl implements IJourAO {
             accountBO.unfrozenAmount(data.getSystemCode(),
                 data.getAccountNumber(), data.getTransAmount(), code);
         }
+    }
+
+    @Override
+    public Paginable<Jour> queryJourPage(int start, int limit, Jour condition) {
+        return jourBO.getPaginable(start, limit, condition);
+    }
+
+    @Override
+    public List<Jour> queryJourList(Jour condition) {
+        return jourBO.queryJourList(condition);
+    }
+
+    /** 
+     * @see com.std.account.ao.IJourAO#getJour(java.lang.String)
+     */
+    @Override
+    public Jour getJour(String code, String systemCode) {
+        return jourBO.getJour(code, systemCode);
     }
 }

@@ -9,6 +9,7 @@
 package com.std.account.bo.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,11 +41,12 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
     private IAccountBO accountBO;
 
     @Override
-    public Jour getJour(String code) {
+    public Jour getJour(String code, String systemCode) {
         Jour data = null;
         if (StringUtils.isNotBlank(code)) {
             Jour condition = new Jour();
             condition.setCode(code);
+            condition.setSystemCode(systemCode);
             data = jourDAO.select(condition);
         }
         return data;
@@ -141,6 +143,14 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
             String adjustUser) {
         // TODO Auto-generated method stub
 
+    }
+
+    /** 
+     * @see com.std.account.bo.IJourBO#queryJourList(com.std.account.domain.Jour)
+     */
+    @Override
+    public List<Jour> queryJourList(Jour condition) {
+        return jourDAO.selectList(condition);
     }
 
     // @Override
