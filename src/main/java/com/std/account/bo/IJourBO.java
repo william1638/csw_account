@@ -3,6 +3,7 @@ package com.std.account.bo;
 import java.util.List;
 
 import com.std.account.bo.base.IPaginableBO;
+import com.std.account.domain.Account;
 import com.std.account.domain.Jour;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
@@ -22,15 +23,13 @@ public interface IJourBO extends IPaginableBO<Jour> {
      * @param payType
      * @param bizType
      * @param bizNote
-     * @param preAmount
      * @param transAmount
      * @return 
      * @create: 2016年12月23日 下午2:52:19 xieyj
      * @history:
      */
     public String addToChangeJour(String systemCode, String accountNumber,
-            String channelType, String bizType, String bizNote, Long preAmount,
-            Long transAmount);
+            String channelType, String bizType, String bizNote, Long transAmount);
 
     /**
      *  回调处理流水
@@ -70,22 +69,35 @@ public interface IJourBO extends IPaginableBO<Jour> {
      * @param checkResult
      * @param checkUser
      * @param checkNote 
-     * @create: 2016年12月25日 下午4:21:10 xieyj
+     * @create: 2016年12月25日 下午5:00:10 xieyj
      * @history:
      */
     public void doCheckJour(String code, EBoolean checkResult,
             String checkUser, String checkNote);
 
     /**
+     * 产生调账订单
+     * @param account
+     * @param channelOrder
+     * @param transAmount
+     * @return 
+     * @create: 2016年12月25日 下午5:06:48 xieyj
+     * @history:
+     */
+    public String addAdjustJour(Account account, String channelOrder,
+            Long transAmount);
+
+    /**
      * 调账结果录入
      * @param code
      * @param adjustResult
-     * @param adjustUser 
-     * @create: 2016年12月23日 下午2:50:13 xieyj
+     * @param adjustUser
+     * @param adjustNote 
+     * @create: 2016年12月25日 下午5:37:48 xieyj
      * @history:
      */
-    public void doAdjustAccount(String code, EBoolean adjustResult,
-            String adjustUser);
+    public void doAdjustJour(String code, EBoolean adjustResult,
+            String adjustUser, String adjustNote);
 
     /**
      * 获取流水列表

@@ -66,6 +66,19 @@ public interface IJourAO {
             String checkNote, String systemCode);
 
     /**
+     * 人工调账
+     * @param code
+     * @param adjustResult 1 通过，0 不通过
+     * @param adjustUser
+     * @param adjustNote 
+     * @param systemCode 
+     * @create: 2016年12月25日 下午5:23:05 xieyj
+     * @history:
+     */
+    public void adjustJour(String code, String adjustResult, String adjustUser,
+            String adjustNote, String systemCode);
+
+    /**
      * @param start
      * @param limit
      * @param condition

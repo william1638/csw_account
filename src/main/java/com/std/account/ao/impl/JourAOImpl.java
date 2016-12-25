@@ -55,12 +55,10 @@ public class JourAOImpl implements IJourAO {
         String payUrl = null;
         EChannelType channelType = companyChannelBO.getBestChannel(systemCode,
             channelTypeList);
-        Account account = accountBO.getAccount(systemCode, accountNumber);
         bizNote = EBizType.getBizTypeMap().get(bizType).getValue() + ":银行卡号["
                 + bankcardNumber + "]划转金额";
         jourBO.addToChangeJour(systemCode, accountNumber,
-            channelType.getCode(), bizType, bizNote, account.getAmount(),
-            transAmount);
+            channelType.getCode(), bizType, bizNote, transAmount);
         return payUrl;
     }
 
@@ -74,10 +72,8 @@ public class JourAOImpl implements IJourAO {
         Jour data = jourBO.getJour(code, systemCode);
         if (EBoolean.YES.getCode().equals(rollbackResult)) {
             if (EBizType.AJ_CZ.getCode().equals(data.getBizType())) {
-                accountBO.transAmountNotJour(data.getSystemCode(), data
-                    .getAccountNumber(), EChannelType.getChannelTypeResultMap()
-                    .get(data.getChannelType()), null, data.getTransAmount(),
-                    data.getBizType(), data.getBizNote(), code);
+                accountBO.transAmountNotJour(data.getSystemCode(),
+                    data.getAccountNumber(), data.getTransAmount(), code);
             } else if (EBizType.AJ_QX.getCode().equals(data.getBizType())) {
                 accountBO.unfrozenAmount(data.getSystemCode(),
                     EBoolean.YES.getCode(), data.getAccountNumber(),
@@ -93,9 +89,10 @@ public class JourAOImpl implements IJourAO {
     }
 
     /*
-     * 人工调账： 1、判断流水账是否平
+     * 人工调账： 1、判断流水账是否平，平则更改订单状态，不平则更改产生红冲蓝补订单，而后更改订单状态
      */
     @Override
+    @Transactional
     public void checkJour(String code, Long checkAmount, String checkUser,
             String checkNote, String systemCode) {
         Jour data = jourBO.getJour(code, systemCode);
@@ -103,9 +100,31 @@ public class JourAOImpl implements IJourAO {
             throw new BizException("xn000000", "该单号不处于待对账状态");
         }
         if (checkAmount != 0) {
-
+            Account account = accountBO.getAccount(systemCode,
+                data.getAccountNumber());
+            jourBO.addAdjustJour(account, code, checkAmount);
+            jourBO.doCheckJour(code, EBoolean.NO, checkUser, checkNote);
         } else {
-            jourBO.doCheckJour(systemCode, checkResult, checkUser);
+            jourBO.doCheckJour(code, EBoolean.YES, checkUser, checkNote);
+        }
+    }
+
+    @Override
+    public void adjustJour(String code, String adjustResult, String adjustUser,
+            String adjustNote, String systemCode) {
+        Jour data = jourBO.getJour(code, systemCode);
+        if (!EJourStatus.todoAdjust.getCode().equals(data.getStatus())) {
+            throw new BizException("xn000000", "该单号不处于调账待审核状态");
+        }
+        // 审核通过，账户钱处理
+        if (EBoolean.YES.getCode().equals(adjustResult)) {
+            accountBO.transAmountNotJour(systemCode, data.getAccountNumber(),
+                data.getTransAmount(), code);
+            jourBO.doAdjustJour(systemCode, EBoolean.YES, adjustUser,
+                adjustNote);
+        } else {
+            jourBO
+                .doAdjustJour(systemCode, EBoolean.NO, adjustUser, adjustNote);
         }
     }
 

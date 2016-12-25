@@ -18,6 +18,7 @@ import org.springframework.stereotype.Component;
 import com.std.account.bo.IAccountBO;
 import com.std.account.bo.IJourBO;
 import com.std.account.bo.base.PaginableBOImpl;
+import com.std.account.common.DateUtil;
 import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.IJourDAO;
 import com.std.account.domain.Account;
@@ -59,12 +60,10 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
 
     @Override
     public String addToChangeJour(String systemCode, String accountNumber,
-            String channelType, String bizType, String bizNote, Long preAmount,
-            Long transAmount) {
+            String channelType, String bizType, String bizNote, Long transAmount) {
         Account account = accountBO.getAccount(systemCode, accountNumber);
         String code = OrderNoGenerater
             .generate(EGeneratePrefix.AJour.getCode());
-        Long postAmount = preAmount + transAmount;
         Jour data = new Jour();
         data.setCode(code);
         data.setUserId(account.getUserId());
@@ -74,11 +73,10 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
         data.setBizType(bizType);
         data.setBizNote(bizNote);
         data.setTransAmount(transAmount);
-        data.setPreAmount(preAmount);
-        data.setPostAmount(postAmount);
         data.setCreateDatetime(new Date());
         data.setStatus(EJourStatus.todoCallBack.getCode());
-        data.setWorkDate(null);
+        data.setWorkDate(DateUtil.dateToStr(new Date(),
+            DateUtil.DB_DATE_FORMAT_STRING));
         data.setSystemCode(systemCode);
         jourDAO.insert(data);
         // 取现冻结
@@ -135,7 +133,8 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
         data.setPostAmount(postAmount);
         data.setCreateDatetime(new Date());
         data.setStatus(EJourStatus.todoCheck.getCode());
-        data.setWorkDate(null);
+        data.setWorkDate(DateUtil.dateToStr(new Date(),
+            DateUtil.DB_DATE_FORMAT_STRING));
         jourDAO.insert(data);
         return code;
     }
@@ -145,21 +144,68 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
             String checkUser, String checkNote) {
         Jour data = new Jour();
         data.setCode(code);
-        String status = EJourStatus.Checked_YES
-        if(EBoolean.YES.equals(checkResult)){
-            
+        EJourStatus eJourStatus = EJourStatus.Checked_YES;
+        if (EBoolean.NO.equals(checkResult)) {
+            eJourStatus = EJourStatus.Checked_NO;
         }
+        data.setStatus(eJourStatus.getCode());
+        data.setCheckUser(checkUser);
+        data.setCheckDatetime(new Date());
+        data.setRemark(checkNote);
+        jourDAO.updateCheck(data);
+    }
 
+    /**
+     * @see com.std.account.bo.IJourBO#addAdjustJour(com.std.account.domain.Account, java.lang.String, java.lang.Long)
+     */
+    @Override
+    public String addAdjustJour(Account account, String channelOrder,
+            Long transAmount) {
+        String code = OrderNoGenerater
+            .generate(EGeneratePrefix.AJour.getCode());
+        Long preAmount = account.getAmount();
+        Long postAmount = preAmount + transAmount;
+        Jour data = new Jour();
+        data.setSystemCode(account.getSystemCode());
+        data.setUserId(account.getUserId());
+        data.setRealName(account.getRealName());
+        data.setAccountNumber(account.getAccountNumber());
+        data.setChannelType(EChannelType.Adjust_ZH.getCode());
+        // 产生红冲蓝补订单
+        EBizType eBizType = EBizType.AJ_HC;
+        if (transAmount > 0) {
+            eBizType = EBizType.AJ_LB;
+        }
+        String bizNote = eBizType.getValue() + ",调账单号[" + channelOrder + "]";
+        data.setBizType(eBizType.getCode());
+        data.setBizNote(bizNote);
+        data.setTransAmount(transAmount);
+        data.setPreAmount(preAmount);
+        data.setPostAmount(postAmount);
+        data.setCreateDatetime(new Date());
+        data.setStatus(EJourStatus.todoAdjust.getCode());
+        data.setWorkDate(null);
+        jourDAO.insert(data);
+        return code;
     }
 
     /** 
      * @see com.std.account.bo.IJourBO#doAdjustAccount(java.lang.String, com.std.account.enums.EBoolean, java.lang.String)
      */
     @Override
-    public void doAdjustAccount(String code, EBoolean adjustResult,
-            String adjustUser) {
-        // TODO Auto-generated method stub
-
+    public void doAdjustJour(String code, EBoolean adjustResult,
+            String adjustUser, String adjustNote) {
+        Jour data = new Jour();
+        data.setCode(code);
+        EJourStatus eJourStatus = EJourStatus.adjusted_YES;
+        if (EBoolean.NO.equals(adjustResult)) {
+            eJourStatus = EJourStatus.adjusted_NO;
+        }
+        data.setStatus(eJourStatus.getValue());
+        data.setAdjustUser(adjustUser);
+        data.setAdjustDatetime(new Date());
+        data.setRemark(adjustNote);
+        jourDAO.updateAdjust(data);
     }
 
     /** 

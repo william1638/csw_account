@@ -151,6 +151,8 @@
 		UPDATE tstd_jour
 		SET
 		status= #{status}
+		,pre_amount = #{preAmount}
+		,post_amount = #{postAmount}
 		,rollback_user=#{rollbackUser}
 		,rollback_datetime=#{rollbackDatetime}
 		,remark=#{remark}
@@ -173,6 +175,8 @@
 		UPDATE tstd_jour
 		SET
 		status= #{status}
+		,pre_amount = #{preAmount}
+		,post_amount = #{postAmount}
 		,adjust_user=#{adjustUser}
 		,adjust_datetime=#{adjustDatetime}
 		,remark=#{remark}

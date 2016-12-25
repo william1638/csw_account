@@ -88,12 +88,8 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
 
     @Override
     public void transAmountNotJour(String systemCode, String accountNumber,
-            EChannelType channelType, String channelOrder, Long transAmount,
-            String bizType, String bizNote, String lastOrder) {
+            Long transAmount, String lastOrder) {
         Account dbAccount = this.getAccount(systemCode, accountNumber);
-        // if (StringUtils.isNotBlank(bizType) && Long.valueOf(bizType) < 0) {
-        // transAmount = -transAmount;
-        // }
         Long nowAmount = dbAccount.getAmount() + transAmount;
         if (nowAmount < 0) {
             throw new BizException("xn000000", "账户余额不足");
