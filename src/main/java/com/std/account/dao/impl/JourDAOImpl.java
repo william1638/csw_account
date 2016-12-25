@@ -69,11 +69,11 @@ public class JourDAOImpl extends AMybatisTemplate implements IJourDAO {
     }
 
     /** 
-     * @see com.std.account.dao.IJourDAO#updateTrans(com.std.account.domain.Jour)
+     * @see com.std.account.dao.IJourDAO#updateCallback(com.std.account.domain.Jour)
      */
     @Override
-    public int updateTrans(Jour data) {
-        return super.update(NAMESPACE.concat("update_trans_account"), data);
+    public int updateCallback(Jour data) {
+        return super.update(NAMESPACE.concat("update_jour_callback"), data);
     }
 
     /** 

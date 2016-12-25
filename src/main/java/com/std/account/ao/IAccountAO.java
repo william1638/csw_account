@@ -25,18 +25,15 @@ public interface IAccountAO {
     /**
      * 通过橙账本划转资金，即内部划转资金
      * @param systemCode
-     * @param fromAccountName
      * @param fromAccountNumber
-     * @param toAccountName
      * @param toAccountNumber
      * @param transAmount
      * @param bizType
      * @param bizNote 
-     * @create: 2016年11月16日 下午5:03:24 myb858
+     * @create: 2016年12月25日 下午3:16:12 xieyj
      * @history:
      */
-    void transAmountCZB(String systemCode, String fromAccountName,
-            String fromAccountNumber, String toAccountName,
+    void transAmountCZB(String systemCode, String fromAccountNumber,
             String toAccountNumber, Long transAmount, String bizType,
             String bizNote);
 
@@ -102,5 +99,15 @@ public interface IAccountAO {
      * @history:
      */
     public Account getAccount(String systemCode, String accountNumber);
+
+    /**
+     * 根据用户编号获取账户列表
+     * @param systemCode
+     * @param userId
+     * @return 
+     * @create: 2016年12月24日 下午1:10:01 xieyj
+     * @history:
+     */
+    public List<Account> getAccountByUserId(String systemCode, String userId);
 
 }

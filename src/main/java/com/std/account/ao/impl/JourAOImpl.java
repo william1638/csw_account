@@ -22,6 +22,7 @@ import com.std.account.bo.base.Paginable;
 import com.std.account.domain.Account;
 import com.std.account.domain.Jour;
 import com.std.account.enums.EBizType;
+import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
 
 /** 
@@ -41,44 +42,61 @@ public class JourAOImpl implements IJourAO {
     @Autowired
     private IAccountBO accountBO;
 
-    /** 
-     * @see com.std.account.ao.IJourAO#doChangeAmount(java.lang.String, java.lang.String, java.lang.Long, java.lang.String, java.lang.String, java.util.List, java.lang.String)
+    /*
+     * 外部账支付：1、产生支付申请订单；2、返回支付链接；
      */
     @Override
-    public void doChangeAmount(String accountNumber, String bankcardNumber,
+    @Transactional
+    public String doChangeAmount(String accountNumber, String bankcardNumber,
             Long transAmount, String bizType, String bizNote,
             List<String> channelTypeList, String systemCode) {
+        String payUrl = null;
         EChannelType channelType = companyChannelBO.getBestChannel(systemCode,
             channelTypeList);
         Account account = accountBO.getAccount(systemCode, accountNumber);
-        // 备注说明
         bizNote = EBizType.getBizTypeMap().get(bizType).getValue() + ":银行卡号["
                 + bankcardNumber + "]划转金额";
         jourBO.addToChangeJour(systemCode, accountNumber,
-            channelType.getCode(), EBizType.AJ_CZ.getCode(), bizNote,
-            account.getAmount(), transAmount);
+            channelType.getCode(), bizType, bizNote, account.getAmount(),
+            transAmount);
+        return payUrl;
     }
 
-    /** 
-     * @see com.std.account.ao.IJourAO#doCallBackChange(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+    /*
+     * 回调方法： 1、审核通过扣除金额；审核不通过，资金原路返回
      */
     @Override
     @Transactional
     public void doCallBackChange(String code, String rollbackResult,
             String rollbackUser, String rollbackNote, String systemCode) {
         Jour data = jourBO.getJour(code, systemCode);
-        jourBO.callBackChangeJour(code, rollbackUser, rollbackNote);
-        if (EBizType.AJ_CZ.getCode().equals(data.getBizType())) {
-            // 更新记录，账户加钱
-            accountBO.transAmountNoJour(data.getSystemCode(), data
-                .getAccountNumber(), EChannelType.getChannelTypeResultMap()
-                .get(data.getChannelType()), null, data.getTransAmount(), data
-                .getBizType(), data.getBizNote(), code);
-        } else if (EBizType.AJ_QX.getCode().equals(data.getBizType())) {
-            // 解冻记录，账户扣钱
+        if (EBoolean.YES.getCode().equals(rollbackResult)) {
+            if (EBizType.AJ_CZ.getCode().equals(data.getBizType())) {
+                accountBO.transAmountNotJour(data.getSystemCode(), data
+                    .getAccountNumber(), EChannelType.getChannelTypeResultMap()
+                    .get(data.getChannelType()), null, data.getTransAmount(),
+                    data.getBizType(), data.getBizNote(), code);
+            } else if (EBizType.AJ_QX.getCode().equals(data.getBizType())) {
+                accountBO.unfrozenAmount(data.getSystemCode(),
+                    EBoolean.YES.getCode(), data.getAccountNumber(),
+                    data.getTransAmount(), code);
+            }
+        } else {
             accountBO.unfrozenAmount(data.getSystemCode(),
-                data.getAccountNumber(), data.getTransAmount(), code);
+                EBoolean.NO.getCode(), data.getAccountNumber(),
+                data.getTransAmount(), code);
         }
+        jourBO.callBackChangeJour(code, rollbackResult, rollbackUser,
+            rollbackNote);
+    }
+
+    /*
+     * 人工调账： 1、判断流水账是否平
+     */
+    @Override
+    public void checkJour(String code, String checkAmount, String checkUser,
+            String checkNote, String systemCode) {
+        //
     }
 
     @Override

@@ -20,6 +20,7 @@ import com.std.account.bo.IJourBO;
 import com.std.account.bo.base.PaginableBOImpl;
 import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.IJourDAO;
+import com.std.account.domain.Account;
 import com.std.account.domain.Jour;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
@@ -56,23 +57,26 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
     public String addToChangeJour(String systemCode, String accountNumber,
             String channelType, String bizType, String bizNote, Long preAmount,
             Long transAmount) {
+        Account account = accountBO.getAccount(systemCode, accountNumber);
         String code = OrderNoGenerater
             .generate(EGeneratePrefix.AJour.getCode());
         Long postAmount = preAmount + transAmount;
-        Jour jour = new Jour();
-        jour.setSystemCode(systemCode);
-        jour.setAccountNumber(accountNumber);
-        jour.setChannelType(channelType);
-        jour.setBizType(bizType);
-        jour.setBizNote(bizNote);
-        jour.setTransAmount(transAmount);
-
-        jour.setPreAmount(preAmount);
-        jour.setPostAmount(postAmount);
-        jour.setCreateDatetime(new Date());
-        jour.setStatus(EJourStatus.todoCallBack.getCode());
-        jour.setWorkDate(null);
-        jourDAO.insert(jour);
+        Jour data = new Jour();
+        data.setCode(code);
+        data.setUserId(account.getUserId());
+        data.setRealName(account.getRealName());
+        data.setAccountNumber(accountNumber);
+        data.setChannelType(channelType);
+        data.setBizType(bizType);
+        data.setBizNote(bizNote);
+        data.setTransAmount(transAmount);
+        data.setPreAmount(preAmount);
+        data.setPostAmount(postAmount);
+        data.setCreateDatetime(new Date());
+        data.setStatus(EJourStatus.todoCallBack.getCode());
+        data.setWorkDate(null);
+        data.setSystemCode(systemCode);
+        jourDAO.insert(data);
         // 取现冻结
         if (EBizType.AJ_QX.getCode().equals(bizType)) {
             if (EChannelType.CZB.getCode().equals(channelType)) {
@@ -87,15 +91,19 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
      * @see com.std.account.bo.IJourBO#callBackChangeJour(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public int callBackChangeJour(String code, String rollbackUser,
-            String rollbackNote) {
+    public int callBackChangeJour(String code, String rollBackResult,
+            String rollbackUser, String rollbackNote) {
         Jour data = new Jour();
         data.setCode(code);
-        data.setStatus(EJourStatus.todoCheck.getCode());
+        EJourStatus eJourStatus = EJourStatus.todoCheck;
+        if (EBoolean.NO.getCode().equals(rollBackResult)) {
+            eJourStatus = EJourStatus.callBack_NO;
+        }
+        data.setStatus(eJourStatus.getCode());
         data.setRollbackUser(rollbackUser);
         data.setRollbackDatetime(new Date());
         data.setRemark(rollbackNote);
-        return jourDAO.insert(data);
+        return jourDAO.updateCallback(data);
     }
 
     /** 
@@ -105,23 +113,26 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
     public String addChangedJour(String systemCode, String accountNumber,
             EChannelType channelType, String channelOrder, String bizType,
             String bizNote, Long preAmount, Long transAmount) {
+        Account account = accountBO.getAccount(systemCode, accountNumber);
         String code = OrderNoGenerater
             .generate(EGeneratePrefix.AJour.getCode());
         Long postAmount = preAmount + transAmount;
-        Jour jour = new Jour();
-        jour.setSystemCode(systemCode);
-        jour.setAccountNumber(accountNumber);
-        jour.setChannelType(channelType.getCode());
-        jour.setBizType(bizType);
-        jour.setBizNote(bizNote);
-        jour.setTransAmount(transAmount);
+        Jour data = new Jour();
+        data.setSystemCode(systemCode);
+        data.setUserId(account.getUserId());
+        data.setRealName(account.getRealName());
+        data.setAccountNumber(accountNumber);
+        data.setChannelType(channelType.getCode());
+        data.setBizType(bizType);
+        data.setBizNote(bizNote);
+        data.setTransAmount(transAmount);
 
-        jour.setPreAmount(preAmount);
-        jour.setPostAmount(postAmount);
-        jour.setCreateDatetime(new Date());
-        jour.setStatus(EJourStatus.todoCheck.getCode());
-        jour.setWorkDate(null);
-        jourDAO.insert(jour);
+        data.setPreAmount(preAmount);
+        data.setPostAmount(postAmount);
+        data.setCreateDatetime(new Date());
+        data.setStatus(EJourStatus.todoCheck.getCode());
+        data.setWorkDate(null);
+        jourDAO.insert(data);
         return code;
     }
 

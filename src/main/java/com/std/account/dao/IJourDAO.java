@@ -18,7 +18,7 @@ public interface IJourDAO extends IBaseDAO<Jour> {
      * @create: 2016年11月10日 下午6:05:41 xieyj
      * @history:
      */
-    public int updateTrans(Jour data);
+    public int updateCallback(Jour data);
 
     /**
      * 对账结果录入

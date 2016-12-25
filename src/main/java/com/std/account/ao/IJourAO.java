@@ -21,6 +21,8 @@ import com.std.account.domain.Jour;
  */
 @ServiceModule
 public interface IJourAO {
+    String DEFAULT_ORDER_COLUMN = "code";
+
     /**
      * 外部支付待回调
      * @param accountNumber
@@ -33,7 +35,7 @@ public interface IJourAO {
      * @create: 2016年12月23日 下午9:09:43 xieyj
      * @history:
      */
-    public void doChangeAmount(String accountNumber, String bankcardNumber,
+    public String doChangeAmount(String accountNumber, String bankcardNumber,
             Long transAmount, String bizType, String bizNote,
             List<String> channelTypeList, String systemCode);
 
@@ -76,4 +78,17 @@ public interface IJourAO {
      * @history:
      */
     public Jour getJour(String code, String systemCode);
+
+    /**
+     * 人工单条调账
+     * @param code
+     * @param checkAmount
+     * @param checkUser
+     * @param checkNote
+     * @param systemCode 
+     * @create: 2016年12月25日 下午3:58:53 xieyj
+     * @history:
+     */
+    public void checkJour(String code, String checkAmount, String checkUser,
+            String checkNote, String systemCode);
 }

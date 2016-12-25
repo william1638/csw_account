@@ -2,7 +2,6 @@ package com.std.account.api.impl;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.std.account.ao.IAccountAO;
 import com.std.account.ao.IJourAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
@@ -42,7 +41,7 @@ public class XN802520 extends AProcessor {
         condition.setSystemCode(req.getSystemCode());
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {
-            orderColumn = IAccountAO.DEFAULT_ORDER_COLUMN;
+            orderColumn = IJourAO.DEFAULT_ORDER_COLUMN;
         }
         condition.setOrder(orderColumn, req.getOrderDir());
         int start = StringValidater.toInteger(req.getStart());

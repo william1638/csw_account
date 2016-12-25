@@ -58,7 +58,7 @@ public interface IAccountBO extends IPaginableBO<Account> {
      * @create: 2016年12月23日 下午10:27:10 xieyj
      * @history:
      */
-    public void transAmountNoJour(String systemCode, String accountNumber,
+    public void transAmountNotJour(String systemCode, String accountNumber,
             EChannelType channelType, String channelOrder, Long transAmount,
             String bizType, String bizNote, String lastOrder);
 
@@ -75,16 +75,17 @@ public interface IAccountBO extends IPaginableBO<Account> {
             Long freezeAmount, String lastOrder);
 
     /**
-     * 解冻账户金额
+     * 解冻账户(审核通过，扣除冻结金额；审核不通过，冻结金额原路返回)
      * @param systemCode
+     * @param unfrozenResult 1 通过， 0 不通过
      * @param accountNumber
      * @param unfreezeAmount
      * @param lastOrder 
-     * @create: 2016年12月23日 下午5:26:20 xieyj
+     * @create: 2016年12月25日 下午2:55:10 xieyj
      * @history:
      */
-    public void unfrozenAmount(String systemCode, String accountNumber,
-            Long unfreezeAmount, String lastOrder);
+    public void unfrozenAmount(String systemCode, String unfrozenResult,
+            String accountNumber, Long unfreezeAmount, String lastOrder);
 
     /**
      * 更新账户状态

@@ -16,6 +16,7 @@ import com.std.account.dao.IAccountDAO;
 import com.std.account.domain.Account;
 import com.std.account.enums.EAccountStatus;
 import com.std.account.enums.EAccountType;
+import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
 import com.std.account.enums.EGeneratePrefix;
 import com.std.account.exception.BizException;
@@ -86,13 +87,13 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
     }
 
     @Override
-    public void transAmountNoJour(String systemCode, String accountNumber,
+    public void transAmountNotJour(String systemCode, String accountNumber,
             EChannelType channelType, String channelOrder, Long transAmount,
             String bizType, String bizNote, String lastOrder) {
         Account dbAccount = this.getAccount(systemCode, accountNumber);
-        if (StringUtils.isNotBlank(bizType) && Long.valueOf(bizType) < 0) {
-            transAmount = -transAmount;
-        }
+        // if (StringUtils.isNotBlank(bizType) && Long.valueOf(bizType) < 0) {
+        // transAmount = -transAmount;
+        // }
         Long nowAmount = dbAccount.getAmount() + transAmount;
         if (nowAmount < 0) {
             throw new BizException("xn000000", "账户余额不足");
@@ -130,13 +131,17 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
     }
 
     @Override
-    public void unfrozenAmount(String systemCode, String accountNumber,
-            Long unfreezeAmount, String lastOrder) {
+    public void unfrozenAmount(String systemCode, String unfrozenResult,
+            String accountNumber, Long unfreezeAmount, String lastOrder) {
         if (unfreezeAmount <= 0) {
             throw new BizException("xn000000", "解冻金额需大于0");
         }
         Account dbAccount = this.getAccount(systemCode, accountNumber);
+        // 审核通过，扣除冻结金额，审核不通过冻结资金原路返回
         Long nowAmount = dbAccount.getAmount();
+        if (EBoolean.NO.getCode().equals(unfrozenResult)) {
+            nowAmount = nowAmount + unfreezeAmount;
+        }
         Long nowFrozenAmount = dbAccount.getFrozenAmount() - unfreezeAmount;
         if (nowFrozenAmount < 0) {
             throw new BizException("xn000000", "本次解冻会使账户冻结金额小于0");

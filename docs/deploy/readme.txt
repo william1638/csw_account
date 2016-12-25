@@ -18,6 +18,7 @@
   
 2，打包
    scp -P57652 ./std-account.war root@121.43.101.148:/home
+  T6dh%$%$ss1
   
 
 
@@ -39,11 +40,19 @@
   rm -rf std-account/
   mv /home/std-account.war .
   
+  cd /home/wwwroot/zhpay/tomcat_std_account/webapps
+  rm -rf std-account.war
+  cp ./std-account/WEB-INF/classes/application.properties .
+  cp ./std-account/WEB-INF/classes/config.properties .
+  rm -rf std-account/
+  mv /home/std-account.war .
+  
 4,起停tomcat_STD_account
   mv -f application.properties ./std-account/WEB-INF/classes/
   mv -f config.properties ./std-account/WEB-INF/classes/
   ../bin/shutdown.sh
   ../bin/startup.sh
+  http://121.43.101.148:5606/std-account/api
   
 http://121.43.101.148:5306/std-account/api
 

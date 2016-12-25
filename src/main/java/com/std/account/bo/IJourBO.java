@@ -33,16 +33,17 @@ public interface IJourBO extends IPaginableBO<Jour> {
             Long transAmount);
 
     /**
-     * 回调处理流水
+     *  回调处理流水
      * @param code
+     * @param rollbackResult
      * @param rollbackUser
      * @param rollbackNote
      * @return 
-     * @create: 2016年12月23日 下午2:52:44 xieyj
+     * @create: 2016年12月25日 下午2:43:24 xieyj
      * @history:
      */
-    public int callBackChangeJour(String code, String rollbackUser,
-            String rollbackNote);
+    public int callBackChangeJour(String code, String rollbackResult,
+            String rollbackUser, String rollbackNote);
 
     /**
      * 新增已变动金额之流水

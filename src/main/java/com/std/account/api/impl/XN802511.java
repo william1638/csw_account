@@ -11,7 +11,7 @@ import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 手动回调
+ * 手动回调(目前限于线下渠道，线上渠道返回服务器暂时无实现)
  * @author: xieyj 
  * @since: 2016年12月23日 下午10:37:46 
  * @history:
