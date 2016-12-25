@@ -24,6 +24,8 @@ import com.std.account.domain.Jour;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
+import com.std.account.enums.EJourStatus;
+import com.std.account.exception.BizException;
 
 /** 
  * @author: xieyj 
@@ -94,9 +96,17 @@ public class JourAOImpl implements IJourAO {
      * 人工调账： 1、判断流水账是否平
      */
     @Override
-    public void checkJour(String code, String checkAmount, String checkUser,
+    public void checkJour(String code, Long checkAmount, String checkUser,
             String checkNote, String systemCode) {
-        //
+        Jour data = jourBO.getJour(code, systemCode);
+        if (!EJourStatus.todoCheck.getCode().equals(data.getStatus())) {
+            throw new BizException("xn000000", "该单号不处于待对账状态");
+        }
+        if (checkAmount != 0) {
+
+        } else {
+            jourBO.doCheckJour(systemCode, checkResult, checkUser);
+        }
     }
 
     @Override

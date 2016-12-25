@@ -68,12 +68,13 @@ public interface IJourBO extends IPaginableBO<Jour> {
      * 对账结果录入
      * @param code
      * @param checkResult
-     * @param checkUser 
-     * @create: 2016年12月23日 下午2:50:20 xieyj
+     * @param checkUser
+     * @param checkNote 
+     * @create: 2016年12月25日 下午4:21:10 xieyj
      * @history:
      */
-    public void doCheckAccount(String code, EBoolean checkResult,
-            String checkUser);
+    public void doCheckJour(String code, EBoolean checkResult,
+            String checkUser, String checkNote);
 
     /**
      * 调账结果录入

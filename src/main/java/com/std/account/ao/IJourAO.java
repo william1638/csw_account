@@ -53,6 +53,19 @@ public interface IJourAO {
             String rollbackUser, String rollbackNote, String systemCode);
 
     /**
+     * 人工调账
+     * @param code
+     * @param checkAmount
+     * @param checkUser
+     * @param checkNote
+     * @param systemCode 
+     * @create: 2016年12月25日 下午3:58:53 xieyj
+     * @history:
+     */
+    public void checkJour(String code, Long checkAmount, String checkUser,
+            String checkNote, String systemCode);
+
+    /**
      * @param start
      * @param limit
      * @param condition
@@ -78,17 +91,4 @@ public interface IJourAO {
      * @history:
      */
     public Jour getJour(String code, String systemCode);
-
-    /**
-     * 人工单条调账
-     * @param code
-     * @param checkAmount
-     * @param checkUser
-     * @param checkNote
-     * @param systemCode 
-     * @create: 2016年12月25日 下午3:58:53 xieyj
-     * @history:
-     */
-    public void checkJour(String code, String checkAmount, String checkUser,
-            String checkNote, String systemCode);
 }

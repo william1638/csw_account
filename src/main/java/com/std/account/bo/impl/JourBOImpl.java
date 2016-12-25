@@ -27,6 +27,7 @@ import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
 import com.std.account.enums.EGeneratePrefix;
 import com.std.account.enums.EJourStatus;
+import com.std.account.exception.BizException;
 
 /** 
  * @author: miyb 
@@ -49,6 +50,9 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
             condition.setCode(code);
             condition.setSystemCode(systemCode);
             data = jourDAO.select(condition);
+            if (data == null) {
+                throw new BizException("xn000000", "单号不存在");
+            }
         }
         return data;
     }
@@ -136,13 +140,15 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
         return code;
     }
 
-    /** 
-     * @see com.std.account.bo.IJourBO#doCheckAccount(java.lang.String, com.std.account.enums.EBoolean, java.lang.String)
-     */
     @Override
-    public void doCheckAccount(String code, EBoolean checkResult,
-            String checkUser) {
-        // TODO Auto-generated method stub
+    public void doCheckJour(String code, EBoolean checkResult,
+            String checkUser, String checkNote) {
+        Jour data = new Jour();
+        data.setCode(code);
+        String status = EJourStatus.Checked_YES
+        if(EBoolean.YES.equals(checkResult)){
+            
+        }
 
     }
 
