@@ -40,6 +40,9 @@
 			<if test="channelCompany != null and channelCompany != '' ">
 				AND t.channel_company = #{channelCompany}
 			</if>
+			<if test="systemCode != null and systemCode != '' ">
+				AND t.system_code = #{systemCode}
+			</if>
 		</trim>
 	</sql>
 	

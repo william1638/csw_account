@@ -1,35 +1,27 @@
-/**
- * @Title AJourDAOImpl.java 
- * @Package com.ibis.account.dao.impl 
- * @Description 
- * @author miyb  
- * @date 2015-2-14 下午2:18:55 
- * @version V1.0   
- */
 package com.std.account.dao.impl;
 
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import com.std.account.dao.IAJourDAO;
+import com.std.account.dao.IJourDAO;
 import com.std.account.dao.base.support.AMybatisTemplate;
 import com.std.account.domain.Jour;
 
-/** 
- * @author: miyb 
- * @since: 2015-2-14 下午2:18:55 
+/**
+ * @author: xieyj 
+ * @since: 2016年12月23日 上午11:26:51 
  * @history:
  */
-@Repository("aJourDAOImpl")
-public class AJourDAOImpl extends AMybatisTemplate implements IAJourDAO {
+@Repository("jourDAOImpl")
+public class JourDAOImpl extends AMybatisTemplate implements IJourDAO {
 
     /** 
      * @see com.ibis.account.dao.base.IBaseDAO#insert(java.lang.Object)
      */
     @Override
     public int insert(Jour data) {
-        return super.insert(NAMESPACE.concat("insert_accountJour"), data);
+        return super.insert(NAMESPACE.concat("insert_jour"), data);
     }
 
     /** 
@@ -45,7 +37,7 @@ public class AJourDAOImpl extends AMybatisTemplate implements IAJourDAO {
      */
     @Override
     public Jour select(Jour condition) {
-        return super.select(NAMESPACE.concat("select_accountJour"), condition,
+        return super.select(NAMESPACE.concat("select_jour"), condition,
             Jour.class);
     }
 
@@ -54,8 +46,8 @@ public class AJourDAOImpl extends AMybatisTemplate implements IAJourDAO {
      */
     @Override
     public long selectTotalCount(Jour condition) {
-        return super.selectTotalCount(
-            NAMESPACE.concat("select_accountJour_count"), condition);
+        return super.selectTotalCount(NAMESPACE.concat("select_jour_count"),
+            condition);
     }
 
     /** 
@@ -63,30 +55,29 @@ public class AJourDAOImpl extends AMybatisTemplate implements IAJourDAO {
      */
     @Override
     public List<Jour> selectList(Jour condition) {
-        return super.selectList(NAMESPACE.concat("select_accountJour"),
-            condition, Jour.class);
+        return super.selectList(NAMESPACE.concat("select_jour"), condition,
+            Jour.class);
     }
 
     /** 
      * @see com.ibis.account.dao.base.IBaseDAO#selectList(java.lang.Object, int, int)
      */
     @Override
-    public List<Jour> selectList(Jour condition, int start,
-            int count) {
-        return super.selectList(NAMESPACE.concat("select_accountJour"), start,
-            count, condition, Jour.class);
+    public List<Jour> selectList(Jour condition, int start, int count) {
+        return super.selectList(NAMESPACE.concat("select_jour"), start, count,
+            condition, Jour.class);
     }
 
     /** 
-     * @see com.std.account.dao.IAJourDAO#updateTrans(com.std.account.domain.Jour)
+     * @see com.std.account.dao.IJourDAO#updateCallback(com.std.account.domain.Jour)
      */
     @Override
-    public int updateTrans(Jour data) {
-        return super.update(NAMESPACE.concat("update_trans_account"), data);
+    public int updateCallback(Jour data) {
+        return super.update(NAMESPACE.concat("update_jour_callback"), data);
     }
 
     /** 
-     * @see com.xnjr.account.dao.ibis.account.dao.IAJourDAO#updateCheck(com.Jour.account.domain.AccountJour)
+     * @see com.xnjr.account.dao.IJourDAO.account.dao.IAJourDAO#updateCheck(com.Jour.account.domain.AccountJour)
      */
     @Override
     public int updateCheck(Jour data) {
@@ -94,7 +85,7 @@ public class AJourDAOImpl extends AMybatisTemplate implements IAJourDAO {
     }
 
     /** 
-     * @see com.std.account.dao.IAJourDAO#updateAdjust(com.std.account.domain.Jour)
+     * @see com.std.account.dao.IJourDAO#updateAdjust(com.std.account.domain.Jour)
      */
     @Override
     public int updateAdjust(Jour data) {

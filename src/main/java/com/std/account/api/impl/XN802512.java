@@ -1,33 +1,43 @@
 package com.std.account.api.impl;
 
+import com.std.account.ao.IAccountAO;
 import com.std.account.api.AProcessor;
-import com.std.account.dto.req.XN802651Req;
+import com.std.account.common.JsonUtil;
+import com.std.account.core.StringValidater;
+import com.std.account.dto.req.XN802512Req;
+import com.std.account.dto.res.BooleanRes;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
+import com.std.account.spring.SpringContextHolder;
 
 /**
- * 内部账不平账调整
- * @author: myb858 
- * @since: 2016年11月16日 下午3:26:18 
+ * 内部转账
+ * @author: xieyj 
+ * @since: 2016年12月25日 下午3:14:31 
  * @history:
  */
 public class XN802512 extends AProcessor {
 
-    // private ILedgerAO ledgerAO =
-    // SpringContextHolder.getBean(ILedgerAO.class);
+    private IAccountAO accountAO = SpringContextHolder
+        .getBean(IAccountAO.class);
 
-    private XN802651Req req = null;
+    private XN802512Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
-        // TODO Auto-generated method stub
-        return null;
+        Long transAmount = StringValidater.toLong(req.getTransAmount());
+        accountAO.transAmountCZB(req.getSystemCode(),
+            req.getFromAccountNumber(), req.getToAccountNumber(), transAmount,
+            req.getBizType(), req.getBizNote());
+        return new BooleanRes(true);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        // TODO Auto-generated method stub
-
+        req = JsonUtil.json2Bean(inputparams, XN802512Req.class);
+        StringValidater.validateBlank(req.getFromAccountNumber(),
+            req.getToAccountNumber(), req.getBizType(), req.getBizNote(),
+            req.getSystemCode());
+        StringValidater.validateAmount(req.getTransAmount());
     }
-
 }

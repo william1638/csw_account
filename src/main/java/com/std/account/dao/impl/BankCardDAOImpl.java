@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import com.std.account.dao.IBankCardDAO;
 import com.std.account.dao.base.support.AMybatisTemplate;
-import com.std.account.domain.BankCard;
+import com.std.account.domain.Bankcard;
 
 /**
  * 
@@ -18,41 +18,41 @@ import com.std.account.domain.BankCard;
 public class BankCardDAOImpl extends AMybatisTemplate implements IBankCardDAO {
 
     @Override
-    public int insert(BankCard data) {
+    public int insert(Bankcard data) {
         return super.insert(NAMESPACE.concat("insert_bankcard"), data);
     }
 
     @Override
-    public int delete(BankCard data) {
+    public int delete(Bankcard data) {
         return super.delete(NAMESPACE.concat("delete_bankcard"), data);
     }
 
     @Override
-    public BankCard select(BankCard condition) {
+    public Bankcard select(Bankcard condition) {
         return super.select(NAMESPACE.concat("select_bankcard"), condition,
-            BankCard.class);
+            Bankcard.class);
     }
 
     @Override
-    public long selectTotalCount(BankCard condition) {
+    public long selectTotalCount(Bankcard condition) {
         return super.selectTotalCount(
             NAMESPACE.concat("select_bankcard_count"), condition);
     }
 
     @Override
-    public List<BankCard> selectList(BankCard condition) {
+    public List<Bankcard> selectList(Bankcard condition) {
         return super.selectList(NAMESPACE.concat("select_bankcard"), condition,
-            BankCard.class);
+            Bankcard.class);
     }
 
     @Override
-    public List<BankCard> selectList(BankCard condition, int start, int count) {
+    public List<Bankcard> selectList(Bankcard condition, int start, int count) {
         return super.selectList(NAMESPACE.concat("select_bankcard"), start,
-            count, condition, BankCard.class);
+            count, condition, Bankcard.class);
     }
 
     @Override
-    public int update(BankCard data) {
+    public int update(Bankcard data) {
         return super.update(NAMESPACE.concat("update_bankcard"), data);
     }
 

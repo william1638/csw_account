@@ -34,7 +34,7 @@ public class XN802102 extends AProcessor {
         data.setCompanyName(req.getCompanyName());
         data.setChannelType(req.getChannelType());
         data.setStatus(req.getStatus());
-        data.setChannelCompany(req.getPaycompany());
+        data.setChannelCompany(req.getChannelCompany());
         data.setPrivatekey(req.getPrivatekey());
         data.setPageUrl(req.getPageUrl());
         data.setErrorUrl(req.getErrorUrl());
@@ -52,9 +52,9 @@ public class XN802102 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802102Req.class);
         StringValidater.validateBlank(req.getId(), req.getCompanyCode(),
-            req.getCompanyName(), req.getChannelType(), req.getPayType(),
-            req.getStatus(), req.getPaycompany(), req.getPrivatekey(),
-            req.getPageUrl(), req.getErrorUrl(), req.getBackUrl());
+            req.getCompanyName(), req.getChannelType(), req.getStatus(),
+            req.getChannelCompany(), req.getPrivatekey(), req.getPageUrl(),
+            req.getErrorUrl(), req.getBackUrl());
         StringValidater.validateAmount(req.getFee());
     }
 }

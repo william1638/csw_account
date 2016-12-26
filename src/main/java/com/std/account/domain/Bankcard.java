@@ -10,7 +10,7 @@ import com.std.account.dao.base.ABaseDO;
 * @since: 2016年12月22日 15:14:12
 * @history:
 */
-public class BankCard extends ABaseDO {
+public class Bankcard extends ABaseDO {
 
     private static final long serialVersionUID = 1L;
 

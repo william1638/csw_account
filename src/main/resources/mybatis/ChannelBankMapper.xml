@@ -7,11 +7,10 @@
 		<result column="bank_code" property="bankCode" />
 		<result column="bank_name" property="bankName" />
 		<result column="channel_type" property="channelType" />
-		<result column="pay_type" property="payType" />
 		
 		<result column="status" property="status" />
-		<result column="paybank" property="paybank" />
-		<result column="maxOrder" property="maxOrder" />
+		<result column="channel_bank" property="channelBank" />
+		<result column="max_order" property="maxOrder" />
 		<result column="order_amount" property="orderAmount" />
 		<result column="day_amount" property="dayAmount" />
 		
@@ -32,15 +31,12 @@
 			<if test="channelType != null and channelType != '' ">
 				AND t.channelType = #{channelType}
 			</if>
-			<if test="payType != null and payType != '' ">
-				AND t.pay_type = #{payType}
+			<if test="channelBank != null and channelBank != '' ">
+				AND t.channel_bank = #{channelBank}
 			</if>
 			
 			<if test="status != null and status != '' ">
 				AND t.status = #{status}
-			</if>
-			<if test="paybank != null and paybank != '' ">
-				AND t.paybank = #{paybank}
 			</if>
 		</trim>
 	</sql>
@@ -50,10 +46,9 @@
 		,t.bank_code
 		,t.bank_name 
 		,t.channel_type
-		,t.pay_type
 		
 		,t.status
-		,t.paybank
+		,t.channel_bank
 		,t.max_order
 		,t.order_amount
 		,t.day_amount
@@ -82,25 +77,22 @@
 		bank_code
 		,bank_name 
 		,channel_type
-		,pay_type
 		,status
+		,channel_bank
 		
-		,paybank
 		,max_order
 		,order_amount
 		,day_amount
 		,month_amount
-		
 		,remark
 		)
 		VALUES(
 		#{bankCode}
 		,#{bankName}
 		,#{channelType}
-		,#{payType}
 		,#{status}
+		,#{channelBank}
 		
-		,#{paybank}
 		,#{maxOrder}
 		,#{orderAmount}
 		,#{dayAmount}
@@ -116,10 +108,9 @@
 		bank_code = #{bankCode}
 		,bank_name  = #{bankName}
 		,channel_type = #{channelType}
-		,pay_type = #{payType}
 		,status = #{status}
 		
-		,paybank = #{paybank}
+		,channel_bank = #{channelBank}
 		,max_order = #{maxOrder}
 		,order_amount = #{orderAmount}
 		,day_amount = #{dayAmount}

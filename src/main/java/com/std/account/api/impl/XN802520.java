@@ -1,32 +1,58 @@
 package com.std.account.api.impl;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.std.account.ao.IJourAO;
 import com.std.account.api.AProcessor;
-import com.std.account.dto.req.XN802400Req;
+import com.std.account.common.JsonUtil;
+import com.std.account.core.StringValidater;
+import com.std.account.domain.Jour;
+import com.std.account.dto.req.XN802520Req;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
+import com.std.account.spring.SpringContextHolder;
 
 /**
- * 最优渠道查找（智能路由）
- * @author: myb858 
- * @since: 2016年11月16日 下午1:28:09 
+ * 流水分页查询
+ * @author: xieyj 
+ * @since: 2016年12月24日 上午7:59:19 
  * @history:
  */
 public class XN802520 extends AProcessor {
+    private IJourAO jourAO = SpringContextHolder.getBean(IJourAO.class);
 
-    private XN802400Req req = null;
+    private XN802520Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
-        // TODO Auto-generated method stub
-        return null;
+        Jour condition = new Jour();
+        condition.setRealNameQuery(req.getRealName());
+        condition.setType(req.getType());
+        condition.setStatus(req.getStatus());
+        condition.setAccountNumber(req.getAccountNumber());
+        condition.setChannelType(req.getChannelType());
+        condition.setChannelOrder(req.getChannelOrder());
+        condition.setBizType(req.getBizType());
+        condition.setStatus(req.getStatus());
+        condition.setRollbackUser(req.getRollbackUser());
+        condition.setWorkDate(req.getWorkDate());
+        condition.setCheckUser(req.getCheckUser());
+        condition.setAdjustUser(req.getAdjustUser());
+        condition.setSystemCode(req.getSystemCode());
+        String orderColumn = req.getOrderColumn();
+        if (StringUtils.isBlank(orderColumn)) {
+            orderColumn = IJourAO.DEFAULT_ORDER_COLUMN;
+        }
+        condition.setOrder(orderColumn, req.getOrderDir());
+        int start = StringValidater.toInteger(req.getStart());
+        int limit = StringValidater.toInteger(req.getLimit());
+        return jourAO.queryJourPage(start, limit, condition);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        // req = JsonUtil.json2Bean(inputparams, XN802500Req.class);
-        // StringValidater.validateBlank(req.getCompanyCode(),
-        // req.getChannelType());
-
+        req = JsonUtil.json2Bean(inputparams, XN802520Req.class);
+        StringValidater.validateNumber(req.getStart(), req.getLimit());
+        StringValidater.validateBlank(req.getSystemCode());
     }
-
 }

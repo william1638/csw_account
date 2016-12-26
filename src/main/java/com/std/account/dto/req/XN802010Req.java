@@ -11,7 +11,7 @@ public class XN802010Req {
     public String systemCode;
 
     // 卡号（必填）
-    public String bankCardNumber;
+    public String bankcardNumber;
 
     // 银行名称（必填）
     public String bankName;
@@ -109,12 +109,12 @@ public class XN802010Req {
         this.remark = remark;
     }
 
-    public String getBankCardNumber() {
-        return bankCardNumber;
+    public String getBankcardNumber() {
+        return bankcardNumber;
     }
 
-    public void setBankCardNumber(String bankCardNumber) {
-        this.bankCardNumber = bankCardNumber;
+    public void setBankcardNumber(String bankcardNumber) {
+        this.bankcardNumber = bankcardNumber;
     }
 
 }

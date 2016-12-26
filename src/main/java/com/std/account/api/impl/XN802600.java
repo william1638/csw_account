@@ -26,7 +26,7 @@ public class XN802600 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         Account account = accountAO.getAccount(req.getSystemCode(),
-            req.getAccountName(), req.getAccountNumber());
+            req.getAccountNumber());
         XN802600Res res = new XN802600Res();
         res.setSystemCode(account.getSystemCode());
         res.setAccountName(account.getRealName());
@@ -44,5 +44,4 @@ public class XN802600 extends AProcessor {
         StringValidater.validateBlank(req.getSystemCode(),
             req.getAccountName(), req.getAccountNumber());
     }
-
 }

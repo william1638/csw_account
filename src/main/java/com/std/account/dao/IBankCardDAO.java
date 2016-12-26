@@ -1,7 +1,7 @@
 package com.std.account.dao;
 
 import com.std.account.dao.base.IBaseDAO;
-import com.std.account.domain.BankCard;
+import com.std.account.domain.Bankcard;
 
 /**
  * 
@@ -9,8 +9,8 @@ import com.std.account.domain.BankCard;
  * @since: 2016年12月22日 下午4:31:08 
  * @history:
  */
-public interface IBankCardDAO extends IBaseDAO<BankCard> {
+public interface IBankCardDAO extends IBaseDAO<Bankcard> {
     String NAMESPACE = IBankCardDAO.class.getName().concat(".");
 
-    public int update(BankCard data);
+    public int update(Bankcard data);
 }

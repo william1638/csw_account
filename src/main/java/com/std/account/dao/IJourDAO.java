@@ -1,23 +1,15 @@
-/**
- * @Title IAccountJour.java 
- * @Package com.ibis.account.dao 
- * @Description 
- * @author miyb  
- * @date 2015-2-14 下午2:08:28 
- * @version V1.0   
- */
 package com.std.account.dao;
 
 import com.std.account.dao.base.IBaseDAO;
 import com.std.account.domain.Jour;
 
-/** 
- * @author: miyb 
- * @since: 2015-2-14 下午2:08:28 
+/**
+ * @author: xieyj 
+ * @since: 2016年12月23日 上午11:25:21 
  * @history:
  */
-public interface IAJourDAO extends IBaseDAO<Jour> {
-    String NAMESPACE = IAJourDAO.class.getName().concat(".");
+public interface IJourDAO extends IBaseDAO<Jour> {
+    String NAMESPACE = IJourDAO.class.getName().concat(".");
 
     /**
      * 金额发生变动
@@ -26,7 +18,7 @@ public interface IAJourDAO extends IBaseDAO<Jour> {
      * @create: 2016年11月10日 下午6:05:41 xieyj
      * @history:
      */
-    public int updateTrans(Jour data);
+    public int updateCallback(Jour data);
 
     /**
      * 对账结果录入

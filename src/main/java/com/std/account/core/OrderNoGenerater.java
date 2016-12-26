@@ -31,5 +31,4 @@ public class OrderNoGenerater {
         String today = DateUtil.getToday(DateUtil.DATA_TIME_PATTERN_4);
         return prefix + today + String.valueOf(random);
     }
-
 }

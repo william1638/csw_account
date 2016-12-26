@@ -3,11 +3,11 @@
 <configuration>
 	<typeAliases>		
 		<typeAlias alias="account" type="com.std.account.domain.Account" />
-		<typeAlias alias="accountJour" type="com.std.account.domain.AccountJour" />
+		<typeAlias alias="jour" type="com.std.account.domain.Jour" />
 		<typeAlias alias="companyChannel" type="com.std.account.domain.CompanyChannel" />
 		<typeAlias alias="channelBank" type="com.std.account.domain.ChannelBank" />
 		
 		<typeAlias alias="sysDict" type="com.std.account.domain.SYSDict" />
-		<typeAlias alias="bankCard" type="com.std.account.domain.BankCard" />
+		<typeAlias alias="bankcard" type="com.std.account.domain.Bankcard" />
 	</typeAliases>
 </configuration>

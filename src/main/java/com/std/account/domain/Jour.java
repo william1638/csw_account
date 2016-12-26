@@ -16,33 +16,23 @@ public class Jour extends ABaseDO {
      */
     private static final long serialVersionUID = 1255747682967604091L;
 
-    // 查询条件1：创建起始时间
-    private Date createDatetimeStart;
+    // 流水编号
+    private String code;
 
-    // 查询条件2：创建终止时间
-    private Date createDatetimeEnd;
+    // 用户编号
+    private String userId;
 
-    // ---------db properties start--------------------------
-    // 系统编号
-    private String systemCode;
-
-    // 户名
-    private String accountName;
+    // 真实姓名
+    private String realName;
 
     // 账号
     private String accountNumber;
 
-    // 流水编号
-    private String order;
-
     // 渠道类型
     private String channelType;
 
-    // 支付类型
-    private String payType;
-
     // 渠道单号
-    private String payOrder;
+    private String channelOrder;
 
     // 业务类型
     private String bizType;
@@ -59,11 +49,17 @@ public class Jour extends ABaseDO {
     // 变动后金额，
     private Long postAmount;
 
-    // 金额变动时间
-    private Date transDatetime;
-
     // 状态（生成待回调，无需对账，已回调待对账，对账通过，对账不通过待调账，已调账）
     private String status;
+
+    // 创建时间
+    private Date createDatetime;
+
+    // 处理回调人
+    private String rollbackUser;
+
+    // 处理回调时间
+    private Date rollbackDatetime;
 
     // 拟对账时间
     private String workDate;
@@ -82,6 +78,39 @@ public class Jour extends ABaseDO {
 
     // 备注
     private String remark;
+
+    // 系统编号
+    private String systemCode;
+
+    // ***********************db properties *************************
+
+    // 查询条件1：创建起始时间
+    private Date createDatetimeStart;
+
+    // 查询条件2：创建终止时间
+    private Date createDatetimeEnd;
+
+    // 户名
+    private String realNameQuery;
+
+    // 类型
+    private String type;
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    public String getRealNameQuery() {
+        return realNameQuery;
+    }
+
+    public void setRealNameQuery(String realNameQuery) {
+        this.realNameQuery = realNameQuery;
+    }
 
     public Date getCreateDatetimeStart() {
         return createDatetimeStart;
@@ -107,12 +136,28 @@ public class Jour extends ABaseDO {
         this.systemCode = systemCode;
     }
 
-    public String getAccountName() {
-        return accountName;
+    public String getCode() {
+        return code;
     }
 
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getRealName() {
+        return realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
     }
 
     public String getAccountNumber() {
@@ -123,14 +168,6 @@ public class Jour extends ABaseDO {
         this.accountNumber = accountNumber;
     }
 
-    public String getOrder() {
-        return order;
-    }
-
-    public void setOrder(String order) {
-        this.order = order;
-    }
-
     public String getChannelType() {
         return channelType;
     }
@@ -139,20 +176,12 @@ public class Jour extends ABaseDO {
         this.channelType = channelType;
     }
 
-    public String getPayType() {
-        return payType;
+    public String getChannelOrder() {
+        return channelOrder;
     }
 
-    public void setPayType(String payType) {
-        this.payType = payType;
-    }
-
-    public String getPayOrder() {
-        return payOrder;
-    }
-
-    public void setPayOrder(String payOrder) {
-        this.payOrder = payOrder;
+    public void setChannelOrder(String channelOrder) {
+        this.channelOrder = channelOrder;
     }
 
     public String getBizType() {
@@ -195,20 +224,36 @@ public class Jour extends ABaseDO {
         this.postAmount = postAmount;
     }
 
-    public Date getTransDatetime() {
-        return transDatetime;
-    }
-
-    public void setTransDatetime(Date transDatetime) {
-        this.transDatetime = transDatetime;
-    }
-
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public Date getCreateDatetime() {
+        return createDatetime;
+    }
+
+    public void setCreateDatetime(Date createDatetime) {
+        this.createDatetime = createDatetime;
+    }
+
+    public String getRollbackUser() {
+        return rollbackUser;
+    }
+
+    public void setRollbackUser(String rollbackUser) {
+        this.rollbackUser = rollbackUser;
+    }
+
+    public Date getRollbackDatetime() {
+        return rollbackDatetime;
+    }
+
+    public void setRollbackDatetime(Date rollbackDatetime) {
+        this.rollbackDatetime = rollbackDatetime;
     }
 
     public String getWorkDate() {
@@ -258,5 +303,4 @@ public class Jour extends ABaseDO {
     public void setRemark(String remark) {
         this.remark = remark;
     }
-
 }

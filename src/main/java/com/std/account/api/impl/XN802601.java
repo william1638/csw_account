@@ -25,11 +25,12 @@ public class XN802601 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        accountAO.transAmountCZB(req.getSystemCode(), req.getFromAccountName(),
-            req.getFromAccountNumber(), req.getToAccountName(),
-            req.getToAccountNumber(),
-            StringValidater.toLong(req.getTransAmount()), req.getBizType(),
-            req.getBizNote());
+        // accountAO.transAmountCZB(req.getSystemCode(),
+        // req.getFromAccountName(),
+        // req.getFromAccountNumber(), req.getToAccountName(),
+        // req.getToAccountNumber(),
+        // StringValidater.toLong(req.getTransAmount()), req.getBizType(),
+        // req.getBizNote());
         return new BooleanRes(true);
     }
 

@@ -18,14 +18,11 @@ public class XN802102Req {
     // 渠道类型(必填)
     private String channelType;
 
-    // 支付类型(必填)
-    private String payType;
-
     // 状态(必填)（启用/不启用）
     private String status;
 
     // 渠道给公司的代号(必填)
-    private String paycompany;
+    private String channelCompany;
 
     // 秘钥(必填)
     private String privatekey;
@@ -77,28 +74,12 @@ public class XN802102Req {
         this.channelType = channelType;
     }
 
-    public String getPayType() {
-        return payType;
-    }
-
-    public void setPayType(String payType) {
-        this.payType = payType;
-    }
-
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
-    }
-
-    public String getPaycompany() {
-        return paycompany;
-    }
-
-    public void setPaycompany(String paycompany) {
-        this.paycompany = paycompany;
     }
 
     public String getPrivatekey() {
@@ -148,4 +129,13 @@ public class XN802102Req {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
+    public String getChannelCompany() {
+        return channelCompany;
+    }
+
+    public void setChannelCompany(String channelCompany) {
+        this.channelCompany = channelCompany;
+    }
+
 }

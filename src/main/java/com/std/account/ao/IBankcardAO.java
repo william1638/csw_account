@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.std.account.bo.base.Paginable;
-import com.std.account.domain.BankCard;
+import com.std.account.domain.Bankcard;
 
 /**
  * 
@@ -17,17 +17,17 @@ import com.std.account.domain.BankCard;
 public interface IBankcardAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
 
-    public String addBankcard(BankCard data);
+    public String addBankcard(Bankcard data);
 
     public int dropBankcard(String code);
 
-    public int editBankcard(BankCard data);
+    public int editBankcard(Bankcard data);
 
-    public Paginable<BankCard> queryBankcardPage(int start, int limit,
-            BankCard condition);
+    public Paginable<Bankcard> queryBankcardPage(int start, int limit,
+            Bankcard condition);
 
-    public List<BankCard> queryBankcardList(BankCard condition);
+    public List<Bankcard> queryBankcardList(Bankcard condition);
 
-    public BankCard getBankcard(String code);
+    public Bankcard getBankcard(String code);
 
 }

@@ -10,7 +10,7 @@ package com.xnjr.account.dao;
 
 import org.unitils.spring.annotation.SpringBeanByType;
 
-import com.std.account.dao.IAJourDAO;
+import com.std.account.dao.IJourDAO;
 import com.xnjr.account.base.ADAOTest;
 
 /** 
@@ -20,7 +20,7 @@ import com.xnjr.account.base.ADAOTest;
  */
 public class IAJourDAOTest extends ADAOTest {
     @SpringBeanByType
-    private IAJourDAO aJourDAO;
+    private IJourDAO jourDAO;
 
     // @Test
     // public void insert() {

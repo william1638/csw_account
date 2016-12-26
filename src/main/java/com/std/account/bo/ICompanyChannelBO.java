@@ -5,7 +5,6 @@ import java.util.List;
 import com.std.account.bo.base.IPaginableBO;
 import com.std.account.domain.CompanyChannel;
 import com.std.account.enums.EChannelType;
-import com.std.account.enums.EPayType;
 
 public interface ICompanyChannelBO extends IPaginableBO<CompanyChannel> {
     /**
@@ -16,10 +15,22 @@ public interface ICompanyChannelBO extends IPaginableBO<CompanyChannel> {
      * @create: 2016年11月16日 下午8:05:39 myb858
      * @history:
      */
-    public EChannelType getBestChannel(String companyCode, EPayType payType);
+    public EChannelType getBestChannel(String companyCode,
+            EChannelType channelType);
+
+    /**
+     * 获取最优且可行的渠道
+     * @param companyCode
+     * @param channelTypeList
+     * @return 
+     * @create: 2016年12月23日 下午9:21:14 xieyj
+     * @history:
+     */
+    public EChannelType getBestChannel(String companyCode,
+            List<String> channelTypeList);
 
     public void transAmountPC(String companyCode, EChannelType channelType,
-            EPayType pc, Long transAmount, String order, String bankCode);
+            Long transAmount, String order, String bankCode);
 
     public boolean isCompanyChannelExist(Long id);
 

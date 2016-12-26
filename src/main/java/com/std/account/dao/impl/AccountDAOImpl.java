@@ -81,7 +81,7 @@ public class AccountDAOImpl extends AMybatisTemplate implements IAccountDAO {
      */
     @Override
     public int updateAmount(Account data) {
-        return super.update(NAMESPACE.concat("update_amount"), data);
+        return super.update(NAMESPACE.concat("update_account_amount"), data);
     }
 
     /** 
@@ -89,7 +89,8 @@ public class AccountDAOImpl extends AMybatisTemplate implements IAccountDAO {
      */
     @Override
     public int updateFrozenAmount(Account data) {
-        return super.update(NAMESPACE.concat("update_frozen_amount"), data);
+        return super.update(NAMESPACE.concat("update_account_frozen_amount"),
+            data);
     }
 
     /** 
@@ -97,6 +98,6 @@ public class AccountDAOImpl extends AMybatisTemplate implements IAccountDAO {
      */
     @Override
     public int updateStatus(Account data) {
-        return super.update(NAMESPACE.concat("update_status"), data);
+        return super.update(NAMESPACE.concat("update_account_status"), data);
     }
 }

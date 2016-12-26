@@ -33,9 +33,8 @@ public class XN802115 extends AProcessor {
         condition.setBankCode(req.getBankCode());
         condition.setBankName(req.getBankName());
         condition.setChannelType(req.getChannelType());
-        condition.setPayType(req.getPayType());
         condition.setStatus(req.getStatus());
-        condition.setPaybank(req.getPaybank());
+        condition.setChannelBank(req.getChannelBank());
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {
             orderColumn = IChannelBankAO.DEFAULT_ORDER_COLUMN;

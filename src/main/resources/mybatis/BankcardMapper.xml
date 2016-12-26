@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.std.account.dao.IBankCardDAO">
-	<resultMap id="bankcard_DB_Result" type="bankCard">
+	<resultMap id="bankcard_DB_Result" type="bankcard">
 		<result column="code" property="code" />
 		<result column="bankcard_number" property="bankcardNumber" />
 		<result column="bank_name" property="bankName" />

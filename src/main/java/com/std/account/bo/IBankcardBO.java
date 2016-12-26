@@ -3,30 +3,20 @@ package com.std.account.bo;
 import java.util.List;
 
 import com.std.account.bo.base.IPaginableBO;
-import com.std.account.domain.BankCard;
+import com.std.account.domain.Bankcard;
 
+public interface IBankcardBO extends IPaginableBO<Bankcard> {
 
+    public boolean isBankcardExist(String code);
 
-//CHECK ��鲢��ע�� 
-public interface IBankcardBO extends IPaginableBO<BankCard> {
+    public String saveBankcard(Bankcard data);
 
+    public int removeBankcard(String code);
 
-	public boolean isBankcardExist(String code);
+    public int refreshBankcard(Bankcard data);
 
+    public List<Bankcard> queryBankcardList(Bankcard condition);
 
-	public String saveBankcard(BankCard data);
-
-
-	public int removeBankcard(String code);
-
-
-	public int refreshBankcard(BankCard data);
-
-
-	public List<BankCard> queryBankcardList(BankCard condition);
-
-
-	public BankCard getBankcard(String code);
-
+    public Bankcard getBankcard(String code);
 
 }

@@ -11,13 +11,15 @@ package com.std.account.enums;
 import java.util.HashMap;
 import java.util.Map;
 
-/** 
- * @author: miyb 
- * @since: 2015-3-15 下午4:41:06 
+/**
+ * @author: xieyj 
+ * @since: 2016年12月24日 下午1:51:38 
  * @history:
  */
 public enum ECurrency {
-    CNY("CNY", "人民币"), XNB("XNB", "虚拟币");
+    CNY("CNY", "人民币"), XNB("XNB", "虚拟币"), GX("GX", "贡献"), QB("QB", "钱包"), GW(
+            "GW", "购物"), HB("HB", "红包"), HBYJ("HBYJ", "红包业绩");
+
     public static Map<String, ECurrency> getCurrencyMap() {
         Map<String, ECurrency> map = new HashMap<String, ECurrency>();
         for (ECurrency currency : ECurrency.values()) {

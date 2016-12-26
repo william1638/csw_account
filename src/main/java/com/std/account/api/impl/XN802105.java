@@ -30,11 +30,12 @@ public class XN802105 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         CompanyChannel condition = new CompanyChannel();
+        condition.setSystemCode(req.getSystemCode());
         condition.setCompanyCode(req.getCompanyCode());
         condition.setCompanyName(req.getCompanyName());
         condition.setChannelType(req.getChannelType());
         condition.setStatus(req.getStatus());
-        condition.setChannelCompany(req.getPaycompany());
+        condition.setChannelCompany(req.getChannelCompany());
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {
             orderColumn = ICompanyChannelAO.DEFAULT_ORDER_COLUMN;
@@ -52,6 +53,7 @@ public class XN802105 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802105Req.class);
-        StringValidater.validateNumber(req.getStart(), req.getLimit());
+        StringValidater.validateNumber(req.getStart(), req.getLimit(),
+            req.getSystemCode());
     }
 }
