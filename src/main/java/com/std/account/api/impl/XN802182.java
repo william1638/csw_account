@@ -33,9 +33,10 @@ public class XN802182 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        return weChatAO.getPrepayIdH5(req.getSystemCode(), req.getBody(),
-            StringValidater.toLong(req.getTotalFee()), req.getSpbillCreateIp(),
-            req.getNotifyUrl());
+        return weChatAO.getPrepayIdH5(req.getSystemCode(),
+            req.getCompanyCode(), req.getOpenId(), req.getAccountNumber(),
+            req.getBizType(), req.getBizNote(), req.getBody(),
+            StringValidater.toLong(req.getTotalFee()), req.getSpbillCreateIp());
     }
 
     /** 
@@ -44,9 +45,10 @@ public class XN802182 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802182Req.class);
-        StringValidater.validateBlank(req.getSystemCode(), req.getNotifyUrl(),
-            req.getSpbillCreateIp(), req.getTotalFee(), req.getBody());
+        StringValidater.validateBlank(req.getSystemCode(), req.getSystemCode(),
+            req.getOpenId(), req.getAccountNumber(), req.getBizType(),
+            req.getBizNote(), req.getSpbillCreateIp(), req.getTotalFee(),
+            req.getBody());
 
     }
-
 }

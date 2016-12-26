@@ -8,6 +8,9 @@
  */
 package com.std.account.ao.impl;
 
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,10 +20,13 @@ import com.std.account.bo.IJourBO;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.OrderNoGenerater;
 import com.std.account.domain.CompanyChannel;
+import com.std.account.enums.EChannelType;
+import com.std.account.enums.EWeChatType;
 import com.std.account.exception.BizException;
 import com.std.account.util.HttpsUtil;
 import com.std.account.util.wechat.TokenResponse;
 import com.std.account.util.wechat.WXPrepay;
+ort com.std.account.util.wechat.WXPrepay;
 
 /** 
  * @author: haiqingzheng 
@@ -55,20 +61,32 @@ public class WeChatAOImpl implements IWeChatAO {
     }
 
     @Override
-    public String getPrepayIdH5(String systemCode, String body, Long totalFee,
-            String spbillCreateIp, String notifyUrl) {
-        CompanyChannel companyChannel = companyChannelBO.getCompanyChannel(1L);
+    public String getPrepayIdH5(String systemCode, String companyCode,
+            String openId,String accountNumber,String bizType,String bizNote,String body,Long totalFee, String spbillCreateIp) {
+        
+        //本地系统落地流水信息
+        String code = jourBO.addToChangeJour(systemCode, accountNumber, EChannelType.WeChat_H5.getCode(), bizType, bizNote, totalFee);
+        //获取微信公众号支付prepayid
+        CompanyChannel condition = new CompanyChannel();
+        condition.setCompanyCode(companyCode);
+        condition.setSystemCode(systemCode);
+        List<CompanyChannel> list = companyChannelBO
+            .queryCompanyChannelList(condition);
+        if (CollectionUtils.isEmpty(list)) {
+            throw new BizException("xn000000", "获取支付渠道配置失败，请仔细检查配置信息");
+        }
+        CompanyChannel companyChannel = list.get(0);
         WXPrepay prePay = new WXPrepay();
         prePay.setAppid("wx8bc03dd744895352");// 微信支付分配的公众账号ID
-        prePay.setMch_id("1400666002"); // 商户号
+        prePay.setMch_id(companyChannel.getChannelCompany()); // 商户号
         prePay.setBody(body); // 商品描述
-        prePay.setOut_trade_no(OrderNoGenerater.generate("DD")); // 订单号
+        prePay.setOut_trade_no(code); // 订单号
         prePay.setTotal_fee(Long.toString(totalFee)); // 订单总金额
         prePay.setSpbill_create_ip(spbillCreateIp); // 用户IP
-        prePay.setTrade_type("JSAPI"); // 交易类型
-        prePay.setNotify_url(notifyUrl);// 回调地址
-        prePay.setPartnerKey("r2jgDFSdiikklwlllejlwjio3242342n");
-        prePay.setOpenid("ojdtdv71yky2o8yofg3TkSyog93E");
+        prePay.setTrade_type(EWeChatType.JSAPI.getCode()); // 交易类型
+        prePay.setNotify_url(companyChannel.getBackUrl());// 回调地址
+        prePay.setPartnerKey(companyChannel.getPrivatekey());
+        prePay.setOpenid(openId);
         return prePay.submitXmlGetPrepayId();
     }
 
