@@ -120,11 +120,9 @@ public class JourAOImpl implements IJourAO {
         if (EBoolean.YES.getCode().equals(adjustResult)) {
             accountBO.transAmountNotJour(systemCode, data.getAccountNumber(),
                 data.getTransAmount(), code);
-            jourBO.doAdjustJour(systemCode, EBoolean.YES, adjustUser,
-                adjustNote);
+            jourBO.doAdjustJour(code, EBoolean.YES, adjustUser, adjustNote);
         } else {
-            jourBO
-                .doAdjustJour(systemCode, EBoolean.NO, adjustUser, adjustNote);
+            jourBO.doAdjustJour(code, EBoolean.NO, adjustUser, adjustNote);
         }
     }
 

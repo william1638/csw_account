@@ -40,11 +40,24 @@
 			<if test="accountNumber != null and accountNumber != '' ">
 				AND t.account_number = #{accountNumber}
 			</if>
-			<if test="channelType != null and channelType != '' ">
-				AND t.channel_type = #{channelType}
-			</if>
+			<choose>
+			     <when test='channelType == "out"'>
+				 	AND t.channel_type not in(0,9)
+				 </when>
+				 <otherwise>
+					 <if test="channelType != null and channelType != '' ">
+						AND t.channel_type = #{channelType}
+					 </if>
+				 </otherwise>
+			</choose>
 			<if test="channelOrder != null and channelOrder != '' ">
 				AND t.channel_order = #{channelOrder}
+			</if>
+			<if test="status != null and status != '' ">
+				AND t.status = #{systemCode}
+			</if>
+			<if test="accountType != null and accountType != '' ">
+				AND ta.type = #{accountType}
 			</if>
 			<if test="systemCode != null and systemCode != '' ">
 				AND t.system_code = #{systemCode}
@@ -80,7 +93,7 @@
 		,t.remark
 		,t.system_code
 		FROM
-		tstd_jour t
+		tstd_jour t inner join tstd_account ta on t.account_number = ta.account_number
 		<include refid="where_condition" />
 		<trim prefix="ORDER BY ">
 			<if test="order != null and order != '' ">
@@ -91,7 +104,7 @@
 
 	<select id="select_jour_count" parameterType="jour"
 		resultType="java.lang.Long">
-		SELECT count(1) FROM tstd_jour t
+		SELECT count(1) FROM tstd_jour t inner join tstd_account ta on t.account_number = ta.account_number
 		<include refid="where_condition" />
 	</select>
 
@@ -160,7 +173,7 @@
 		code = #{code}	
 	</update>
 	
-	<update id="update_jour_check" parameterType="jour">
+	<update id="update_check_jour" parameterType="jour">
 		UPDATE tstd_jour
 		SET
 		status= #{status}
@@ -171,7 +184,7 @@
 		code = #{code}	
 	</update>
 	
-	<update id="update_jour_adjust" parameterType="jour">
+	<update id="update_adjust_jour" parameterType="jour">
 		UPDATE tstd_jour
 		SET
 		status= #{status}

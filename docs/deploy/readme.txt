@@ -19,8 +19,6 @@
 2，打包
    scp -P57652 ./std-account.war root@121.43.101.148:/home
   T6dh%$%$ss1
-  
-
 
 3，部署
   ssh root@121.43.101.148 -p 57652

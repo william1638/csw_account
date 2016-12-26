@@ -5,7 +5,7 @@ import java.util.Date;
 import com.std.account.dao.base.ABaseDO;
 
 /**
- * 账户流水单号
+ * 账户流水订单
  * @author: xieyj 
  * @since: 2016年11月10日 下午5:48:27 
  * @history:
@@ -40,16 +40,23 @@ public class Jour extends ABaseDO {
     // 业务说明
     private String bizNote;
 
-    // 变动金额，
+    // 变动金额
     private Long transAmount;
 
-    // 变动前金额，
+    // 变动前金额
     private Long preAmount;
 
-    // 变动后金额，
+    // 变动后金额
     private Long postAmount;
 
-    // 状态（生成待回调，无需对账，已回调待对账，对账通过，对账不通过待调账，已调账）
+    // 状态（0生成待回调，无需对账，已回调待对账，对账通过，对账不通过待调账，已调账）
+    // todoCallBack("0", "刚生成待回调"), todoCheck("1", "已回调通过,待对账"),
+    // callBack_NO("2",
+    // "回调不通过"), Checked_YES("3", "已对账且账已平"), Checked_NO("4", "帐不平待调账"),
+    // Adjusted(
+    // "5", "已调账"), noChecked("9", "无需对账"), todoAdjust("6", "待审批"),
+    // adjusted_YES(
+    // "7", "审批通过"), adjusted_NO("8", "审批不通过");
     private String status;
 
     // 创建时间
@@ -93,15 +100,15 @@ public class Jour extends ABaseDO {
     // 户名
     private String realNameQuery;
 
-    // 类型
-    private String type;
+    // 类型(B B端账号，C C端账号，P 平台账号)
+    private String accountType;
 
-    public String getType() {
-        return type;
+    public String getAccountType() {
+        return accountType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
     }
 
     public String getRealNameQuery() {
