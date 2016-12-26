@@ -13,6 +13,7 @@ import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.dto.req.XN802182Req;
+import com.std.account.dto.res.XN802182Res;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -33,10 +34,10 @@ public class XN802182 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        return weChatAO.getPrepayIdH5(req.getSystemCode(),
+        return new XN802182Res(weChatAO.getPrepayIdH5(req.getSystemCode(),
             req.getCompanyCode(), req.getOpenId(), req.getAccountNumber(),
             req.getBizType(), req.getBizNote(), req.getBody(),
-            StringValidater.toLong(req.getTotalFee()), req.getSpbillCreateIp());
+            StringValidater.toLong(req.getTotalFee()), req.getSpbillCreateIp()));
     }
 
     /** 

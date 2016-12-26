@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.std.account.ao.IWeChatAO;
+import com.std.account.domain.CompanyChannel;
 import com.std.account.enums.EBoolean;
 import com.std.account.util.wechat.WXOrderQuery;
 import com.std.account.util.wechat.XMLUtil;
@@ -43,6 +44,7 @@ public class CallbackConroller {
     @Autowired
     IWeChatAO weChatAO;
 
+    @SuppressWarnings("unchecked")
     @RequestMapping("/wechat/h5/callback")
     public void doCallbackWechatH5(HttpServletRequest request,
             HttpServletResponse response) throws IOException {
@@ -64,11 +66,16 @@ public class CallbackConroller {
         } catch (JDOMException e) {
             e.printStackTrace();
         }
-
+        String attach = map.get("attach");
+        String[] codes = attach.split("||");
+        CompanyChannel companyChannel = weChatAO.getCompanyChannel(codes[0],
+            codes[1]);
         // 此处获取accessToken
-        String accessToken = weChatAO.getAccessToken("");
+        String accessToken = weChatAO.getAccessToken(
+            companyChannel.getPrivateKey2(), companyChannel.getPrivateKey3());
         // 此处调用订单查询接口验证是否交易成功
-        boolean isSucc = reqOrderquery(map, accessToken);
+        boolean isSucc = reqOrderquery(map, accessToken,
+            companyChannel.getPrivateKey1());
         // 支付成功，商户处理后同步返回给微信参数
         if (!isSucc) {
             // 支付失败
@@ -103,7 +110,7 @@ public class CallbackConroller {
      * @return
      */
     public static boolean reqOrderquery(Map<String, String> map,
-            String accessToken) {
+            String accessToken, String payKey) {
         WXOrderQuery orderQuery = new WXOrderQuery();
         orderQuery.setAppid(map.get("appid"));
         orderQuery.setMch_id(map.get("mch_id"));
@@ -112,7 +119,7 @@ public class CallbackConroller {
         orderQuery.setNonce_str(map.get("nonce_str"));
 
         // 此处需要密钥PartnerKey，此处直接写死，自己的业务需要从持久化中获取此密钥，否则会报签名错误
-        orderQuery.setPartnerKey("r2jgDFSdiikklwlllejlwjio3242342n");
+        orderQuery.setPartnerKey(payKey);
 
         Map<String, String> orderMap = orderQuery.reqOrderquery();
         // 此处添加支付成功后，支付金额和实际订单金额是否等价，防止钓鱼

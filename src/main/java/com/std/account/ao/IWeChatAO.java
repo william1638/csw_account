@@ -8,6 +8,8 @@
  */
 package com.std.account.ao;
 
+import com.std.account.domain.CompanyChannel;
+
 /** 
  * @author: haiqingzheng 
  * @since: 2016年12月23日 上午11:23:39 
@@ -34,5 +36,8 @@ public interface IWeChatAO {
 
     public int doCallbackH5(String orderNo, String callbackResult);
 
-    public String getAccessToken(String systemCode);
+    public CompanyChannel getCompanyChannel(String companyCode,
+            String systemCode);
+
+    public String getAccessToken(String appId, String appSecret);
 }

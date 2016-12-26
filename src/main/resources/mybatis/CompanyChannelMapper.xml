@@ -10,12 +10,17 @@
 		<result column="status" property="status"/>
 		
 		<result column="channel_company" property="channelCompany"/>
-		<result column="private_key" property="privatekey"/>
+		<result column="private_key1" property="privateKey1"/>
+		<result column="private_key2" property="privateKey2"/>
+		<result column="private_key3" property="privateKey3"/>
+		<result column="private_key4" property="privateKey4"/>
+		
+		<result column="private_key5" property="privateKey5"/>
 		<result column="page_url" property="pageUrl"/>
 		<result column="error_url" property="errorUrl"/>
-		
 		<result column="back_url" property="backUrl"/>
 		<result column="fee" property="fee"/>
+		
 		<result column="remark" property="remark"/>
 		<result column="system_code" property="systemCode"/>
 	</resultMap>
@@ -55,11 +60,16 @@
 		
 		,t.status
 		,t.channel_company
-		,t.private_key
+		,t.private_key1
+		,t.private_key2
+		,t.private_key3
+		
+		,t.private_key4
+		,t.private_key5
 		,t.page_url
 		,t.error_url
-		
 		,t.back_url
+		
 		,t.fee
 		,t.remark
 		,t.system_code
@@ -88,12 +98,17 @@
 		,status
 		
 		,channel_company
-		,private_key
+		,private_key1
+		,private_key2
+		,private_key3
+		,private_key4
+		
+		,private_key5
 		,page_url
 		,error_url
 		,back_url
-		
 		,fee
+		
 		,remark
 		,system_code
 		)
@@ -104,12 +119,17 @@
 		,#{status}
 		
 		,#{channelCompany}
-		,#{privatekey}
+		,#{privateKey1}
+		,#{privateKey2}
+		,#{privateKey3}
+		,#{privateKey4}
+		
+		,#{privateKey5}
 		,#{pageUrl}
 		,#{errorUrl}
 		,#{backUrl}
-		
 		,#{fee}
+		
 		,#{remark}
 		,#{systemCode}
 		)

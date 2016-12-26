@@ -47,6 +47,8 @@ public class WXPrepay {
 
     private String openid;
 
+    private String attach;
+
     // 预支付订单号
     private String prepay_id;
 
@@ -140,6 +142,7 @@ public class WXPrepay {
         treeMap.put("trade_type", this.trade_type);
         treeMap.put("notify_url", this.notify_url);
         treeMap.put("openid", this.openid);
+        treeMap.put("attach", this.attach);
         StringBuilder sb = new StringBuilder();
         for (String key : treeMap.keySet()) {
             sb.append(key).append("=").append(treeMap.get(key)).append("&");
@@ -242,6 +245,14 @@ public class WXPrepay {
 
     public void setOpenid(String openid) {
         this.openid = openid;
+    }
+
+    public String getAttach() {
+        return attach;
+    }
+
+    public void setAttach(String attach) {
+        this.attach = attach;
     }
 
 }
