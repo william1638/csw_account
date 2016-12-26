@@ -6,8 +6,9 @@ import java.util.Map;
 public enum EChannelType {
     Yeepay_PC("11", "易宝支付-网关"), Yeepay_WAP("12", "易宝支付-WAP"), Baofoo_PC("13",
             "宝付支付-网关"), Baofoo_WAP("14", "宝付支付-WAP"), Fuiou_PC("15", "富友支付-网关"), Fuiou_WAP(
-            "16", "富友支付-WAP"), Alipay("30", "支付宝支付"), WeChat_H5("35", "微信公众号支付"), CZB(
-            "01", "线下_橙账本"), NBZ("0", "内部账"), Adjust_ZH("9", "调账");
+            "16", "富友支付-WAP"), Alipay("30", "支付宝支付"), WeChat_H5("35", "微信公众号支付"), WeChat_APP(
+            "36", "微信APP支付"), CZB("01", "线下_橙账本"), NBZ("0", "内部账"), Adjust_ZH(
+            "9", "调账");
 
     public static Map<String, EChannelType> getChannelTypeResultMap() {
         Map<String, EChannelType> map = new HashMap<String, EChannelType>();

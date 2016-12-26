@@ -18,6 +18,18 @@ public class XN802180Req {
     // 系统编号（必填）
     private String systemCode;
 
+    // 公司编号（必填）
+    private String companyCode;
+
+    // 账户编号（必填）
+    private String accountNumber;
+
+    // 业务类型（必填）
+    private String bizType;
+
+    // 业务备注（必填）
+    private String bizNote;
+
     // 商品描述（必填）
     // 商品描述交易字段格式根据不同的应用场景按照以下格式：
     // APP——需传入应用市场上的APP名字-实际商品名称，天天爱消除-游戏充值。
@@ -29,15 +41,44 @@ public class XN802180Req {
     // 终端IP（必填）—— 用户端实际ip
     private String spbillCreateIp;
 
-    // 通知地址（必填）—— 接收微信支付异步通知回调地址，通知url必须为直接可访问的url，不能携带参数
-    private String notifyUrl;
-
     public String getSystemCode() {
         return systemCode;
     }
 
     public void setSystemCode(String systemCode) {
         this.systemCode = systemCode;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
+
+    public String getBizType() {
+        return bizType;
+    }
+
+    public void setBizType(String bizType) {
+        this.bizType = bizType;
+    }
+
+    public String getBizNote() {
+        return bizNote;
+    }
+
+    public void setBizNote(String bizNote) {
+        this.bizNote = bizNote;
     }
 
     public String getBody() {
@@ -62,14 +103,6 @@ public class XN802180Req {
 
     public void setSpbillCreateIp(String spbillCreateIp) {
         this.spbillCreateIp = spbillCreateIp;
-    }
-
-    public String getNotifyUrl() {
-        return notifyUrl;
-    }
-
-    public void setNotifyUrl(String notifyUrl) {
-        this.notifyUrl = notifyUrl;
     }
 
 }

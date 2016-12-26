@@ -9,6 +9,7 @@
 package com.std.account.ao.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,7 @@ import com.std.account.enums.EWeChatType;
 import com.std.account.exception.BizException;
 import com.std.account.util.HttpsUtil;
 import com.std.account.util.wechat.TokenResponse;
+import com.std.account.util.wechat.WXOrderQuery;
 import com.std.account.util.wechat.WXPrepay;
 
 /** 
@@ -49,17 +51,26 @@ public class WeChatAOImpl implements IWeChatAO {
      * @see com.std.account.ao.IWeChatAO#getPrepayId(java.lang.String, java.lang.String, java.lang.Long, java.lang.String, java.lang.String)
      */
     @Override
-    public String getPrepayIdApp(String systemCode, String body, Long totalFee,
-            String spbillCreateIp, String notifyUrl) {
+    public String getPrepayIdApp(String systemCode, String companyCode,
+            String accountNumber, String bizType, String bizNote, String body,
+            Long totalFee, String spbillCreateIp) {
+        // 本地系统落地流水信息
+        String code = jourBO.addToChangeJour(systemCode, accountNumber,
+            EChannelType.WeChat_APP.getCode(), bizType, bizNote, totalFee);
+        // 获取微信公众号支付prepayid
+        CompanyChannel companyChannel = getCompanyChannel(companyCode,
+            systemCode, EChannelType.WeChat_APP.getCode());
         WXPrepay prePay = new WXPrepay();
-        prePay.setAppid("wx3eb3d4d796093674");// 骑来骑去应用ID
-        prePay.setMch_id(""); // 商户号
-        prePay.setBody(""); // 商品描述
-        prePay.setOut_trade_no(""); // 订单号
-        prePay.setTotal_fee(""); // 订单总金额
-        prePay.setSpbill_create_ip(""); // 用户IP
-        prePay.setTrade_type("APP"); // 交易类型
-        prePay.setNotify_url("http://www.weixin.qq.com/wxpay/pay.php");// 回调地址
+        prePay.setAppid(companyChannel.getPrivateKey2());// 微信开放平台审核通过的应用APPID
+        prePay.setMch_id(companyChannel.getChannelCompany()); // 商户号
+        prePay.setBody(body); // 商品描述
+        prePay.setOut_trade_no(code); // 订单号
+        prePay.setTotal_fee(Long.toString(totalFee / 10)); // 订单总金额，厘转化成分
+        prePay.setSpbill_create_ip(spbillCreateIp); // 用户IP
+        prePay.setTrade_type(EWeChatType.APP.getCode()); // 交易类型
+        prePay.setNotify_url(companyChannel.getBackUrl());// 回调地址
+        prePay.setPartnerKey(companyChannel.getPrivateKey1()); // 商户秘钥
+        prePay.setAttach(companyCode + "||" + systemCode);
         return prePay.submitXmlGetPrepayId();
     }
 
@@ -73,7 +84,7 @@ public class WeChatAOImpl implements IWeChatAO {
             EChannelType.WeChat_H5.getCode(), bizType, bizNote, totalFee);
         // 获取微信公众号支付prepayid
         CompanyChannel companyChannel = getCompanyChannel(companyCode,
-            systemCode);
+            systemCode, EChannelType.WeChat_H5.getCode());
         WXPrepay prePay = new WXPrepay();
         prePay.setAppid(companyChannel.getPrivateKey2());// 微信支付分配的公众账号ID
         prePay.setMch_id(companyChannel.getChannelCompany()); // 商户号
@@ -114,15 +125,50 @@ public class WeChatAOImpl implements IWeChatAO {
 
     @Override
     public CompanyChannel getCompanyChannel(String companyCode,
-            String systemCode) {
+            String systemCode, String channelType) {
         CompanyChannel condition = new CompanyChannel();
         condition.setCompanyCode(companyCode);
         condition.setSystemCode(systemCode);
+        condition.setChannelType(channelType);
         List<CompanyChannel> list = companyChannelBO
             .queryCompanyChannelList(condition);
         if (CollectionUtils.isEmpty(list)) {
             throw new BizException("xn000000", "获取支付渠道配置失败，请仔细检查配置信息");
         }
         return list.get(0);
+    }
+
+    @Override
+    public boolean reqOrderquery(Map<String, String> map, String channelType) {
+        WXOrderQuery orderQuery = new WXOrderQuery();
+        orderQuery.setAppid(map.get("appid"));
+        orderQuery.setMch_id(map.get("mch_id"));
+        orderQuery.setTransaction_id(map.get("transaction_id"));
+        orderQuery.setOut_trade_no(map.get("out_trade_no"));
+        orderQuery.setNonce_str(map.get("nonce_str"));
+
+        String attach = map.get("attach");
+        String[] codes = attach.split("||");
+        CompanyChannel companyChannel = getCompanyChannel(codes[0], codes[1],
+            channelType);
+
+        // 此处需要密钥PartnerKey，此处直接写死，自己的业务需要从持久化中获取此密钥，否则会报签名错误
+        orderQuery.setPartnerKey(companyChannel.getPrivateKey1());
+
+        Map<String, String> orderMap = orderQuery.reqOrderquery();
+        // 此处添加支付成功后，支付金额和实际订单金额是否等价，防止钓鱼
+        if (orderMap.get("return_code") != null
+                && orderMap.get("return_code").equalsIgnoreCase("SUCCESS")) {
+            if (orderMap.get("trade_state") != null
+                    && orderMap.get("trade_state").equalsIgnoreCase("SUCCESS")) {
+                String total_fee = map.get("total_fee");
+                String order_total_fee = map.get("total_fee");
+                if (Integer.parseInt(order_total_fee) >= Integer
+                    .parseInt(total_fee)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

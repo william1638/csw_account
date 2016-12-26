@@ -26,8 +26,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.std.account.ao.IWeChatAO;
-import com.std.account.domain.CompanyChannel;
 import com.std.account.enums.EBoolean;
+import com.std.account.enums.EChannelType;
 import com.std.account.util.wechat.WXOrderQuery;
 import com.std.account.util.wechat.XMLUtil;
 
@@ -60,22 +60,65 @@ public class CallbackConroller {
         outSteam.close();
         inStream.close();
         String result = new String(outSteam.toByteArray(), "utf-8");
+        System.out.println("**** 公众号支付回调结果 ****：" + result);
         Map<String, String> map = null;
         try {
             map = XMLUtil.doXMLParse(result);
         } catch (JDOMException e) {
             e.printStackTrace();
         }
-        String attach = map.get("attach");
-        String[] codes = attach.split("||");
-        CompanyChannel companyChannel = weChatAO.getCompanyChannel(codes[0],
-            codes[1]);
-        // 此处获取accessToken
-        String accessToken = weChatAO.getAccessToken(
-            companyChannel.getPrivateKey2(), companyChannel.getPrivateKey3());
+
         // 此处调用订单查询接口验证是否交易成功
-        boolean isSucc = reqOrderquery(map, accessToken,
-            companyChannel.getPrivateKey1());
+        boolean isSucc = weChatAO.reqOrderquery(map,
+            EChannelType.WeChat_H5.getCode());
+        // 支付成功，商户处理后同步返回给微信参数
+        if (!isSucc) {
+            // 支付失败
+            System.out.println("支付失败");
+            weChatAO.doCallbackH5(map.get("out_trade_no"),
+                EBoolean.NO.getCode());
+        } else {
+            System.out.println("===============付款成功==============");
+            // ------------------------------
+            // 处理业务开始
+            // ------------------------------
+            weChatAO.doCallbackH5(map.get(""), EBoolean.YES.getCode());
+            // ------------------------------
+            // 处理业务完毕
+            // ------------------------------
+            String noticeStr = setXML("SUCCESS", "");
+            out.print(new ByteArrayInputStream(noticeStr.getBytes(Charset
+                .forName("UTF-8"))));
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    @RequestMapping("/wechat/app/callback")
+    public void doCallbackWechatAPP(HttpServletRequest request,
+            HttpServletResponse response) throws IOException {
+        System.out.println("**** 进入微信APP支付服务器回调 ****");
+        PrintWriter out = response.getWriter();
+        InputStream inStream = request.getInputStream();
+        ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len = 0;
+        while ((len = inStream.read(buffer)) != -1) {
+            outSteam.write(buffer, 0, len);
+        }
+        outSteam.close();
+        inStream.close();
+        String result = new String(outSteam.toByteArray(), "utf-8");
+        System.out.println("**** APP支付回调结果 ****：" + result);
+        Map<String, String> map = null;
+        try {
+            map = XMLUtil.doXMLParse(result);
+        } catch (JDOMException e) {
+            e.printStackTrace();
+        }
+
+        // 此处调用订单查询接口验证是否交易成功
+        boolean isSucc = weChatAO.reqOrderquery(map,
+            EChannelType.WeChat_APP.getCode());
         // 支付成功，商户处理后同步返回给微信参数
         if (!isSucc) {
             // 支付失败

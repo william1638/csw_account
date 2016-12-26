@@ -8,9 +8,15 @@
  */
 package com.std.account.api.impl;
 
+import com.std.account.ao.IWeChatAO;
 import com.std.account.api.AProcessor;
+import com.std.account.common.JsonUtil;
+import com.std.account.core.StringValidater;
+import com.std.account.dto.req.XN802180Req;
+import com.std.account.dto.res.XN802180Res;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
+import com.std.account.spring.SpringContextHolder;
 
 /** 
  * 微信APP支付请求接口，返回预付单信息
@@ -20,13 +26,19 @@ import com.std.account.exception.ParaException;
  */
 public class XN802180 extends AProcessor {
 
+    private IWeChatAO weChatAO = SpringContextHolder.getBean(IWeChatAO.class);
+
+    private XN802180Req req = null;
+
     /** 
      * @see com.std.account.api.IProcessor#doBusiness()
      */
     @Override
     public Object doBusiness() throws BizException {
-        // TODO Auto-generated method stub
-        return null;
+        return new XN802180Res(weChatAO.getPrepayIdApp(req.getSystemCode(),
+            req.getCompanyCode(), req.getAccountNumber(), req.getBizType(),
+            req.getBizNote(), req.getBody(),
+            StringValidater.toLong(req.getTotalFee()), req.getSpbillCreateIp()));
     }
 
     /** 
@@ -34,7 +46,10 @@ public class XN802180 extends AProcessor {
      */
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        // TODO Auto-generated method stub
+        req = JsonUtil.json2Bean(inputparams, XN802180Req.class);
+        StringValidater.validateBlank(req.getSystemCode(), req.getSystemCode(),
+            req.getAccountNumber(), req.getBizType(), req.getBizNote(),
+            req.getSpbillCreateIp(), req.getTotalFee(), req.getBody());
 
     }
 
