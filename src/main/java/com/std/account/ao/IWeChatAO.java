@@ -25,6 +25,9 @@ public interface IWeChatAO {
      * @create: 2016年12月23日 上午11:18:05 haiqingzheng
      * @history:
      */
-    public String getPrepayId(String systemCode, String body, Long totalFee,
+    public String getPrepayIdApp(String systemCode, String body, Long totalFee,
+            String spbillCreateIp, String notifyUrl);
+
+    public String getPrepayIdH5(String systemCode, String body, Long totalFee,
             String spbillCreateIp, String notifyUrl);
 }
