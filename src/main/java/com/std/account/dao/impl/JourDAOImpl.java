@@ -81,7 +81,7 @@ public class JourDAOImpl extends AMybatisTemplate implements IJourDAO {
      */
     @Override
     public int updateCheck(Jour data) {
-        return super.update(NAMESPACE.concat("update_check_account"), data);
+        return super.update(NAMESPACE.concat("update_check_jour"), data);
     }
 
     /** 
@@ -89,6 +89,6 @@ public class JourDAOImpl extends AMybatisTemplate implements IJourDAO {
      */
     @Override
     public int updateAdjust(Jour data) {
-        return super.update(NAMESPACE.concat("update_adjust_account"), data);
+        return super.update(NAMESPACE.concat("update_adjust_jour"), data);
     }
 }

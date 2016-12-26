@@ -7,21 +7,22 @@ import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.domain.Jour;
-import com.std.account.dto.req.XN802520Req;
+import com.std.account.dto.req.XN802523Req;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 流水分页查询
+ * 不平账分页查询
  * @author: xieyj 
- * @since: 2016年12月24日 上午7:59:19 
+ * @since: 2016年12月24日 上午8:17:00 
  * @history:
  */
-public class XN802520 extends AProcessor {
+public class XN802523 extends AProcessor {
+
     private IJourAO jourAO = SpringContextHolder.getBean(IJourAO.class);
 
-    private XN802520Req req = null;
+    private XN802523Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
@@ -31,13 +32,9 @@ public class XN802520 extends AProcessor {
         condition.setStatus(req.getStatus());
         condition.setAccountNumber(req.getAccountNumber());
         condition.setChannelType(req.getChannelType());
-        condition.setChannelOrder(req.getChannelOrder());
         condition.setBizType(req.getBizType());
         condition.setStatus(req.getStatus());
-        condition.setRollbackUser(req.getRollbackUser());
         condition.setWorkDate(req.getWorkDate());
-        condition.setCheckUser(req.getCheckUser());
-        condition.setAdjustUser(req.getAdjustUser());
         condition.setSystemCode(req.getSystemCode());
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {
@@ -51,7 +48,7 @@ public class XN802520 extends AProcessor {
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN802520Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN802523Req.class);
         StringValidater.validateNumber(req.getStart(), req.getLimit());
         StringValidater.validateBlank(req.getSystemCode());
     }

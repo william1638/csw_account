@@ -4,8 +4,8 @@ public class XN802521Req {
     // 真实姓名
     private String realName;
 
-    // 账户类型类型
-    private String type;
+    // 账户类型
+    private String accountType;
 
     // 账号
     private String accountNumber;
@@ -125,12 +125,11 @@ public class XN802521Req {
         this.systemCode = systemCode;
     }
 
-    public String getType() {
-        return type;
+    public String getAccountType() {
+        return accountType;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setAccountType(String accountType) {
+        this.accountType = accountType;
     }
-
 }

@@ -1,11 +1,3 @@
-/**
- * @Title Account.java 
- * @Package com.ibis.account.domain 
- * @Description 
- * @author miyb  
- * @date 2015-2-12 下午8:38:03 
- * @version V1.0   
- */
 package com.std.account.domain;
 
 import java.util.Date;
@@ -13,6 +5,7 @@ import java.util.Date;
 import com.std.account.dao.base.ABaseDO;
 
 /**
+ * 账户
  * @author: xieyj 
  * @since: 2016年12月23日 上午10:41:45 
  * @history:
@@ -32,10 +25,10 @@ public class Account extends ABaseDO {
     // 户名
     private String realName;
 
-    // 类别（B端账号，C端账号，平台账号）
+    // 类别（C端账号/B端账号/P平台账号）
     private String type;
 
-    // 状态（正常/程序冻结/人工冻结）
+    // 状态（0正常/1程序冻结/2人工冻结）
     private String status;
 
     // 币种
@@ -67,7 +60,7 @@ public class Account extends ABaseDO {
     // 创建终止时间
     private Date createDatetimeEnd;
 
-    // 户名
+    // 户名模糊查询
     private String realNameQuery;
 
     public String getRealNameQuery() {

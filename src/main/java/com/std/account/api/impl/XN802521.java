@@ -11,9 +11,9 @@ import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 渠道测试（不含智能路由，逐一测试）;
- * @author: myb858 
- * @since: 2016年11月16日 下午1:28:34 
+ * 流水列表查询
+ * @author: xieyj 
+ * @since: 2016年12月26日 下午12:29:08 
  * @history:
  */
 public class XN802521 extends AProcessor {
@@ -26,7 +26,7 @@ public class XN802521 extends AProcessor {
     public Object doBusiness() throws BizException {
         Jour condition = new Jour();
         condition.setRealNameQuery(req.getRealName());
-        condition.setType(req.getType());
+        condition.setAccountType(req.getAccountType());
         condition.setStatus(req.getStatus());
         condition.setAccountNumber(req.getAccountNumber());
         condition.setChannelType(req.getChannelType());

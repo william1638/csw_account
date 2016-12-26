@@ -120,6 +120,7 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
             .generate(EGeneratePrefix.AJour.getCode());
         Long postAmount = preAmount + transAmount;
         Jour data = new Jour();
+        data.setCode(code);
         data.setSystemCode(systemCode);
         data.setUserId(account.getUserId());
         data.setRealName(account.getRealName());
@@ -166,6 +167,7 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
         Long preAmount = account.getAmount();
         Long postAmount = preAmount + transAmount;
         Jour data = new Jour();
+        data.setCode(code);
         data.setSystemCode(account.getSystemCode());
         data.setUserId(account.getUserId());
         data.setRealName(account.getRealName());
@@ -201,7 +203,7 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
         if (EBoolean.NO.equals(adjustResult)) {
             eJourStatus = EJourStatus.adjusted_NO;
         }
-        data.setStatus(eJourStatus.getValue());
+        data.setStatus(eJourStatus.getCode());
         data.setAdjustUser(adjustUser);
         data.setAdjustDatetime(new Date());
         data.setRemark(adjustNote);

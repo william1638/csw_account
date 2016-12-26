@@ -8,8 +8,12 @@
  */
 package com.std.account.api.impl;
 
-import com.std.account.ao.IAccountAO;
+import com.std.account.ao.IJourAO;
 import com.std.account.api.AProcessor;
+import com.std.account.common.JsonUtil;
+import com.std.account.core.StringValidater;
+import com.std.account.dto.req.XN802514Req;
+import com.std.account.dto.res.BooleanRes;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -21,16 +25,23 @@ import com.std.account.spring.SpringContextHolder;
  * @history:
  */
 public class XN802515 extends AProcessor {
-    private IAccountAO accountAO = SpringContextHolder
-        .getBean(IAccountAO.class);
+    private IJourAO jourAO = SpringContextHolder.getBean(IJourAO.class);
+
+    private XN802514Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
-        return null;
+        Long checkAmount = StringValidater.toLong(req.getCheckAmount());
+        jourAO.checkJour(req.getCode(), checkAmount, req.getCheckUser(),
+            req.getCheckNote(), req.getSystemCode());
+        return new BooleanRes(true);
     }
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
+        req = JsonUtil.json2Bean(inputparams, XN802514Req.class);
+        StringValidater.validateBlank(req.getCode(), req.getCheckNote(),
+            req.getCheckUser(), req.getSystemCode());
+        StringValidater.validateAmount(req.getCheckAmount());
     }
-
 }

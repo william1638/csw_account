@@ -65,10 +65,6 @@ CREATE TABLE `tstd_bankcard` (
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-
-
-
-
 DROP TABLE IF EXISTS `tsys_dict`;
 CREATE TABLE `tsys_dict` (
   `id` bigint(32) NOT NULL AUTO_INCREMENT COMMENT '编号（自增长）',
@@ -92,7 +88,11 @@ CREATE TABLE `tstd_company_channel` (
   `channel_type` varchar(4) DEFAULT NULL COMMENT '渠道类型',
   `status` varchar(4) DEFAULT NULL COMMENT '状态（启用/不启用）',
   `channel_company` varchar(32) DEFAULT NULL COMMENT '渠道给公司的代号',
-  `private_key` varchar(255) DEFAULT NULL COMMENT '秘钥',
+  `private_key1` varchar(1024) DEFAULT NULL COMMENT '秘钥1',
+  `private_key2` varchar(1024) DEFAULT NULL COMMENT '私钥2',
+  `private_key3` varchar(1024) DEFAULT NULL COMMENT '私钥3',
+  `private_key4` varchar(1024) DEFAULT NULL COMMENT '私钥4',
+  `private_key5` varchar(1024) DEFAULT NULL COMMENT '私钥5',
   `page_url` varchar(255) DEFAULT NULL COMMENT '界面正确回调地址',
   `error_url` varchar(255) DEFAULT NULL COMMENT '界面错误回调地址',
   `back_url` varchar(255) DEFAULT NULL COMMENT '服务器回调地址',
@@ -101,7 +101,6 @@ CREATE TABLE `tstd_company_channel` (
   `system_code` varchar(32) NOT NULL COMMENT '系统编号',
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 DROP TABLE IF EXISTS `tstd_channel_bank`;
 CREATE TABLE `tstd_channel_bank` (
