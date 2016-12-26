@@ -8,9 +8,14 @@
  */
 package com.std.account.api.impl;
 
+import com.std.account.ao.IWeChatAO;
 import com.std.account.api.AProcessor;
+import com.std.account.common.JsonUtil;
+import com.std.account.core.StringValidater;
+import com.std.account.dto.req.XN802182Req;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
+import com.std.account.spring.SpringContextHolder;
 
 /** 
  * 微信公众号支付请求接口，返回预付单信息
@@ -19,14 +24,18 @@ import com.std.account.exception.ParaException;
  * @history:
  */
 public class XN802182 extends AProcessor {
+    private IWeChatAO weChatAO = SpringContextHolder.getBean(IWeChatAO.class);
+
+    private XN802182Req req = null;
 
     /** 
      * @see com.std.account.api.IProcessor#doBusiness()
      */
     @Override
     public Object doBusiness() throws BizException {
-        // TODO Auto-generated method stub
-        return null;
+        return weChatAO.getPrepayIdH5(req.getSystemCode(), req.getBody(),
+            StringValidater.toLong(req.getTotalFee()), req.getSpbillCreateIp(),
+            req.getNotifyUrl());
     }
 
     /** 
@@ -34,7 +43,9 @@ public class XN802182 extends AProcessor {
      */
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        // TODO Auto-generated method stub
+        req = JsonUtil.json2Bean(inputparams, XN802182Req.class);
+        StringValidater.validateBlank(req.getSystemCode(), req.getNotifyUrl(),
+            req.getSpbillCreateIp(), req.getTotalFee(), req.getBody());
 
     }
 

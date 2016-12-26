@@ -8,6 +8,7 @@
  */
 package com.std.account.ao;
 
+
 /** 
  * @author: haiqingzheng 
  * @since: 2016年12月23日 上午11:23:39 
@@ -30,4 +31,8 @@ public interface IWeChatAO {
 
     public String getPrepayIdH5(String systemCode, String body, Long totalFee,
             String spbillCreateIp, String notifyUrl);
+
+    public int doCallbackH5(String orderNo, String callbackResult);
+
+    public String getAccessToken(String systemCode);
 }
