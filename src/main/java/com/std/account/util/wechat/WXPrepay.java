@@ -3,6 +3,7 @@ package com.std.account.util.wechat;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpPost;
@@ -141,7 +142,9 @@ public class WXPrepay {
         treeMap.put("spbill_create_ip", this.spbill_create_ip);
         treeMap.put("trade_type", this.trade_type);
         treeMap.put("notify_url", this.notify_url);
-        treeMap.put("openid", this.openid);
+        if (StringUtils.isNotBlank(this.openid)) {
+            treeMap.put("openid", this.openid);
+        }
         treeMap.put("attach", this.attach);
         StringBuilder sb = new StringBuilder();
         for (String key : treeMap.keySet()) {
