@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.std.account.ao.IWeChatAO;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
+import com.std.account.exception.BizException;
 import com.std.account.util.wechat.WXOrderQuery;
 import com.std.account.util.wechat.XMLUtil;
 
@@ -65,7 +66,7 @@ public class CallbackConroller {
         try {
             map = XMLUtil.doXMLParse(result);
         } catch (JDOMException e) {
-            e.printStackTrace();
+            throw new BizException("xn000000", "回调结果XML解析失败");
         }
 
         // 此处调用订单查询接口验证是否交易成功
@@ -82,7 +83,8 @@ public class CallbackConroller {
             // ------------------------------
             // 处理业务开始
             // ------------------------------
-            weChatAO.doCallbackH5(map.get(""), EBoolean.YES.getCode());
+            weChatAO.doCallbackH5(map.get("out_trade_no"),
+                EBoolean.YES.getCode());
             // ------------------------------
             // 处理业务完毕
             // ------------------------------

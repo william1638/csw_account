@@ -207,6 +207,7 @@ public class WeChatAOImpl implements IWeChatAO {
 
     @Override
     public boolean reqOrderquery(Map<String, String> map, String channelType) {
+        System.out.println("******* 开始订单查询 ******");
         WXOrderQuery orderQuery = new WXOrderQuery();
         orderQuery.setAppid(map.get("appid"));
         orderQuery.setMch_id(map.get("mch_id"));
@@ -215,7 +216,10 @@ public class WeChatAOImpl implements IWeChatAO {
         orderQuery.setNonce_str(map.get("nonce_str"));
 
         String attach = map.get("attach");
-        String[] codes = attach.split("||");
+        System.out.println("attcah=" + attach);
+        String[] codes = attach.split("\\|\\|");
+        System.out.println("companyCode=" + codes[0] + " systemCode="
+                + codes[1]);
         CompanyChannel companyChannel = getCompanyChannel(codes[0], codes[1],
             channelType);
 
@@ -232,10 +236,12 @@ public class WeChatAOImpl implements IWeChatAO {
                 String order_total_fee = map.get("total_fee");
                 if (Integer.parseInt(order_total_fee) >= Integer
                     .parseInt(total_fee)) {
+                    System.out.println("******* 开订单查询结束，结果正确 ******");
                     return true;
                 }
             }
         }
+        System.out.println("******* 开订单查询结束，结果不正确 ******");
         return false;
     }
 
