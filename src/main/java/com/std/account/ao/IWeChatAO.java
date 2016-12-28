@@ -11,6 +11,7 @@ package com.std.account.ao;
 import java.util.Map;
 
 import com.std.account.domain.CompanyChannel;
+import com.std.account.dto.res.XN802182Res;
 
 /** 
  * @author: haiqingzheng 
@@ -40,8 +41,7 @@ public interface IWeChatAO {
      * （微信公众号支付）统一下单，下单成功返回 prepay_id
      * @param systemCode
      * @param companyCode
-     * @param openId
-     * @param accountNumber
+     * @param userId
      * @param bizType
      * @param bizNote
      * @param body
@@ -51,9 +51,11 @@ public interface IWeChatAO {
      * @create: 2016年12月26日 下午5:47:24 haiqingzheng
      * @history:
      */
-    public String getPrepayIdH5(String systemCode, String companyCode,
-            String openId, String accountNumber, String bizType,
-            String bizNote, String body, Long totalFee, String spbillCreateIp);
+    public XN802182Res getPrepayIdH5(String systemCode, String companyCode,
+            String userId, String bizType, String bizNote, String body,
+            Long totalFee, String spbillCreateIp);
+
+    // public XN802182Res generatePayParam(String prepayId);
 
     /**
      * （微信公众号支付）支付回调

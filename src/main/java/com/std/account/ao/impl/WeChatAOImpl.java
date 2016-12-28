@@ -8,10 +8,16 @@
  */
 package com.std.account.ao.impl;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.Set;
+import java.util.SortedMap;
+import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,12 +26,20 @@ import com.std.account.ao.IWeChatAO;
 import com.std.account.bo.IAccountBO;
 import com.std.account.bo.ICompanyChannelBO;
 import com.std.account.bo.IJourBO;
+import com.std.account.bo.IUserBO;
 import com.std.account.common.JsonUtil;
+import com.std.account.domain.Account;
 import com.std.account.domain.CompanyChannel;
+import com.std.account.dto.res.XN802182Res;
+import com.std.account.dto.res.XN805901Res;
 import com.std.account.enums.EChannelType;
+import com.std.account.enums.ECurrency;
 import com.std.account.enums.EWeChatType;
 import com.std.account.exception.BizException;
 import com.std.account.util.HttpsUtil;
+import com.std.account.util.wechat.MD5;
+import com.std.account.util.wechat.MD5Util;
+import com.std.account.util.wechat.OrderUtil;
 import com.std.account.util.wechat.TokenResponse;
 import com.std.account.util.wechat.WXOrderQuery;
 import com.std.account.util.wechat.WXPrepay;
@@ -46,6 +60,9 @@ public class WeChatAOImpl implements IWeChatAO {
 
     @Autowired
     IAccountBO accountBO;
+
+    @Autowired
+    IUserBO userBO;
 
     /** 
      * @see com.std.account.ao.IWeChatAO#getPrepayId(java.lang.String, java.lang.String, java.lang.Long, java.lang.String, java.lang.String)
@@ -76,9 +93,29 @@ public class WeChatAOImpl implements IWeChatAO {
 
     @Override
     @Transactional
-    public String getPrepayIdH5(String systemCode, String companyCode,
-            String openId, String accountNumber, String bizType,
-            String bizNote, String body, Long totalFee, String spbillCreateIp) {
+    public XN802182Res getPrepayIdH5(String systemCode, String companyCode,
+            String userId, String bizType, String bizNote, String body,
+            Long totalFee, String spbillCreateIp) {
+        XN802182Res res = new XN802182Res();
+
+        // 获取用户openid
+        XN805901Res xn805901Res = userBO.getRemoteUser(userId, userId);
+        String openId = xn805901Res.getOpenId();
+        if (StringUtils.isBlank(openId)) {
+            throw new BizException("xn000000", "获取用户openId失败");
+        }
+
+        // 获取用户人民币账户
+        Account condition = new Account();
+        condition.setSystemCode(systemCode);
+        condition.setCurrency(ECurrency.CNY.getCode());
+        condition.setUserId(userId);
+        List<Account> results = accountBO.queryAccountList(condition);
+        if (CollectionUtils.isEmpty(results)) {
+            throw new BizException("xn000000", "获取用户账户信息失败");
+        }
+        String accountNumber = results.get(0).getAccountNumber();
+
         // 本地系统落地流水信息
         String code = jourBO.addToChangeJour(systemCode, accountNumber,
             EChannelType.WeChat_H5.getCode(), bizType, bizNote, totalFee);
@@ -97,8 +134,38 @@ public class WeChatAOImpl implements IWeChatAO {
         prePay.setPartnerKey(companyChannel.getPrivateKey1()); // 商户秘钥
         prePay.setOpenid(openId); // 支付者openid
         prePay.setAttach(companyCode + "||" + systemCode);
-        return prePay.submitXmlGetPrepayId();
+        String prepayId = prePay.submitXmlGetPrepayId();
+
+        SortedMap<String, String> nativeObj = new TreeMap<String, String>();
+        nativeObj.put("appId", companyChannel.getPrivateKey2());
+        nativeObj.put("timeStamp", OrderUtil.GetTimestamp());
+        Random random = new Random();
+        String randomStr = MD5.GetMD5String(String.valueOf(random
+            .nextInt(10000)));
+        nativeObj.put("nonceStr", MD5Util.MD5Encode(randomStr, "utf-8")
+            .toLowerCase());
+        nativeObj.put("package", "prepay_id=" + prepayId);
+        nativeObj.put("signType", "MD5");
+        nativeObj.put("paySign",
+            createSign(nativeObj, companyChannel.getPrivateKey1()));
+
+        res.setPrepayId(prepayId);
+        res.setAppId(nativeObj.get("appId"));
+        res.setTimeStamp(nativeObj.get("timeStamp"));
+        res.setNonceStr(nativeObj.get("nonceStr"));
+        res.setWechatPackage(nativeObj.get("package"));
+        res.setSignType(nativeObj.get("signType"));
+        res.setPaySign(nativeObj.get("paySign"));
+        return res;
     }
+
+    // @Override
+    // public XN802182Res generatePayParam(String prepayId) {
+    // XN802182Res res = new XN802182Res();
+    // res.setPrepayId(prepayId);
+    // res.setAppId(appId);
+    // return null;
+    // }
 
     @Override
     public int doCallbackH5(String code, String callbackResult) {
@@ -171,4 +238,27 @@ public class WeChatAOImpl implements IWeChatAO {
         }
         return false;
     }
+
+    /**
+     * 创建md5摘要,规则是:按参数名称a-z排序,遇到空值的参数不参加签名。
+     */
+    public String createSign(SortedMap<String, String> packageParams,
+            String AppKey) {
+        StringBuffer sb = new StringBuffer();
+        Set es = packageParams.entrySet();
+        Iterator it = es.iterator();
+        while (it.hasNext()) {
+            Map.Entry entry = (Map.Entry) it.next();
+            String k = (String) entry.getKey();
+            String v = (String) entry.getValue();
+            if (null != v && !"".equals(v) && !"sign".equals(k)
+                    && !"key".equals(k)) {
+                sb.append(k + "=" + v + "&");
+            }
+        }
+        sb.append("key=" + AppKey);
+        String sign = MD5Util.MD5Encode(sb.toString(), "UTF-8").toUpperCase();
+        return sign;
+    }
+
 }
