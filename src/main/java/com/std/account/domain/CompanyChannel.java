@@ -24,8 +24,20 @@ public class CompanyChannel extends ABaseDO {
     // 渠道给公司的代号
     private String channelCompany;
 
-    // 秘钥
-    private String privatekey;
+    // 秘钥1
+    private String privateKey1;
+
+    // 秘钥2
+    private String privateKey2;
+
+    // 秘钥3
+    private String privateKey3;
+
+    // 秘钥4
+    private String privateKey4;
+
+    // 秘钥5
+    private String privateKey5;
 
     // 界面正确回调地址
     private String pageUrl;
@@ -77,12 +89,44 @@ public class CompanyChannel extends ABaseDO {
         this.status = status;
     }
 
-    public String getPrivatekey() {
-        return privatekey;
+    public String getPrivateKey1() {
+        return privateKey1;
     }
 
-    public void setPrivatekey(String privatekey) {
-        this.privatekey = privatekey;
+    public void setPrivateKey1(String privateKey1) {
+        this.privateKey1 = privateKey1;
+    }
+
+    public String getPrivateKey2() {
+        return privateKey2;
+    }
+
+    public void setPrivateKey2(String privateKey2) {
+        this.privateKey2 = privateKey2;
+    }
+
+    public String getPrivateKey3() {
+        return privateKey3;
+    }
+
+    public void setPrivateKey3(String privateKey3) {
+        this.privateKey3 = privateKey3;
+    }
+
+    public String getPrivateKey4() {
+        return privateKey4;
+    }
+
+    public void setPrivateKey4(String privateKey4) {
+        this.privateKey4 = privateKey4;
+    }
+
+    public String getPrivateKey5() {
+        return privateKey5;
+    }
+
+    public void setPrivateKey5(String privateKey5) {
+        this.privateKey5 = privateKey5;
     }
 
     public String getPageUrl() {

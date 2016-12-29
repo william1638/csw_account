@@ -35,7 +35,7 @@ public class XN802102 extends AProcessor {
         data.setChannelType(req.getChannelType());
         data.setStatus(req.getStatus());
         data.setChannelCompany(req.getChannelCompany());
-        data.setPrivatekey(req.getPrivatekey());
+        data.setPrivateKey1(req.getPrivatekey());
         data.setPageUrl(req.getPageUrl());
         data.setErrorUrl(req.getErrorUrl());
         data.setBackUrl(req.getBackUrl());

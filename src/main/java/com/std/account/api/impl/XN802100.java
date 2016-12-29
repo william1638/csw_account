@@ -34,7 +34,7 @@ public class XN802100 extends AProcessor {
         data.setChannelType(req.getChannelType());
         data.setStatus(req.getStatus());
         data.setChannelCompany(req.getPaycompany());
-        data.setPrivatekey(req.getPrivatekey());
+        data.setPrivateKey1(req.getPrivatekey());
         data.setPageUrl(req.getPageUrl());
         data.setErrorUrl(req.getErrorUrl());
         data.setBackUrl(req.getBackUrl());
