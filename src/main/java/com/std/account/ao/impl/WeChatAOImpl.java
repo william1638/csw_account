@@ -8,6 +8,7 @@
  */
 package com.std.account.ao.impl;
 
+import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +18,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
+import org.jdom2.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,14 +27,12 @@ import com.std.account.ao.IWeChatAO;
 import com.std.account.bo.IAccountBO;
 import com.std.account.bo.ICompanyChannelBO;
 import com.std.account.bo.IJourBO;
-import com.std.account.bo.IUserBO;
 import com.std.account.common.JsonUtil;
-import com.std.account.domain.Account;
 import com.std.account.domain.CompanyChannel;
 import com.std.account.dto.res.XN802182Res;
-import com.std.account.dto.res.XN805901Res;
+import com.std.account.dto.res.XN802183Res;
+import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
-import com.std.account.enums.ECurrency;
 import com.std.account.enums.EWeChatType;
 import com.std.account.exception.BizException;
 import com.std.account.util.HttpsUtil;
@@ -43,6 +42,7 @@ import com.std.account.util.wechat.OrderUtil;
 import com.std.account.util.wechat.TokenResponse;
 import com.std.account.util.wechat.WXOrderQuery;
 import com.std.account.util.wechat.WXPrepay;
+import com.std.account.util.wechat.XMLUtil;
 
 /** 
  * @author: haiqingzheng 
@@ -60,9 +60,6 @@ public class WeChatAOImpl implements IWeChatAO {
 
     @Autowired
     IAccountBO accountBO;
-
-    @Autowired
-    IUserBO userBO;
 
     /** 
      * @see com.std.account.ao.IWeChatAO#getPrepayId(java.lang.String, java.lang.String, java.lang.Long, java.lang.String, java.lang.String)
@@ -94,31 +91,13 @@ public class WeChatAOImpl implements IWeChatAO {
     @Override
     @Transactional
     public XN802182Res getPrepayIdH5(String systemCode, String companyCode,
-            String userId, String bizType, String bizNote, String body,
-            Long totalFee, String spbillCreateIp) {
+            String openId, String accountNumber, String bizType,
+            String bizNote, String body, Long totalFee, String spbillCreateIp) {
         XN802182Res res = new XN802182Res();
-
-        // 获取用户openid
-        XN805901Res xn805901Res = userBO.getRemoteUser(userId, userId);
-        String openId = xn805901Res.getOpenId();
-        if (StringUtils.isBlank(openId)) {
-            throw new BizException("xn000000", "获取用户openId失败");
-        }
-
-        // 获取用户人民币账户
-        Account condition = new Account();
-        condition.setSystemCode(systemCode);
-        condition.setCurrency(ECurrency.CNY.getCode());
-        condition.setUserId(userId);
-        List<Account> results = accountBO.queryAccountList(condition);
-        if (CollectionUtils.isEmpty(results)) {
-            throw new BizException("xn000000", "获取用户账户信息失败");
-        }
-        String accountNumber = results.get(0).getAccountNumber();
-
         // 本地系统落地流水信息
         String code = jourBO.addToChangeJour(systemCode, accountNumber,
             EChannelType.WeChat_H5.getCode(), bizType, bizNote, totalFee);
+        res.setJourCode(code);
         // 获取微信公众号支付prepayid
         CompanyChannel companyChannel = getCompanyChannel(companyCode,
             systemCode, EChannelType.WeChat_H5.getCode());
@@ -168,9 +147,37 @@ public class WeChatAOImpl implements IWeChatAO {
     // }
 
     @Override
-    public int doCallbackH5(String code, String callbackResult) {
-        return jourBO.callBackChangeJour(code, callbackResult, "WeChat_H5",
-            "微信公众号支付后台自动回调");
+    public XN802183Res doCallbackH5(String result) {
+        XN802183Res res = new XN802183Res();
+        Map<String, String> map = null;
+        try {
+            map = XMLUtil.doXMLParse(result);
+        } catch (JDOMException | IOException e) {
+            throw new BizException("xn000000", "回调结果XML解析失败");
+        }
+
+        // 此处调用订单查询接口验证是否交易成功
+        boolean isSucc = reqOrderquery(map, EChannelType.WeChat_H5.getCode());
+        // 支付成功，商户处理后同步返回给微信参数
+        if (!isSucc) {
+            // 支付失败
+            System.out.println("支付失败");
+            jourBO.callBackChangeJour(map.get("out_trade_no"),
+                EBoolean.NO.getCode(), "WeChat_H5", "微信公众号支付后台自动回调");
+        } else {
+            System.out.println("===============付款成功==============");
+            // ------------------------------
+            // 处理业务开始
+            // ------------------------------
+            jourBO.callBackChangeJour(map.get("out_trade_no"),
+                EBoolean.YES.getCode(), "WeChat_H5", "微信公众号支付后台自动回调");
+            // ------------------------------
+            // 处理业务完毕
+            // ------------------------------
+        }
+        res.setIsSuccess(isSucc);
+        res.setJourCode(map.get("out_trade_no"));
+        return res;
     }
 
     @Override
@@ -205,7 +212,6 @@ public class WeChatAOImpl implements IWeChatAO {
         return list.get(0);
     }
 
-    @Override
     public boolean reqOrderquery(Map<String, String> map, String channelType) {
         System.out.println("******* 开始订单查询 ******");
         WXOrderQuery orderQuery = new WXOrderQuery();

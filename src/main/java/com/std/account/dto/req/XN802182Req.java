@@ -21,14 +21,11 @@ public class XN802182Req {
     // 公司编号（必填）
     private String companyCode;
 
-    // userId（必填）
-    private String userId;
+    // openid（必填）
+    private String openId;
 
-    // // openid（必填）
-    // private String openId;
-    //
-    // // 账户编号（必填）
-    // private String accountNumber;
+    // 账户编号（必填）
+    private String accountNumber;
 
     // 业务类型（必填）
     private String bizType;
@@ -87,21 +84,21 @@ public class XN802182Req {
         this.spbillCreateIp = spbillCreateIp;
     }
 
-    // public String getOpenId() {
-    // return openId;
-    // }
-    //
-    // public void setOpenId(String openId) {
-    // this.openId = openId;
-    // }
-    //
-    // public String getAccountNumber() {
-    // return accountNumber;
-    // }
-    //
-    // public void setAccountNumber(String accountNumber) {
-    // this.accountNumber = accountNumber;
-    // }
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
+    }
+
+    public String getAccountNumber() {
+        return accountNumber;
+    }
+
+    public void setAccountNumber(String accountNumber) {
+        this.accountNumber = accountNumber;
+    }
 
     public String getBizType() {
         return bizType;
@@ -118,13 +115,4 @@ public class XN802182Req {
     public void setBizNote(String bizNote) {
         this.bizNote = bizNote;
     }
-
-    public String getUserId() {
-        return userId;
-    }
-
-    public void setUserId(String userId) {
-        this.userId = userId;
-    }
-
 }

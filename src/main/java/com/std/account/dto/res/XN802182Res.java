@@ -17,6 +17,9 @@ public class XN802182Res {
     // 微信预支付订单号
     private String prepayId;
 
+    // 橙账本流水编号
+    private String jourCode;
+
     // 公众号id
     private String appId;
 
@@ -41,6 +44,14 @@ public class XN802182Res {
 
     public void setPrepayId(String prepayId) {
         this.prepayId = prepayId;
+    }
+
+    public String getJourCode() {
+        return jourCode;
+    }
+
+    public void setJourCode(String jourCode) {
+        this.jourCode = jourCode;
     }
 
     public String getAppId() {

@@ -8,10 +8,9 @@
  */
 package com.std.account.ao;
 
-import java.util.Map;
-
 import com.std.account.domain.CompanyChannel;
 import com.std.account.dto.res.XN802182Res;
+import com.std.account.dto.res.XN802183Res;
 
 /** 
  * @author: haiqingzheng 
@@ -41,7 +40,8 @@ public interface IWeChatAO {
      * （微信公众号支付）统一下单，下单成功返回 prepay_id
      * @param systemCode
      * @param companyCode
-     * @param userId
+     * @param openId
+     * @param accountNumber
      * @param bizType
      * @param bizNote
      * @param body
@@ -52,8 +52,8 @@ public interface IWeChatAO {
      * @history:
      */
     public XN802182Res getPrepayIdH5(String systemCode, String companyCode,
-            String userId, String bizType, String bizNote, String body,
-            Long totalFee, String spbillCreateIp);
+            String openId, String accountNumber, String bizType,
+            String bizNote, String body, Long totalFee, String spbillCreateIp);
 
     // public XN802182Res generatePayParam(String prepayId);
 
@@ -65,7 +65,7 @@ public interface IWeChatAO {
      * @create: 2016年12月26日 下午5:47:58 haiqingzheng
      * @history:
      */
-    public int doCallbackH5(String orderNo, String callbackResult);
+    public XN802183Res doCallbackH5(String result);
 
     /**
      * 获取支付渠道配置信息
@@ -88,10 +88,4 @@ public interface IWeChatAO {
      */
     public String getAccessToken(String appId, String appSecret);
 
-    /**
-     * 请求订单查询接口
-     * @param map
-     * @return
-     */
-    public boolean reqOrderquery(Map<String, String> map, String channelType);
 }
