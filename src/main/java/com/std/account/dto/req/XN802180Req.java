@@ -21,8 +21,8 @@ public class XN802180Req {
     // 公司编号（必填）
     private String companyCode;
 
-    // 账户编号（必填）
-    private String accountNumber;
+    // 用户编号（必填）
+    private String userId;
 
     // 业务类型（必填）
     private String bizType;
@@ -57,12 +57,12 @@ public class XN802180Req {
         this.companyCode = companyCode;
     }
 
-    public String getAccountNumber() {
-        return accountNumber;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getBizType() {

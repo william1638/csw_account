@@ -9,6 +9,8 @@
 package com.std.account.ao;
 
 import com.std.account.domain.CompanyChannel;
+import com.std.account.dto.res.XN802180Res;
+import com.std.account.dto.res.XN802181Res;
 import com.std.account.dto.res.XN802182Res;
 import com.std.account.dto.res.XN802183Res;
 
@@ -22,7 +24,7 @@ public interface IWeChatAO {
      * （微信APP支付）统一下单，下单成功返回 prepay_id
      * @param systemCode
      * @param companyCode
-     * @param accountNumber
+     * @param userId
      * @param bizType
      * @param bizNote
      * @param body
@@ -32,8 +34,8 @@ public interface IWeChatAO {
      * @create: 2016年12月26日 下午8:52:44 haiqingzheng
      * @history:
      */
-    public String getPrepayIdApp(String systemCode, String companyCode,
-            String accountNumber, String bizType, String bizNote, String body,
+    public XN802180Res getPrepayIdApp(String systemCode, String companyCode,
+            String userId, String bizType, String bizNote, String body,
             Long totalFee, String spbillCreateIp);
 
     /**
@@ -58,9 +60,17 @@ public interface IWeChatAO {
     // public XN802182Res generatePayParam(String prepayId);
 
     /**
+     * （微信APP支付）支付回调
+     * @param result
+     * @return 
+     * @create: 2016年12月26日 下午5:47:58 haiqingzheng
+     * @history:
+     */
+    public XN802181Res doCallbackAPP(String result);
+
+    /**
      * （微信公众号支付）支付回调
-     * @param orderNo
-     * @param callbackResult
+     * @param result
      * @return 
      * @create: 2016年12月26日 下午5:47:58 haiqingzheng
      * @history:

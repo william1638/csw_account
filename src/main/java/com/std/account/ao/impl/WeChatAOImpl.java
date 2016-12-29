@@ -28,11 +28,15 @@ import com.std.account.bo.IAccountBO;
 import com.std.account.bo.ICompanyChannelBO;
 import com.std.account.bo.IJourBO;
 import com.std.account.common.JsonUtil;
+import com.std.account.domain.Account;
 import com.std.account.domain.CompanyChannel;
+import com.std.account.dto.res.XN802180Res;
+import com.std.account.dto.res.XN802181Res;
 import com.std.account.dto.res.XN802182Res;
 import com.std.account.dto.res.XN802183Res;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
+import com.std.account.enums.ECurrency;
 import com.std.account.enums.EWeChatType;
 import com.std.account.exception.BizException;
 import com.std.account.util.HttpsUtil;
@@ -65,12 +69,15 @@ public class WeChatAOImpl implements IWeChatAO {
      * @see com.std.account.ao.IWeChatAO#getPrepayId(java.lang.String, java.lang.String, java.lang.Long, java.lang.String, java.lang.String)
      */
     @Override
-    public String getPrepayIdApp(String systemCode, String companyCode,
-            String accountNumber, String bizType, String bizNote, String body,
+    public XN802180Res getPrepayIdApp(String systemCode, String companyCode,
+            String userId, String bizType, String bizNote, String body,
             Long totalFee, String spbillCreateIp) {
+        Account account = accountBO.getAccountByUser(systemCode, userId,
+            ECurrency.CNY.getCode());
         // 本地系统落地流水信息
-        String code = jourBO.addToChangeJour(systemCode, accountNumber,
-            EChannelType.WeChat_APP.getCode(), bizType, bizNote, totalFee);
+        String code = jourBO.addToChangeJour(systemCode,
+            account.getAccountNumber(), EChannelType.WeChat_APP.getCode(),
+            bizType, bizNote, totalFee);
         // 获取微信公众号支付prepayid
         CompanyChannel companyChannel = getCompanyChannel(companyCode,
             systemCode, EChannelType.WeChat_APP.getCode());
@@ -85,7 +92,32 @@ public class WeChatAOImpl implements IWeChatAO {
         prePay.setNotify_url(companyChannel.getBackUrl());// 回调地址
         prePay.setPartnerKey(companyChannel.getPrivateKey1()); // 商户秘钥
         prePay.setAttach(companyCode + "||" + systemCode);
-        return prePay.submitXmlGetPrepayId();
+        String prepayId = prePay.submitXmlGetPrepayId();
+
+        SortedMap<String, String> nativeObj = new TreeMap<String, String>();
+        nativeObj.put("appId", companyChannel.getPrivateKey2());
+        nativeObj.put("partnerid", companyChannel.getChannelCompany());
+        nativeObj.put("prepayid", prepayId);
+        nativeObj.put("package", "Sign=WXPay");
+        Random random = new Random();
+        String randomStr = MD5.GetMD5String(String.valueOf(random
+            .nextInt(10000)));
+        nativeObj.put("nonceStr", MD5Util.MD5Encode(randomStr, "utf-8")
+            .toLowerCase());
+        nativeObj.put("timeStamp", OrderUtil.GetTimestamp());
+        nativeObj.put("sign",
+            createSign(nativeObj, companyChannel.getPrivateKey1()));
+
+        XN802180Res res = new XN802180Res();
+        res.setJourCode(code);
+        res.setAppId(nativeObj.get("appId"));
+        res.setPartnerid(nativeObj.get("partnerid"));
+        res.setPrepayId(nativeObj.get("prepayid"));
+        res.setWechatPackage(nativeObj.get("package"));
+        res.setNonceStr(nativeObj.get("nonceStr"));
+        res.setTimeStamp(nativeObj.get("timeStamp"));
+        res.setSign(nativeObj.get("sign"));
+        return res;
     }
 
     @Override
@@ -138,13 +170,39 @@ public class WeChatAOImpl implements IWeChatAO {
         return res;
     }
 
-    // @Override
-    // public XN802182Res generatePayParam(String prepayId) {
-    // XN802182Res res = new XN802182Res();
-    // res.setPrepayId(prepayId);
-    // res.setAppId(appId);
-    // return null;
-    // }
+    @Override
+    public XN802181Res doCallbackAPP(String result) {
+        XN802181Res res = new XN802181Res();
+        Map<String, String> map = null;
+        try {
+            map = XMLUtil.doXMLParse(result);
+        } catch (JDOMException | IOException e) {
+            throw new BizException("xn000000", "回调结果XML解析失败");
+        }
+
+        // 此处调用订单查询接口验证是否交易成功
+        boolean isSucc = reqOrderquery(map, EChannelType.WeChat_APP.getCode());
+        // 支付成功，商户处理后同步返回给微信参数
+        if (!isSucc) {
+            // 支付失败
+            System.out.println("支付失败");
+            jourBO.callBackChangeJour(map.get("out_trade_no"),
+                EBoolean.NO.getCode(), "WeChat_H5", "微信公众号支付后台自动回调");
+        } else {
+            System.out.println("===============付款成功==============");
+            // ------------------------------
+            // 处理业务开始
+            // ------------------------------
+            jourBO.callBackChangeJour(map.get("out_trade_no"),
+                EBoolean.YES.getCode(), "WeChat_H5", "微信公众号支付后台自动回调");
+            // ------------------------------
+            // 处理业务完毕
+            // ------------------------------
+        }
+        res.setIsSuccess(isSucc);
+        res.setJourCode(map.get("out_trade_no"));
+        return res;
+    }
 
     @Override
     public XN802183Res doCallbackH5(String result) {
