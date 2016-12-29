@@ -94,6 +94,14 @@ public class AccountDAOImpl extends AMybatisTemplate implements IAccountDAO {
     }
 
     /** 
+     * @see com.std.account.dao.IAccountDAO#updateRealName(com.std.account.domain.Account)
+     */
+    @Override
+    public int updateRealName(Account data) {
+        return super.update(NAMESPACE.concat("update_account_realName"), data);
+    }
+
+    /** 
      * @see com.xnjr.account.dao.ibis.account.dao.IAccountDAO#updateStatus(com.ibis.account.domain.Account)
      */
     @Override

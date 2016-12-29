@@ -1,5 +1,6 @@
 package com.std.account.bo;
 
+import java.util.Date;
 import java.util.List;
 
 import com.std.account.bo.base.IPaginableBO;
@@ -43,6 +44,22 @@ public interface IJourBO extends IPaginableBO<Jour> {
      */
     public int callBackChangeJour(String code, String rollbackResult,
             String rollbackUser, String rollbackNote);
+
+    /**
+     * 回调处理流水
+     * @param code
+     * @param rollbackResult
+     * @param rollbackUser
+     * @param rollbackNote
+     * @param preAmount
+     * @param postAmount
+     * @return 
+     * @create: 2016年12月26日 下午8:37:30 xieyj
+     * @history:
+     */
+    public int callBackChangeJour(String code, String rollbackResult,
+            String rollbackUser, String rollbackNote, Long preAmount,
+            Long postAmount);
 
     /**
      * 新增已变动金额之流水
@@ -92,12 +109,28 @@ public interface IJourBO extends IPaginableBO<Jour> {
      * @param code
      * @param adjustResult
      * @param adjustUser
-     * @param adjustNote 
-     * @create: 2016年12月25日 下午5:37:48 xieyj
+     * @param adjustDate
+     * @param adjustNote
+     * @param preAmount
+     * @param postAmount 
+     * @create: 2016年12月26日 下午9:30:42 xieyj
      * @history:
      */
     public void doAdjustJour(String code, EBoolean adjustResult,
-            String adjustUser, String adjustNote);
+            String adjustUser, Date adjustDate, String adjustNote,
+            Long preAmount, Long postAmount);
+
+    /**
+     * 需调账订单变更状态为已调账
+     * @param code
+     * @param adjustUser
+     * @param adjustDate
+     * @param adjustNote 
+     * @create: 2016年12月26日 下午9:10:31 xieyj
+     * @history:
+     */
+    public void refreshOrderStatus(String code, String adjustUser,
+            Date adjustDate, String adjustNote);
 
     /**
      * 获取流水列表

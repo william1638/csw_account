@@ -21,12 +21,6 @@ public class XN802523Req extends APageReq {
     // 业务类型
     private String bizType;
 
-    // 状态（生成待回调，无需对账，已回调待对账，对账通过，对账不通过待调账，已调账）
-    private String status;
-
-    // 拟对账时间
-    private String workDate;
-
     // 系统编号
     private String systemCode;
 
@@ -68,22 +62,6 @@ public class XN802523Req extends APageReq {
 
     public void setBizType(String bizType) {
         this.bizType = bizType;
-    }
-
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public String getWorkDate() {
-        return workDate;
-    }
-
-    public void setWorkDate(String workDate) {
-        this.workDate = workDate;
     }
 
     public String getSystemCode() {

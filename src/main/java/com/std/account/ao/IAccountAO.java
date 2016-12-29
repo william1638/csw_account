@@ -38,6 +38,21 @@ public interface IAccountAO {
             String bizNote);
 
     /**
+     * 通过用户编号以及指定币种进行账户划转
+     * @param systemCode
+     * @param fromUserId
+     * @param toUserId
+     * @param currency
+     * @param transAmount
+     * @param bizType
+     * @param bizNote 
+     * @create: 2016年12月28日 下午1:53:12 xieyj
+     * @history:
+     */
+    void transAmountCZB(String systemCode, String fromUserId, String toUserId,
+            String currency, Long transAmount, String bizType, String bizNote);
+
+    /**
      * 通过PC网关划转资金，属于外部划转资金
      * @param systemCode
      * @param companyCode
@@ -101,13 +116,14 @@ public interface IAccountAO {
     public Account getAccount(String systemCode, String accountNumber);
 
     /**
-     * 根据用户编号获取账户列表
+     * 根据用户编号,币种获取账户列表
      * @param systemCode
      * @param userId
+     * @param currency
      * @return 
-     * @create: 2016年12月24日 下午1:10:01 xieyj
+     * @create: 2016年12月28日 下午2:21:47 xieyj
      * @history:
      */
-    public List<Account> getAccountByUserId(String systemCode, String userId);
-
+    public List<Account> getAccountByUserId(String systemCode, String userId,
+            String currency);
 }

@@ -65,9 +65,6 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
             EChannelType channelType, String channelOrder, Long transAmount,
             String bizType, String bizNote) {
         Account dbAccount = this.getAccount(systemCode, accountNumber);
-        if (StringUtils.isNotBlank(bizType) && Long.valueOf(bizType) < 0) {
-            transAmount = -transAmount;
-        }
         Long nowAmount = dbAccount.getAmount() + transAmount;
         if (nowAmount < 0) {
             throw new BizException("xn000000", "账户余额不足");
@@ -181,5 +178,25 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
     @Override
     public List<Account> queryAccountList(Account data) {
         return accountDAO.selectList(data);
+    }
+
+    /** 
+     * @see com.std.account.bo.IAccountBO#getAccountByUser(java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public Account getAccountByUser(String systemCode, String userId,
+            String currency) {
+        Account data = null;
+        if (StringUtils.isNotBlank(userId) && StringUtils.isNotBlank(currency)) {
+            Account condition = new Account();
+            condition.setSystemCode(systemCode);
+            condition.setUserId(userId);
+            condition.setCurrency(currency);
+            data = accountDAO.select(condition);
+            if (data == null) {
+                throw new BizException("xn702502", "该用户无此类型账户");
+            }
+        }
+        return data;
     }
 }

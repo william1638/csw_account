@@ -37,6 +37,15 @@ public interface IAccountDAO extends IBaseDAO<Account> {
      */
     public int updateFrozenAmount(Account data);
 
+    /**
+     * 更新户名
+     * @param data
+     * @return 
+     * @create: 2016年12月26日 下午5:23:13 xieyj
+     * @history:
+     */
+    public int updateRealName(Account data);
+
     /** 
      * 修改账户状态
      * @param data

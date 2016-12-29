@@ -8,6 +8,7 @@
  */
 package com.std.account.ao.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,6 +71,10 @@ public class JourAOImpl implements IJourAO {
     public void doCallBackChange(String code, String rollbackResult,
             String rollbackUser, String rollbackNote, String systemCode) {
         Jour data = jourBO.getJour(code, systemCode);
+        Account account = accountBO.getAccount(systemCode,
+            data.getAccountNumber());
+        Long preAmount = null;
+        Long postAmount = null;
         if (EBoolean.YES.getCode().equals(rollbackResult)) {
             if (EBizType.AJ_CZ.getCode().equals(data.getBizType())) {
                 accountBO.transAmountNotJour(data.getSystemCode(),
@@ -79,13 +84,16 @@ public class JourAOImpl implements IJourAO {
                     EBoolean.YES.getCode(), data.getAccountNumber(),
                     data.getTransAmount(), code);
             }
+            // 更新发生前后金额
+            preAmount = account.getAmount();
+            postAmount = preAmount + data.getTransAmount();
         } else {
             accountBO.unfrozenAmount(data.getSystemCode(),
                 EBoolean.NO.getCode(), data.getAccountNumber(),
                 data.getTransAmount(), code);
         }
         jourBO.callBackChangeJour(code, rollbackResult, rollbackUser,
-            rollbackNote);
+            rollbackNote, preAmount, postAmount);
     }
 
     /*
@@ -102,7 +110,9 @@ public class JourAOImpl implements IJourAO {
         if (checkAmount != 0) {
             Account account = accountBO.getAccount(systemCode,
                 data.getAccountNumber());
-            jourBO.addAdjustJour(account, code, checkAmount);
+            String adjustCode = jourBO
+                .addAdjustJour(account, code, checkAmount);
+            checkNote = checkNote + ",调账单号[" + adjustCode + "]";
             jourBO.doCheckJour(code, EBoolean.NO, checkUser, checkNote);
         } else {
             jourBO.doCheckJour(code, EBoolean.YES, checkUser, checkNote);
@@ -113,17 +123,26 @@ public class JourAOImpl implements IJourAO {
     public void adjustJour(String code, String adjustResult, String adjustUser,
             String adjustNote, String systemCode) {
         Jour data = jourBO.getJour(code, systemCode);
+        Account account = accountBO.getAccount(systemCode,
+            data.getAccountNumber());
         if (!EJourStatus.todoAdjust.getCode().equals(data.getStatus())) {
             throw new BizException("xn000000", "该单号不处于调账待审核状态");
         }
         // 审核通过，账户钱处理
+        Date date = new Date();
+        Long preAmount = account.getAmount();
+        Long postAmount = preAmount + data.getTransAmount();
         if (EBoolean.YES.getCode().equals(adjustResult)) {
             accountBO.transAmountNotJour(systemCode, data.getAccountNumber(),
                 data.getTransAmount(), code);
-            jourBO.doAdjustJour(code, EBoolean.YES, adjustUser, adjustNote);
+            jourBO.doAdjustJour(code, EBoolean.YES, adjustUser, date,
+                adjustNote, preAmount, postAmount);
         } else {
-            jourBO.doAdjustJour(code, EBoolean.NO, adjustUser, adjustNote);
+            jourBO.doAdjustJour(code, EBoolean.NO, adjustUser, date,
+                adjustNote, null, null);
         }
+        jourBO.refreshOrderStatus(data.getChannelOrder(), adjustUser, date,
+            adjustNote);
     }
 
     @Override

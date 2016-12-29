@@ -7,34 +7,29 @@ import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.domain.Jour;
-import com.std.account.dto.req.XN802523Req;
-import com.std.account.enums.EJourStatus;
+import com.std.account.dto.req.XN802524Req;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 不平账分页查询
+ * 个人账户流水查询
  * @author: xieyj 
  * @since: 2016年12月24日 上午8:17:00 
  * @history:
  */
-public class XN802523 extends AProcessor {
+public class XN802524 extends AProcessor {
 
     private IJourAO jourAO = SpringContextHolder.getBean(IJourAO.class);
 
-    private XN802523Req req = null;
+    private XN802524Req req = null;
 
     @Override
     public Object doBusiness() throws BizException {
         Jour condition = new Jour();
-        condition.setRealNameQuery(req.getRealName());
-        condition.setAccountType(req.getAccountType());
-        condition.setAccountNumber(req.getAccountNumber());
-        condition.setChannelType(req.getChannelType());
-        condition.setBizType(req.getBizType());
-        condition.setStatus(EJourStatus.todoAdjust.getCode());
         condition.setSystemCode(req.getSystemCode());
+        condition.setAccountNumber(req.getAccountNumber());
+        condition.setStatus("13457");
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {
             orderColumn = IJourAO.DEFAULT_ORDER_COLUMN;
@@ -47,8 +42,9 @@ public class XN802523 extends AProcessor {
 
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN802523Req.class);
+        req = JsonUtil.json2Bean(inputparams, XN802524Req.class);
         StringValidater.validateNumber(req.getStart(), req.getLimit());
-        StringValidater.validateBlank(req.getSystemCode());
+        StringValidater.validateBlank(req.getSystemCode(),
+            req.getAccountNumber());
     }
 }

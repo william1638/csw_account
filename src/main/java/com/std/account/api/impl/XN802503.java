@@ -11,7 +11,7 @@ import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 根据用户编号获取账户列表
+ * 根据用户编号，币种获取账户列表
  * @author: xieyj 
  * @since: 2016年12月24日 下午1:05:33 
  * @history:
@@ -32,7 +32,7 @@ public class XN802503 extends AProcessor {
         condition.setSystemCode(req.getSystemCode());
         condition.setUserId(req.getUserId());
         return accountAO.getAccountByUserId(req.getSystemCode(),
-            req.getUserId());
+            req.getUserId(), req.getCurrency());
     }
 
     /** 

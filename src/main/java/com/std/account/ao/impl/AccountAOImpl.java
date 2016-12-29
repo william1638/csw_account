@@ -55,12 +55,29 @@ public class AccountAOImpl implements IAccountAO {
     public void transAmountCZB(String systemCode, String fromAccountNumber,
             String toAccountNumber, Long transAmount, String bizType,
             String bizNote) {
-        String fromBizNote = bizNote + "(去方账号[" + toAccountNumber + "])";
-        accountBO.transAmount(systemCode, fromAccountNumber, EChannelType.CZB,
-            null, -transAmount, bizType, fromBizNote);
-        String toBizNote = bizNote + "(来方账号[" + fromAccountNumber + "])";
-        accountBO.transAmount(systemCode, toAccountNumber, EChannelType.CZB,
-            null, transAmount, bizType, toBizNote);
+        if (fromAccountNumber != null
+                && fromAccountNumber.equals(toAccountNumber)) {
+            new BizException("XN0000", "来去双方账号一致，无需内部划转");
+        }
+        // String fromBizNote = bizNote + "(去方账号[" + toAccountNumber + "])";
+        // String toBizNote = bizNote + "(来方账号[" + fromAccountNumber + "])";
+        accountBO.transAmount(systemCode, fromAccountNumber, EChannelType.NBZ,
+            null, -transAmount, bizType, bizNote);
+        String toBizType = String.valueOf(-Long.valueOf(bizType));
+        accountBO.transAmount(systemCode, toAccountNumber, EChannelType.NBZ,
+            null, transAmount, toBizType, bizNote);
+    }
+
+    @Override
+    public void transAmountCZB(String systemCode, String fromUserId,
+            String toUserId, String currency, Long transAmount, String bizType,
+            String bizNote) {
+        Account fromAccount = accountBO.getAccountByUser(systemCode,
+            fromUserId, currency);
+        Account toAccount = accountBO.getAccountByUser(systemCode, toUserId,
+            currency);
+        this.transAmountCZB(systemCode, fromAccount.getAccountNumber(),
+            toAccount.getAccountNumber(), transAmount, bizType, bizNote);
     }
 
     @Override
@@ -121,10 +138,12 @@ public class AccountAOImpl implements IAccountAO {
      * @see com.std.account.ao.IAccountAO#getAccountByUserId(java.lang.String, java.lang.String)
      */
     @Override
-    public List<Account> getAccountByUserId(String systemCode, String userId) {
+    public List<Account> getAccountByUserId(String systemCode, String userId,
+            String currency) {
         Account condition = new Account();
         condition.setSystemCode(systemCode);
         condition.setUserId(userId);
+        condition.setCurrency(currency);
         return accountBO.queryAccountList(condition);
     }
 }

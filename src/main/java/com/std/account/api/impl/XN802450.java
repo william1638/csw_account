@@ -40,8 +40,8 @@ public class XN802450 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802450Req.class);
-        StringValidater.validateBlank(req.getUserId(), req.getRealName(),
-            req.getType(), req.getSystemCode());
+        StringValidater.validateBlank(req.getUserId(), req.getType(),
+            req.getSystemCode());
         if (CollectionUtils.isEmpty(req.getCurrencyList())) {
             new BizException("XN0000", "账户币种不能为空");
         }

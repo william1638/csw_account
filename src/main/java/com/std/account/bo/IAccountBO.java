@@ -104,6 +104,18 @@ public interface IAccountBO extends IPaginableBO<Account> {
     public Account getAccount(String systemCode, String accountNumber);
 
     /**
+     * 通过用户编号和币种获取币种
+     * @param systemCode
+     * @param userId
+     * @param currency
+     * @return 
+     * @create: 2016年12月28日 下午1:55:21 xieyj
+     * @history:
+     */
+    public Account getAccountByUser(String systemCode, String userId,
+            String currency);
+
+    /**
      * 获取账户列表
      * @param data
      * @return 

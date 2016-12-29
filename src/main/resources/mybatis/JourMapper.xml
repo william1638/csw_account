@@ -42,7 +42,7 @@
 			</if>
 			<choose>
 			     <when test='channelType == "out"'>
-				 	AND t.channel_type not in(0,9)
+				 	AND t.channel_type not in(0,9,10)
 				 </when>
 				 <otherwise>
 					 <if test="channelType != null and channelType != '' ">
@@ -53,12 +53,22 @@
 			<if test="channelOrder != null and channelOrder != '' ">
 				AND t.channel_order = #{channelOrder}
 			</if>
-			<if test="status != null and status != '' ">
-				AND t.status = #{systemCode}
-			</if>
 			<if test="accountType != null and accountType != '' ">
 				AND ta.type = #{accountType}
 			</if>
+			<if test="bizType != null and bizType != '' ">
+				AND t.biz_type = #{bizType}
+			</if>
+			<choose>
+			     <when test='status == "13457"'>
+				 	AND t.status in(1,3,4,5,7)
+				 </when>
+				 <otherwise>
+					<if test="status != null and status != '' ">
+						AND t.status = #{status}
+					</if>
+				 </otherwise>
+			</choose>
 			<if test="systemCode != null and systemCode != '' ">
 				AND t.system_code = #{systemCode}
 			</if>
@@ -190,6 +200,17 @@
 		status= #{status}
 		,pre_amount = #{preAmount}
 		,post_amount = #{postAmount}
+		,adjust_user=#{adjustUser}
+		,adjust_datetime=#{adjustDatetime}
+		,remark=#{remark}
+		WHERE
+		code = #{code}	
+	</update>
+	
+	<update id="update_adjust_status" parameterType="jour">
+		UPDATE tstd_jour
+		SET
+		status= #{status}
 		,adjust_user=#{adjustUser}
 		,adjust_datetime=#{adjustDatetime}
 		,remark=#{remark}

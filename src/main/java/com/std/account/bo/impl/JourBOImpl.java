@@ -108,6 +108,28 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
         return jourDAO.updateCallback(data);
     }
 
+    /**
+     * @see com.std.account.bo.IJourBO#callBackChangeJour(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Long, java.lang.Long)
+     */
+    @Override
+    public int callBackChangeJour(String code, String rollbackResult,
+            String rollbackUser, String rollbackNote, Long preAmount,
+            Long postAmount) {
+        Jour data = new Jour();
+        data.setCode(code);
+        EJourStatus eJourStatus = EJourStatus.todoCheck;
+        if (EBoolean.NO.getCode().equals(rollbackResult)) {
+            eJourStatus = EJourStatus.callBack_NO;
+        }
+        data.setStatus(eJourStatus.getCode());
+        data.setPreAmount(preAmount);
+        data.setPostAmount(postAmount);
+        data.setRollbackUser(rollbackUser);
+        data.setRollbackDatetime(new Date());
+        data.setRemark(rollbackNote);
+        return jourDAO.updateCallback(data);
+    }
+
     /** 
      * @see com.std.account.bo.IJourBO#addChangedJour(java.lang.String, java.lang.String, com.std.account.enums.EChannelType, java.lang.String, com.std.account.enums.EPayType, java.lang.String, java.lang.String, java.lang.Long, java.lang.Long)
      */
@@ -164,15 +186,18 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
             Long transAmount) {
         String code = OrderNoGenerater
             .generate(EGeneratePrefix.AJour.getCode());
-        Long preAmount = account.getAmount();
-        Long postAmount = preAmount + transAmount;
         Jour data = new Jour();
         data.setCode(code);
         data.setSystemCode(account.getSystemCode());
         data.setUserId(account.getUserId());
         data.setRealName(account.getRealName());
         data.setAccountNumber(account.getAccountNumber());
+        Jour jour = this.getJour(channelOrder, account.getSystemCode());
         data.setChannelType(EChannelType.Adjust_ZH.getCode());
+        if (EChannelType.NBZ.getCode().equals(jour.getChannelType())) {
+            data.setChannelType(EChannelType.ROLL_ZH.getCode());
+        }
+        data.setChannelOrder(channelOrder);
         // 产生红冲蓝补订单
         EBizType eBizType = EBizType.AJ_HC;
         if (transAmount > 0) {
@@ -182,8 +207,6 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
         data.setBizType(eBizType.getCode());
         data.setBizNote(bizNote);
         data.setTransAmount(transAmount);
-        data.setPreAmount(preAmount);
-        data.setPostAmount(postAmount);
         data.setCreateDatetime(new Date());
         data.setStatus(EJourStatus.todoAdjust.getCode());
         data.setWorkDate(null);
@@ -196,7 +219,8 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
      */
     @Override
     public void doAdjustJour(String code, EBoolean adjustResult,
-            String adjustUser, String adjustNote) {
+            String adjustUser, Date adjustDate, String adjustNote,
+            Long preAmount, Long postAmount) {
         Jour data = new Jour();
         data.setCode(code);
         EJourStatus eJourStatus = EJourStatus.adjusted_YES;
@@ -205,9 +229,26 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
         }
         data.setStatus(eJourStatus.getCode());
         data.setAdjustUser(adjustUser);
-        data.setAdjustDatetime(new Date());
+        data.setAdjustDatetime(adjustDate);
         data.setRemark(adjustNote);
+        data.setPreAmount(preAmount);
+        data.setPostAmount(postAmount);
         jourDAO.updateAdjust(data);
+    }
+
+    /** 
+     * @see com.std.account.bo.IJourBO#refreshOrderStatus(java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public void refreshOrderStatus(String code, String adjustUser,
+            Date adjustDate, String adjustNote) {
+        Jour data = new Jour();
+        data.setCode(code);
+        data.setStatus(EJourStatus.Adjusted.getCode());
+        data.setAdjustUser(adjustUser);
+        data.setAdjustDatetime(adjustDate);
+        data.setRemark(adjustNote);
+        jourDAO.updateAdjustStatus(data);
     }
 
     /** 
