@@ -123,12 +123,16 @@ public class WeChatAOImpl implements IWeChatAO {
     @Override
     @Transactional
     public XN802182Res getPrepayIdH5(String systemCode, String companyCode,
-            String openId, String accountNumber, String bizType,
-            String bizNote, String body, Long totalFee, String spbillCreateIp) {
+            String openId, String userId, String bizType, String bizNote,
+            String body, Long totalFee, String spbillCreateIp) {
+        Account account = accountBO.getAccountByUser(systemCode, userId,
+            ECurrency.CNY.getCode());
+
         XN802182Res res = new XN802182Res();
         // 本地系统落地流水信息
-        String code = jourBO.addToChangeJour(systemCode, accountNumber,
-            EChannelType.WeChat_H5.getCode(), bizType, bizNote, totalFee);
+        String code = jourBO.addToChangeJour(systemCode,
+            account.getAccountNumber(), EChannelType.WeChat_H5.getCode(),
+            bizType, bizNote, totalFee);
         res.setJourCode(code);
         // 获取微信公众号支付prepayid
         CompanyChannel companyChannel = getCompanyChannel(companyCode,

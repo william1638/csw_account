@@ -43,7 +43,7 @@ public interface IWeChatAO {
      * @param systemCode
      * @param companyCode
      * @param openId
-     * @param accountNumber
+     * @param userId
      * @param bizType
      * @param bizNote
      * @param body
@@ -54,8 +54,8 @@ public interface IWeChatAO {
      * @history:
      */
     public XN802182Res getPrepayIdH5(String systemCode, String companyCode,
-            String openId, String accountNumber, String bizType,
-            String bizNote, String body, Long totalFee, String spbillCreateIp);
+            String openId, String userId, String bizType, String bizNote,
+            String body, Long totalFee, String spbillCreateIp);
 
     // public XN802182Res generatePayParam(String prepayId);
 

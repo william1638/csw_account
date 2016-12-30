@@ -34,7 +34,7 @@ public class XN802182 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         return weChatAO.getPrepayIdH5(req.getSystemCode(),
-            req.getCompanyCode(), req.getOpenId(), req.getAccountNumber(),
+            req.getCompanyCode(), req.getOpenId(), req.getUserId(),
             req.getBizType(), req.getBizNote(), req.getBody(),
             StringValidater.toLong(req.getTotalFee()), req.getSpbillCreateIp());
     }
@@ -46,7 +46,7 @@ public class XN802182 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802182Req.class);
         StringValidater.validateBlank(req.getSystemCode(),
-            req.getCompanyCode(), req.getOpenId(), req.getAccountNumber(),
+            req.getCompanyCode(), req.getOpenId(), req.getUserId(),
             req.getBizType(), req.getBizNote(), req.getSpbillCreateIp(),
             req.getTotalFee(), req.getBody());
 

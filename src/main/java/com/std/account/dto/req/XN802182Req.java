@@ -24,8 +24,8 @@ public class XN802182Req {
     // openid（必填）
     private String openId;
 
-    // 账户编号（必填）
-    private String accountNumber;
+    // 用户编号（必填）
+    private String userId;
 
     // 业务类型（必填）
     private String bizType;
@@ -92,12 +92,12 @@ public class XN802182Req {
         this.openId = openId;
     }
 
-    public String getAccountNumber() {
-        return accountNumber;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getBizType() {
