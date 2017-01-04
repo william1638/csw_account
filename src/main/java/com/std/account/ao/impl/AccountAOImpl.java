@@ -51,6 +51,20 @@ public class AccountAOImpl implements IAccountAO {
     }
 
     @Override
+    public void editAccountName(String userId, String realName,
+            String systemCode) {
+        // 验证用户名和系统编号
+        Account data = new Account();
+        data.setUserId(userId);
+        data.setRealName(realName);
+        List<Account> accountList = accountBO.queryAccountList(data);
+        if (CollectionUtils.isEmpty(accountList)) {
+            new BizException("XN0000", "该用户无对应账号");
+        }
+        accountBO.refreshAccountName(userId, realName);
+    }
+
+    @Override
     @Transactional
     public void transAmountCZB(String systemCode, String fromAccountNumber,
             String toAccountNumber, Long transAmount, String bizType,

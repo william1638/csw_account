@@ -58,6 +58,15 @@ public interface IAccountBO extends IPaginableBO<Account> {
             Long transAmount, String lastOrder);
 
     /**
+     * 更新户名
+     * @param userId
+     * @param realName 
+     * @create: 2017年1月4日 上午11:34:18 xieyj
+     * @history:
+     */
+    public void refreshAccountName(String userId, String realName);
+
+    /**
      * 冻结账户金额
      * @param systemCode
      * @param accountNumber

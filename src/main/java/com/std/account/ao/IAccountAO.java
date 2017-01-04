@@ -23,6 +23,17 @@ public interface IAccountAO {
             String accountType, List<String> currencyList, String systemCode);
 
     /**
+     * 更新户名
+     * @param userId
+     * @param realName
+     * @param systemCode 
+     * @create: 2017年1月4日 上午11:41:02 xieyj
+     * @history:
+     */
+    public void editAccountName(String userId, String realName,
+            String systemCode);
+
+    /**
      * 通过橙账本划转资金，即内部划转资金
      * @param systemCode
      * @param fromAccountNumber

@@ -199,4 +199,15 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         }
         return data;
     }
+
+    /** 
+     * @see com.std.account.bo.IAccountBO#refreshAccountName(java.lang.String, java.lang.String)
+     */
+    @Override
+    public void refreshAccountName(String userId, String realName) {
+        Account data = new Account();
+        data.setUserId(userId);
+        data.setRealName(realName);
+        accountDAO.updateRealName(data);
+    }
 }
