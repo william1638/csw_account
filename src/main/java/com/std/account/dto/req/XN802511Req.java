@@ -1,8 +1,10 @@
 package com.std.account.dto.req;
 
+import java.util.List;
+
 public class XN802511Req {
     // 订单编号(必填)
-    private String code;
+    private List<String> codeList;
 
     // 回调备注(必填)
     private String rollbackNote;
@@ -24,12 +26,12 @@ public class XN802511Req {
         this.systemCode = systemCode;
     }
 
-    public String getCode() {
-        return code;
+    public List<String> getCodeList() {
+        return codeList;
     }
 
-    public void setCode(String code) {
-        this.code = code;
+    public void setCodeList(List<String> codeList) {
+        this.codeList = codeList;
     }
 
     public String getRollbackNote() {

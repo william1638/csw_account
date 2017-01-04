@@ -13,7 +13,7 @@ public class XN802510Req {
     private String transAmount;
 
     // 账户编号
-    private String accountNumber;
+    private List<String> accountNumberList;
 
     // 业务类型
     private String bizType;
@@ -48,12 +48,12 @@ public class XN802510Req {
         this.transAmount = transAmount;
     }
 
-    public String getAccountNumber() {
-        return accountNumber;
+    public List<String> getAccountNumberList() {
+        return accountNumberList;
     }
 
-    public void setAccountNumber(String accountNumber) {
-        this.accountNumber = accountNumber;
+    public void setAccountNumberList(List<String> accountNumberList) {
+        this.accountNumberList = accountNumberList;
     }
 
     public String getBizType() {

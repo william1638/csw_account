@@ -40,6 +40,23 @@ public interface IJourAO {
             List<String> channelTypeList, String systemCode);
 
     /**
+     * 外部批量支付
+     * @param accountNumberList
+     * @param bankcardNumber
+     * @param transAmount
+     * @param bizType
+     * @param bizNote
+     * @param channelTypeList
+     * @param systemCode
+     * @return 
+     * @create: 2017年1月4日 下午4:49:29 xieyj
+     * @history:
+     */
+    public void doChangeAmountList(List<String> accountNumberList,
+            String bankcardNumber, Long transAmount, String bizType,
+            String bizNote, List<String> channelTypeList, String systemCode);
+
+    /**
      * 回调支付
      * @param code
      * @param rollbackResult
@@ -51,6 +68,20 @@ public interface IJourAO {
      */
     public void doCallBackChange(String code, String rollbackResult,
             String rollbackUser, String rollbackNote, String systemCode);
+
+    /**
+     * 批量回调支付
+     * @param codeList
+     * @param rollbackResult
+     * @param rollbackUser
+     * @param rollbackNote
+     * @param systemCode 
+     * @create: 2016年12月24日 上午8:21:37 xieyj
+     * @history:
+     */
+    public void doCallBackChangeList(List<String> codeList,
+            String rollbackResult, String rollbackUser, String rollbackNote,
+            String systemCode);
 
     /**
      * 人工调账

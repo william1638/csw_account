@@ -49,7 +49,6 @@ public class JourAOImpl implements IJourAO {
      * 外部账支付：1、产生支付申请订单；2、返回支付链接；
      */
     @Override
-    @Transactional
     public String doChangeAmount(String accountNumber, String bankcardNumber,
             Long transAmount, String bizType, String bizNote,
             List<String> channelTypeList, String systemCode) {
@@ -64,10 +63,23 @@ public class JourAOImpl implements IJourAO {
     }
 
     /*
-     * 回调方法： 1、审核通过扣除金额；审核不通过，资金原路返回
+     * 外部账批量支付：1、产生支付申请订单；2、返回支付链接；
      */
     @Override
     @Transactional
+    public void doChangeAmountList(List<String> accountNumberList,
+            String bankcardNumber, Long transAmount, String bizType,
+            String bizNote, List<String> channelTypeList, String systemCode) {
+        for (String accountNumber : accountNumberList) {
+            this.doChangeAmount(accountNumber, bankcardNumber, transAmount,
+                bizType, bizNote, channelTypeList, systemCode);
+        }
+    }
+
+    /*
+     * 回调方法： 1、审核通过扣除金额；审核不通过，资金原路返回
+     */
+    @Override
     public void doCallBackChange(String code, String rollbackResult,
             String rollbackUser, String rollbackNote, String systemCode) {
         Jour data = jourBO.getJour(code, systemCode);
@@ -94,6 +106,17 @@ public class JourAOImpl implements IJourAO {
         }
         jourBO.callBackChangeJour(code, rollbackResult, rollbackUser,
             rollbackNote, preAmount, postAmount);
+    }
+
+    @Override
+    @Transactional
+    public void doCallBackChangeList(List<String> codeList,
+            String rollbackResult, String rollbackUser, String rollbackNote,
+            String systemCode) {
+        for (String code : codeList) {
+            this.doCallBackChange(code, rollbackResult, rollbackUser,
+                rollbackNote, systemCode);
+        }
     }
 
     /*
