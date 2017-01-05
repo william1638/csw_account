@@ -117,6 +117,25 @@ public class StringValidater {
         return num;
     }
 
+    /**
+     * string转化成Double
+     * @param string
+     * @return 
+     * @create: 2017年1月4日 下午8:46:21 xieyj
+     * @history:
+     */
+    public static Double toDouble(String string) {
+        Double d = null;
+        try {
+            if (StringUtils.isNotBlank(string)) {
+                d = (new Double(string)).doubleValue();
+            }
+        } catch (Exception e) {
+            throw new BizException("xn702000", "浮点型入参，请按要求填写浮点数");
+        }
+        return d;
+    }
+
     public static void main(String[] args) {
         // System.out.println(StringValidater.toLong("1000"));
         StringValidater.validateNumber("1000");

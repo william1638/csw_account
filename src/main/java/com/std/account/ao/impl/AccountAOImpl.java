@@ -116,6 +116,23 @@ public class AccountAOImpl implements IAccountAO {
         // transAmount, order, bankCode);
     }
 
+    // @Override
+    // @Transactional
+    // public void exchangeAmount(String systemCode, String fromAccountNumber,
+    // String toAccountNumber, Long transAmount, Double rate,
+    // String bizType, String bizNote) {
+    // if (fromAccountNumber != null
+    // && fromAccountNumber.equals(toAccountNumber)) {
+    // new BizException("XN0000", "来去双方账号一致，无需内部划转");
+    // }
+    // accountBO.transAmount(systemCode, fromAccountNumber, EChannelType.NBZ,
+    // null, -transAmount, bizType, bizNote);
+    // // 币种间划转
+    // Long toTransAmount = Double.valueOf(transAmount * rate).longValue();
+    // accountBO.transAmount(systemCode, toAccountNumber, EChannelType.NBZ,
+    // null, toTransAmount, bizType, bizNote);
+    // }
+
     @Override
     @Transactional
     public void transAmountWAP(String systemCode, String accountName,

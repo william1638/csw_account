@@ -79,13 +79,6 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
             DateUtil.DB_DATE_FORMAT_STRING));
         data.setSystemCode(systemCode);
         jourDAO.insert(data);
-        // 取现冻结
-        if (EBizType.AJ_QX.getCode().equals(bizType)) {
-            if (EChannelType.CZB.getCode().equals(channelType)) {
-                accountBO.frozenAmount(systemCode, accountNumber, transAmount,
-                    code);
-            }
-        }
         return code;
     }
 

@@ -110,6 +110,33 @@ public interface IJourAO {
             String adjustNote, String systemCode);
 
     /**
+     * 兑换申请
+     * @param systemCode
+     * @param userId
+     * @param transAmount
+     * @param bizType 
+     * @create: 2017年1月5日 下午1:00:52 xieyj
+     * @history:
+     */
+    public String applyExchangeAmount(String systemCode, String userId,
+            Long transAmount, String bizType);
+
+    /**
+     * 兑换审批
+     * @param systemCode
+     * @param code
+     * @param rate
+     * @param approveResult
+     * @param approver
+     * @param approveNote 
+     * @create: 2017年1月5日 下午1:10:48 xieyj
+     * @history:
+     */
+    public void approveExchangeAmount(String systemCode, String code,
+            Double rate, String approveResult, String approver,
+            String approveNote);
+
+    /**
      * @param start
      * @param limit
      * @param condition

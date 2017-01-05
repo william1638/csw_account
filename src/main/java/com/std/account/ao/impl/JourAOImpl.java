@@ -25,6 +25,7 @@ import com.std.account.domain.Jour;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
+import com.std.account.enums.ECurrency;
 import com.std.account.enums.EJourStatus;
 import com.std.account.exception.BizException;
 
@@ -57,8 +58,15 @@ public class JourAOImpl implements IJourAO {
             channelTypeList);
         bizNote = EBizType.getBizTypeMap().get(bizType).getValue() + ":银行卡号["
                 + bankcardNumber + "]划转金额";
-        jourBO.addToChangeJour(systemCode, accountNumber,
+        String code = jourBO.addToChangeJour(systemCode, accountNumber,
             channelType.getCode(), bizType, bizNote, transAmount);
+        // 取现冻结
+        if (EBizType.AJ_QX.getCode().equals(bizType)) {
+            if (EChannelType.CZB.getCode().equals(channelType)) {
+                accountBO.frozenAmount(systemCode, accountNumber, transAmount,
+                    code);
+            }
+        }
         return payUrl;
     }
 
@@ -166,6 +174,76 @@ public class JourAOImpl implements IJourAO {
         }
         jourBO.refreshOrderStatus(data.getChannelOrder(), adjustUser, date,
             adjustNote);
+    }
+
+    @Override
+    @Transactional
+    public String applyExchangeAmount(String systemCode, String userId,
+            Long transAmount, String bizType) {
+        // 冻结金额
+        if (!EBizType.AJ_HB2FR.getCode().equals(bizType)
+                && !EBizType.AJ_HBYJ2FR.getCode().equals(bizType)
+                && !EBizType.AJ_HBYJ2GXJL.getCode().equals(bizType)) {
+            new BizException("XN0000", "兑换业务类型有误，请检查");
+        }
+        String currency = null;
+        if (EBizType.AJ_HB2FR.getCode().equals(bizType)) {
+            currency = ECurrency.HBB.getCode();
+        } else if (EBizType.AJ_HBYJ2FR.getCode().equals(bizType)) {
+            currency = ECurrency.HBYJ.getCode();
+        } else if (EBizType.AJ_HBYJ2GXJL.getCode().equals(bizType)) {
+            currency = ECurrency.HBYJ.getCode();
+        }
+        Account account = accountBO.getAccountByUser(systemCode, userId,
+            currency);
+        String accountNumber = account.getAccountNumber();
+        String code = jourBO.addToChangeJour(systemCode, accountNumber,
+            EChannelType.BZDH.getCode(), bizType,
+            EBizType.getBizTypeMap().get(bizType).getValue(), transAmount);
+        accountBO.frozenAmount(systemCode, accountNumber, transAmount, code);
+        return code;
+    }
+
+    @Override
+    @Transactional
+    public void approveExchangeAmount(String systemCode, String code,
+            Double rate, String approveResult, String approver,
+            String approveNote) {
+        Jour data = jourBO.getJour(code, systemCode);
+        if (!EChannelType.BZDH.getCode().equals(data.getChannelType())) {
+            new BizException("XN0000", "该申请记录不是兑换流水记录");
+        }
+        Account account = accountBO.getAccount(systemCode,
+            data.getAccountNumber());
+        Long preAmount = null;
+        Long postAmount = null;
+        if (EBoolean.YES.getCode().equals(approveResult)) {
+            // 更新发生前后金额
+            preAmount = account.getAmount();
+            postAmount = preAmount - data.getTransAmount();
+        }
+        accountBO.unfrozenAmount(systemCode, approveResult,
+            data.getAccountNumber(), data.getTransAmount(), code);
+        jourBO.callBackChangeJour(code, approveResult, approver, approveNote,
+            preAmount, postAmount);
+        String bizType = data.getBizType();
+        Account toAccount = null;
+        String toCurrency = null;
+        if (EBizType.AJ_HB2FR.getCode().equals(bizType)) {
+            toCurrency = ECurrency.FRB.getCode();
+        } else if (EBizType.AJ_HBYJ2FR.getCode().equals(bizType)) {
+            toCurrency = ECurrency.FRB.getCode();
+        } else if (EBizType.AJ_HBYJ2GXJL.getCode().equals(bizType)) {
+            toCurrency = ECurrency.GXJL.getCode();
+        }
+        toAccount = accountBO.getAccountByUser(systemCode, data.getUserId(),
+            toCurrency);
+        Long toTransAmount = Double.valueOf(data.getTransAmount() * rate)
+            .longValue();
+        // 去方账户更新记录流水
+        accountBO.transAmount(systemCode, toAccount.getAccountNumber(),
+            EChannelType.BZDH, data.getCode(), toTransAmount, bizType, EBizType
+                .getBizTypeMap().get(bizType).getValue());
     }
 
     @Override
