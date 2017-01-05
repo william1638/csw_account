@@ -95,27 +95,27 @@ public class WeChatAOImpl implements IWeChatAO {
         String prepayId = prePay.submitXmlGetPrepayId();
 
         SortedMap<String, String> nativeObj = new TreeMap<String, String>();
-        nativeObj.put("appId", companyChannel.getPrivateKey2());
+        nativeObj.put("appid", companyChannel.getPrivateKey2());
         nativeObj.put("partnerid", companyChannel.getChannelCompany());
         nativeObj.put("prepayid", prepayId);
         nativeObj.put("package", "Sign=WXPay");
         Random random = new Random();
         String randomStr = MD5.GetMD5String(String.valueOf(random
             .nextInt(10000)));
-        nativeObj.put("nonceStr", MD5Util.MD5Encode(randomStr, "utf-8")
+        nativeObj.put("noncestr", MD5Util.MD5Encode(randomStr, "utf-8")
             .toLowerCase());
-        nativeObj.put("timeStamp", OrderUtil.GetTimestamp());
+        nativeObj.put("timestamp", OrderUtil.GetTimestamp());
         nativeObj.put("sign",
             createSign(nativeObj, companyChannel.getPrivateKey1()));
 
         XN802180Res res = new XN802180Res();
         res.setJourCode(code);
-        res.setAppId(nativeObj.get("appId"));
+        res.setAppId(nativeObj.get("appid"));
         res.setPartnerid(nativeObj.get("partnerid"));
         res.setPrepayId(nativeObj.get("prepayid"));
         res.setWechatPackage(nativeObj.get("package"));
-        res.setNonceStr(nativeObj.get("nonceStr"));
-        res.setTimeStamp(nativeObj.get("timeStamp"));
+        res.setNonceStr(nativeObj.get("noncestr"));
+        res.setTimeStamp(nativeObj.get("timestamp"));
         res.setSign(nativeObj.get("sign"));
         return res;
     }
