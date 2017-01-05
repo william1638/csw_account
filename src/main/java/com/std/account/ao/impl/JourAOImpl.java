@@ -8,9 +8,11 @@
  */
 package com.std.account.ao.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -88,6 +90,7 @@ public class JourAOImpl implements IJourAO {
      * 回调方法： 1、审核通过扣除金额；审核不通过，资金原路返回
      */
     @Override
+    @Transactional
     public void doCallBackChange(String code, String rollbackResult,
             String rollbackUser, String rollbackNote, String systemCode) {
         Jour data = jourBO.getJour(code, systemCode);
@@ -108,9 +111,11 @@ public class JourAOImpl implements IJourAO {
             preAmount = account.getAmount();
             postAmount = preAmount + data.getTransAmount();
         } else {
-            accountBO.unfrozenAmount(data.getSystemCode(),
-                EBoolean.NO.getCode(), data.getAccountNumber(),
-                data.getTransAmount(), code);
+            if (EBizType.AJ_QX.getCode().equals(data.getBizType())) {
+                accountBO.unfrozenAmount(data.getSystemCode(),
+                    EBoolean.NO.getCode(), data.getAccountNumber(),
+                    data.getTransAmount(), code);
+            }
         }
         jourBO.callBackChangeJour(code, rollbackResult, rollbackUser,
             rollbackNote, preAmount, postAmount);
@@ -248,11 +253,33 @@ public class JourAOImpl implements IJourAO {
 
     @Override
     public Paginable<Jour> queryJourPage(int start, int limit, Jour condition) {
+        // 处理bizType=52,54
+        String bizType = condition.getBizType();
+        if (StringUtils.isNotBlank(bizType)) {
+            String[] bizTypeArrs = bizType.split(",");
+            List<String> bizTypeList = new ArrayList<String>();
+            for (int i = 0; i < bizTypeArrs.length; i++) {
+                bizTypeList.add(bizTypeArrs[i]);
+            }
+            condition.setBizType(null);
+            condition.setBizTypeList(bizTypeList);
+        }
         return jourBO.getPaginable(start, limit, condition);
     }
 
     @Override
     public List<Jour> queryJourList(Jour condition) {
+        // 处理bizType=52,54
+        String bizType = condition.getBizType();
+        if (StringUtils.isNotBlank(bizType)) {
+            String[] bizTypeArrs = bizType.split(",");
+            List<String> bizTypeList = new ArrayList<String>();
+            for (int i = 0; i < bizTypeArrs.length; i++) {
+                bizTypeList.add(bizTypeArrs[i]);
+            }
+            condition.setBizType(null);
+            condition.setBizTypeList(bizTypeList);
+        }
         return jourBO.queryJourList(condition);
     }
 

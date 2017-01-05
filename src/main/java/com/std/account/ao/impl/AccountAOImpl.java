@@ -154,7 +154,7 @@ public class AccountAOImpl implements IAccountAO {
     @Override
     public Paginable<Account> queryAccountPage(int start, int limit,
             Account condition) {
-        return accountBO.getPaginable(start, condition);
+        return accountBO.getPaginable(start, limit, condition);
     }
 
     /** 

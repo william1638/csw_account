@@ -1,6 +1,7 @@
 package com.std.account.domain;
 
 import java.util.Date;
+import java.util.List;
 
 import com.std.account.dao.base.ABaseDO;
 
@@ -36,6 +37,9 @@ public class Jour extends ABaseDO {
 
     // 业务类型
     private String bizType;
+
+    // 业务类型列表
+    private List<String> bizTypeList;
 
     // 业务说明
     private String bizNote;
@@ -102,6 +106,14 @@ public class Jour extends ABaseDO {
 
     // 类型(B B端账号，C C端账号，P 平台账号)
     private String accountType;
+
+    public List<String> getBizTypeList() {
+        return bizTypeList;
+    }
+
+    public void setBizTypeList(List<String> bizTypeList) {
+        this.bizTypeList = bizTypeList;
+    }
 
     public String getAccountType() {
         return accountType;

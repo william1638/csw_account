@@ -59,6 +59,13 @@
 			<if test="bizType != null and bizType != '' ">
 				AND t.biz_type = #{bizType}
 			</if>
+			<if test="bizTypeList != null and bizTypeList != '' ">
+				AND t.biz_type in 
+                <foreach item="item" index="index" collection="bizTypeList" open="(" separator="," close=")">
+	            	#{item}
+                </foreach> 
+			</if>
+			
 			<choose>
 			     <when test='status == "13457"'>
 				 	AND t.status in(1,3,4,5,7)
