@@ -30,6 +30,7 @@ import com.std.account.bo.IJourBO;
 import com.std.account.common.JsonUtil;
 import com.std.account.domain.Account;
 import com.std.account.domain.CompanyChannel;
+import com.std.account.domain.Jour;
 import com.std.account.dto.res.XN802180Res;
 import com.std.account.dto.res.XN802181Res;
 import com.std.account.dto.res.XN802182Res;
@@ -205,6 +206,10 @@ public class WeChatAOImpl implements IWeChatAO {
         }
         res.setIsSuccess(isSucc);
         res.setJourCode(map.get("out_trade_no"));
+        String attach = map.get("attach");
+        String[] codes = attach.split("\\|\\|");
+        Jour jour = jourBO.getJour(map.get("out_trade_no"), codes[1]);
+        res.setBizType(jour.getBizType());
         return res;
     }
 
