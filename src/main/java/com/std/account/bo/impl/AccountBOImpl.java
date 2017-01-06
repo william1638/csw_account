@@ -19,6 +19,7 @@ import com.std.account.enums.EAccountType;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
 import com.std.account.enums.EGeneratePrefix;
+import com.std.account.enums.ESysAccount;
 import com.std.account.exception.BizException;
 
 /**
@@ -66,7 +67,9 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
             String bizType, String bizNote) {
         Account dbAccount = this.getAccount(systemCode, accountNumber);
         Long nowAmount = dbAccount.getAmount() + transAmount;
-        if (nowAmount < 0) {
+        // 特定账户余额可为负
+        if (!ESysAccount.getResultMap().containsKey(accountNumber)
+                && nowAmount < 0) {
             throw new BizException("xn000000", "账户余额不足");
         }
         // 记录流水
@@ -88,7 +91,8 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
             Long transAmount, String lastOrder) {
         Account dbAccount = this.getAccount(systemCode, accountNumber);
         Long nowAmount = dbAccount.getAmount() + transAmount;
-        if (nowAmount < 0) {
+        if (!ESysAccount.getResultMap().containsKey(accountNumber)
+                && nowAmount < 0) {
             throw new BizException("xn000000", "账户余额不足");
         }
         // 更改余额
@@ -109,7 +113,11 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         }
         Account dbAccount = this.getAccount(systemCode, accountNumber);
         Long nowAmount = dbAccount.getAmount() - freezeAmount;
-        if (nowAmount < 0) {
+        // if (nowAmount < 0) {
+        // throw new BizException("xn000000", "账户余额不足");
+        // }
+        if (!ESysAccount.getResultMap().containsKey(accountNumber)
+                && nowAmount < 0) {
             throw new BizException("xn000000", "账户余额不足");
         }
         Long nowFrozenAmount = dbAccount.getFrozenAmount() + freezeAmount;
