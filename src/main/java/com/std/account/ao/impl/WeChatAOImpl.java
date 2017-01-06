@@ -191,14 +191,14 @@ public class WeChatAOImpl implements IWeChatAO {
             // 支付失败
             System.out.println("支付失败");
             jourBO.callBackChangeJour(map.get("out_trade_no"),
-                EBoolean.NO.getCode(), "WeChat_H5", "微信公众号支付后台自动回调");
+                EBoolean.NO.getCode(), "WeChat_APP", "微信APP支付后台自动回调");
         } else {
             System.out.println("===============付款成功==============");
             // ------------------------------
             // 处理业务开始
             // ------------------------------
             jourBO.callBackChangeJour(map.get("out_trade_no"),
-                EBoolean.YES.getCode(), "WeChat_H5", "微信公众号支付后台自动回调");
+                EBoolean.YES.getCode(), "WeChat_APP", "微信APP支付后台自动回调");
             // ------------------------------
             // 处理业务完毕
             // ------------------------------
