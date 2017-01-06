@@ -83,6 +83,22 @@ public class AccountAOImpl implements IAccountAO {
     }
 
     @Override
+    public void transAmountCZB(String systemCode, String fromAccountNumber,
+            String toAccountNumber, Long transAmount, Double rate,
+            String bizType, String bizNote) {
+        if (fromAccountNumber != null
+                && fromAccountNumber.equals(toAccountNumber)) {
+            new BizException("XN0000", "来去双方账号一致，无需内部划转");
+        }
+        accountBO.transAmount(systemCode, fromAccountNumber, EChannelType.NBZ,
+            null, -transAmount, bizType, bizNote);
+        String toBizType = String.valueOf(-Long.valueOf(bizType));
+        accountBO.transAmount(systemCode, toAccountNumber, EChannelType.NBZ,
+            null, Double.valueOf((transAmount * rate)).longValue(), toBizType,
+            bizNote);
+    }
+
+    @Override
     public void transAmountCZB(String systemCode, String fromUserId,
             String toUserId, String currency, Long transAmount, String bizType,
             String bizNote) {
@@ -177,4 +193,5 @@ public class AccountAOImpl implements IAccountAO {
         condition.setCurrency(currency);
         return accountBO.queryAccountList(condition);
     }
+
 }

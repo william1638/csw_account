@@ -49,6 +49,21 @@ public interface IAccountAO {
             String bizNote);
 
     /**
+     * 通过橙账本不同币种账户之间划转资金，即以一定的比例内部划转资金
+     * @param systemCode
+     * @param fromAccountNumber
+     * @param toAccountNumber
+     * @param transAmount
+     * @param bizType
+     * @param bizNote 
+     * @create: 2016年12月25日 下午3:16:12 xieyj
+     * @history:
+     */
+    void transAmountCZB(String systemCode, String fromAccountNumber,
+            String toAccountNumber, Long transAmount, Double rate,
+            String bizType, String bizNote);
+
+    /**
      * 通过用户编号以及指定币种进行账户划转
      * @param systemCode
      * @param fromUserId
