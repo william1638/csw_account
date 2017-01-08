@@ -64,7 +64,7 @@ public class JourAOImpl implements IJourAO {
             channelType.getCode(), bizType, bizNote, transAmount);
         // 取现冻结
         if (EBizType.AJ_QX.getCode().equals(bizType)) {
-            if (EChannelType.CZB.getCode().equals(channelType)) {
+            if (EChannelType.CZB.getCode().equals(channelType.getCode())) {
                 accountBO.frozenAmount(systemCode, accountNumber, transAmount,
                     code);
             }
