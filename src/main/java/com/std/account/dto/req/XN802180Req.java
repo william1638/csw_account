@@ -41,6 +41,9 @@ public class XN802180Req {
     // 终端IP（必填）—— 用户端实际ip
     private String spbillCreateIp;
 
+    // 回调地址
+    private String backUrl;
+
     public String getSystemCode() {
         return systemCode;
     }
@@ -103,6 +106,14 @@ public class XN802180Req {
 
     public void setSpbillCreateIp(String spbillCreateIp) {
         this.spbillCreateIp = spbillCreateIp;
+    }
+
+    public String getBackUrl() {
+        return backUrl;
+    }
+
+    public void setBackUrl(String backUrl) {
+        this.backUrl = backUrl;
     }
 
 }
