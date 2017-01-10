@@ -77,9 +77,8 @@ public class AccountAOImpl implements IAccountAO {
         // String toBizNote = bizNote + "(来方账号[" + fromAccountNumber + "])";
         accountBO.transAmount(systemCode, fromAccountNumber, EChannelType.NBZ,
             null, -transAmount, bizType, bizNote);
-        String toBizType = String.valueOf(-Long.valueOf(bizType));
         accountBO.transAmount(systemCode, toAccountNumber, EChannelType.NBZ,
-            null, transAmount, toBizType, bizNote);
+            null, transAmount, bizType, bizNote);
     }
 
     @Override
@@ -92,9 +91,8 @@ public class AccountAOImpl implements IAccountAO {
         }
         accountBO.transAmount(systemCode, fromAccountNumber, EChannelType.NBZ,
             null, -transAmount, bizType, bizNote);
-        String toBizType = String.valueOf(-Long.valueOf(bizType));
         accountBO.transAmount(systemCode, toAccountNumber, EChannelType.NBZ,
-            null, Double.valueOf((transAmount * rate)).longValue(), toBizType,
+            null, Double.valueOf((transAmount * rate)).longValue(), bizType,
             bizNote);
     }
 

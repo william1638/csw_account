@@ -11,7 +11,7 @@ import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 内部转账(指定用户编号和币种进行转账)(暂时不用)
+ * 内部转账(指定用户编号和币种进行转账)
  * @author: xieyj 
  * @since: 2016年12月25日 下午3:14:31 
  * @history:

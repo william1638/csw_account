@@ -202,7 +202,8 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
             condition.setCurrency(currency);
             data = accountDAO.select(condition);
             if (data == null) {
-                throw new BizException("xn702502", "该用户无此类型账户");
+                throw new BizException("xn702502", "用户[" + userId + ";"
+                        + currency + "]无此类型账户");
             }
         }
         return data;
