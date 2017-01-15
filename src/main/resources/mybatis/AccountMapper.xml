@@ -24,8 +24,11 @@
 			<if test="userId != null and userId != '' ">
 				AND t.user_id = #{userId}
 			</if>
+			<if test="realName != null and realName != '' ">
+				AND t.real_name = #{realName}
+			</if>
 			<if test="realNameQuery != null and realNameQuery != '' ">
-				AND t.real_name like "%"#{realNameQuery}"%"
+			    AND t.real_name like "%"#{realNameQuery}"%"
 			</if>
 			<if test="type != null and type != '' ">
 				AND t.type = #{type}

@@ -94,22 +94,27 @@ public class JourAOImpl implements IJourAO {
     public void doCallBackChange(String code, String rollbackResult,
             String rollbackUser, String rollbackNote, String systemCode) {
         Jour data = jourBO.getJour(code, systemCode);
+        // 判断流水状态
+        if (!EJourStatus.todoCallBack.getCode().equals(data.getStatus())) {
+            throw new BizException("xn000000", "申请记录状态不是刚生成待回调状态，无法审批");
+        }
         Account account = accountBO.getAccount(systemCode,
             data.getAccountNumber());
-        Long preAmount = null;
+        Long preAmount = account.getAmount();
         Long postAmount = null;
         if (EBoolean.YES.getCode().equals(rollbackResult)) {
             if (EBizType.AJ_CZ.getCode().equals(data.getBizType())) {
                 accountBO.transAmountNotJour(data.getSystemCode(),
                     data.getAccountNumber(), data.getTransAmount(), code);
+                // 更新发生后金额
+                postAmount = preAmount + data.getTransAmount();
             } else if (EBizType.AJ_QX.getCode().equals(data.getBizType())) {
                 accountBO.unfrozenAmount(data.getSystemCode(),
                     EBoolean.YES.getCode(), data.getAccountNumber(),
                     data.getTransAmount(), code);
+                postAmount = preAmount;
+                preAmount = preAmount + data.getTransAmount();
             }
-            // 更新发生前后金额
-            preAmount = account.getAmount();
-            postAmount = preAmount + data.getTransAmount();
         } else {
             if (EBizType.AJ_QX.getCode().equals(data.getBizType())) {
                 accountBO.unfrozenAmount(data.getSystemCode(),
@@ -216,7 +221,10 @@ public class JourAOImpl implements IJourAO {
             String approveNote) {
         Jour data = jourBO.getJour(code, systemCode);
         if (!EChannelType.BZDH.getCode().equals(data.getChannelType())) {
-            new BizException("XN0000", "该申请记录不是兑换流水记录");
+            new BizException("XN0000", "该申请记录不是币种兑换记录，无法审批");
+        }
+        if (!EJourStatus.todoCallBack.getCode().equals(data.getStatus())) {
+            throw new BizException("xn000000", "该记录状态不是刚生成待回调状态，无法审批");
         }
         Account account = accountBO.getAccount(systemCode,
             data.getAccountNumber());
@@ -224,8 +232,8 @@ public class JourAOImpl implements IJourAO {
         Long postAmount = null;
         if (EBoolean.YES.getCode().equals(approveResult)) {
             // 更新发生前后金额
-            preAmount = account.getAmount();
-            postAmount = preAmount - data.getTransAmount();
+            postAmount = account.getAmount();
+            preAmount = postAmount + data.getTransAmount();
         }
         accountBO.unfrozenAmount(systemCode, approveResult,
             data.getAccountNumber(), data.getTransAmount(), code);

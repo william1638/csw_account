@@ -26,6 +26,7 @@ public class XN802016 extends AProcessor {
     public Object doBusiness() throws BizException {
         Bankcard condition = new Bankcard();
         condition.setSystemCode(req.getSystemCode());
+        condition.setUserId(req.getUserId());
         condition.setBankName(req.getBankName());
         condition.setBankcardNumber(req.getBankcardNumber());
         condition.setType(req.getType());
