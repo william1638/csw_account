@@ -31,6 +31,7 @@ public class XN802523 extends AProcessor {
         condition.setRealNameQuery(req.getRealName());
         condition.setAccountType(req.getAccountType());
         condition.setAccountNumber(req.getAccountNumber());
+        condition.setCurrency(req.getCurrency());
         condition.setChannelType(req.getChannelType());
         condition.setBizType(req.getBizType());
         condition.setStatus(EJourStatus.todoAdjust.getCode());

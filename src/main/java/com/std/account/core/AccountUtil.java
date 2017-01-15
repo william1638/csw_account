@@ -9,6 +9,8 @@
 package com.std.account.core;
 
 import com.std.account.common.MD5Util;
+import com.std.account.enums.ECurrency;
+import com.std.account.enums.ESysAccount;
 
 /** 
  * @author: miyb 
@@ -34,7 +36,23 @@ public class AccountUtil {
         return MD5Util.md5(bf.toString());
     }
 
-    public static void main(String[] args) {
-        System.out.println(AccountUtil.md5(100000L));
+    public static String getAccountNumber(String currency) {
+        String accountNumber = null;
+        if (ECurrency.CNY.getCode().equals(currency)) {
+            accountNumber = ESysAccount.CNY.getCode();
+        } else if (ECurrency.FRB.getCode().equals(currency)) {
+            accountNumber = ESysAccount.FRB.getCode();
+        } else if (ECurrency.GXJL.getCode().equals(currency)) {
+            accountNumber = ESysAccount.GXJL.getCode();
+        } else if (ECurrency.QBB.getCode().equals(currency)) {
+            accountNumber = ESysAccount.QBB.getCode();
+        } else if (ECurrency.GWB.getCode().equals(currency)) {
+            accountNumber = ESysAccount.GWB.getCode();
+        } else if (ECurrency.HBB.getCode().equals(currency)) {
+            accountNumber = ESysAccount.HBB.getCode();
+        } else if (ECurrency.HBYJ.getCode().equals(currency)) {
+            accountNumber = ESysAccount.HBYJ.getCode();
+        }
+        return accountNumber;
     }
 }

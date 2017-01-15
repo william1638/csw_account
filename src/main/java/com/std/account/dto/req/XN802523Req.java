@@ -24,6 +24,17 @@ public class XN802523Req extends APageReq {
     // 系统编号
     private String systemCode;
 
+    // 币种
+    private String currency;
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
     public String getRealName() {
         return realName;
     }

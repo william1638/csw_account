@@ -22,6 +22,7 @@ import com.std.account.bo.IAccountBO;
 import com.std.account.bo.ICompanyChannelBO;
 import com.std.account.bo.IJourBO;
 import com.std.account.bo.base.Paginable;
+import com.std.account.core.AccountUtil;
 import com.std.account.domain.Account;
 import com.std.account.domain.Jour;
 import com.std.account.enums.EBizType;
@@ -161,6 +162,7 @@ public class JourAOImpl implements IJourAO {
     }
 
     @Override
+    @Transactional
     public void adjustJour(String code, String adjustResult, String adjustUser,
             String adjustNote, String systemCode) {
         Jour data = jourBO.getJour(code, systemCode);
@@ -178,6 +180,15 @@ public class JourAOImpl implements IJourAO {
                 data.getTransAmount(), code);
             jourBO.doAdjustJour(code, EBoolean.YES, adjustUser, date,
                 adjustNote, preAmount, postAmount);
+            // 系统账户划转
+            EBizType eBizType = EBizType.AJ_HC;
+            if (data.getTransAmount() > 0) {
+                eBizType = EBizType.AJ_LB;
+            }
+            accountBO.transAmount(systemCode,
+                AccountUtil.getAccountNumber(account.getCurrency()),
+                EChannelType.Adjust_ZH, null, -data.getTransAmount(),
+                eBizType.getCode(), eBizType.getValue() + "单号[" + code + "]");
         } else {
             jourBO.doAdjustJour(code, EBoolean.NO, adjustUser, date,
                 adjustNote, null, null);

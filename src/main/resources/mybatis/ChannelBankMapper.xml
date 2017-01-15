@@ -29,7 +29,7 @@
 				AND t.bank_name = #{bankName}
 			</if>
 			<if test="channelType != null and channelType != '' ">
-				AND t.channelType = #{channelType}
+				AND t.channel_type = #{channelType}
 			</if>
 			<if test="channelBank != null and channelBank != '' ">
 				AND t.channel_bank = #{channelBank}

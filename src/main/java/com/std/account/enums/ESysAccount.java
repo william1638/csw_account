@@ -16,8 +16,8 @@ public enum ESysAccount {
 
     public static Map<String, ESysAccount> getResultMap() {
         Map<String, ESysAccount> map = new HashMap<String, ESysAccount>();
-        for (ESysAccount status : ESysAccount.values()) {
-            map.put(status.getCode(), status);
+        for (ESysAccount sysAccount : ESysAccount.values()) {
+            map.put(sysAccount.getCode(), sysAccount);
         }
         return map;
     }

@@ -59,6 +59,9 @@
 			<if test="accountType != null and accountType != '' ">
 				AND ta.type = #{accountType}
 			</if>
+			<if test="currency != null and currency != '' ">
+				AND ta.currency = #{currency}
+			</if>
 			<if test="bizType != null and bizType != '' ">
 				AND t.biz_type = #{bizType}
 			</if>
@@ -68,7 +71,6 @@
 	            	#{item}
                 </foreach> 
 			</if>
-			
 			<choose>
 			     <when test='status == "13457"'>
 				 	AND t.status in(1,3,4,5,7)
@@ -90,6 +92,7 @@
 		,t.user_id
 		,t.real_name
 		,t.account_number
+		,ta.currency
 		,t.channel_type
 		
 		,t.channel_order

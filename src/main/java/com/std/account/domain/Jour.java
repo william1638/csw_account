@@ -107,6 +107,17 @@ public class Jour extends ABaseDO {
     // 类型(B B端账号，C C端账号，P 平台账号)
     private String accountType;
 
+    // 币种
+    private String currency;
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
+
     public List<String> getBizTypeList() {
         return bizTypeList;
     }
