@@ -1,9 +1,8 @@
 package com.std.account.dto.req;
 
 /**
- * 
- * @author: asus 
- * @since: 2016年12月22日 下午6:01:33 
+ * @author: xieyj 
+ * @since: 2017年1月18日 上午11:09:57 
  * @history:
  */
 public class XN802012Req {
@@ -12,6 +11,9 @@ public class XN802012Req {
 
     // 卡号(必填)
     public String bankcardNumber;
+
+    // 银行行别（必填）
+    public String bankCode;
 
     // 银行名称（必填）
     public String bankName;
@@ -27,6 +29,14 @@ public class XN802012Req {
 
     // 备注（选填）
     public String remark;
+
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
+    }
 
     public String getCode() {
         return code;

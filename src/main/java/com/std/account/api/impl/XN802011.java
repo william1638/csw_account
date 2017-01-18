@@ -11,7 +11,7 @@ import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 
+ * 删除银行卡
  * @author: asus 
  * @since: 2016年12月22日 下午5:54:08 
  * @history:

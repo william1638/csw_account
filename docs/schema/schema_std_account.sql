@@ -47,6 +47,7 @@ DROP TABLE IF EXISTS `tstd_bankcard`;
 CREATE TABLE `tstd_bankcard` (
   `code` varchar(32) NOT NULL COMMENT '编号',
   `bankcard_number` varchar(64) DEFAULT NULL COMMENT '银行卡编号',
+  `bank_code` varchar(32) DEFAULT NULL COMMENT '银行行别',
   `bank_name` varchar(32) DEFAULT NULL COMMENT '银行名称',
   `subbranch` varchar(255) DEFAULT NULL COMMENT '开户支行',
   `bind_mobile` varchar(32) DEFAULT NULL COMMENT '银行卡绑定手机号',

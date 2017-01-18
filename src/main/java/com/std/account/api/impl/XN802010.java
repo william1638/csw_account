@@ -27,6 +27,7 @@ public class XN802010 extends AProcessor {
         Bankcard data = new Bankcard();
         data.setSystemCode(req.getSystemCode());
         data.setBankcardNumber(req.getBankcardNumber());
+        data.setBankCode(req.getBankCode());
         data.setBankName(req.getBankName());
         data.setSubbranch(req.getSubbranch());
         data.setBindMobile(req.getBindMobile());
@@ -42,9 +43,9 @@ public class XN802010 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802010Req.class);
         StringValidater.validateBlank(req.getSystemCode(),
-            req.getBankcardNumber(), req.getBankName(), req.getSubbranch(),
-            req.getBindMobile(), req.getUserId(), req.getRealName(),
-            req.getType());
+            req.getBankcardNumber(), req.getBankCode(), req.getBankName(),
+            req.getSubbranch(), req.getBindMobile(), req.getUserId(),
+            req.getRealName(), req.getType());
     }
 
 }

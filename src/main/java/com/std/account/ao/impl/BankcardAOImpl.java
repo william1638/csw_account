@@ -12,7 +12,6 @@ import com.std.account.domain.Bankcard;
 import com.std.account.exception.BizException;
 
 /**
- * 
  * @author: asus 
  * @since: 2016年12月22日 下午5:35:09 
  * @history:

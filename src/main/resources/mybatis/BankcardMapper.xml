@@ -5,6 +5,7 @@
 	<resultMap id="bankcard_DB_Result" type="bankcard">
 		<result column="code" property="code" />
 		<result column="bankcard_number" property="bankcardNumber" />
+		<result column="bank_code" property="bankCode" />
 		<result column="bank_name" property="bankName" />
 		<result column="subbranch" property="subbranch" />
 		<result column="bind_mobile" property="bindMobile" />
@@ -38,6 +39,9 @@
 			<if test="bankcardNumber != null and bankcardNumber != '' ">
 				AND t.bankcard_number = #{bankcardNumber}
 			</if>
+			<if test="bankCode != null and bankCode != '' ">
+				AND t.bank_code = #{bankCode}
+			</if> 
 			<if test="bankName != null and bankName != '' ">
 				AND t.bank_name = #{bankName}
 			</if> 
@@ -50,6 +54,7 @@
 		SELECT
 		t.code
 		,t.bankcard_number
+		,t.bank_code
 		,t.bank_name
 		,t.subbranch
 		,t.bind_mobile
@@ -86,6 +91,7 @@
 		tstd_bankcard(
 		code
 		,bankcard_number
+		,bank_code
 		,bank_name
 		,subbranch
 		,bind_mobile
@@ -105,6 +111,7 @@
 		VALUES(
 		#{code}
 		,#{bankcardNumber}
+		,#{bankCode}
 		,#{bankName}
 		,#{subbranch}
 		,#{bindMobile}
@@ -127,6 +134,7 @@
 		UPDATE tstd_bankcard
 		SET
 		bankcard_number = #{bankcardNumber}
+		,bank_code = #{bankCode}
 		,bank_name = #{bankName}
 		,subbranch = #{subbranch}
 		,bind_mobile = #{bindMobile}

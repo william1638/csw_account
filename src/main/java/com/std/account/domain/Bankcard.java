@@ -20,6 +20,9 @@ public class Bankcard extends ABaseDO {
     // 银行卡编号
     private String bankcardNumber;
 
+    // 银行行别
+    private String bankCode;
+
     // 银行名称
     private String bankName;
 
@@ -64,6 +67,14 @@ public class Bankcard extends ABaseDO {
 
     // 系统编号
     private String systemCode;
+
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
+    }
 
     public void setCode(String code) {
         this.code = code;

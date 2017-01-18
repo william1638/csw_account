@@ -11,9 +11,9 @@ import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 
- * @author: asus 
- * @since: 2016年12月22日 下午6:08:06 
+ * 修改银行卡
+ * @author: xieyj 
+ * @since: 2017年1月18日 上午11:08:40 
  * @history:
  */
 public class XN802012 extends AProcessor {
@@ -27,6 +27,7 @@ public class XN802012 extends AProcessor {
         Bankcard data = new Bankcard();
         data.setCode(req.getCode());
         data.setBankcardNumber(req.getBankcardNumber());
+        data.setBankCode(req.getBankCode());
         data.setBankName(req.getBankName());
         data.setSubbranch(req.getSubbranch());
         data.setBindMobile(req.getBindMobile());
@@ -39,7 +40,6 @@ public class XN802012 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802012Req.class);
         StringValidater.validateBlank(req.getCode(), req.getBankcardNumber(),
-            req.getBankName());
+            req.getBankCode(), req.getBankName());
     }
-
 }

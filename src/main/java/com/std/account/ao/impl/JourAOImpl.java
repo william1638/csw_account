@@ -19,12 +19,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.std.account.ao.IJourAO;
 import com.std.account.bo.IAccountBO;
+import com.std.account.bo.IBankcardBO;
 import com.std.account.bo.ICompanyChannelBO;
 import com.std.account.bo.IJourBO;
 import com.std.account.bo.IUserBO;
 import com.std.account.bo.base.Paginable;
 import com.std.account.core.AccountUtil;
 import com.std.account.domain.Account;
+import com.std.account.domain.Bankcard;
 import com.std.account.domain.Jour;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
@@ -53,6 +55,9 @@ public class JourAOImpl implements IJourAO {
     @Autowired
     private IUserBO userBO;
 
+    @Autowired
+    private IBankcardBO bankcardBO;
+
     /*
      * 外部账支付：1、产生支付申请订单；2、返回支付链接；
      */
@@ -70,8 +75,15 @@ public class JourAOImpl implements IJourAO {
         // 业务备注前端没有传进来，由程序生成
         if (StringUtils.isBlank(bizNote)) {
             if (StringUtils.isNotBlank(bankcardNumber)) {
-                bizNote = EBizType.getBizTypeMap().get(bizType).getValue()
-                        + ":银行卡号[" + bankcardNumber + "]划转金额";
+                Bankcard bankcard = bankcardBO
+                    .getBankcardByBankcardNumber(bankcardNumber);
+                if (bankcard != null) {
+                    bizNote = "卡号：" + bankcardNumber + "\n";
+                    bizNote += "银行：" + bankcard.getBankName() + "\n";
+                    if (StringUtils.isNotBlank(bankcard.getSubbranch())) {
+                        bizNote += "支行：" + bankcard.getSubbranch();
+                    }
+                }
             } else {
                 bizNote = EBizType.getBizTypeMap().get(bizType).getValue();
             }

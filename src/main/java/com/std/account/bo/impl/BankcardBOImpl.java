@@ -17,7 +17,6 @@ import com.std.account.enums.EGeneratePrefix;
 import com.std.account.exception.BizException;
 
 /**
- * 
  * @author: asus 
  * @since: 2016年12月22日 下午4:32:05 
  * @history:
@@ -86,8 +85,22 @@ public class BankcardBOImpl extends PaginableBOImpl<Bankcard> implements
             condition.setCode(code);
             data = bankcardDAO.select(condition);
             if (data == null) {
-                throw new BizException("xn0000", "�� ��Ų�����");
+                throw new BizException("xn0000", "银行卡不存在");
             }
+        }
+        return data;
+    }
+
+    /** 
+     * @see com.std.account.bo.IBankcardBO#getBankcardByBankcardNumber(java.lang.String)
+     */
+    @Override
+    public Bankcard getBankcardByBankcardNumber(String bankcardNumber) {
+        Bankcard data = null;
+        if (StringUtils.isNotBlank(bankcardNumber)) {
+            Bankcard condition = new Bankcard();
+            condition.setBankcardNumber(bankcardNumber);
+            data = bankcardDAO.select(condition);
         }
         return data;
     }
