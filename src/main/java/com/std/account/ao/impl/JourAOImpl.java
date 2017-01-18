@@ -21,6 +21,7 @@ import com.std.account.ao.IJourAO;
 import com.std.account.bo.IAccountBO;
 import com.std.account.bo.ICompanyChannelBO;
 import com.std.account.bo.IJourBO;
+import com.std.account.bo.IUserBO;
 import com.std.account.bo.base.Paginable;
 import com.std.account.core.AccountUtil;
 import com.std.account.domain.Account;
@@ -49,13 +50,20 @@ public class JourAOImpl implements IJourAO {
     @Autowired
     private IAccountBO accountBO;
 
+    @Autowired
+    private IUserBO userBO;
+
     /*
      * 外部账支付：1、产生支付申请订单；2、返回支付链接；
      */
     @Override
     public String doChangeAmount(String accountNumber, String bankcardNumber,
             Long transAmount, String bizType, String bizNote,
-            List<String> channelTypeList, String systemCode) {
+            List<String> channelTypeList, String systemCode, String tradePwd) {
+        Account account = accountBO.getAccount(systemCode, accountNumber);
+        if (StringUtils.isNotBlank(tradePwd)) {
+            userBO.checkTradePwd(account.getUserId(), tradePwd);
+        }
         String payUrl = null;
         EChannelType channelType = companyChannelBO.getBestChannel(systemCode,
             channelTypeList);
@@ -83,7 +91,7 @@ public class JourAOImpl implements IJourAO {
             String bizNote, List<String> channelTypeList, String systemCode) {
         for (String accountNumber : accountNumberList) {
             this.doChangeAmount(accountNumber, bankcardNumber, transAmount,
-                bizType, bizNote, channelTypeList, systemCode);
+                bizType, bizNote, channelTypeList, systemCode, null);
         }
     }
 

@@ -72,7 +72,7 @@
                 </foreach> 
 			</if>
 			<choose>
-			     <when test='status == "13457"'>
+			     <when test='status == "effect"'>
 				 	AND t.status in(1,3,4,5,7)
 				 </when>
 				 <otherwise>

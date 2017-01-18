@@ -37,7 +37,7 @@ public interface IJourAO {
      */
     public String doChangeAmount(String accountNumber, String bankcardNumber,
             Long transAmount, String bizType, String bizNote,
-            List<String> channelTypeList, String systemCode);
+            List<String> channelTypeList, String systemCode, String tradePwd);
 
     /**
      * 外部批量支付

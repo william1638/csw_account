@@ -10,6 +10,9 @@ public class XN802010Req {
     // 系统编号（必填）
     public String systemCode;
 
+    // 银行编号
+    private String bankCode;
+
     // 卡号（必填）
     public String bankcardNumber;
 
@@ -36,6 +39,14 @@ public class XN802010Req {
 
     // 备注（选填）
     public String remark;
+
+    public String getBankCode() {
+        return bankCode;
+    }
+
+    public void setBankCode(String bankCode) {
+        this.bankCode = bankCode;
+    }
 
     public String getSystemCode() {
         return systemCode;
