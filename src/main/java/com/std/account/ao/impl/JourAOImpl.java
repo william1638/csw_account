@@ -73,20 +73,18 @@ public class JourAOImpl implements IJourAO {
         EChannelType channelType = companyChannelBO.getBestChannel(systemCode,
             channelTypeList);
         // 业务备注前端没有传进来，由程序生成
-        if (StringUtils.isBlank(bizNote)) {
-            if (StringUtils.isNotBlank(bankcardNumber)) {
-                Bankcard bankcard = bankcardBO
-                    .getBankcardByBankcardNumber(bankcardNumber);
-                if (bankcard != null) {
-                    bizNote = "卡号：" + bankcardNumber + "\n";
-                    bizNote += "银行：" + bankcard.getBankName() + "\n";
-                    if (StringUtils.isNotBlank(bankcard.getSubbranch())) {
-                        bizNote += "支行：" + bankcard.getSubbranch();
-                    }
+        if (StringUtils.isNotBlank(bankcardNumber)) {
+            Bankcard bankcard = bankcardBO
+                .getBankcardByBankcardNumber(bankcardNumber);
+            if (bankcard != null) {
+                bizNote += "卡号：" + bankcardNumber + "\n";
+                bizNote += "银行：" + bankcard.getBankName() + "\n";
+                if (StringUtils.isNotBlank(bankcard.getSubbranch())) {
+                    bizNote += "支行：" + bankcard.getSubbranch();
                 }
-            } else {
-                bizNote = EBizType.getBizTypeMap().get(bizType).getValue();
             }
+        } else {
+            bizNote = EBizType.getBizTypeMap().get(bizType).getValue();
         }
         String code = jourBO.addToChangeJour(systemCode, accountNumber,
             channelType.getCode(), bizType, bizNote, transAmount);
