@@ -67,8 +67,15 @@ public class JourAOImpl implements IJourAO {
         String payUrl = null;
         EChannelType channelType = companyChannelBO.getBestChannel(systemCode,
             channelTypeList);
-        bizNote = EBizType.getBizTypeMap().get(bizType).getValue() + ":银行卡号["
-                + bankcardNumber + "]划转金额";
+        // 业务备注前端没有传进来，由程序生成
+        if (StringUtils.isBlank(bizNote)) {
+            if (StringUtils.isNotBlank(bankcardNumber)) {
+                bizNote = EBizType.getBizTypeMap().get(bizType).getValue()
+                        + ":银行卡号[" + bankcardNumber + "]划转金额";
+            } else {
+                bizNote = EBizType.getBizTypeMap().get(bizType).getValue();
+            }
+        }
         String code = jourBO.addToChangeJour(systemCode, accountNumber,
             channelType.getCode(), bizType, bizNote, transAmount);
         // 取现冻结
