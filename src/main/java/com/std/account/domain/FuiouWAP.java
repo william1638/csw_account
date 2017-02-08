@@ -25,7 +25,9 @@ public class FuiouWAP {
     // 签名方式md5 或 rsa (必填)
     private String SIGNTP = "md5";
 
-    private String payUrl = "http://www-1.fuiou.com:18670/mobile_pay/h5pay/payAction.pay";
+    private String payUrl = "https://mpay.fuiou.com:16128/h5pay/payAction.pay";
+
+    // "http://www-1.fuiou.com:18670/mobile_pay/h5pay/payAction.pay";
 
     public String getENCTP() {
         return ENCTP;

@@ -7,7 +7,9 @@ public class FuiouPC {
     // (必填)
     private String ver = "1.0.1";
 
-    private String payUrl = "http://www-1.fuiou.com:8888/wg1_run/smpGate.do";
+    private String payUrl = "https://pay.fuiou.com/smpGate.do";
+
+    // "http://www-1.fuiou.com:8888/wg1_run/smpGate.do";
 
     public String getOrderValidTime() {
         return orderValidTime;
