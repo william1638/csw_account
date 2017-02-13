@@ -3,6 +3,7 @@ package com.std.account.bo.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -100,7 +101,11 @@ public class BankcardBOImpl extends PaginableBOImpl<Bankcard> implements
         if (StringUtils.isNotBlank(bankcardNumber)) {
             Bankcard condition = new Bankcard();
             condition.setBankcardNumber(bankcardNumber);
-            data = bankcardDAO.select(condition);
+            List<Bankcard> list = bankcardDAO.selectList(condition);
+            if (CollectionUtils.isEmpty(list)) {
+                throw new BizException("xn0000", "银行卡不存在");
+            }
+            data = list.get(0);
         }
         return data;
     }

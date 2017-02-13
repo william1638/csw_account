@@ -17,11 +17,11 @@
   cd /Users/myb858/Documents/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp5/wtpwebapps
   
 2，打包
-   scp -P57652 ./std-account.war root@121.43.101.148:/home
+   scp -P22 ./std-account.war root@121.43.101.148:/home
   T6dh%$%$ss1
 
 3，部署
-  ssh root@121.43.101.148 -p 57652
+  ssh root@121.43.101.148 -p 22
   
   cd /home/wwwroot/caigo/tomcat_std_account/webapps
   rm -rf std-account.war
