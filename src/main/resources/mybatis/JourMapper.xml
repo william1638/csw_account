@@ -75,6 +75,9 @@
 			     <when test='status == "effect"'>
 				 	AND t.status in(1,3,4,5,7)
 				 </when>
+				 <when test='status == "678"'>
+				 	AND t.status in(6,7,8)
+				 </when>
 				 <otherwise>
 					<if test="status != null and status != '' ">
 						AND t.status = #{status}
