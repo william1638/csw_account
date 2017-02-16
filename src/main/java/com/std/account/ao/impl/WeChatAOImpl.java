@@ -244,6 +244,10 @@ public class WeChatAOImpl implements IWeChatAO {
         }
         res.setIsSuccess(isSucc);
         res.setJourCode(map.get("out_trade_no"));
+        String attach = map.get("attach");
+        String[] codes = attach.split("\\|\\|");
+        Jour jour = jourBO.getJour(map.get("out_trade_no"), codes[1]);
+        res.setBizType(jour.getBizType());
         return res;
     }
 
