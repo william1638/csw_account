@@ -77,8 +77,8 @@ public class JourAOImpl implements IJourAO {
             Bankcard bankcard = bankcardBO
                 .getBankcardByBankcardNumber(bankcardNumber);
             if (bankcard != null) {
-                bizNote += "卡号：" + bankcardNumber + "\n";
-                bizNote += "银行：" + bankcard.getBankName() + "\n";
+                bizNote += "卡号：" + bankcardNumber + " ";
+                bizNote += "银行：" + bankcard.getBankName() + " ";
                 if (StringUtils.isNotBlank(bankcard.getSubbranch())) {
                     bizNote += "支行：" + bankcard.getSubbranch();
                 }

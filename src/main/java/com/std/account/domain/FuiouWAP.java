@@ -29,6 +29,11 @@ public class FuiouWAP {
 
     private String payUrl = FYPropertiesUtil.Config.WAP_PAYURL;
 
+    // private String payUrl =
+    // "https://mpay.fuiou.com:16128/h5pay/payAction.pay";
+
+    // "http://www-1.fuiou.com:18670/mobile_pay/h5pay/payAction.pay";
+
     public String getENCTP() {
         return ENCTP;
     }

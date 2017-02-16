@@ -21,6 +21,16 @@ import com.std.account.util.MD5;
 
 @Service
 public class FuiouAOImpl implements IFuiouAO {
+
+    // private static String WEB_URL =
+    // "http://121.42.196.238:8703/xn-account-front";
+
+    private static String WEB_URL = "http://www.ommo.cn";
+
+    // private static String WAP_URL = "http://121.42.196.238:8607/xn-mobile";
+
+    private static String WAP_URL = "http://m.ommo.cn";
+
     // @Autowired
     // IChannelCompanyBO channelCompanyBO;
 
@@ -184,10 +194,10 @@ public class FuiouAOImpl implements IFuiouAO {
         map.put("BCOM", "0803010000"); // 交通银行 0803010000
 
         map.put("SPDB", "0803100000");// 上海浦东发展银行 0803100000
-        map.put("CIB", "0803080000");// 兴业银行 0803090000
-        map.put("CITIC", "0804184930"); // 中信银行 0803020000
-        map.put("BOB", "0801040000"); // 北京银行 0804031000
-        map.put("CGB", "0803010000");// 广东发展银行 0803060000
+        map.put("CIB", "0803090000");// 兴业银行 0803090000
+        map.put("CITIC", "0803020000"); // 中信银行 0803020000
+        map.put("BOB", "0804031000"); // 北京银行 0804031000
+        map.put("CGB", "0803060000");// 广东发展银行 0803060000
 
         map.put("PAB", "0804100000"); // 平安银行 0804100000
         map.put("CZB", "0803160000"); // 浙商银行 0803160000
@@ -199,25 +209,20 @@ public class FuiouAOImpl implements IFuiouAO {
 
     private ChannelCompany getPCCompany() {
         ChannelCompany company = new ChannelCompany();
-        company
-            .setBackUrl("http://120.26.222.73:8703/xn-account-front/fuiou/charge/callback/serverFY");
-        company
-            .setPageUrl("http://120.26.222.73:8703/xn-account-front/fuiou/charge/return");
-        company.setPaycompany("0001000F0040992");
-        company.setPrivatekey("vau6p7ldawpezyaugc0kopdrrwm4gkpu");
+        company.setBackUrl(WEB_URL + "/fuiou/charge/callback/serverFY");
+        company.setPageUrl(WEB_URL + "/fuiou/charge/return");
+        company.setPaycompany("0003310F0306592");
+        company.setPrivatekey("jvj37qaotazjcug6xnpigxevlpgfapss");
         return company;
     }
 
     private ChannelCompany getWAPCompany() {
         ChannelCompany company = new ChannelCompany();
-        company
-            .setBackUrl("http://120.26.222.73:8607/xn-mobile/fuiou/charge/mobile/callbackFY");
-        company
-            .setPageUrl("http://120.26.222.73:8607/xn-mobile/user/center_out.htm");
-        company
-            .setErrorUrl("http://120.26.222.73:8607/xn-mobile/user/center_out.htm");
-        company.setPaycompany("0001000F0358674");
-        company.setPrivatekey("d8n0dh23w2yzrnez52ocqb4ckzp7t0fs");
+        company.setBackUrl(WAP_URL + "/fuiou/charge/mobile/callbackFY");
+        company.setPageUrl(WAP_URL + "/user/center_out.htm");
+        company.setErrorUrl(WAP_URL + "/user/center_out.htm");
+        company.setPaycompany("0003310F0306592");
+        company.setPrivatekey("pqhfgfy8m2qk78b0f76j0kjzqvhnakrt");
         return company;
     }
 
@@ -298,6 +303,7 @@ public class FuiouAOImpl implements IFuiouAO {
             res.setErrorInfo("支付成功");
         } else {
             res.setIsSuccess(false);
+            res.setErrorCode(responseCode);
             res.setErrorInfo(responseMsg);
         }
         return res;

@@ -11,6 +11,9 @@ public class FuiouPC {
 
     private String payUrl = FYPropertiesUtil.Config.PC_PAYURL;
 
+    // private String payUrl = "https://pay.fuiou.com/smpGate.do";
+    // "http://www-1.fuiou.com:8888/wg1_run/smpGate.do";
+
     public String getOrderValidTime() {
         return orderValidTime;
     }

@@ -24,15 +24,30 @@ public class BankcardAOImpl implements IBankcardAO {
 
     @Override
     public String addBankcard(Bankcard data) {
+        // 判断卡号是否重复
+        checkBankcardOnly(data.getUserId(), data.getBankcardNumber());
         return bankcardBO.saveBankcard(data);
     }
 
     @Override
     public int editBankcard(Bankcard data) {
-        if (!bankcardBO.isBankcardExist(data.getCode())) {
-            throw new BizException("xn0000", "记录编号不存在");
+        Bankcard bankcard = bankcardBO.getBankcard(data.getCode());
+        // 有更改就去判断是否唯一
+        if (!bankcard.getBankcardNumber().equals(data.getBankcardNumber())) {
+            checkBankcardOnly(data.getUserId(), data.getBankcardNumber());
         }
         return bankcardBO.refreshBankcard(data);
+    }
+
+    public void checkBankcardOnly(String userId, String bankcardNumber) {
+        Bankcard condition = new Bankcard();
+        condition.setUserId(userId);
+        List<Bankcard> list = bankcardBO.queryBankcardList(condition);
+        for (Bankcard bankcard : list) {
+            if (bankcardNumber.equals(bankcard.getBankcardNumber())) {
+                throw new BizException("xn0000", "银行卡号已存在");
+            }
+        }
     }
 
     @Override

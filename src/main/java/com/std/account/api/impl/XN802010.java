@@ -47,5 +47,4 @@ public class XN802010 extends AProcessor {
             req.getSubbranch(), req.getBindMobile(), req.getUserId(),
             req.getRealName(), req.getType());
     }
-
 }

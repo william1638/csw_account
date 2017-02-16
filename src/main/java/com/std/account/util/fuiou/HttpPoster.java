@@ -1,12 +1,11 @@
 package com.std.account.util.fuiou;
 
-
 public class HttpPoster {
-    private String responseString = "";
-
-    public HttpPoster() {
-    }
-
+    // private String responseString = "";
+    //
+    // public HttpPoster() {
+    // }
+    //
     // public String post(String url, Map parameters) throws IOException {
     // PostMethod xmlpost;
     // int responseStatCode = 0;

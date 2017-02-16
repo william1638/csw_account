@@ -34,7 +34,7 @@ public class XN802523 extends AProcessor {
         condition.setCurrency(req.getCurrency());
         condition.setChannelType(req.getChannelType());
         condition.setBizType(req.getBizType());
-        condition.setStatus(EJourStatus.todoAdjust.getCode());
+        condition.setStatus(EJourStatus.Adjust_Status.getCode()); // 不平账查询
         condition.setSystemCode(req.getSystemCode());
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {
