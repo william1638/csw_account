@@ -4,6 +4,9 @@ public class XN802183Res {
     // 是否成功
     private boolean isSuccess;
 
+    // 业务类型
+    private String bizType;
+
     // 橙账本流水编号
     private String jourCode;
 
@@ -13,6 +16,14 @@ public class XN802183Res {
 
     public void setJourCode(String jourCode) {
         this.jourCode = jourCode;
+    }
+
+    public String getBizType() {
+        return bizType;
+    }
+
+    public void setBizType(String bizType) {
+        this.bizType = bizType;
     }
 
     public void setSuccess(boolean isSuccess) {
