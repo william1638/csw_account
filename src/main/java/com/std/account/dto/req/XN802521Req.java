@@ -40,6 +40,28 @@ public class XN802521Req {
     // 币种
     private String currency;
 
+    // 开始时间起
+    private String createDatetimeStart;
+
+    // 开始时间止
+    private String createDatetimeEnd;
+
+    public String getCreateDatetimeStart() {
+        return createDatetimeStart;
+    }
+
+    public void setCreateDatetimeStart(String createDatetimeStart) {
+        this.createDatetimeStart = createDatetimeStart;
+    }
+
+    public String getCreateDatetimeEnd() {
+        return createDatetimeEnd;
+    }
+
+    public void setCreateDatetimeEnd(String createDatetimeEnd) {
+        this.createDatetimeEnd = createDatetimeEnd;
+    }
+
     public String getCurrency() {
         return currency;
     }

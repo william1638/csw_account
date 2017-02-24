@@ -48,6 +48,28 @@ public class XN802520Req extends APageReq {
     // **************db properties ***************
     private String currency;
 
+    // 开始时间起
+    private String createDatetimeStart;
+
+    // 开始时间止
+    private String createDatetimeEnd;
+
+    public String getCreateDatetimeStart() {
+        return createDatetimeStart;
+    }
+
+    public void setCreateDatetimeStart(String createDatetimeStart) {
+        this.createDatetimeStart = createDatetimeStart;
+    }
+
+    public String getCreateDatetimeEnd() {
+        return createDatetimeEnd;
+    }
+
+    public void setCreateDatetimeEnd(String createDatetimeEnd) {
+        this.createDatetimeEnd = createDatetimeEnd;
+    }
+
     public String getUserId() {
         return userId;
     }

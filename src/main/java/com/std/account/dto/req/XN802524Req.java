@@ -12,6 +12,28 @@ public class XN802524Req extends APageReq {
     // 系统编号
     private String systemCode;
 
+    // 开始时间起
+    private String createDatetimeStart;
+
+    // 开始时间止
+    private String createDatetimeEnd;
+
+    public String getCreateDatetimeStart() {
+        return createDatetimeStart;
+    }
+
+    public void setCreateDatetimeStart(String createDatetimeStart) {
+        this.createDatetimeStart = createDatetimeStart;
+    }
+
+    public String getCreateDatetimeEnd() {
+        return createDatetimeEnd;
+    }
+
+    public void setCreateDatetimeEnd(String createDatetimeEnd) {
+        this.createDatetimeEnd = createDatetimeEnd;
+    }
+
     public String getAccountNumber() {
         return accountNumber;
     }

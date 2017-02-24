@@ -4,6 +4,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.std.account.ao.IJourAO;
 import com.std.account.api.AProcessor;
+import com.std.account.common.DateUtil;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.domain.Jour;
@@ -40,6 +41,10 @@ public class XN802520 extends AProcessor {
         condition.setWorkDate(req.getWorkDate());
         condition.setCheckUser(req.getCheckUser());
         condition.setAdjustUser(req.getAdjustUser());
+        condition.setCreateDatetimeStart(DateUtil.getFrontDate(
+            req.getCreateDatetimeStart(), false));
+        condition.setCreateDatetimeEnd(DateUtil.getFrontDate(
+            req.getCreateDatetimeEnd(), true));
         condition.setSystemCode(req.getSystemCode());
         String orderColumn = req.getOrderColumn();
         if (StringUtils.isBlank(orderColumn)) {
