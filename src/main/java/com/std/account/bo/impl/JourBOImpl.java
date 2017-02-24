@@ -252,99 +252,22 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
         return jourDAO.selectList(condition);
     }
 
-    // @Override
-    // public String addTochangeJour(String systemCode, String accountName,
-    // String accountNumber, EChannelType channelType, EPayType payType,
-    // EBizType bizType, Long preAmount, Long transAmount) {
-    // String order = OrderNoGenerater.generate(EGeneratePrefix.AJour
-    // .getCode());
-    // Long postAmount = preAmount + transAmount;
-    // Jour jour = new Jour();
-    // jour.setSystemCode(systemCode);
-    // jour.setAccountName(accountName);
-    // jour.setAccountNumber(accountNumber);
-    // jour.setOrder(order);
-    // jour.setChannelType(channelType.getCode());
-    //
-    // jour.setPayType(payType.getCode());
-    // jour.setPayOrder(null);
-    // jour.setBizType(bizType.getCode());
-    // jour.setBizNote(bizType.getValue());
-    // jour.setTransAmount(transAmount);
-    //
-    // jour.setPreAmount(preAmount);
-    // jour.setPostAmount(postAmount);
-    // jour.setTransDatetime(null);
-    // jour.setStatus(EAccountJourStatus.todoCallBack.getCode());
-    // jour.setWorkDate(null);
-    // jourDAO.insert(jour);
-    // return order;
-    // }
-    //
-    // @Override
-    // public String addChangedJour(String systemCode, String accountName,
-    // String accountNumber, EChannelType channelType, EPayType payType,
-    // String bizType, String bizNote, Long preAmount, Long transAmount) {
-    // String order = OrderNoGenerater.generate(EGeneratePrefix.AJour
-    // .getCode());
-    // Long postAmount = preAmount + transAmount;
-    // Jour jour = new Jour();
-    // jour.setSystemCode(systemCode);
-    // jour.setAccountNumber(accountNumber);
-    // jour.setChannelType(channelType.getCode());
-    // jour.setBizType(bizType);
-    // jour.setBizNote(bizNote);
-    // jour.setTransAmount(transAmount);
-    //
-    // jour.setPreAmount(preAmount);
-    // jour.setPostAmount(postAmount);
-    // jour.setTransDatetime(new Date());
-    // jour.setStatus(EAccountJourStatus.todoCheck.getCode());
-    // jour.setWorkDate(DateUtil
-    // .getToday(DateUtil.DB_DATE_FORMAT_STRING));
-    // jourDAO.insert(jour);
-    // return order;
-    // }
-    //
-    // @Override
-    // public void doTransAccount(String order, String payOrder) {
-    // if (StringUtils.isNotBlank(order) && StringUtils.isNotBlank(payOrder)) {
-    // Jour data = new Jour();
-    // data.setOrder(order);
-    // data.setPayOrder(payOrder);
-    // data.setTransDatetime(new Date());
-    // data.setStatus(EAccountJourStatus.todoCheck.getCode());
-    // jourDAO.updateTrans(data);
-    // }
-    // }
-    //
-    // @Override
-    // public void doCheckAccount(String order, String checkUser,
-    // EBoolean checkResult) {
-    // if (StringUtils.isNotBlank(order)) {
-    // Jour data = new Jour();
-    // data.setOrder(order);
-    // data.setCheckUser(checkUser);
-    // data.setCheckDatetime(new Date());
-    // if (EBoolean.YES.getCode().equalsIgnoreCase(checkResult.getCode())) {
-    // data.setStatus(EAccountJourStatus.Checked_YES.getCode());
-    // } else {
-    // data.setStatus(EAccountJourStatus.Checked_NO.getCode());
-    // }
-    // jourDAO.updateCheck(data);
-    // }
-    // }
-    //
-    // @Override
-    // public void doAdjustAccount(String order, String adjustUser) {
-    // if (StringUtils.isNotBlank(order)) {
-    // Jour data = new Jour();
-    // data.setOrder(order);
-    // data.setStatus(EAccountJourStatus.Adjusted.getCode());
-    // data.setAdjustUser(adjustUser);
-    // data.setAdjustDatetime(new Date());
-    // jourDAO.updateAdjust(data);
-    // }
-    // }
-
+    /**
+     * @see com.std.account.bo.IJourBO#getStatisticsTransAmount(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public Long getStatisticsTransAmount(String systemCode, String userId,
+            String currency, String bizType) {
+        Long totalAmount = 0L;
+        Jour condition = new Jour();
+        condition.setSystemCode(systemCode);
+        condition.setUserId(userId);
+        condition.setCurrency(currency);
+        condition.setBizType(bizType);
+        List<Jour> jourList = jourDAO.selectList(condition);
+        for (Jour jour : jourList) {
+            totalAmount += jour.getTransAmount();
+        }
+        return totalAmount;
+    }
 }

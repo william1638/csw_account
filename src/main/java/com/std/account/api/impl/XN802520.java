@@ -26,6 +26,7 @@ public class XN802520 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         Jour condition = new Jour();
+        condition.setUserId(req.getUserId());
         condition.setRealNameQuery(req.getRealName());
         condition.setAccountType(req.getAccountType());
         condition.setStatus(req.getStatus());

@@ -9,8 +9,10 @@ import java.util.Map;
  * @history:
  */
 public enum EBizType {
-    AJ_CZ("11", "充值"), AJ_QX("-11", "取现"), AJ_LB("19", "蓝补"), AJ_HC("-19", "红冲"), AJ_GW(
-            "-30", "购物"), AJ_QRSH("42", "确认收货，商户收钱"), AJ_DPXF("-31", "店铺消费"), AJ_GMZKQ(
+    // 每个系统的分布说明
+    AJ_REG("01", "注册送积分"), AJ_SIGN("02", "每日签到"), AJ_CZ("11", "充值"), AJ_QX(
+            "-11", "取现"), AJ_LB("19", "蓝补"), AJ_HC("-19", "红冲"), AJ_GW("-30",
+            "购物"), AJ_QRSH("42", "确认收货，商户收钱"), AJ_DPXF("-31", "店铺消费"), AJ_GMZKQ(
             "-32", "购买折扣券"), AJ_GMFLYK("-33", "购买福利月卡"), AJ_FLYKFC("34",
             "福利月卡分成"), AJ_FLYKHH("35", "福利月卡返还"), AJ_GMHZB("-36", "购买汇赚宝"), AJ_GMHZBFC(
             "37", "购买汇赚宝分成"), AJ_YYJL("38", "汇赚宝摇一摇奖励"), AJ_YYFC("39", "摇一摇分成"), AJ_DUOBAO(

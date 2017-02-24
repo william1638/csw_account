@@ -151,4 +151,17 @@ public interface IJourBO extends IPaginableBO<Jour> {
      */
     public Jour getJour(String code, String systemCode);
 
+    /**
+     * 统计发生金额
+     * @param systemCode
+     * @param userId
+     * @param currency
+     * @param bizType
+     * @return 
+     * @create: 2017年2月23日 下午11:16:05 xieyj
+     * @history:
+     */
+    public Long getStatisticsTransAmount(String systemCode, String userId,
+            String currency, String bizType);
+
 }

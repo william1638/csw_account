@@ -334,4 +334,14 @@ public class JourAOImpl implements IJourAO {
     public Jour getJour(String code, String systemCode) {
         return jourBO.getJour(code, systemCode);
     }
+
+    /**
+     * @see com.std.account.ao.IJourAO#getStatisticsTransAmount(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public Long getStatisticsTransAmount(String systemCode, String userId,
+            String currency, String bizType) {
+        return jourBO.getStatisticsTransAmount(systemCode, userId, currency,
+            bizType);
+    }
 }

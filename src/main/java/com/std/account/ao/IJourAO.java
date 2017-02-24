@@ -162,4 +162,17 @@ public interface IJourAO {
      * @history:
      */
     public Jour getJour(String code, String systemCode);
+
+    /**
+     * 统计用户某种业务类型下某账户发生的金额
+     * @param systemCode 系统编号
+     * @param userId 用户编号
+     * @param currency 币种
+     * @param bizType 业务类型
+     * @return 
+     * @create: 2017年2月23日 下午4:09:25 xieyj
+     * @history:
+     */
+    public Long getStatisticsTransAmount(String systemCode, String userId,
+            String currency, String bizType);
 }

@@ -56,9 +56,16 @@
 			<if test="channelOrder != null and channelOrder != '' ">
 				AND t.channel_order = #{channelOrder}
 			</if>
-			<if test="accountType != null and accountType != '' ">
-				AND ta.type = #{accountType}
-			</if>
+			<choose>
+			     <when test='accountType == "NOT_P"'>
+				 	AND ta.type not in('P')
+				 </when>
+				 <otherwise>
+					 <if test="accountType != null and accountType != '' ">
+						 AND ta.type = #{accountType}
+					 </if>
+				 </otherwise>
+			</choose>
 			<if test="currency != null and currency != '' ">
 				AND ta.currency = #{currency}
 			</if>
