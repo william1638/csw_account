@@ -6,6 +6,12 @@ public class XN802524Req extends APageReq {
      */
     private static final long serialVersionUID = 1L;
 
+    // 用户编号
+    private String userId;
+
+    // 币种
+    private String currency;
+
     // 账号
     private String accountNumber;
 
@@ -17,6 +23,22 @@ public class XN802524Req extends APageReq {
 
     // 开始时间止
     private String createDatetimeEnd;
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
+    }
 
     public String getCreateDatetimeStart() {
         return createDatetimeStart;

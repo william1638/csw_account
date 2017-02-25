@@ -29,6 +29,8 @@ public class XN802524 extends AProcessor {
     public Object doBusiness() throws BizException {
         Jour condition = new Jour();
         condition.setSystemCode(req.getSystemCode());
+        condition.setUserId(req.getUserId());
+        condition.setCurrency(req.getCurrency());
         condition.setAccountNumber(req.getAccountNumber());
         condition.setStatus("effect");
         condition.setCreateDatetimeStart(DateUtil.getFrontDate(
@@ -49,7 +51,12 @@ public class XN802524 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802524Req.class);
         StringValidater.validateNumber(req.getStart(), req.getLimit());
-        StringValidater.validateBlank(req.getSystemCode(),
-            req.getAccountNumber());
+        StringValidater.validateBlank(req.getSystemCode());
+        if (StringUtils.isBlank(req.getAccountNumber())) {
+            if (StringUtils.isBlank(req.getUserId())
+                    || StringUtils.isBlank(req.getCurrency())) {
+                throw new BizException("xn0001", "账户编号必填或者用户编号和币种必填");
+            }
+        }
     }
 }
