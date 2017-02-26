@@ -27,7 +27,7 @@ public class XN802511 extends AProcessor {
     * @see com.xnjr.base.api.IProcessor#doBusiness()
     */
     @Override
-    public Object doBusiness() throws BizException {
+    public synchronized Object doBusiness() throws BizException {
         jourAO.doCallBackChangeList(req.getCodeList(), req.getRollbackResult(),
             req.getRollbackUser(), req.getRollbackNote(), req.getSystemCode());
         return new BooleanRes(true);

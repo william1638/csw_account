@@ -30,7 +30,7 @@ public class XN802516 extends AProcessor {
     private XN802516Req req = null;
 
     @Override
-    public Object doBusiness() throws BizException {
+    public synchronized Object doBusiness() throws BizException {
         jourAO.adjustJour(req.getCode(), req.getAdjustResult(),
             req.getAdjustUser(), req.getAdjustNote(), req.getSystemCode());
         return new BooleanRes(true);

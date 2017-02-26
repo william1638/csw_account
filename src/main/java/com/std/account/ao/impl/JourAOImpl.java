@@ -226,7 +226,6 @@ public class JourAOImpl implements IJourAO {
     @Transactional
     public String applyExchangeAmount(String systemCode, String userId,
             Long transAmount, String bizType) {
-        // 冻结金额
         if (!EBizType.AJ_HB2FR.getCode().equals(bizType)
                 && !EBizType.AJ_HBYJ2FR.getCode().equals(bizType)
                 && !EBizType.AJ_HBYJ2GXJL.getCode().equals(bizType)) {

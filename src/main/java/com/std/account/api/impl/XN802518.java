@@ -23,7 +23,7 @@ public class XN802518 extends AProcessor {
     private XN802518Req req = null;
 
     @Override
-    public Object doBusiness() throws BizException {
+    public synchronized Object doBusiness() throws BizException {
         Long transAmount = StringValidater.toLong(req.getTransAmount());
         String code = jourAO.applyExchangeAmount(req.getSystemCode(),
             req.getUserId(), transAmount, req.getBizType());

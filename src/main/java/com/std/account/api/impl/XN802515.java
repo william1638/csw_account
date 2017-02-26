@@ -30,7 +30,7 @@ public class XN802515 extends AProcessor {
     private XN802514Req req = null;
 
     @Override
-    public Object doBusiness() throws BizException {
+    public synchronized Object doBusiness() throws BizException {
         Long checkAmount = StringValidater.toLong(req.getCheckAmount());
         jourAO.checkJour(req.getCode(), checkAmount, req.getCheckUser(),
             req.getCheckNote(), req.getSystemCode());

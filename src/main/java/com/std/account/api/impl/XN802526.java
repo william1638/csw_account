@@ -28,7 +28,7 @@ public class XN802526 extends AProcessor {
     private XN802526Req req = null;
 
     @Override
-    public Object doBusiness() throws BizException {
+    public synchronized Object doBusiness() throws BizException {
         Long transAmount = StringValidater.toLong(req.getTransAmount());
         List<String> channelTypeList = new ArrayList<String>();
         channelTypeList.add(EChannelType.CZB.getCode());

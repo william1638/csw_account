@@ -141,6 +141,7 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
         data.setRealName(account.getRealName());
         data.setAccountNumber(accountNumber);
         data.setChannelType(channelType.getCode());
+        data.setChannelOrder(channelOrder);
         data.setBizType(bizType);
         data.setBizNote(bizNote);
         data.setTransAmount(transAmount);
