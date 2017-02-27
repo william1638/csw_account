@@ -181,6 +181,7 @@
 		)
 		VALUES(
 		#{code}
+		,#{payGroup}
 		,#{userId}
 		,#{realName}
 		,#{accountNumber}
