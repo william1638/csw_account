@@ -374,7 +374,7 @@ public class WeChatAOImpl implements IWeChatAO {
             PostSimulater.requestPostForm(callbackResult.getUrl(),
                 formProperties);
         } catch (Exception e) {
-            throw new BizException("xn000000", "链接请求超时，请联系管理员");
+            throw new BizException("xn000000", "回调业务biz异常");
         }
     }
 
