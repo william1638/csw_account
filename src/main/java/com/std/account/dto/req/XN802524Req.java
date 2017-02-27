@@ -12,6 +12,9 @@ public class XN802524Req extends APageReq {
     // 币种
     private String currency;
 
+    // 业务类型
+    private String bizType;
+
     // 账号
     private String accountNumber;
 
@@ -23,6 +26,14 @@ public class XN802524Req extends APageReq {
 
     // 开始时间止
     private String createDatetimeEnd;
+
+    public String getBizType() {
+        return bizType;
+    }
+
+    public void setBizType(String bizType) {
+        this.bizType = bizType;
+    }
 
     public String getUserId() {
         return userId;

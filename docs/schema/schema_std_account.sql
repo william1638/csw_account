@@ -21,10 +21,10 @@ CREATE TABLE `tstd_jour` (
   `adjust_user` varchar(32) DEFAULT NULL COMMENT '调账人',
   `adjust_datetime` datetime DEFAULT NULL COMMENT '调账时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `pay_group` varchar(32) DEFAULT NULL COMMENT '支付组号',
   `system_code` varchar(32) NOT NULL COMMENT '系统编号',
   PRIMARY KEY (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 
 DROP TABLE IF EXISTS `tstd_account`;
 CREATE TABLE `tstd_account` (
