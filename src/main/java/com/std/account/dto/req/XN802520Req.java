@@ -6,6 +6,9 @@ public class XN802520Req extends APageReq {
      */
     private static final long serialVersionUID = 1L;
 
+    // 用户编号
+    private String userId;
+
     // 真实姓名
     private String realName;
 
@@ -44,6 +47,36 @@ public class XN802520Req extends APageReq {
 
     // **************db properties ***************
     private String currency;
+
+    // 开始时间起
+    private String createDatetimeStart;
+
+    // 开始时间止
+    private String createDatetimeEnd;
+
+    public String getCreateDatetimeStart() {
+        return createDatetimeStart;
+    }
+
+    public void setCreateDatetimeStart(String createDatetimeStart) {
+        this.createDatetimeStart = createDatetimeStart;
+    }
+
+    public String getCreateDatetimeEnd() {
+        return createDatetimeEnd;
+    }
+
+    public void setCreateDatetimeEnd(String createDatetimeEnd) {
+        this.createDatetimeEnd = createDatetimeEnd;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
 
     public String getCurrency() {
         return currency;

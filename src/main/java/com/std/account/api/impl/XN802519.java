@@ -23,7 +23,7 @@ public class XN802519 extends AProcessor {
     private XN802519Req req = null;
 
     @Override
-    public Object doBusiness() throws BizException {
+    public synchronized Object doBusiness() throws BizException {
         Double rate = StringValidater.toDouble(req.getRate());
         jourAO.approveExchangeAmount(req.getSystemCode(), req.getCode(), rate,
             req.getApproveResult(), req.getApprover(), req.getApproveNote());

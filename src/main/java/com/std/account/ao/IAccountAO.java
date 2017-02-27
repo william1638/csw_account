@@ -79,6 +79,23 @@ public interface IAccountAO {
             String currency, Long transAmount, String bizType, String bizNote);
 
     /**
+     * 通过橙账本划转资金，即内部划转资金
+     * @param systemCode
+     * @param fromUserId
+     * @param toUserId
+     * @param currency
+     * @param transAmount
+     * @param bizType
+     * @param fromBizNote
+     * @param toBizNote 
+     * @create: 2017年2月25日 下午12:41:05 xieyj
+     * @history:
+     */
+    void transAmountCZB(String systemCode, String fromUserId, String toUserId,
+            String currency, Long transAmount, String bizType,
+            String fromBizNote, String toBizNote);
+
+    /**
      * 通过PC网关划转资金，属于外部划转资金
      * @param systemCode
      * @param companyCode

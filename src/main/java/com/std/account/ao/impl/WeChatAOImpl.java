@@ -66,29 +66,29 @@ public class WeChatAOImpl implements IWeChatAO {
     @Autowired
     IAccountBO accountBO;
 
-    /** 
-     * @see com.std.account.ao.IWeChatAO#getPrepayId(java.lang.String, java.lang.String, java.lang.Long, java.lang.String, java.lang.String)
+    /**
+     * @see com.std.account.ao.IWeChatAO#getPrepayIdApp(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Long, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
     public XN802180Res getPrepayIdApp(String systemCode, String companyCode,
-            String userId, String bizType, String bizNote, String body,
-            Long totalFee, String spbillCreateIp) {
+            String userId, String bizType, String bizNote, Long transAmount,
+            String currency, String payGroup, String ip) {
         Account account = accountBO.getAccountByUser(systemCode, userId,
             ECurrency.CNY.getCode());
         // 本地系统落地流水信息
         String code = jourBO.addToChangeJour(systemCode,
             account.getAccountNumber(), EChannelType.WeChat_APP.getCode(),
-            bizType, bizNote, totalFee);
+            bizType, bizNote, transAmount);
         // 获取微信公众号支付prepayid
         CompanyChannel companyChannel = getCompanyChannel(companyCode,
             systemCode, EChannelType.WeChat_APP.getCode());
         WXPrepay prePay = new WXPrepay();
         prePay.setAppid(companyChannel.getPrivateKey2());// 微信开放平台审核通过的应用APPID
         prePay.setMch_id(companyChannel.getChannelCompany()); // 商户号
-        prePay.setBody(body); // 商品描述
+        prePay.setBody(companyChannel.getCompanyName() + "-" + bizNote); // 商品描述
         prePay.setOut_trade_no(code); // 订单号
-        prePay.setTotal_fee(Long.toString(totalFee / 10)); // 订单总金额，厘转化成分
-        prePay.setSpbill_create_ip(spbillCreateIp); // 用户IP
+        prePay.setTotal_fee(Long.toString(transAmount / 10)); // 订单总金额，厘转化成分
+        prePay.setSpbill_create_ip(ip); // 用户IP
         prePay.setTrade_type(EWeChatType.APP.getCode()); // 交易类型
         prePay.setNotify_url(companyChannel.getBackUrl());// 回调地址
         prePay.setPartnerKey(companyChannel.getPrivateKey1()); // 商户秘钥

@@ -73,8 +73,6 @@ public class AccountAOImpl implements IAccountAO {
                 && fromAccountNumber.equals(toAccountNumber)) {
             new BizException("XN0000", "来去双方账号一致，无需内部划转");
         }
-        // String fromBizNote = bizNote + "(去方账号[" + toAccountNumber + "])";
-        // String toBizNote = bizNote + "(来方账号[" + fromAccountNumber + "])";
         accountBO.transAmount(systemCode, fromAccountNumber, EChannelType.NBZ,
             null, -transAmount, bizType, bizNote);
         accountBO.transAmount(systemCode, toAccountNumber, EChannelType.NBZ,
@@ -82,6 +80,7 @@ public class AccountAOImpl implements IAccountAO {
     }
 
     @Override
+    @Transactional
     public void transAmountCZB(String systemCode, String fromAccountNumber,
             String toAccountNumber, Long transAmount, Double rate,
             String bizType, String bizNote) {
@@ -106,6 +105,21 @@ public class AccountAOImpl implements IAccountAO {
             currency);
         this.transAmountCZB(systemCode, fromAccount.getAccountNumber(),
             toAccount.getAccountNumber(), transAmount, bizType, bizNote);
+    }
+
+    @Override
+    @Transactional
+    public void transAmountCZB(String systemCode, String fromUserId,
+            String toUserId, String currency, Long transAmount, String bizType,
+            String fromBizNote, String toBizNote) {
+        Account fromAccount = accountBO.getAccountByUser(systemCode,
+            fromUserId, currency);
+        Account toAccount = accountBO.getAccountByUser(systemCode, toUserId,
+            currency);
+        accountBO.transAmount(systemCode, fromAccount.getAccountNumber(),
+            EChannelType.NBZ, null, -transAmount, bizType, fromBizNote);
+        accountBO.transAmount(systemCode, toAccount.getAccountNumber(),
+            EChannelType.NBZ, null, transAmount, bizType, toBizNote);
     }
 
     @Override
@@ -191,5 +205,4 @@ public class AccountAOImpl implements IAccountAO {
         condition.setCurrency(currency);
         return accountBO.queryAccountList(condition);
     }
-
 }

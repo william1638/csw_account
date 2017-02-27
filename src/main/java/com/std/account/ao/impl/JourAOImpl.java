@@ -226,7 +226,6 @@ public class JourAOImpl implements IJourAO {
     @Transactional
     public String applyExchangeAmount(String systemCode, String userId,
             Long transAmount, String bizType) {
-        // 冻结金额
         if (!EBizType.AJ_HB2FR.getCode().equals(bizType)
                 && !EBizType.AJ_HBYJ2FR.getCode().equals(bizType)
                 && !EBizType.AJ_HBYJ2GXJL.getCode().equals(bizType)) {
@@ -333,5 +332,15 @@ public class JourAOImpl implements IJourAO {
     @Override
     public Jour getJour(String code, String systemCode) {
         return jourBO.getJour(code, systemCode);
+    }
+
+    /**
+     * @see com.std.account.ao.IJourAO#getStatisticsTransAmount(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public Long getStatisticsTransAmount(String systemCode, String userId,
+            String currency, String bizType) {
+        return jourBO.getStatisticsTransAmount(systemCode, userId, currency,
+            bizType);
     }
 }

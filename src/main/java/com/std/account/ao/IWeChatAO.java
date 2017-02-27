@@ -22,21 +22,22 @@ import com.std.account.dto.res.XN802183Res;
 public interface IWeChatAO {
     /**
      * （微信APP支付）统一下单，下单成功返回 prepay_id
-     * @param systemCode
-     * @param companyCode
-     * @param userId
-     * @param bizType
-     * @param bizNote
-     * @param body
-     * @param totalFee
-     * @param spbillCreateIp
+     * @param systemCode 系统编号
+     * @param companyCode 公司编号
+     * @param userId 用户编号
+     * @param bizType 业务类型
+     * @param bizNote 业务说明(body)
+     * @param transAmount 发生金额
+     * @param currency 币种
+     * @param payGroup 支付组号
+     * @param ip 客户ip
      * @return 
-     * @create: 2016年12月26日 下午8:52:44 haiqingzheng
+     * @create: 2017年2月27日 上午9:52:12 xieyj
      * @history:
      */
     public XN802180Res getPrepayIdApp(String systemCode, String companyCode,
-            String userId, String bizType, String bizNote, String body,
-            Long totalFee, String spbillCreateIp);
+            String userId, String bizType, String bizNote, Long transAmount,
+            String currency, String payGroup, String ip);
 
     /**
      * （微信公众号支付）统一下单，下单成功返回 prepay_id

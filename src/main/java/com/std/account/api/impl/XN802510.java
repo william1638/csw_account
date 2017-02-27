@@ -27,7 +27,7 @@ public class XN802510 extends AProcessor {
     * @see com.xnjr.base.api.IProcessor#doBusiness()
     */
     @Override
-    public Object doBusiness() throws BizException {
+    public synchronized Object doBusiness() throws BizException {
         Long transAmount = StringValidater.toLong(req.getTransAmount());
         jourAO.doChangeAmountList(req.getAccountNumberList(),
             req.getBankcardNumber(), transAmount, req.getBizType(),

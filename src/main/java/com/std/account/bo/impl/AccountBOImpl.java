@@ -16,6 +16,7 @@ import com.std.account.dao.IAccountDAO;
 import com.std.account.domain.Account;
 import com.std.account.enums.EAccountStatus;
 import com.std.account.enums.EAccountType;
+import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
 import com.std.account.enums.EGeneratePrefix;
@@ -105,6 +106,10 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         accountDAO.updateAmount(data);
     }
 
+    /**
+     * 冻结：1、产生账户冻结流水；2、冻结账户金额
+     * @see com.std.account.bo.IAccountBO#frozenAmount(java.lang.String, java.lang.String, java.lang.Long, java.lang.String)
+     */
     @Override
     public void frozenAmount(String systemCode, String accountNumber,
             Long freezeAmount, String lastOrder) {
@@ -113,21 +118,22 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         }
         Account dbAccount = this.getAccount(systemCode, accountNumber);
         Long nowAmount = dbAccount.getAmount() - freezeAmount;
-        // if (nowAmount < 0) {
-        // throw new BizException("xn000000", "账户余额不足");
-        // }
         if (!ESysAccount.getResultMap().containsKey(accountNumber)
                 && nowAmount < 0) {
             throw new BizException("xn000000", "账户余额不足");
         }
         Long nowFrozenAmount = dbAccount.getFrozenAmount() + freezeAmount;
+        // 记录流水
+        String lastJourNo = jourBO.addChangedJour(systemCode, accountNumber,
+            EChannelType.NBZ, lastOrder, EBizType.AJ_QXDJ.getCode(),
+            EBizType.AJ_QXDJ.getValue(), dbAccount.getAmount(), -freezeAmount);
         Account data = new Account();
         data.setAccountNumber(accountNumber);
         data.setAmount(nowAmount);
         data.setFrozenAmount(nowFrozenAmount);
         data.setMd5(AccountUtil.md5(dbAccount.getMd5(), dbAccount.getAmount(),
             nowAmount));
-        data.setLastOrder(lastOrder);
+        data.setLastOrder(lastJourNo);
         accountDAO.updateFrozenAmount(data);
     }
 
@@ -142,6 +148,10 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         Long nowAmount = dbAccount.getAmount();
         if (EBoolean.NO.getCode().equals(unfrozenResult)) {
             nowAmount = nowAmount + unfreezeAmount;
+            // 产生取现解冻金额流水
+            lastOrder = jourBO.addChangedJour(systemCode, accountNumber,
+                EChannelType.NBZ, lastOrder, EBizType.AJ_QXJD.getCode(),
+                EBizType.AJ_QXJD.getValue(), nowAmount, unfreezeAmount);
         }
         Long nowFrozenAmount = dbAccount.getFrozenAmount() - unfreezeAmount;
         if (nowFrozenAmount < 0) {

@@ -102,10 +102,9 @@ public class BankcardBOImpl extends PaginableBOImpl<Bankcard> implements
             Bankcard condition = new Bankcard();
             condition.setBankcardNumber(bankcardNumber);
             List<Bankcard> list = bankcardDAO.selectList(condition);
-            if (CollectionUtils.isEmpty(list)) {
-                throw new BizException("xn0000", "银行卡不存在");
+            if (CollectionUtils.isNotEmpty(list)) {
+                data = list.get(0);
             }
-            data = list.get(0);
         }
         return data;
     }
