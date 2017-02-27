@@ -34,5 +34,11 @@ public class PropertiesUtil {
 
     public static final class Config {
         public static String USER_URL = props.getProperty("USER_URL");
+
+        public static String WECHAT_APP_BACKURL = props
+            .getProperty("WECHAT_APP_BACKURL");
+
+        public static String WECHAT_H5_BACKURL = props
+            .getProperty("WECHAT_H5_BACKURL");
     }
 }

@@ -76,7 +76,7 @@ public class WeChatAOImpl implements IWeChatAO {
             String userId, String bizType, String bizNote, Long transAmount,
             String currency, String payGroup, String ip) {
         Account account = accountBO.getAccountByUser(systemCode, userId,
-            ECurrency.CNY.getCode());
+            currency);
         // 本地系统落地流水信息
         String code = jourBO.addToChangeJour(systemCode,
             account.getAccountNumber(), EChannelType.WeChat_APP.getCode(),
@@ -368,7 +368,7 @@ public class WeChatAOImpl implements IWeChatAO {
             formProperties.put("systemCode", callbackResult.getSystemCode());
             formProperties.put("companyCode", callbackResult.getCompanyCode());
             formProperties.put("payGroup", callbackResult.getPayGroup());
-            formProperties.put("jourCode", callbackResult.getJourCode());
+            formProperties.put("payCode", callbackResult.getJourCode());
             formProperties.put("bizType", callbackResult.getBizType());
             formProperties.put("transAmount", callbackResult.getTransAmount());
             PostSimulater.requestPostForm(callbackResult.getUrl(),
