@@ -8,9 +8,9 @@
  */
 package com.std.account.ao;
 
+import com.std.account.domain.CallbackResult;
 import com.std.account.domain.CompanyChannel;
 import com.std.account.dto.res.XN802180Res;
-import com.std.account.dto.res.XN802181Res;
 import com.std.account.dto.res.XN802182Res;
 import com.std.account.dto.res.XN802183Res;
 
@@ -66,7 +66,7 @@ public interface IWeChatAO {
      * @create: 2016年12月26日 下午5:47:58 haiqingzheng
      * @history:
      */
-    public XN802181Res doCallbackAPP(String result);
+    public CallbackResult doCallbackAPP(String result);
 
     /**
      * （微信公众号支付）支付回调

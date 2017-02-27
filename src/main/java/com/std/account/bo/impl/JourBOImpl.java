@@ -87,7 +87,7 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
      */
     @Override
     public int callBackChangeJour(String code, String rollBackResult,
-            String rollbackUser, String rollbackNote) {
+            String rollbackUser, String rollbackNote, String channelOrder) {
         Jour data = new Jour();
         data.setCode(code);
         EJourStatus eJourStatus = EJourStatus.todoCheck;
@@ -98,6 +98,7 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
         data.setRollbackUser(rollbackUser);
         data.setRollbackDatetime(new Date());
         data.setRemark(rollbackNote);
+        data.setChannelOrder(channelOrder);
         return jourDAO.updateCallback(data);
     }
 

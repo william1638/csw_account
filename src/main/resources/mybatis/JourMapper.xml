@@ -4,6 +4,7 @@
 <mapper namespace="com.std.account.dao.IJourDAO">
 	<resultMap id="jour_DB_Result" type="jour">
 		<result column="code" property="code" />
+		<result column="pay_group" property="payGroup" />
 		<result column="user_id" property="userId" />
 		<result column="real_name" property="realName" />
 		<result column="account_number" property="accountNumber" />
@@ -30,6 +31,9 @@
 		<trim prefix="WHERE" prefixOverrides="AND | OR">
 			<if test="code != null and code != '' ">
 				AND t.code = #{code}
+			</if>
+			<if test="payGroup != null and payGroup != '' ">
+				AND t.pay_group = #{payGroup}
 			</if>
 			<if test="userId != null and userId != '' ">
 				AND t.user_id = #{userId}
@@ -92,6 +96,7 @@
 	<select id="select_jour" parameterType="jour" resultMap="jour_DB_Result">
 		SELECT
 		t.code
+		,t.pay_group
 		,t.user_id
 		,t.real_name
 		,t.account_number
@@ -138,6 +143,7 @@
 		INSERT INTO
 		tstd_jour(
 		code
+		,pay_group
 		,user_id
 		,real_name
 		,account_number
@@ -190,6 +196,7 @@
 		UPDATE tstd_jour
 		SET
 		status= #{status}
+		,channel_order = #{channelOrder}
 		,pre_amount = #{preAmount}
 		,post_amount = #{postAmount}
 		,rollback_user=#{rollbackUser}

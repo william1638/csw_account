@@ -29,10 +29,10 @@ import com.std.account.bo.ICompanyChannelBO;
 import com.std.account.bo.IJourBO;
 import com.std.account.common.JsonUtil;
 import com.std.account.domain.Account;
+import com.std.account.domain.CallbackResult;
 import com.std.account.domain.CompanyChannel;
 import com.std.account.domain.Jour;
 import com.std.account.dto.res.XN802180Res;
-import com.std.account.dto.res.XN802181Res;
 import com.std.account.dto.res.XN802182Res;
 import com.std.account.dto.res.XN802183Res;
 import com.std.account.enums.EBoolean;
@@ -92,7 +92,7 @@ public class WeChatAOImpl implements IWeChatAO {
         prePay.setTrade_type(EWeChatType.APP.getCode()); // 交易类型
         prePay.setNotify_url(companyChannel.getBackUrl());// 回调地址
         prePay.setPartnerKey(companyChannel.getPrivateKey1()); // 商户秘钥
-        prePay.setAttach(companyCode + "||" + systemCode);
+        prePay.setAttach(systemCode + "||" + companyCode);
         String prepayId = prePay.submitXmlGetPrepayId();
 
         SortedMap<String, String> nativeObj = new TreeMap<String, String>();
@@ -176,49 +176,63 @@ public class WeChatAOImpl implements IWeChatAO {
     }
 
     @Override
-    public XN802181Res doCallbackAPP(String result) {
-        XN802181Res res = new XN802181Res();
+    public CallbackResult doCallbackAPP(String result) {
+        String systemCode = null;
+        String companyCode = null;
+        String wechatOrderNo = null;
+        Jour jour = null;
         Map<String, String> map = null;
         try {
             map = XMLUtil.doXMLParse(result);
+            String attach = map.get("attach");
+            String[] codes = attach.split("\\|\\|");
+            systemCode = codes[0];
+            companyCode = codes[1];
+            wechatOrderNo = map.get("transaction_id");
+            jour = jourBO.getJour(map.get("out_trade_no"), systemCode);
         } catch (JDOMException | IOException e) {
             throw new BizException("xn000000", "回调结果XML解析失败");
         }
-
         // 此处调用订单查询接口验证是否交易成功
         boolean isSucc = reqOrderquery(map, EChannelType.WeChat_APP.getCode());
         // 支付成功，商户处理后同步返回给微信参数
         if (!isSucc) {
             // 支付失败
             System.out.println("支付失败");
-            jourBO.callBackChangeJour(map.get("out_trade_no"),
-                EBoolean.NO.getCode(), "WeChat_APP", "微信APP支付后台自动回调");
+            jourBO.callBackChangeJour(jour.getCode(), EBoolean.NO.getCode(),
+                "WeChat_APP", "微信APP支付后台自动回调", wechatOrderNo);
         } else {
             System.out.println("===============付款成功==============");
             // ------------------------------
             // 处理业务开始
             // ------------------------------
             jourBO.callBackChangeJour(map.get("out_trade_no"),
-                EBoolean.YES.getCode(), "WeChat_APP", "微信APP支付后台自动回调");
+                EBoolean.YES.getCode(), "WeChat_APP", "微信APP支付后台自动回调",
+                wechatOrderNo);
             // ------------------------------
             // 处理业务完毕
             // ------------------------------
         }
-        res.setIsSuccess(isSucc);
-        res.setJourCode(map.get("out_trade_no"));
-        String attach = map.get("attach");
-        String[] codes = attach.split("\\|\\|");
-        Jour jour = jourBO.getJour(map.get("out_trade_no"), codes[1]);
-        res.setBizType(jour.getBizType());
-        return res;
+        return new CallbackResult(isSucc, jour.getBizType(), jour.getCode(),
+            jour.getPayCode(), jour.getTransAmount(), systemCode, companyCode);
     }
 
     @Override
     public XN802183Res doCallbackH5(String result) {
         XN802183Res res = new XN802183Res();
+        String systemCode = null;
+        String companyCode = null;
+        String wechatOrderNo = null;
+        Jour jour = null;
         Map<String, String> map = null;
         try {
             map = XMLUtil.doXMLParse(result);
+            String attach = map.get("attach");
+            String[] codes = attach.split("\\|\\|");
+            systemCode = codes[0];
+            companyCode = codes[1];
+            wechatOrderNo = map.get("transaction_id");
+            jour = jourBO.getJour(map.get("out_trade_no"), systemCode);
         } catch (JDOMException | IOException e) {
             throw new BizException("xn000000", "回调结果XML解析失败");
         }
@@ -229,24 +243,21 @@ public class WeChatAOImpl implements IWeChatAO {
         if (!isSucc) {
             // 支付失败
             System.out.println("支付失败");
-            jourBO.callBackChangeJour(map.get("out_trade_no"),
-                EBoolean.NO.getCode(), "WeChat_H5", "微信公众号支付后台自动回调");
+            jourBO.callBackChangeJour(jour.getCode(), EBoolean.NO.getCode(),
+                "WeChat_H5", "微信公众号支付后台自动回调", wechatOrderNo);
         } else {
             System.out.println("===============付款成功==============");
             // ------------------------------
             // 处理业务开始
             // ------------------------------
-            jourBO.callBackChangeJour(map.get("out_trade_no"),
-                EBoolean.YES.getCode(), "WeChat_H5", "微信公众号支付后台自动回调");
+            jourBO.callBackChangeJour(jour.getCode(), EBoolean.YES.getCode(),
+                "WeChat_H5", "微信公众号支付后台自动回调", wechatOrderNo);
             // ------------------------------
             // 处理业务完毕
             // ------------------------------
         }
         res.setIsSuccess(isSucc);
-        res.setJourCode(map.get("out_trade_no"));
-        String attach = map.get("attach");
-        String[] codes = attach.split("\\|\\|");
-        Jour jour = jourBO.getJour(map.get("out_trade_no"), codes[1]);
+        res.setJourCode(jour.getCode());
         res.setBizType(jour.getBizType());
         return res;
     }

@@ -43,7 +43,7 @@ public interface IJourBO extends IPaginableBO<Jour> {
      * @history:
      */
     public int callBackChangeJour(String code, String rollbackResult,
-            String rollbackUser, String rollbackNote);
+            String rollbackUser, String rollbackNote, String channelOrder);
 
     /**
      * 回调处理流水
@@ -53,6 +53,7 @@ public interface IJourBO extends IPaginableBO<Jour> {
      * @param rollbackNote
      * @param preAmount
      * @param postAmount
+     * @param channelOrder
      * @return 
      * @create: 2016年12月26日 下午8:37:30 xieyj
      * @history:

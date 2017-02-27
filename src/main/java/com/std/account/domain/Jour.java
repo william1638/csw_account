@@ -20,6 +20,9 @@ public class Jour extends ABaseDO {
     // 流水编号
     private String code;
 
+    // 支付组号
+    private String payCode;
+
     // 用户编号
     private String userId;
 
@@ -172,6 +175,14 @@ public class Jour extends ABaseDO {
 
     public void setCode(String code) {
         this.code = code;
+    }
+
+    public String getPayCode() {
+        return payCode;
+    }
+
+    public void setPayCode(String payCode) {
+        this.payCode = payCode;
     }
 
     public String getUserId() {
