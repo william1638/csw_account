@@ -31,6 +31,7 @@ public class XN802524 extends AProcessor {
         condition.setSystemCode(req.getSystemCode());
         condition.setUserId(req.getUserId());
         condition.setCurrency(req.getCurrency());
+        condition.setBizType(req.getBizType());
         condition.setAccountNumber(req.getAccountNumber());
         condition.setStatus("effect");
         condition.setCreateDatetimeStart(DateUtil.getFrontDate(
