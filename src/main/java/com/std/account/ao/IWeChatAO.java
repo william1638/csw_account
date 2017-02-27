@@ -99,4 +99,12 @@ public interface IWeChatAO {
      */
     public String getAccessToken(String appId, String appSecret);
 
+    /**
+     * 回调业务biz，通知支付结果
+     * @param callbackResult 
+     * @create: 2017年2月27日 下午12:40:52 haiqingzheng
+     * @history:
+     */
+    public void doBizCallback(CallbackResult callbackResult);
+
 }

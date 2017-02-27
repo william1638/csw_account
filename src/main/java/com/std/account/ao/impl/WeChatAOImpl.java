@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
 import java.util.SortedMap;
@@ -40,6 +41,7 @@ import com.std.account.enums.EChannelType;
 import com.std.account.enums.ECurrency;
 import com.std.account.enums.EWeChatType;
 import com.std.account.exception.BizException;
+import com.std.account.http.PostSimulater;
 import com.std.account.util.HttpsUtil;
 import com.std.account.util.wechat.MD5;
 import com.std.account.util.wechat.MD5Util;
@@ -78,7 +80,7 @@ public class WeChatAOImpl implements IWeChatAO {
         // 本地系统落地流水信息
         String code = jourBO.addToChangeJour(systemCode,
             account.getAccountNumber(), EChannelType.WeChat_APP.getCode(),
-            bizType, bizNote, transAmount);
+            bizType, bizNote, transAmount, payGroup);
         // 获取微信公众号支付prepayid
         CompanyChannel companyChannel = getCompanyChannel(companyCode,
             systemCode, EChannelType.WeChat_APP.getCode());
@@ -133,7 +135,7 @@ public class WeChatAOImpl implements IWeChatAO {
         // 本地系统落地流水信息
         String code = jourBO.addToChangeJour(systemCode,
             account.getAccountNumber(), EChannelType.WeChat_H5.getCode(),
-            bizType, bizNote, totalFee);
+            bizType, bizNote, totalFee, null);
         res.setJourCode(code);
         // 获取微信公众号支付prepayid
         CompanyChannel companyChannel = getCompanyChannel(companyCode,
@@ -213,8 +215,11 @@ public class WeChatAOImpl implements IWeChatAO {
             // 处理业务完毕
             // ------------------------------
         }
+        CompanyChannel companyChannel = getCompanyChannel(companyCode,
+            systemCode, EChannelType.WeChat_APP.getCode());
         return new CallbackResult(isSucc, jour.getBizType(), jour.getCode(),
-            jour.getPayCode(), jour.getTransAmount(), systemCode, companyCode);
+            jour.getPayGroup(), jour.getTransAmount(), systemCode, companyCode,
+            companyChannel.getBackUrl());
     }
 
     @Override
@@ -353,6 +358,24 @@ public class WeChatAOImpl implements IWeChatAO {
         sb.append("key=" + AppKey);
         String sign = MD5Util.MD5Encode(sb.toString(), "UTF-8").toUpperCase();
         return sign;
+    }
+
+    @Override
+    public void doBizCallback(CallbackResult callbackResult) {
+        try {
+            Properties formProperties = new Properties();
+            formProperties.put("isSuccess", callbackResult.isSuccess());
+            formProperties.put("systemCode", callbackResult.getSystemCode());
+            formProperties.put("companyCode", callbackResult.getCompanyCode());
+            formProperties.put("payGroup", callbackResult.getPayGroup());
+            formProperties.put("jourCode", callbackResult.getJourCode());
+            formProperties.put("bizType", callbackResult.getBizType());
+            formProperties.put("transAmount", callbackResult.getTransAmount());
+            PostSimulater.requestPostForm(callbackResult.getUrl(),
+                formProperties);
+        } catch (Exception e) {
+            throw new BizException("xn000000", "链接请求超时，请联系管理员");
+        }
     }
 
 }

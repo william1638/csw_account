@@ -21,7 +21,7 @@ public class Jour extends ABaseDO {
     private String code;
 
     // 支付组号
-    private String payCode;
+    private String payGroup;
 
     // 用户编号
     private String userId;
@@ -177,12 +177,12 @@ public class Jour extends ABaseDO {
         this.code = code;
     }
 
-    public String getPayCode() {
-        return payCode;
+    public String getPayGroup() {
+        return payGroup;
     }
 
-    public void setPayCode(String payCode) {
-        this.payCode = payCode;
+    public void setPayGroup(String payGroup) {
+        this.payGroup = payGroup;
     }
 
     public String getUserId() {

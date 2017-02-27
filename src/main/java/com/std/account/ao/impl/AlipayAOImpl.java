@@ -88,7 +88,7 @@ public class AlipayAOImpl implements IAlipayAO {
         // 本地系统落地流水信息
         String code = jourBO.addToChangeJour(systemCode,
             account.getAccountNumber(), EChannelType.Alipay.getCode(), bizType,
-            bizNote, totalFee);
+            bizNote, totalFee, null);
 
         // 生成业务参数(bizContent)json字符串
         Map<String, String> bizParams = new HashMap<String, String>();

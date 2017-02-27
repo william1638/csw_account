@@ -35,9 +35,12 @@ public class CallbackResult {
     // 公司编号
     private String companyCode;
 
+    // 业务biz回调URL
+    private String url;
+
     public CallbackResult(boolean isSuccess, String bizType, String jourCode,
             String payGroup, Long transAmount, String systemCode,
-            String companyCode) {
+            String companyCode, String url) {
         super();
         this.isSuccess = isSuccess;
         this.bizType = bizType;
@@ -46,6 +49,7 @@ public class CallbackResult {
         this.transAmount = transAmount;
         this.systemCode = systemCode;
         this.companyCode = companyCode;
+        this.url = url;
     }
 
     public boolean isSuccess() {
@@ -102,6 +106,14 @@ public class CallbackResult {
 
     public void setCompanyCode(String companyCode) {
         this.companyCode = companyCode;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
     }
 
 }

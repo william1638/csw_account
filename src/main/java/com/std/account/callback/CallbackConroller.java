@@ -49,10 +49,9 @@ public class CallbackConroller {
         logger.info("**** APP支付回调结果 ****：" + result);
         // 解析回调结果
         CallbackResult callbackResult = weChatAO.doCallbackAPP(result);
-        // String jourCode = res.getJourCode();
-        // String bizType = res.getBizType();
-        // 通知业务biz，参数为 是否成功，金额，支付组号，业务类型
-
+        // 回调业务biz，通知支付结果
+        weChatAO.doBizCallback(callbackResult);
+        // 通知微信服务器(我已收到请求，不用再继续回调我了)
         String noticeStr = setXML("SUCCESS", "");
         out.print(new ByteArrayInputStream(noticeStr.getBytes(Charset
             .forName("UTF-8"))));

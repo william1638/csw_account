@@ -87,7 +87,7 @@ public class JourAOImpl implements IJourAO {
             bizNote = EBizType.getBizTypeMap().get(bizType).getValue();
         }
         String code = jourBO.addToChangeJour(systemCode, accountNumber,
-            channelType.getCode(), bizType, bizNote, transAmount);
+            channelType.getCode(), bizType, bizNote, transAmount, null);
         // 取现冻结
         if (EBizType.AJ_QX.getCode().equals(bizType)) {
             if (EChannelType.CZB.getCode().equals(channelType.getCode())) {
@@ -242,9 +242,10 @@ public class JourAOImpl implements IJourAO {
         Account account = accountBO.getAccountByUser(systemCode, userId,
             currency);
         String accountNumber = account.getAccountNumber();
-        String code = jourBO.addToChangeJour(systemCode, accountNumber,
-            EChannelType.BZDH.getCode(), bizType,
-            EBizType.getBizTypeMap().get(bizType).getValue(), transAmount);
+        String code = jourBO
+            .addToChangeJour(systemCode, accountNumber,
+                EChannelType.BZDH.getCode(), bizType, EBizType.getBizTypeMap()
+                    .get(bizType).getValue(), transAmount, null);
         accountBO.frozenAmount(systemCode, accountNumber, transAmount, code);
         return code;
     }

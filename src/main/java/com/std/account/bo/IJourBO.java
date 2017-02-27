@@ -30,7 +30,8 @@ public interface IJourBO extends IPaginableBO<Jour> {
      * @history:
      */
     public String addToChangeJour(String systemCode, String accountNumber,
-            String channelType, String bizType, String bizNote, Long transAmount);
+            String channelType, String bizType, String bizNote,
+            Long transAmount, String payGroup);
 
     /**
      *  回调处理流水
