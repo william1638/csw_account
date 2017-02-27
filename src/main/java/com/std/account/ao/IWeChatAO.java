@@ -47,16 +47,17 @@ public interface IWeChatAO {
      * @param userId
      * @param bizType
      * @param bizNote
-     * @param body
-     * @param totalFee
-     * @param spbillCreateIp
+     * @param transAmount
+     * @param currency
+     * @param payGroup
+     * @param ip
      * @return 
-     * @create: 2016年12月26日 下午5:47:24 haiqingzheng
+     * @create: 2017年2月27日 下午3:33:48 haiqingzheng
      * @history:
      */
     public XN802182Res getPrepayIdH5(String systemCode, String companyCode,
             String openId, String userId, String bizType, String bizNote,
-            String body, Long totalFee, String spbillCreateIp);
+            Long transAmount, String currency, String payGroup, String ip);
 
     // public XN802182Res generatePayParam(String prepayId);
 

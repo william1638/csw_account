@@ -35,8 +35,9 @@ public class XN802182 extends AProcessor {
     public Object doBusiness() throws BizException {
         return weChatAO.getPrepayIdH5(req.getSystemCode(),
             req.getCompanyCode(), req.getOpenId(), req.getUserId(),
-            req.getBizType(), req.getBizNote(), req.getBody(),
-            StringValidater.toLong(req.getTotalFee()), req.getSpbillCreateIp());
+            req.getBizType(), req.getBizNote(),
+            StringValidater.toLong(req.getTotalFee()), "CNY", "payGroup",
+            req.getSpbillCreateIp());
     }
 
     /** 
