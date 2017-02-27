@@ -287,7 +287,7 @@ public class JourAOImpl implements IJourAO {
         }
         toAccount = accountBO.getAccountByUser(systemCode, data.getUserId(),
             toCurrency);
-        Long toTransAmount = Double.valueOf(data.getTransAmount() * rate)
+        Long toTransAmount = Double.valueOf(data.getTransAmount() / rate)
             .longValue();
         // 去方账户更新记录流水
         accountBO.transAmount(systemCode, toAccount.getAccountNumber(),
