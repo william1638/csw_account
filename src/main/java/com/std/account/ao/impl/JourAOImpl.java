@@ -82,6 +82,8 @@ public class JourAOImpl implements IJourAO {
                 if (StringUtils.isNotBlank(bankcard.getSubbranch())) {
                     bizNote += "支行：" + bankcard.getSubbranch();
                 }
+            } else {
+                bizNote = bankcardNumber;
             }
         } else {
             bizNote = EBizType.getBizTypeMap().get(bizType).getValue();
@@ -91,7 +93,7 @@ public class JourAOImpl implements IJourAO {
         // 取现冻结
         if (EBizType.AJ_QX.getCode().equals(bizType)) {
             if (EChannelType.CZB.getCode().equals(channelType.getCode())) {
-                accountBO.frozenAmount(systemCode, accountNumber, transAmount,
+                accountBO.frozenAmount(systemCode, accountNumber, -transAmount,
                     code);
             }
         }
@@ -137,9 +139,9 @@ public class JourAOImpl implements IJourAO {
             } else if (EBizType.AJ_QX.getCode().equals(data.getBizType())) {
                 accountBO.unfrozenAmount(data.getSystemCode(),
                     EBoolean.YES.getCode(), data.getAccountNumber(),
-                    data.getTransAmount(), code);
+                    -data.getTransAmount(), code);
                 postAmount = preAmount;
-                preAmount = preAmount + data.getTransAmount();
+                preAmount = preAmount - data.getTransAmount();
             }
         } else {
             if (EBizType.AJ_QX.getCode().equals(data.getBizType())) {
@@ -246,7 +248,7 @@ public class JourAOImpl implements IJourAO {
             .addToChangeJour(systemCode, accountNumber,
                 EChannelType.BZDH.getCode(), bizType, EBizType.getBizTypeMap()
                     .get(bizType).getValue(), transAmount, null);
-        accountBO.frozenAmount(systemCode, accountNumber, transAmount, code);
+        accountBO.frozenAmount(systemCode, accountNumber, -transAmount, code);
         return code;
     }
 
@@ -269,10 +271,14 @@ public class JourAOImpl implements IJourAO {
         if (EBoolean.YES.getCode().equals(approveResult)) {
             // 更新发生前后金额
             postAmount = account.getAmount();
-            preAmount = postAmount + data.getTransAmount();
+            preAmount = postAmount - data.getTransAmount();
+        } else {
+            // 更新发生前后金额
+            postAmount = account.getAmount() - data.getTransAmount();
+            preAmount = account.getAmount();
         }
         accountBO.unfrozenAmount(systemCode, approveResult,
-            data.getAccountNumber(), data.getTransAmount(), code);
+            data.getAccountNumber(), -data.getTransAmount(), code);
         jourBO.callBackChangeJour(code, approveResult, approver, approveNote,
             preAmount, postAmount);
         String bizType = data.getBizType();
@@ -291,8 +297,8 @@ public class JourAOImpl implements IJourAO {
             .longValue();
         // 去方账户更新记录流水
         accountBO.transAmount(systemCode, toAccount.getAccountNumber(),
-            EChannelType.BZDH, data.getCode(), toTransAmount, bizType, EBizType
-                .getBizTypeMap().get(bizType).getValue());
+            EChannelType.BZDH, data.getCode(), -toTransAmount, bizType,
+            EBizType.getBizTypeMap().get(bizType).getValue());
     }
 
     @Override

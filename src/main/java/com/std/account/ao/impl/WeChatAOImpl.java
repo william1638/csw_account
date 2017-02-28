@@ -14,7 +14,6 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.log4j.Logger;
 import org.jdom2.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -51,7 +50,6 @@ import com.std.account.util.wechat.XMLUtil;
  */
 @Service
 public class WeChatAOImpl implements IWeChatAO {
-    private static Logger logger = Logger.getLogger(WeChatAOImpl.class);
 
     @Autowired
     IWechatBO wechatBO;

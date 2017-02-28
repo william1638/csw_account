@@ -12,6 +12,7 @@ public enum EJourStatus {
             "无需对账审批通过"), adjusted_NO("8", "无需对账审批不通过"), Adjust_Status("678",
             "不平帐查询");
     // 用户流水：1，3，4，5，7
+    // 取现审核，调账(678)
     EJourStatus(String code, String value) {
         this.code = code;
         this.value = value;
