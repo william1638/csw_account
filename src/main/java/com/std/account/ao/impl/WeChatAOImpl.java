@@ -284,5 +284,4 @@ public class WeChatAOImpl implements IWeChatAO {
             throw new BizException("xn000000", "回调业务biz异常");
         }
     }
-
 }
