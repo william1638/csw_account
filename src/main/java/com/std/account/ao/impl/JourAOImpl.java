@@ -147,8 +147,10 @@ public class JourAOImpl implements IJourAO {
             if (EBizType.AJ_QX.getCode().equals(data.getBizType())) {
                 accountBO.unfrozenAmount(data.getSystemCode(),
                     EBoolean.NO.getCode(), data.getAccountNumber(),
-                    data.getTransAmount(), code);
+                    -data.getTransAmount(), code);
             }
+            postAmount = preAmount - data.getTransAmount();
+            preAmount = postAmount;
         }
         jourBO.callBackChangeJour(code, rollbackResult, rollbackUser,
             rollbackNote, preAmount, postAmount);
@@ -269,18 +271,30 @@ public class JourAOImpl implements IJourAO {
         Long preAmount = null;
         Long postAmount = null;
         if (EBoolean.YES.getCode().equals(approveResult)) {
-            // 更新发生前后金额
             postAmount = account.getAmount();
-            preAmount = postAmount - data.getTransAmount();
+            preAmount = postAmount + data.getTransAmount();
         } else {
-            // 更新发生前后金额
             postAmount = account.getAmount() - data.getTransAmount();
-            preAmount = account.getAmount();
+            preAmount = postAmount;
         }
         accountBO.unfrozenAmount(systemCode, approveResult,
             data.getAccountNumber(), -data.getTransAmount(), code);
         jourBO.callBackChangeJour(code, approveResult, approver, approveNote,
             preAmount, postAmount);
+        if (EBoolean.YES.getCode().equals(approveResult)) {
+            toAccountTransAmount(systemCode, rate, data);
+        }
+    }
+
+    /** 
+     * 审核通过时，将钱加入对方账号
+     * @param systemCode
+     * @param rate
+     * @param data 
+     * @create: 2017年2月28日 下午9:17:52 xieyj
+     * @history: 
+     */
+    private void toAccountTransAmount(String systemCode, Double rate, Jour data) {
         String bizType = data.getBizType();
         Account toAccount = null;
         String toCurrency = null;
