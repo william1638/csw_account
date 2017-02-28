@@ -2,7 +2,6 @@ package com.std.account.callback;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
@@ -33,28 +32,32 @@ public class CallbackConroller {
 
     @RequestMapping("/wechat/app/callback")
     public synchronized void doCallbackZhpay(HttpServletRequest request,
-            HttpServletResponse response) throws IOException {
-        // 获取回调参数
-        PrintWriter out = response.getWriter();
-        InputStream inStream = request.getInputStream();
-        ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
-        byte[] buffer = new byte[1024];
-        int len = 0;
-        while ((len = inStream.read(buffer)) != -1) {
-            outSteam.write(buffer, 0, len);
+            HttpServletResponse response) {
+        try {
+            // 获取回调参数
+            PrintWriter out = response.getWriter();
+            InputStream inStream = request.getInputStream();
+            ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int len = 0;
+            while ((len = inStream.read(buffer)) != -1) {
+                outSteam.write(buffer, 0, len);
+            }
+            outSteam.close();
+            inStream.close();
+            String result = new String(outSteam.toByteArray(), "utf-8");
+            logger.info("**** APP支付回调结果 ****：" + result);
+            // 解析回调结果
+            CallbackResult callbackResult = weChatAO.doCallbackAPP(result);
+            // 回调业务biz，通知支付结果
+            weChatAO.doBizCallback(callbackResult);
+            // 通知微信服务器(我已收到请求，不用再继续回调我了)
+            String noticeStr = setXML("SUCCESS", "");
+            out.print(new ByteArrayInputStream(noticeStr.getBytes(Charset
+                .forName("UTF-8"))));
+        } catch (Exception e) {
+            logger.info("支付回调异常,原因：" + e.getMessage());
         }
-        outSteam.close();
-        inStream.close();
-        String result = new String(outSteam.toByteArray(), "utf-8");
-        logger.info("**** APP支付回调结果 ****：" + result);
-        // 解析回调结果
-        CallbackResult callbackResult = weChatAO.doCallbackAPP(result);
-        // 回调业务biz，通知支付结果
-        weChatAO.doBizCallback(callbackResult);
-        // 通知微信服务器(我已收到请求，不用再继续回调我了)
-        String noticeStr = setXML("SUCCESS", "");
-        out.print(new ByteArrayInputStream(noticeStr.getBytes(Charset
-            .forName("UTF-8"))));
     }
 
     public String setXML(String return_code, String return_msg) {

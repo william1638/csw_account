@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.log4j.Logger;
 import org.jdom2.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,6 +36,7 @@ import com.std.account.dto.res.XN802183Res;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
 import com.std.account.enums.ECurrency;
+import com.std.account.enums.EJourStatus;
 import com.std.account.exception.BizException;
 import com.std.account.http.PostSimulater;
 import com.std.account.util.HttpsUtil;
@@ -49,6 +51,8 @@ import com.std.account.util.wechat.XMLUtil;
  */
 @Service
 public class WeChatAOImpl implements IWeChatAO {
+    private static Logger logger = Logger.getLogger(WeChatAOImpl.class);
+
     @Autowired
     IWechatBO wechatBO;
 
@@ -123,6 +127,10 @@ public class WeChatAOImpl implements IWeChatAO {
             jour = jourBO.getJour(map.get("out_trade_no"), systemCode);
         } catch (JDOMException | IOException e) {
             throw new BizException("xn000000", "回调结果XML解析失败");
+        }
+        // 判断是否已回调
+        if (!EJourStatus.todoCallBack.getCode().equals(jour.getStatus())) {
+            throw new BizException("xn000000", "已回调成功");
         }
         // 此处调用订单查询接口验证是否交易成功
         boolean isSucc = reqOrderquery(map, EChannelType.WeChat_APP.getCode());
