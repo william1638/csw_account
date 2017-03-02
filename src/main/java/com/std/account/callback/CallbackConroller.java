@@ -60,7 +60,7 @@ public class CallbackConroller {
         }
     }
 
-    @RequestMapping("/wechat/h5/callback")
+    @RequestMapping("/wechat/H5/callback")
     public synchronized void doCallbackWechatH5(HttpServletRequest request,
             HttpServletResponse response) {
         try {
