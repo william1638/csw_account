@@ -31,7 +31,7 @@ public class CallbackConroller {
     IWeChatAO weChatAO;
 
     @RequestMapping("/wechat/app/callback")
-    public synchronized void doCallbackZhpay(HttpServletRequest request,
+    public synchronized void doCallbackWechatAPP(HttpServletRequest request,
             HttpServletResponse response) {
         try {
             // 获取回调参数
@@ -56,7 +56,37 @@ public class CallbackConroller {
             out.print(new ByteArrayInputStream(noticeStr.getBytes(Charset
                 .forName("UTF-8"))));
         } catch (Exception e) {
-            logger.info("支付回调异常,原因：" + e.getMessage());
+            logger.info("APP支付回调异常,原因：" + e.getMessage());
+        }
+    }
+
+    @RequestMapping("/wechat/h5/callback")
+    public synchronized void doCallbackWechatH5(HttpServletRequest request,
+            HttpServletResponse response) {
+        try {
+            // 获取回调参数
+            PrintWriter out = response.getWriter();
+            InputStream inStream = request.getInputStream();
+            ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int len = 0;
+            while ((len = inStream.read(buffer)) != -1) {
+                outSteam.write(buffer, 0, len);
+            }
+            outSteam.close();
+            inStream.close();
+            String result = new String(outSteam.toByteArray(), "utf-8");
+            logger.info("**** 公众号支付回调结果 ****：" + result);
+            // 解析回调结果
+            CallbackResult callbackResult = weChatAO.doCallbackH5(result);
+            // 回调业务biz，通知支付结果
+            weChatAO.doBizCallback(callbackResult);
+            // 通知微信服务器(我已收到请求，不用再继续回调我了)
+            String noticeStr = setXML("SUCCESS", "");
+            out.print(new ByteArrayInputStream(noticeStr.getBytes(Charset
+                .forName("UTF-8"))));
+        } catch (Exception e) {
+            logger.info("公众号支付回调异常,原因：" + e.getMessage());
         }
     }
 

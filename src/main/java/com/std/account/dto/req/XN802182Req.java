@@ -15,34 +15,32 @@ package com.std.account.dto.req;
  * @history:
  */
 public class XN802182Req {
-    // 系统编号（必填）
+    // 系统编号(必填)
     private String systemCode;
 
-    // 公司编号（必填）
+    // 系统编号(必填)
     private String companyCode;
 
-    // openid（必填）
-    private String openId;
+    // 来方用户编号(必填)
+    private String fromUserId;
 
-    // 用户编号（必填）
-    private String userId;
+    // 接收方用户编号(必填)
+    private String toUserId;
 
-    // 业务类型（必填）
+    // 划转资金(必填)
+    private String transAmount;
+
+    // 币种(必填)
+    private String currency;
+
+    // 支付组号(必填)
+    private String payGroup;
+
+    // 业务类型(必填)
     private String bizType;
 
-    // 业务备注（必填）
+    // 业务说明(必填)
     private String bizNote;
-
-    // 商品描述（必填）
-    // 商品描述交易字段格式根据不同的应用场景按照以下格式：
-    // APP——需传入应用市场上的APP名字-实际商品名称，天天爱消除-游戏充值。
-    private String body;
-
-    // 总金额（必填）—— 订单总金额，单位为分
-    private String totalFee;
-
-    // 终端IP（必填）—— 用户端实际ip
-    private String spbillCreateIp;
 
     public String getSystemCode() {
         return systemCode;
@@ -60,44 +58,44 @@ public class XN802182Req {
         this.companyCode = companyCode;
     }
 
-    public String getBody() {
-        return body;
+    public String getFromUserId() {
+        return fromUserId;
     }
 
-    public void setBody(String body) {
-        this.body = body;
+    public void setFromUserId(String fromUserId) {
+        this.fromUserId = fromUserId;
     }
 
-    public String getTotalFee() {
-        return totalFee;
+    public String getToUserId() {
+        return toUserId;
     }
 
-    public void setTotalFee(String totalFee) {
-        this.totalFee = totalFee;
+    public void setToUserId(String toUserId) {
+        this.toUserId = toUserId;
     }
 
-    public String getSpbillCreateIp() {
-        return spbillCreateIp;
+    public String getTransAmount() {
+        return transAmount;
     }
 
-    public void setSpbillCreateIp(String spbillCreateIp) {
-        this.spbillCreateIp = spbillCreateIp;
+    public void setTransAmount(String transAmount) {
+        this.transAmount = transAmount;
     }
 
-    public String getOpenId() {
-        return openId;
+    public String getCurrency() {
+        return currency;
     }
 
-    public void setOpenId(String openId) {
-        this.openId = openId;
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
-    public String getUserId() {
-        return userId;
+    public String getPayGroup() {
+        return payGroup;
     }
 
-    public void setUserId(String userId) {
-        this.userId = userId;
+    public void setPayGroup(String payGroup) {
+        this.payGroup = payGroup;
     }
 
     public String getBizType() {
@@ -115,4 +113,5 @@ public class XN802182Req {
     public void setBizNote(String bizNote) {
         this.bizNote = bizNote;
     }
+
 }

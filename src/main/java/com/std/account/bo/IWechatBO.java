@@ -28,5 +28,5 @@ public interface IWechatBO {
             String bizNote, String code, Long transAmount, String ip);
 
     public XN802182Res getPayInfoH5(CompanyChannel companyChannel,
-            String prepayId);
+            String payCode, String prepayId);
 }

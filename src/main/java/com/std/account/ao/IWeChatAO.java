@@ -12,7 +12,6 @@ import com.std.account.domain.CallbackResult;
 import com.std.account.domain.CompanyChannel;
 import com.std.account.dto.res.XN802180Res;
 import com.std.account.dto.res.XN802182Res;
-import com.std.account.dto.res.XN802183Res;
 
 /** 
  * @author: haiqingzheng 
@@ -43,21 +42,20 @@ public interface IWeChatAO {
      * （微信公众号支付）统一下单，下单成功返回 prepay_id
      * @param systemCode
      * @param companyCode
-     * @param openId
-     * @param userId
-     * @param bizType
-     * @param bizNote
+     * @param fromUserId
+     * @param toUserId
      * @param transAmount
      * @param currency
      * @param payGroup
-     * @param ip
+     * @param bizType
+     * @param bizNote
      * @return 
-     * @create: 2017年2月27日 下午3:33:48 haiqingzheng
+     * @create: 2017年3月2日 下午3:49:59 haiqingzheng
      * @history:
      */
     public XN802182Res getPrepayIdH5(String systemCode, String companyCode,
-            String openId, String userId, String bizType, String bizNote,
-            Long transAmount, String currency, String payGroup, String ip);
+            String fromUserId, String toUserId, Long transAmount,
+            String currency, String payGroup, String bizType, String bizNote);
 
     // public XN802182Res generatePayParam(String prepayId);
 
@@ -77,7 +75,7 @@ public interface IWeChatAO {
      * @create: 2016年12月26日 下午5:47:58 haiqingzheng
      * @history:
      */
-    public XN802183Res doCallbackH5(String result);
+    public CallbackResult doCallbackH5(String result);
 
     /**
      * 获取支付渠道配置信息
