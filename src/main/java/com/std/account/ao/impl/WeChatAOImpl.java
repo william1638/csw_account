@@ -33,7 +33,6 @@ import com.std.account.domain.CompanyChannel;
 import com.std.account.domain.Jour;
 import com.std.account.dto.res.XN802180Res;
 import com.std.account.dto.res.XN802182Res;
-import com.std.account.dto.res.XN802183Res;
 import com.std.account.dto.res.XN805901Res;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
@@ -168,7 +167,6 @@ public class WeChatAOImpl implements IWeChatAO {
 
     @Override
     public CallbackResult doCallbackH5(String result) {
-        XN802183Res res = new XN802183Res();
         String systemCode = null;
         String companyCode = null;
         String wechatOrderNo = null;
