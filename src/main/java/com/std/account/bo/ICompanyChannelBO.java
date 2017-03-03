@@ -46,4 +46,7 @@ public interface ICompanyChannelBO extends IPaginableBO<CompanyChannel> {
 
     public CompanyChannel getCompanyChannel(Long id);
 
+    public CompanyChannel getCompanyChannel(String companyCode,
+            String systemCode, String channelType);
+
 }

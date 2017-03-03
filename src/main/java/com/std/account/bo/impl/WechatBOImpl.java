@@ -93,7 +93,7 @@ public class WechatBOImpl implements IWechatBO {
         prePay.setTotal_fee(Long.toString(transAmount / 10)); // 订单总金额，厘转化成分
         prePay.setSpbill_create_ip(ip); // 用户IP
         prePay.setTrade_type(EWeChatType.JSAPI.getCode()); // 交易类型
-        prePay.setNotify_url(companyChannel.getBackUrl());// 回调地址
+        prePay.setNotify_url(PropertiesUtil.Config.WECHAT_H5_BACKURL);// 回调地址
         prePay.setPartnerKey(companyChannel.getPrivateKey1()); // 商户秘钥
         prePay.setOpenid(openId); // 支付者openid
         prePay.setAttach(companyChannel.getSystemCode() + "||"
@@ -103,7 +103,7 @@ public class WechatBOImpl implements IWechatBO {
 
     @Override
     public XN802182Res getPayInfoH5(CompanyChannel companyChannel,
-            String prepayId) {
+            String payCode, String prepayId) {
         SortedMap<String, String> nativeObj = new TreeMap<String, String>();
         nativeObj.put("appId", companyChannel.getPrivateKey2());
         nativeObj.put("timeStamp", OrderUtil.GetTimestamp());
@@ -119,6 +119,7 @@ public class WechatBOImpl implements IWechatBO {
 
         XN802182Res res = new XN802182Res();
         res.setPrepayId(prepayId);
+        res.setPayCode(payCode);
         res.setAppId(nativeObj.get("appId"));
         res.setTimeStamp(nativeObj.get("timeStamp"));
         res.setNonceStr(nativeObj.get("nonceStr"));

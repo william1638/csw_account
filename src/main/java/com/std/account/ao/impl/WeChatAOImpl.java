@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang.StringUtils;
 import org.jdom2.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,6 +24,7 @@ import com.std.account.ao.IWeChatAO;
 import com.std.account.bo.IAccountBO;
 import com.std.account.bo.ICompanyChannelBO;
 import com.std.account.bo.IJourBO;
+import com.std.account.bo.IUserBO;
 import com.std.account.bo.IWechatBO;
 import com.std.account.common.JsonUtil;
 import com.std.account.domain.Account;
@@ -31,7 +33,7 @@ import com.std.account.domain.CompanyChannel;
 import com.std.account.domain.Jour;
 import com.std.account.dto.res.XN802180Res;
 import com.std.account.dto.res.XN802182Res;
-import com.std.account.dto.res.XN802183Res;
+import com.std.account.dto.res.XN805901Res;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
 import com.std.account.enums.ECurrency;
@@ -63,6 +65,9 @@ public class WeChatAOImpl implements IWeChatAO {
     @Autowired
     IAccountBO accountBO;
 
+    @Autowired
+    IUserBO userBO;
+
     /**
      * @see com.std.account.ao.IWeChatAO#getPrepayIdApp(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Long, java.lang.String, java.lang.String, java.lang.String)
      */
@@ -89,11 +94,10 @@ public class WeChatAOImpl implements IWeChatAO {
     @Override
     @Transactional
     public XN802182Res getPrepayIdH5(String systemCode, String companyCode,
-            String openId, String userId, String bizType, String bizNote,
-            Long transAmount, String currency, String payGroup, String ip) {
-        Account account = accountBO.getAccountByUser(systemCode, userId,
+            String fromUserId, String toUserId, Long transAmount,
+            String currency, String payGroup, String bizType, String bizNote) {
+        Account account = accountBO.getAccountByUser(systemCode, fromUserId,
             ECurrency.CNY.getCode());
-
         // 本地系统落地流水信息
         String code = jourBO.addToChangeJour(systemCode,
             account.getAccountNumber(), EChannelType.WeChat_H5.getCode(),
@@ -102,10 +106,14 @@ public class WeChatAOImpl implements IWeChatAO {
         CompanyChannel companyChannel = getCompanyChannel(companyCode,
             systemCode, EChannelType.WeChat_H5.getCode());
         // 获取微信公众号支付prepayid
-        String prepayId = wechatBO.getPrepayIdH5(companyChannel, openId,
-            bizNote, code, transAmount, ip);
+        XN805901Res user = userBO.getRemoteUser(fromUserId, fromUserId);
+        if (StringUtils.isBlank(user.getOpenId())) {
+            throw new BizException("xn000000", "获取用户openid失败");
+        }
+        String prepayId = wechatBO.getPrepayIdH5(companyChannel,
+            user.getOpenId(), bizNote, code, transAmount, "192.168.1.1");
         // 返回微信APP支付所需信息
-        return wechatBO.getPayInfoH5(companyChannel, prepayId);
+        return wechatBO.getPayInfoH5(companyChannel, code, prepayId);
     }
 
     @Override
@@ -158,8 +166,7 @@ public class WeChatAOImpl implements IWeChatAO {
     }
 
     @Override
-    public XN802183Res doCallbackH5(String result) {
-        XN802183Res res = new XN802183Res();
+    public CallbackResult doCallbackH5(String result) {
         String systemCode = null;
         String companyCode = null;
         String wechatOrderNo = null;
@@ -196,10 +203,11 @@ public class WeChatAOImpl implements IWeChatAO {
             // 处理业务完毕
             // ------------------------------
         }
-        res.setIsSuccess(isSucc);
-        res.setJourCode(jour.getCode());
-        res.setBizType(jour.getBizType());
-        return res;
+        CompanyChannel companyChannel = getCompanyChannel(companyCode,
+            systemCode, EChannelType.WeChat_H5.getCode());
+        return new CallbackResult(isSucc, jour.getBizType(), jour.getCode(),
+            jour.getPayGroup(), jour.getTransAmount(), systemCode, companyCode,
+            companyChannel.getBackUrl());
     }
 
     @Override

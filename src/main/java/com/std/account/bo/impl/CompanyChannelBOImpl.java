@@ -2,6 +2,7 @@ package com.std.account.bo.impl;
 
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -110,5 +111,19 @@ public class CompanyChannelBOImpl extends PaginableBOImpl<CompanyChannel>
     public void transAmountPC(String companyCode, EChannelType channelType,
             Long transAmount, String order, String bankCode) {
         // TODO Auto-generated method stub
+    }
+
+    @Override
+    public CompanyChannel getCompanyChannel(String companyCode,
+            String systemCode, String channelType) {
+        CompanyChannel condition = new CompanyChannel();
+        condition.setCompanyCode(companyCode);
+        condition.setSystemCode(systemCode);
+        condition.setChannelType(channelType);
+        List<CompanyChannel> list = companyChannelDAO.selectList(condition);
+        if (CollectionUtils.isEmpty(list)) {
+            throw new BizException("xn000000", "获取支付渠道配置失败，请仔细检查配置信息");
+        }
+        return list.get(0);
     }
 }
