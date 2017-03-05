@@ -38,6 +38,7 @@ import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
 import com.std.account.enums.ECurrency;
 import com.std.account.enums.EJourStatus;
+import com.std.account.enums.ESysUser;
 import com.std.account.exception.BizException;
 import com.std.account.http.PostSimulater;
 import com.std.account.util.HttpsUtil;
@@ -199,6 +200,12 @@ public class WeChatAOImpl implements IWeChatAO {
             // ------------------------------
             jourBO.callBackChangeJour(jour.getCode(), EBoolean.YES.getCode(),
                 "WeChat_H5", "微信公众号支付后台自动回调", wechatOrderNo);
+            // 系统账户加钱
+            Account sysAccount = accountBO.getAccountByUser(systemCode,
+                ESysUser.SYS_USER.getCode(), ECurrency.CNY.getCode());
+            accountBO.transAmount(systemCode, sysAccount.getAccountNumber(),
+                EChannelType.WeChat_H5, wechatOrderNo, jour.getTransAmount(),
+                jour.getBizType(), jour.getBizNote());
             // ------------------------------
             // 处理业务完毕
             // ------------------------------
