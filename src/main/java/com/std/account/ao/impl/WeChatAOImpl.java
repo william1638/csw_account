@@ -181,6 +181,9 @@ public class WeChatAOImpl implements IWeChatAO {
             companyCode = codes[1];
             wechatOrderNo = map.get("transaction_id");
             jour = jourBO.getJour(map.get("out_trade_no"), systemCode);
+            if (!EJourStatus.todoCallBack.getCode().equals(jour.getStatus())) {
+                throw new BizException("xn000000", "流水不处于待回调状态，重复回调");
+            }
         } catch (JDOMException | IOException e) {
             throw new BizException("xn000000", "回调结果XML解析失败");
         }
