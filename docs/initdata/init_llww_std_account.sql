@@ -11,4 +11,4 @@ LIMIT 0, 10000
 
 -- Date: 2017-02-17 16:49
 */
-INSERT INTO `tstd_company_channel` (`id`,`company_code`,`company_name`,`channel_type`,`status`,`channel_company`,`private_key1`,`private_key2`,`private_key3`,`private_key4`,`private_key5`,`page_url`,`error_url`,`back_url`,`fee`,`remark`,`system_code`) VALUES (5,'CD-CLW000005','来来旺旺','35',NULL,'1400666002','r2jgDFSdiikklwlllejlwjio3242342n','wx8bc03dd744895352','44ebf0ef908dc54656573625a579ea82',NULL,NULL,NULL,NULL,'http://118.178.124.16:5902/xn-tour/wechat/callback',NULL,'微信公众号支付','CD-CLW000005');
+INSERT INTO `tstd_company_channel` (`id`,`company_code`,`company_name`,`channel_type`,`status`,`channel_company`,`private_key1`,`private_key2`,`private_key3`,`private_key4`,`private_key5`,`page_url`,`error_url`,`back_url`,`fee`,`remark`,`system_code`) VALUES (5,'CD-CLW000005','来来旺旺','35',NULL,'1432931902','zhejianglailaiwangwangGS87015038','wx69a5f10912c97d87','08de579b53cf0617854e6ec621daa870',NULL,NULL,NULL,NULL,'http://118.178.124.16:5902/xn-tour/wechat/callback',NULL,'微信公众号支付','CD-CLW000005');
