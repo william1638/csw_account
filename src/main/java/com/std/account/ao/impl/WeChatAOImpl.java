@@ -76,6 +76,9 @@ public class WeChatAOImpl implements IWeChatAO {
     public XN802180Res getPrepayIdApp(String systemCode, String companyCode,
             String userId, String bizType, String bizNote, Long transAmount,
             String currency, String payGroup, String ip) {
+        if (transAmount.longValue() == 0l) {
+            throw new BizException("xn000000", "发生金额为零，不能使用微信支付");
+        }
         Account account = accountBO.getAccountByUser(systemCode, userId,
             currency);
         // 本地系统落地流水信息
@@ -97,6 +100,9 @@ public class WeChatAOImpl implements IWeChatAO {
     public XN802182Res getPrepayIdH5(String systemCode, String companyCode,
             String fromUserId, String toUserId, Long transAmount,
             String currency, String payGroup, String bizType, String bizNote) {
+        if (transAmount.longValue() == 0l) {
+            throw new BizException("xn000000", "发生金额为零，不能使用微信支付");
+        }
         Account account = accountBO.getAccountByUser(systemCode, fromUserId,
             ECurrency.CNY.getCode());
         // 本地系统落地流水信息
