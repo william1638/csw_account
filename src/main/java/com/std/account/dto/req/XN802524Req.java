@@ -27,6 +27,17 @@ public class XN802524Req extends APageReq {
     // 开始时间止
     private String createDatetimeEnd;
 
+    // 状态
+    private String status;
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getBizType() {
         return bizType;
     }

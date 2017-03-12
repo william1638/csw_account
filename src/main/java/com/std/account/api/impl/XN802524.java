@@ -33,7 +33,11 @@ public class XN802524 extends AProcessor {
         condition.setCurrency(req.getCurrency());
         condition.setBizType(req.getBizType());
         condition.setAccountNumber(req.getAccountNumber());
-        condition.setStatus("effect_all");
+        if (StringUtils.isBlank(req.getStatus())) {
+            condition.setStatus("effect_all");
+        } else {
+            condition.setStatus(req.getStatus());
+        }
         condition.setCreateDatetimeStart(DateUtil.getFrontDate(
             req.getCreateDatetimeStart(), false));
         condition.setCreateDatetimeEnd(DateUtil.getFrontDate(
