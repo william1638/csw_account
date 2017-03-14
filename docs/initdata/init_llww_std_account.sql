@@ -1,5 +1,5 @@
 /*
--- Query: SELECT * FROM std_account.tstd_account where user_id = 'CD-CZH000001'
+-- Query: SELECT `account_number`,`user_id`,`real_name`,`type`,`status`,`currency`,`amount`,`frozen_amount`,`md5`,`create_datetime`,`last_order`,`system_code` FROM std_account.tstd_account where user_id = 'CD-CZH000001'
 -- Date: 2016-12-29 15:08
 */
 INSERT INTO `tstd_account` (`account_number`,`user_id`,`real_name`,`type`,`status`,`currency`,`amount`,`frozen_amount`,`md5`,`create_datetime`,`last_order`,`system_code`) VALUES ('LA2016100000000000000','SYS_ACCOUNT','平台','P','0','CNY',0,0,'b99e0407fedc3d160f73fec8d1fa9a0c',now(),NULL,'CD-CLW000005');
