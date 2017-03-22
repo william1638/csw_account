@@ -29,14 +29,13 @@ public interface IWeChatAO {
      * @param transAmount 发生金额
      * @param currency 币种
      * @param payGroup 支付组号
-     * @param ip 客户ip
      * @return 
      * @create: 2017年2月27日 上午9:52:12 xieyj
      * @history:
      */
     public XN802180Res getPrepayIdApp(String systemCode, String companyCode,
             String userId, String bizType, String bizNote, Long transAmount,
-            String currency, String payGroup, String ip);
+            String currency, String payGroup);
 
     /**
      * （微信公众号支付）统一下单，下单成功返回 prepay_id

@@ -37,7 +37,7 @@ public class XN802180 extends AProcessor {
         return weChatAO.getPrepayIdApp(req.getSystemCode(),
             req.getCompanyCode(), req.getUserId(), req.getBizType(),
             req.getBizNote(), StringValidater.toLong(req.getTransAmount()),
-            req.getCurrency(), req.getPayGroup(), req.getIp());
+            req.getCurrency(), req.getPayGroup());
     }
 
     /** 
@@ -48,6 +48,6 @@ public class XN802180 extends AProcessor {
         req = JsonUtil.json2Bean(inputparams, XN802180Req.class);
         StringValidater.validateBlank(req.getSystemCode(), req.getSystemCode(),
             req.getUserId(), req.getBizType(), req.getBizNote(),
-            req.getCurrency(), req.getPayGroup(), req.getIp());
+            req.getCurrency(), req.getPayGroup());
     }
 }

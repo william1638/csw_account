@@ -27,6 +27,7 @@ import com.std.account.bo.IJourBO;
 import com.std.account.bo.IUserBO;
 import com.std.account.bo.IWechatBO;
 import com.std.account.common.JsonUtil;
+import com.std.account.common.SysConstant;
 import com.std.account.domain.Account;
 import com.std.account.domain.CallbackResult;
 import com.std.account.domain.CompanyChannel;
@@ -69,13 +70,10 @@ public class WeChatAOImpl implements IWeChatAO {
     @Autowired
     IUserBO userBO;
 
-    /**
-     * @see com.std.account.ao.IWeChatAO#getPrepayIdApp(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Long, java.lang.String, java.lang.String, java.lang.String)
-     */
     @Override
     public XN802180Res getPrepayIdApp(String systemCode, String companyCode,
             String userId, String bizType, String bizNote, Long transAmount,
-            String currency, String payGroup, String ip) {
+            String currency, String payGroup) {
         if (transAmount.longValue() == 0l) {
             throw new BizException("xn000000", "发生金额为零，不能使用微信支付");
         }
@@ -90,7 +88,7 @@ public class WeChatAOImpl implements IWeChatAO {
             systemCode, EChannelType.WeChat_APP.getCode());
         // 获取微信公众号支付prepayid
         String prepayId = wechatBO.getPrepayIdApp(companyChannel, bizNote,
-            code, transAmount, ip);
+            code, transAmount, SysConstant.IP);
         // 返回微信APP支付所需信息
         return wechatBO.getPayInfoApp(companyChannel, prepayId);
     }
@@ -118,7 +116,7 @@ public class WeChatAOImpl implements IWeChatAO {
             throw new BizException("xn000000", "获取用户openid失败");
         }
         String prepayId = wechatBO.getPrepayIdH5(companyChannel,
-            user.getOpenId(), bizNote, code, transAmount, "192.168.1.1");
+            user.getOpenId(), bizNote, code, transAmount, SysConstant.IP);
         // 返回微信APP支付所需信息
         return wechatBO.getPayInfoH5(companyChannel, code, prepayId);
     }
