@@ -194,12 +194,10 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
      * @see com.std.account.bo.IAccountBO#getAccountByUser(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public Account getAccountByUser(String systemCode, String userId,
-            String currency) {
+    public Account getAccountByUser(String userId, String currency) {
         Account data = null;
         if (StringUtils.isNotBlank(userId) && StringUtils.isNotBlank(currency)) {
             Account condition = new Account();
-            condition.setSystemCode(systemCode);
             condition.setUserId(userId);
             condition.setCurrency(currency);
             data = accountDAO.select(condition);

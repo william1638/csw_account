@@ -91,9 +91,9 @@ public interface IAccountAO {
      * @create: 2017年2月25日 下午12:41:05 xieyj
      * @history:
      */
-    void transAmountCZB(String systemCode, String fromUserId, String toUserId,
-            String currency, Long transAmount, String bizType,
-            String fromBizNote, String toBizNote);
+    void transAmountCZB(String fromUserId, String toUserId, String currency,
+            Long transAmount, String bizType, String fromBizNote,
+            String toBizNote);
 
     /**
      * 通过PC网关划转资金，属于外部划转资金
@@ -160,13 +160,11 @@ public interface IAccountAO {
 
     /**
      * 根据用户编号,币种获取账户列表
-     * @param systemCode
      * @param userId
      * @param currency
      * @return 
      * @create: 2016年12月28日 下午2:21:47 xieyj
      * @history:
      */
-    public List<Account> getAccountByUserId(String systemCode, String userId,
-            String currency);
+    public List<Account> getAccountByUserId(String userId, String currency);
 }

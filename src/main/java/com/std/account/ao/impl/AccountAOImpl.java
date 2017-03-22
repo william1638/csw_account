@@ -99,27 +99,25 @@ public class AccountAOImpl implements IAccountAO {
     public void transAmountCZB(String systemCode, String fromUserId,
             String toUserId, String currency, Long transAmount, String bizType,
             String bizNote) {
-        Account fromAccount = accountBO.getAccountByUser(systemCode,
-            fromUserId, currency);
-        Account toAccount = accountBO.getAccountByUser(systemCode, toUserId,
-            currency);
+        Account fromAccount = accountBO.getAccountByUser(fromUserId, currency);
+        Account toAccount = accountBO.getAccountByUser(toUserId, currency);
         this.transAmountCZB(systemCode, fromAccount.getAccountNumber(),
             toAccount.getAccountNumber(), transAmount, bizType, bizNote);
     }
 
     @Override
     @Transactional
-    public void transAmountCZB(String systemCode, String fromUserId,
-            String toUserId, String currency, Long transAmount, String bizType,
+    public void transAmountCZB(String fromUserId, String toUserId,
+            String currency, Long transAmount, String bizType,
             String fromBizNote, String toBizNote) {
-        Account fromAccount = accountBO.getAccountByUser(systemCode,
-            fromUserId, currency);
-        Account toAccount = accountBO.getAccountByUser(systemCode, toUserId,
-            currency);
-        accountBO.transAmount(systemCode, fromAccount.getAccountNumber(),
-            EChannelType.NBZ, null, -transAmount, bizType, fromBizNote);
-        accountBO.transAmount(systemCode, toAccount.getAccountNumber(),
-            EChannelType.NBZ, null, transAmount, bizType, toBizNote);
+        Account fromAccount = accountBO.getAccountByUser(fromUserId, currency);
+        Account toAccount = accountBO.getAccountByUser(toUserId, currency);
+        accountBO.transAmount(fromAccount.getSystemCode(),
+            fromAccount.getAccountNumber(), EChannelType.NBZ, null,
+            -transAmount, bizType, fromBizNote);
+        accountBO.transAmount(toAccount.getSystemCode(),
+            toAccount.getAccountNumber(), EChannelType.NBZ, null, transAmount,
+            bizType, toBizNote);
     }
 
     @Override
@@ -197,10 +195,8 @@ public class AccountAOImpl implements IAccountAO {
      * @see com.std.account.ao.IAccountAO#getAccountByUserId(java.lang.String, java.lang.String)
      */
     @Override
-    public List<Account> getAccountByUserId(String systemCode, String userId,
-            String currency) {
+    public List<Account> getAccountByUserId(String userId, String currency) {
         Account condition = new Account();
-        condition.setSystemCode(systemCode);
         condition.setUserId(userId);
         condition.setCurrency(currency);
         return accountBO.queryAccountList(condition);
