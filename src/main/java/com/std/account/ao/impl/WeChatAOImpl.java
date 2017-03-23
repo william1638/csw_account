@@ -77,8 +77,7 @@ public class WeChatAOImpl implements IWeChatAO {
         if (transAmount.longValue() == 0l) {
             throw new BizException("xn000000", "发生金额为零，不能使用微信支付");
         }
-        Account account = accountBO.getAccountByUser(systemCode, userId,
-            currency);
+        Account account = accountBO.getAccountByUser(userId, currency);
         // 本地系统落地流水信息
         String code = jourBO.addToChangeJour(systemCode,
             account.getAccountNumber(), EChannelType.WeChat_APP.getCode(),
@@ -101,7 +100,7 @@ public class WeChatAOImpl implements IWeChatAO {
         if (transAmount.longValue() == 0l) {
             throw new BizException("xn000000", "发生金额为零，不能使用微信支付");
         }
-        Account account = accountBO.getAccountByUser(systemCode, fromUserId,
+        Account account = accountBO.getAccountByUser(fromUserId,
             ECurrency.CNY.getCode());
         // 本地系统落地流水信息
         String code = jourBO.addToChangeJour(systemCode,
@@ -208,7 +207,7 @@ public class WeChatAOImpl implements IWeChatAO {
             jourBO.callBackChangeJour(jour.getCode(), EBoolean.YES.getCode(),
                 "WeChat_H5", "微信公众号支付后台自动回调", wechatOrderNo);
             // 系统账户加钱
-            Account sysAccount = accountBO.getAccountByUser(systemCode,
+            Account sysAccount = accountBO.getAccountByUser(
                 ESysUser.SYS_USER.getCode(), ECurrency.CNY.getCode());
             accountBO.transAmount(systemCode, sysAccount.getAccountNumber(),
                 EChannelType.WeChat_H5, wechatOrderNo, jour.getTransAmount(),

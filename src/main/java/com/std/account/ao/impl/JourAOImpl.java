@@ -243,8 +243,7 @@ public class JourAOImpl implements IJourAO {
         } else if (EBizType.AJ_HBYJ2GXJL.getCode().equals(bizType)) {
             currency = ECurrency.HBYJ.getCode();
         }
-        Account account = accountBO.getAccountByUser(systemCode, userId,
-            currency);
+        Account account = accountBO.getAccountByUser(userId, currency);
         String accountNumber = account.getAccountNumber();
         String code = jourBO
             .addToChangeJour(systemCode, accountNumber,
@@ -305,8 +304,7 @@ public class JourAOImpl implements IJourAO {
         } else if (EBizType.AJ_HBYJ2GXJL.getCode().equals(bizType)) {
             toCurrency = ECurrency.GXJL.getCode();
         }
-        toAccount = accountBO.getAccountByUser(systemCode, data.getUserId(),
-            toCurrency);
+        toAccount = accountBO.getAccountByUser(data.getUserId(), toCurrency);
         Long toTransAmount = Double.valueOf(data.getTransAmount() / rate)
             .longValue();
         // 去方账户更新记录流水

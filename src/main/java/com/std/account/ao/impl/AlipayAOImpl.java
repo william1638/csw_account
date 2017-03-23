@@ -83,7 +83,7 @@ public class AlipayAOImpl implements IAlipayAO {
         }
         CompanyChannel companyChannel = list.get(0);
 
-        Account account = accountBO.getAccountByUser(systemCode, userId,
+        Account account = accountBO.getAccountByUser(userId,
             ECurrency.CNY.getCode());
         // 本地系统落地流水信息
         String code = jourBO.addToChangeJour(systemCode,

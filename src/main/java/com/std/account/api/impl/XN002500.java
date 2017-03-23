@@ -1,5 +1,5 @@
 /**
- * @Title XN802185.java 
+ * @Title XN802180.java 
  * @Package com.std.account.api.impl 
  * @Description 
  * @author haiqingzheng  
@@ -8,33 +8,36 @@
  */
 package com.std.account.api.impl;
 
-import com.std.account.ao.IAlipayAO;
+import com.std.account.ao.IWeChatAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
-import com.std.account.dto.req.XN802185Req;
+import com.std.account.dto.req.XN002500Req;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /** 
- * 支付宝APP支付回调解析
+ * 微信APP支付请求接口，返回预付单信息
  * @author: haiqingzheng 
  * @since: 2016年12月23日 上午9:23:43 
  * @history:
  */
-public class XN802185 extends AProcessor {
-    private IAlipayAO alipayAO = SpringContextHolder.getBean(IAlipayAO.class);
+public class XN002500 extends AProcessor {
 
-    private XN802185Req req = null;
+    private IWeChatAO weChatAO = SpringContextHolder.getBean(IWeChatAO.class);
+
+    private XN002500Req req = null;
 
     /** 
      * @see com.std.account.api.IProcessor#doBusiness()
      */
     @Override
     public Object doBusiness() throws BizException {
-        return alipayAO.doCallbackAPP(req.getSystemCode(),
-            req.getCompanyCode(), req.getResult());
+        return weChatAO.getPrepayIdApp(req.getSystemCode(),
+            req.getCompanyCode(), req.getUserId(), req.getBizType(),
+            req.getBizNote(), StringValidater.toLong(req.getTransAmount()),
+            req.getCurrency(), req.getPayGroup());
     }
 
     /** 
@@ -42,8 +45,9 @@ public class XN802185 extends AProcessor {
      */
     @Override
     public void doCheck(String inputparams) throws ParaException {
-        req = JsonUtil.json2Bean(inputparams, XN802185Req.class);
-        StringValidater.validateBlank(req.getResult());
-
+        req = JsonUtil.json2Bean(inputparams, XN002500Req.class);
+        StringValidater.validateBlank(req.getSystemCode(), req.getSystemCode(),
+            req.getUserId(), req.getBizType(), req.getBizNote(),
+            req.getCurrency(), req.getPayGroup());
     }
 }

@@ -23,7 +23,7 @@ import com.std.account.spring.SpringContextHolder;
  * @since: 2016年12月23日 上午9:23:43 
  * @history:
  */
-public class XN802184 extends AProcessor {
+public class XN002510 extends AProcessor {
 
     private IAlipayAO alipayAO = SpringContextHolder.getBean(IAlipayAO.class);
 

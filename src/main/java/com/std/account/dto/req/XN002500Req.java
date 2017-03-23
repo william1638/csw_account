@@ -9,23 +9,26 @@
 package com.std.account.dto.req;
 
 /** 
- * 微信公众号支付请求接口，返回预付单信息
+ * 微信APP支付请求接口，返回预付单信息
  * @author: haiqingzheng 
  * @since: 2016年12月23日 上午9:25:46 
  * @history:
  */
-public class XN802182Req {
-    // 系统编号(必填)
+public class XN002500Req {
+    // 系统编号（必填）
     private String systemCode;
 
-    // 系统编号(必填)
+    // 公司编号（必填）
     private String companyCode;
 
-    // 来方用户编号(必填)
-    private String fromUserId;
+    // 用户编号（必填）
+    private String userId;
 
-    // 接收方用户编号(必填)
-    private String toUserId;
+    // 业务类型（必填）
+    private String bizType;
+
+    // 业务备注（必填）
+    private String bizNote;
 
     // 划转资金(必填)
     private String transAmount;
@@ -36,11 +39,8 @@ public class XN802182Req {
     // 支付组号(必填)
     private String payGroup;
 
-    // 业务类型(必填)
-    private String bizType;
-
-    // 业务说明(必填)
-    private String bizNote;
+    // 终端IP（必填）—— 用户端实际ip
+    private String ip;
 
     public String getSystemCode() {
         return systemCode;
@@ -58,20 +58,28 @@ public class XN802182Req {
         this.companyCode = companyCode;
     }
 
-    public String getFromUserId() {
-        return fromUserId;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setFromUserId(String fromUserId) {
-        this.fromUserId = fromUserId;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
-    public String getToUserId() {
-        return toUserId;
+    public String getBizType() {
+        return bizType;
     }
 
-    public void setToUserId(String toUserId) {
-        this.toUserId = toUserId;
+    public void setBizType(String bizType) {
+        this.bizType = bizType;
+    }
+
+    public String getBizNote() {
+        return bizNote;
+    }
+
+    public void setBizNote(String bizNote) {
+        this.bizNote = bizNote;
     }
 
     public String getTransAmount() {
@@ -98,20 +106,11 @@ public class XN802182Req {
         this.payGroup = payGroup;
     }
 
-    public String getBizType() {
-        return bizType;
+    public String getIp() {
+        return ip;
     }
 
-    public void setBizType(String bizType) {
-        this.bizType = bizType;
+    public void setIp(String ip) {
+        this.ip = ip;
     }
-
-    public String getBizNote() {
-        return bizNote;
-    }
-
-    public void setBizNote(String bizNote) {
-        this.bizNote = bizNote;
-    }
-
 }
