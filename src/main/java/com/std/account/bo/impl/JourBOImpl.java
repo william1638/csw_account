@@ -59,6 +59,25 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
     }
 
     @Override
+    public Jour getRelativeJour(String code, String payGroup) {
+        Jour data = null;
+        if (StringUtils.isNotBlank(code) && StringUtils.isNotBlank(payGroup)) {
+            Jour condition = new Jour();
+            condition.setPayGroup(payGroup);
+            List<Jour> results = jourDAO.selectList(condition);
+            for (Jour jour : results) {
+                if (!code.equals(jour.getCode())) {
+                    data = jour;
+                }
+            }
+            if (data == null) {
+                throw new BizException("xn000000", "相对单号不存在");
+            }
+        }
+        return data;
+    }
+
+    @Override
     public String addToChangeJour(String systemCode, String accountNumber,
             String channelType, String bizType, String bizNote,
             Long transAmount, String payGroup) {
@@ -274,4 +293,5 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
         }
         return totalAmount;
     }
+
 }

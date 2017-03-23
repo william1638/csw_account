@@ -154,6 +154,16 @@ public interface IJourBO extends IPaginableBO<Jour> {
     public Jour getJour(String code, String systemCode);
 
     /**
+     * 获取同一支付组号内，相对的一条流水信息
+     * @param code 流水
+     * @param payGroup
+     * @return 
+     * @create: 2017年3月23日 下午7:45:17 haiqingzheng
+     * @history:
+     */
+    public Jour getRelativeJour(String code, String payGroup);
+
+    /**
      * 统计发生金额
      * @param systemCode
      * @param userId

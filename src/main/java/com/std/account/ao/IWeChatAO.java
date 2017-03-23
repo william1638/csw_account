@@ -10,8 +10,8 @@ package com.std.account.ao;
 
 import com.std.account.domain.CallbackResult;
 import com.std.account.domain.CompanyChannel;
-import com.std.account.dto.res.XN802180Res;
-import com.std.account.dto.res.XN802182Res;
+import com.std.account.dto.res.XN002500Res;
+import com.std.account.dto.res.XN002501Res;
 
 /** 
  * @author: haiqingzheng 
@@ -21,40 +21,38 @@ import com.std.account.dto.res.XN802182Res;
 public interface IWeChatAO {
     /**
      * （微信APP支付）统一下单，下单成功返回 prepay_id
-     * @param systemCode 系统编号
-     * @param companyCode 公司编号
-     * @param userId 用户编号
-     * @param bizType 业务类型
-     * @param bizNote 业务说明(body)
-     * @param transAmount 发生金额
-     * @param currency 币种
-     * @param payGroup 支付组号
+     * @param fromUserId
+     * @param toUserId
+     * @param bizType
+     * @param fromBizNote
+     * @param toBizNote
+     * @param transAmount
+     * @param payGroup
      * @return 
-     * @create: 2017年2月27日 上午9:52:12 xieyj
+     * @create: 2017年3月23日 下午7:13:15 haiqingzheng
      * @history:
      */
-    public XN802180Res getPrepayIdApp(String systemCode, String companyCode,
-            String userId, String bizType, String bizNote, Long transAmount,
-            String currency, String payGroup);
+    public XN002500Res getPrepayIdApp(String fromUserId, String toUserId,
+            String bizType, String fromBizNote, String toBizNote,
+            Long transAmount, String payGroup);
 
     /**
      * （微信公众号支付）统一下单，下单成功返回 prepay_id
-     * @param systemCode
-     * @param companyCode
      * @param fromUserId
+     * @param fromOpenId
      * @param toUserId
-     * @param transAmount
-     * @param currency
-     * @param payGroup
      * @param bizType
-     * @param bizNote
+     * @param fromBizNote
+     * @param toBizNote
+     * @param transAmount
+     * @param payGroup
      * @return 
-     * @create: 2017年3月2日 下午3:49:59 haiqingzheng
+     * @create: 2017年3月23日 下午7:57:51 haiqingzheng
      * @history:
      */
-    public XN802182Res getPrepayIdH5(String systemCode, String companyCode,
-            String fromUserId, String toUserId, Long transAmount,
-            String currency, String payGroup, String bizType, String bizNote);
+    public XN002501Res getPrepayIdH5(String fromUserId, String fromOpenId,
+            String toUserId, String bizType, String fromBizNote,
+            String toBizNote, Long transAmount, String payGroup);
 
     // public XN802182Res generatePayParam(String prepayId);
 

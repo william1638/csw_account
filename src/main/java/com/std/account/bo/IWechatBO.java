@@ -9,8 +9,8 @@
 package com.std.account.bo;
 
 import com.std.account.domain.CompanyChannel;
-import com.std.account.dto.res.XN802180Res;
-import com.std.account.dto.res.XN802182Res;
+import com.std.account.dto.res.XN002500Res;
+import com.std.account.dto.res.XN002501Res;
 
 /** 
  * @author: haiqingzheng 
@@ -21,12 +21,12 @@ public interface IWechatBO {
     public String getPrepayIdApp(CompanyChannel companyChannel, String bizNote,
             String code, Long transAmount, String ip);
 
-    public XN802180Res getPayInfoApp(CompanyChannel companyChannel,
-            String prepayId);
+    public XN002500Res getPayInfoApp(CompanyChannel companyChannel,
+            String payCode, String prepayId);
 
     public String getPrepayIdH5(CompanyChannel companyChannel, String openId,
             String bizNote, String code, Long transAmount, String ip);
 
-    public XN802182Res getPayInfoH5(CompanyChannel companyChannel,
+    public XN002501Res getPayInfoH5(CompanyChannel companyChannel,
             String payCode, String prepayId);
 }

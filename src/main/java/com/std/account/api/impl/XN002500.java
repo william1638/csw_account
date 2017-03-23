@@ -34,10 +34,9 @@ public class XN002500 extends AProcessor {
      */
     @Override
     public Object doBusiness() throws BizException {
-        return weChatAO.getPrepayIdApp(req.getSystemCode(),
-            req.getCompanyCode(), req.getUserId(), req.getBizType(),
-            req.getBizNote(), StringValidater.toLong(req.getTransAmount()),
-            req.getCurrency(), req.getPayGroup());
+        return weChatAO.getPrepayIdApp(req.getFromUserId(), req.getToUserId(),
+            req.getBizType(), req.getFromBizNote(), req.getToBizNote(),
+            StringValidater.toLong(req.getTransAmount()), req.getPayGroup());
     }
 
     /** 
@@ -46,8 +45,8 @@ public class XN002500 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN002500Req.class);
-        StringValidater.validateBlank(req.getSystemCode(), req.getSystemCode(),
-            req.getUserId(), req.getBizType(), req.getBizNote(),
-            req.getCurrency(), req.getPayGroup());
+        StringValidater.validateBlank(req.getFromUserId(), req.getToUserId(),
+            req.getBizType(), req.getFromBizNote(), req.getToBizNote(),
+            req.getPayGroup());
     }
 }

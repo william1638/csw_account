@@ -20,8 +20,8 @@ import org.springframework.stereotype.Component;
 import com.std.account.bo.IWechatBO;
 import com.std.account.common.PropertiesUtil;
 import com.std.account.domain.CompanyChannel;
-import com.std.account.dto.res.XN802180Res;
-import com.std.account.dto.res.XN802182Res;
+import com.std.account.dto.res.XN002500Res;
+import com.std.account.dto.res.XN002501Res;
 import com.std.account.enums.EWeChatType;
 import com.std.account.util.wechat.MD5;
 import com.std.account.util.wechat.MD5Util;
@@ -55,8 +55,8 @@ public class WechatBOImpl implements IWechatBO {
     }
 
     @Override
-    public XN802180Res getPayInfoApp(CompanyChannel companyChannel,
-            String prepayId) {
+    public XN002500Res getPayInfoApp(CompanyChannel companyChannel,
+            String payCode, String prepayId) {
         SortedMap<String, String> nativeObj = new TreeMap<String, String>();
         nativeObj.put("appid", companyChannel.getPrivateKey2());
         nativeObj.put("partnerid", companyChannel.getChannelCompany());
@@ -71,8 +71,9 @@ public class WechatBOImpl implements IWechatBO {
         nativeObj.put("sign",
             createSign(nativeObj, companyChannel.getPrivateKey1()));
 
-        XN802180Res res = new XN802180Res();
+        XN002500Res res = new XN002500Res();
         res.setAppId(nativeObj.get("appid"));
+        res.setPayCode(payCode);
         res.setPartnerid(nativeObj.get("partnerid"));
         res.setPrepayId(nativeObj.get("prepayid"));
         res.setWechatPackage(nativeObj.get("package"));
@@ -102,7 +103,7 @@ public class WechatBOImpl implements IWechatBO {
     }
 
     @Override
-    public XN802182Res getPayInfoH5(CompanyChannel companyChannel,
+    public XN002501Res getPayInfoH5(CompanyChannel companyChannel,
             String payCode, String prepayId) {
         SortedMap<String, String> nativeObj = new TreeMap<String, String>();
         nativeObj.put("appId", companyChannel.getPrivateKey2());
@@ -117,7 +118,7 @@ public class WechatBOImpl implements IWechatBO {
         nativeObj.put("paySign",
             createSign(nativeObj, companyChannel.getPrivateKey1()));
 
-        XN802182Res res = new XN802182Res();
+        XN002501Res res = new XN002501Res();
         res.setPrepayId(prepayId);
         res.setPayCode(payCode);
         res.setAppId(nativeObj.get("appId"));

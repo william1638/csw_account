@@ -15,48 +15,30 @@ package com.std.account.dto.req;
  * @history:
  */
 public class XN002501Req {
-    // 系统编号(必填)
-    private String systemCode;
 
-    // 系统编号(必填)
-    private String companyCode;
-
-    // 来方用户编号(必填)
+    // 付款方用户编号（必填）
     private String fromUserId;
 
-    // 接收方用户编号(必填)
+    // 付款方微信openId（必填）
+    private String fromOpenId;
+
+    // 收款方用户编号（必填）
     private String toUserId;
+
+    // 业务类型（必填）
+    private String bizType;
+
+    // 付款方业务备注（必填）
+    private String fromBizNote;
+
+    // 收款方业务备注（必填）
+    private String toBizNote;
 
     // 划转资金(必填)
     private String transAmount;
 
-    // 币种(必填)
-    private String currency;
-
     // 支付组号(必填)
     private String payGroup;
-
-    // 业务类型(必填)
-    private String bizType;
-
-    // 业务说明(必填)
-    private String bizNote;
-
-    public String getSystemCode() {
-        return systemCode;
-    }
-
-    public void setSystemCode(String systemCode) {
-        this.systemCode = systemCode;
-    }
-
-    public String getCompanyCode() {
-        return companyCode;
-    }
-
-    public void setCompanyCode(String companyCode) {
-        this.companyCode = companyCode;
-    }
 
     public String getFromUserId() {
         return fromUserId;
@@ -64,6 +46,14 @@ public class XN002501Req {
 
     public void setFromUserId(String fromUserId) {
         this.fromUserId = fromUserId;
+    }
+
+    public String getFromOpenId() {
+        return fromOpenId;
+    }
+
+    public void setFromOpenId(String fromOpenId) {
+        this.fromOpenId = fromOpenId;
     }
 
     public String getToUserId() {
@@ -74,30 +64,6 @@ public class XN002501Req {
         this.toUserId = toUserId;
     }
 
-    public String getTransAmount() {
-        return transAmount;
-    }
-
-    public void setTransAmount(String transAmount) {
-        this.transAmount = transAmount;
-    }
-
-    public String getCurrency() {
-        return currency;
-    }
-
-    public void setCurrency(String currency) {
-        this.currency = currency;
-    }
-
-    public String getPayGroup() {
-        return payGroup;
-    }
-
-    public void setPayGroup(String payGroup) {
-        this.payGroup = payGroup;
-    }
-
     public String getBizType() {
         return bizType;
     }
@@ -106,12 +72,36 @@ public class XN002501Req {
         this.bizType = bizType;
     }
 
-    public String getBizNote() {
-        return bizNote;
+    public String getFromBizNote() {
+        return fromBizNote;
     }
 
-    public void setBizNote(String bizNote) {
-        this.bizNote = bizNote;
+    public void setFromBizNote(String fromBizNote) {
+        this.fromBizNote = fromBizNote;
+    }
+
+    public String getToBizNote() {
+        return toBizNote;
+    }
+
+    public void setToBizNote(String toBizNote) {
+        this.toBizNote = toBizNote;
+    }
+
+    public String getTransAmount() {
+        return transAmount;
+    }
+
+    public void setTransAmount(String transAmount) {
+        this.transAmount = transAmount;
+    }
+
+    public String getPayGroup() {
+        return payGroup;
+    }
+
+    public void setPayGroup(String payGroup) {
+        this.payGroup = payGroup;
     }
 
 }

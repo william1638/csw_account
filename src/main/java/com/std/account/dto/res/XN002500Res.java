@@ -13,10 +13,10 @@ package com.std.account.dto.res;
  * @since: 2016年12月26日 下午4:46:41 
  * @history:
  */
-public class XN802180Res {
+public class XN002500Res {
 
     // 橙账本流水编号
-    private String jourCode;
+    private String payCode;
 
     // 公众号id
     private String appId;
@@ -39,12 +39,12 @@ public class XN802180Res {
     // 签名
     private String sign;
 
-    public String getJourCode() {
-        return jourCode;
+    public String getPayCode() {
+        return payCode;
     }
 
-    public void setJourCode(String jourCode) {
-        this.jourCode = jourCode;
+    public void setPayCode(String payCode) {
+        this.payCode = payCode;
     }
 
     public String getAppId() {
