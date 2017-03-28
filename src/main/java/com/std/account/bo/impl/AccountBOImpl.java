@@ -69,7 +69,7 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         Long nowAmount = dbAccount.getAmount() + transAmount;
         // 特定账户余额可为负
         // !ESysAccount.getResultMap().containsKey(accountNumber)
-        if (!ESysUser.SYS_USER.getCode().equals(dbAccount.getUserId())
+        if (!dbAccount.getUserId().contains(ESysUser.SYS_USER.getCode())
                 && nowAmount < 0) {
             throw new BizException("xn000000", "账户余额不足");
         }
@@ -92,7 +92,7 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
             Long transAmount, String lastOrder) {
         Account dbAccount = this.getAccount(systemCode, accountNumber);
         Long nowAmount = dbAccount.getAmount() + transAmount;
-        if (!ESysUser.SYS_USER.getCode().equals(dbAccount.getUserId())
+        if (!dbAccount.getUserId().contains(ESysUser.SYS_USER.getCode())
                 && nowAmount < 0) {
             throw new BizException("xn000000", "账户余额不足");
         }
@@ -118,7 +118,7 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         }
         Account dbAccount = this.getAccount(systemCode, accountNumber);
         Long nowAmount = dbAccount.getAmount() - freezeAmount;
-        if (!ESysUser.SYS_USER.getCode().equals(dbAccount.getUserId())
+        if (!dbAccount.getUserId().contains(ESysUser.SYS_USER.getCode())
                 && nowAmount < 0) {
             throw new BizException("xn000000", "账户余额不足");
         }

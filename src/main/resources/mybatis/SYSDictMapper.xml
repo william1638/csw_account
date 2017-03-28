@@ -30,6 +30,9 @@
 			<if test="parentKey != null and parentKey != '' ">
 				AND t.parent_key = #{parentKey}
 			</if>	
+			<if test="systemCode != null and systemCode != '' ">
+				AND t.system_code = #{systemCode}
+			</if>
 		</trim>
 	</sql>
 	<select id="select_sysDict" parameterType="sysDict" resultMap="sysDict_DB_Result">
