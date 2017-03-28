@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.std.account.ao.IAlipayAO;
 import com.std.account.ao.IWeChatAO;
 import com.std.account.domain.CallbackResult;
 
@@ -30,6 +31,10 @@ public class CallbackConroller {
     @Autowired
     IWeChatAO weChatAO;
 
+    @Autowired
+    IAlipayAO alipayAO;
+
+    // 微信APP支付回调
     @RequestMapping("/wechat/app/callback")
     public synchronized void doCallbackWechatAPP(HttpServletRequest request,
             HttpServletResponse response) {
@@ -60,6 +65,7 @@ public class CallbackConroller {
         }
     }
 
+    // 微信H5支付回调
     @RequestMapping("/wechat/H5/callback")
     public synchronized void doCallbackWechatH5(HttpServletRequest request,
             HttpServletResponse response) {
@@ -94,5 +100,35 @@ public class CallbackConroller {
         return "<xml><return_code><![CDATA[" + return_code
                 + "]]></return_code><return_msg><![CDATA[" + return_msg
                 + "]]></return_msg></xml>";
+    }
+
+    // 支付宝APP支付回调
+    @RequestMapping("/alipay/app/callback")
+    public synchronized void doCallbackAlipayAPP(HttpServletRequest request,
+            HttpServletResponse response) {
+
+        try {
+            // 获取回调参数
+            PrintWriter out = response.getWriter();
+            InputStream inStream = request.getInputStream();
+            ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
+            byte[] buffer = new byte[1024];
+            int len = 0;
+            while ((len = inStream.read(buffer)) != -1) {
+                outSteam.write(buffer, 0, len);
+            }
+            outSteam.close();
+            inStream.close();
+            String result = new String(outSteam.toByteArray(), "utf-8");
+            logger.info("**** APP支付回调结果 ****：" + result);
+            // 解析回调结果
+            CallbackResult callbackResult = alipayAO.doCallbackAPP(result);
+            // 回调业务biz，通知支付结果
+            alipayAO.doBizCallback(callbackResult);
+            // 通知支付宝服务器(我已收到请求，不用再继续回调我了)
+            out.print("success");
+        } catch (Exception e) {
+            logger.info("APP支付回调异常,原因：" + e.getMessage());
+        }
     }
 }

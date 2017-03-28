@@ -8,6 +8,8 @@
  */
 package com.std.account.ao;
 
+import com.std.account.domain.CallbackResult;
+
 /** 
  * @author: haiqingzheng 
  * @since: 2017年1月11日 下午8:55:34 
@@ -34,13 +36,12 @@ public interface IAlipayAO {
 
     /**
      * （支付宝APP支付）支付回调
-     * @param systemCode
-     * @param companyCode
      * @param result
      * @return 
-     * @create: 2017年1月12日 下午4:01:16 haiqingzheng
+     * @create: 2017年3月28日 下午9:02:35 haiqingzheng
      * @history:
      */
-    public Object doCallbackAPP(String systemCode, String companyCode,
-            String result);
+    public CallbackResult doCallbackAPP(String result);
+
+    public void doBizCallback(CallbackResult callbackResult);
 }
