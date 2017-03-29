@@ -29,4 +29,8 @@ public interface IWechatBO {
 
     public XN002501Res getPayInfoH5(CompanyChannel companyChannel,
             String payCode, String prepayId);
+
+    public String getPrepayIdNative(CompanyChannel companyChannel,
+            String bizNote, String code, Long transAmount, String ip);
+
 }

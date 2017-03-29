@@ -130,6 +130,25 @@ public class WechatBOImpl implements IWechatBO {
         return res;
     }
 
+    @Override
+    public String getPrepayIdNative(CompanyChannel companyChannel,
+            String bizNote, String code, Long transAmount, String ip) {
+        WXPrepay prePay = new WXPrepay();
+        prePay.setAppid(companyChannel.getPrivateKey2());// 微信支付分配的公众账号ID
+        prePay.setMch_id(companyChannel.getChannelCompany()); // 商户号
+        prePay.setBody(companyChannel.getCompanyName() + "-" + bizNote); // 商品描述
+        prePay.setOut_trade_no(code); // 订单号
+        prePay.setTotal_fee(Long.toString(transAmount / 10)); // 订单总金额，厘转化成分
+        prePay.setSpbill_create_ip(ip); // 用户IP
+        prePay.setTrade_type(EWeChatType.NATIVE.getCode()); // 交易类型
+        prePay.setNotify_url(PropertiesUtil.Config.WECHAT_H5_BACKURL);// 回调地址
+        prePay.setPartnerKey(companyChannel.getPrivateKey1()); // 商户秘钥
+        prePay.setProduct_id(code);
+        prePay.setAttach(companyChannel.getSystemCode() + "||"
+                + companyChannel.getCompanyCode()); // 附加字段，回调时返回
+        return prePay.submitXmlGetCodeUrl();
+    }
+
     /**
      * 创建md5摘要,规则是:按参数名称a-z排序,遇到空值的参数不参加签名。
      */

@@ -9,11 +9,9 @@
 package com.std.account.ao.impl;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.jdom2.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -90,8 +88,8 @@ public class WeChatAOImpl implements IWeChatAO {
             EChannelType.WeChat_APP.getCode(), bizType, toBizNote, transAmount,
             payGroup);
         // 获取微信支付配置信息
-        CompanyChannel companyChannel = getCompanyChannel(systemCode,
-            systemCode, EChannelType.WeChat_APP.getCode());
+        CompanyChannel companyChannel = companyChannelBO.getCompanyChannel(
+            systemCode, systemCode, EChannelType.WeChat_APP.getCode());
         // 获取微信公众号支付prepayid
         String prepayId = wechatBO.getPrepayIdApp(companyChannel, fromBizNote,
             jourCode, transAmount, SysConstant.IP);
@@ -121,12 +119,43 @@ public class WeChatAOImpl implements IWeChatAO {
             EChannelType.WeChat_H5.getCode(), bizType, toBizNote, transAmount,
             payGroup);
         // 获取微信公众号支付prepayid
-        CompanyChannel companyChannel = getCompanyChannel(systemCode,
-            systemCode, EChannelType.WeChat_H5.getCode());
+        CompanyChannel companyChannel = companyChannelBO.getCompanyChannel(
+            systemCode, systemCode, EChannelType.WeChat_H5.getCode());
         String prepayId = wechatBO.getPrepayIdH5(companyChannel, fromOpenId,
             fromBizNote, jourCode, transAmount, SysConstant.IP);
         // 返回微信APP支付所需信息
         return wechatBO.getPayInfoH5(companyChannel, jourCode, prepayId);
+    }
+
+    @Override
+    @Transactional
+    public String getPrepayIdNative(String fromUserId, String toUserId,
+            String bizType, String fromBizNote, String toBizNote,
+            Long transAmount, String payGroup) {
+        if (transAmount.longValue() == 0l) {
+            throw new BizException("xn000000", "发生金额为零，不能使用微信支付");
+        }
+        Account fromAccount = accountBO.getAccountByUser(fromUserId,
+            ECurrency.CNY.getCode());
+        Account toAccount = accountBO.getAccountByUser(toUserId,
+            ECurrency.CNY.getCode());
+        String systemCode = fromAccount.getSystemCode();
+        // 落地付款方流水信息
+        String jourCode = jourBO.addToChangeJour(systemCode,
+            fromAccount.getAccountNumber(),
+            EChannelType.WeChat_NATIVE.getCode(), bizType, fromBizNote,
+            transAmount, payGroup);
+        // 落地收款方流水信息
+        jourBO.addToChangeJour(systemCode, toAccount.getAccountNumber(),
+            EChannelType.WeChat_NATIVE.getCode(), bizType, toBizNote,
+            transAmount, payGroup);
+        // 获取微信扫码支付codeURL
+        CompanyChannel companyChannel = companyChannelBO.getCompanyChannel(
+            systemCode, systemCode, EChannelType.WeChat_H5.getCode());
+        String codeUrl = wechatBO.getPrepayIdNative(companyChannel,
+            fromBizNote, jourCode, transAmount, SysConstant.IP);
+        // 返回微信APP支付所需信息
+        return codeUrl;
     }
 
     @Override
@@ -165,10 +194,6 @@ public class WeChatAOImpl implements IWeChatAO {
                 wechatOrderNo);
             jourBO.callBackChangeJour(toJour.getCode(), EBoolean.NO.getCode(),
                 "WeChat_APP", "微信APP支付后台自动回调", wechatOrderNo);
-            if (!EJourStatus.todoCallBack.getCode()
-                .equals(fromJour.getStatus())) {
-                throw new BizException("xn000000", "流水不处于待回调状态，重复回调");
-            }
         } else {
             System.out.println("===============付款成功==============");
             // ------------------------------
@@ -186,8 +211,8 @@ public class WeChatAOImpl implements IWeChatAO {
             // 处理业务完毕
             // ------------------------------
         }
-        CompanyChannel companyChannel = getCompanyChannel(companyCode,
-            systemCode, EChannelType.WeChat_APP.getCode());
+        CompanyChannel companyChannel = companyChannelBO.getCompanyChannel(
+            companyCode, systemCode, EChannelType.WeChat_APP.getCode());
         return new CallbackResult(isSucc, fromJour.getBizType(),
             fromJour.getCode(), fromJour.getPayGroup(),
             fromJour.getTransAmount(), systemCode, companyCode,
@@ -248,8 +273,8 @@ public class WeChatAOImpl implements IWeChatAO {
             // 处理业务完毕
             // ------------------------------
         }
-        CompanyChannel companyChannel = getCompanyChannel(companyCode,
-            systemCode, EChannelType.WeChat_H5.getCode());
+        CompanyChannel companyChannel = companyChannelBO.getCompanyChannel(
+            companyCode, systemCode, EChannelType.WeChat_H5.getCode());
         return new CallbackResult(isSucc, fromJour.getBizType(),
             fromJour.getCode(), fromJour.getPayGroup(),
             fromJour.getTransAmount(), systemCode, companyCode,
@@ -273,21 +298,6 @@ public class WeChatAOImpl implements IWeChatAO {
         return accessToken;
     }
 
-    @Override
-    public CompanyChannel getCompanyChannel(String companyCode,
-            String systemCode, String channelType) {
-        CompanyChannel condition = new CompanyChannel();
-        condition.setCompanyCode(companyCode);
-        condition.setSystemCode(systemCode);
-        condition.setChannelType(channelType);
-        List<CompanyChannel> list = companyChannelBO
-            .queryCompanyChannelList(condition);
-        if (CollectionUtils.isEmpty(list)) {
-            throw new BizException("xn000000", "获取支付渠道配置失败，请仔细检查配置信息");
-        }
-        return list.get(0);
-    }
-
     public boolean reqOrderquery(Map<String, String> map, String channelType) {
         System.out.println("******* 开始订单查询 ******");
         WXOrderQuery orderQuery = new WXOrderQuery();
@@ -302,8 +312,8 @@ public class WeChatAOImpl implements IWeChatAO {
         String[] codes = attach.split("\\|\\|");
         System.out.println("companyCode=" + codes[0] + " systemCode="
                 + codes[1]);
-        CompanyChannel companyChannel = getCompanyChannel(codes[0], codes[1],
-            channelType);
+        CompanyChannel companyChannel = companyChannelBO.getCompanyChannel(
+            codes[0], codes[1], channelType);
 
         // 此处需要密钥PartnerKey，此处直接写死，自己的业务需要从持久化中获取此密钥，否则会报签名错误
         orderQuery.setPartnerKey(companyChannel.getPrivateKey1());

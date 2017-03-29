@@ -13,7 +13,7 @@ package com.std.account.dto.res;
  * @since: 2016年12月26日 下午4:46:41 
  * @history:
  */
-public class XN802184Res {
+public class XN002510Res {
 
     // 橙账本流水编号
     private String jourCode;
