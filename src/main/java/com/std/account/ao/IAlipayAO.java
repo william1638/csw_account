@@ -19,20 +19,20 @@ public interface IAlipayAO {
 
     /**
      * 获取签名后的订单信息
-     * @param systemCode
-     * @param companyCode
-     * @param userId
+     * @param fromUserId
+     * @param toUserId
      * @param bizType
-     * @param bizNote
-     * @param body
-     * @param totalFee
+     * @param fromBizNote
+     * @param toBizNote
+     * @param transAmount
+     * @param payGroup
      * @return 
-     * @create: 2017年1月12日 上午11:06:04 haiqingzheng
+     * @create: 2017年3月29日 上午10:01:59 haiqingzheng
      * @history:
      */
-    public Object getSignedOrder(String systemCode, String companyCode,
-            String userId, String bizType, String bizNote, String body,
-            Long totalFee);
+    public Object getSignedOrder(String fromUserId, String toUserId,
+            String bizType, String fromBizNote, String toBizNote,
+            Long transAmount, String payGroup);
 
     /**
      * （支付宝APP支付）支付回调

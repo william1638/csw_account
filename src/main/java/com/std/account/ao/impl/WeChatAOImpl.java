@@ -165,10 +165,6 @@ public class WeChatAOImpl implements IWeChatAO {
                 wechatOrderNo);
             jourBO.callBackChangeJour(toJour.getCode(), EBoolean.NO.getCode(),
                 "WeChat_APP", "微信APP支付后台自动回调", wechatOrderNo);
-            if (!EJourStatus.todoCallBack.getCode()
-                .equals(fromJour.getStatus())) {
-                throw new BizException("xn000000", "流水不处于待回调状态，重复回调");
-            }
         } else {
             System.out.println("===============付款成功==============");
             // ------------------------------

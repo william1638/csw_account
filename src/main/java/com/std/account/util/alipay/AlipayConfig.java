@@ -42,6 +42,6 @@ public class AlipayConfig {
     public static String input_charset = "utf-8";
 
     // 签名方式 不需修改
-    public static String sign_type = "RSA";
+    public static String sign_type = "RSA2";
 
 }

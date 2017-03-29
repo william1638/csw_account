@@ -12,11 +12,10 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,12 +35,15 @@ import com.std.account.domain.Account;
 import com.std.account.domain.CallbackResult;
 import com.std.account.domain.CompanyChannel;
 import com.std.account.domain.Jour;
-import com.std.account.dto.res.XN802184Res;
+import com.std.account.dto.res.XN002510Res;
+import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
 import com.std.account.enums.ECurrency;
+import com.std.account.enums.EJourStatus;
 import com.std.account.exception.BizException;
 import com.std.account.http.PostSimulater;
 import com.std.account.util.CalculationUtil;
+import com.std.account.util.alipay.AlipayConfig;
 import com.std.account.util.alipay.AlipayCore;
 
 /** 
@@ -67,126 +69,114 @@ public class AlipayAOImpl implements IAlipayAO {
     /** 
      * @see com.std.account.ao.IAlipayAO#getPrepayIdApp(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Long, java.lang.String)
      */
+    // 配置说明
+    // channel_company —— 卖家支付宝用户号
+    // private_key1 —— APP_PRIVATE_KEY，开发者应用私钥，由开发者自己生成
+    // private_key2 —— ALIPAY_PUBLIC_KEY，支付宝公钥，由支付宝生成
+    // private_key3 —— APP_ID，APPID即创建应用后生成
     @Override
-    public Object getSignedOrder(String systemCode, String companyCode,
-            String userId, String bizType, String bizNote, String body,
-            Long totalFee) {
-        // 配置说明
-        // channel_company —— 卖家支付宝用户号
-        // private_key1 —— APP_PRIVATE_KEY，开发者应用私钥，由开发者自己生成
-        // private_key2 —— ALIPAY_PUBLIC_KEY，支付宝公钥，由支付宝生成
-        // private_key3 —— APP_ID，APPID即创建应用后生成
-        CompanyChannel condition = new CompanyChannel();
-        condition.setCompanyCode(companyCode);
-        condition.setSystemCode(systemCode);
-        condition.setChannelType(EChannelType.Alipay.getCode());
-        List<CompanyChannel> list = companyChannelBO
-            .queryCompanyChannelList(condition);
-        if (CollectionUtils.isEmpty(list)) {
-            throw new BizException("xn000000", "获取支付渠道配置失败，请仔细检查配置信息");
+    public Object getSignedOrder(String fromUserId, String toUserId,
+            String bizType, String fromBizNote, String toBizNote,
+            Long transAmount, String payGroup) {
+        if (transAmount.longValue() == 0l) {
+            throw new BizException("xn000000", "发生金额为零，不能使用支付宝支付");
         }
-        CompanyChannel companyChannel = list.get(0);
-
-        Account account = accountBO.getAccountByUser(userId,
+        // 获取来去方账户信息
+        Account fromAccount = accountBO.getAccountByUser(fromUserId,
             ECurrency.CNY.getCode());
-        // 本地系统落地流水信息
-        String code = jourBO.addToChangeJour(systemCode,
-            account.getAccountNumber(), EChannelType.Alipay.getCode(), bizType,
-            bizNote, totalFee, null);
+        Account toAccount = accountBO.getAccountByUser(toUserId,
+            ECurrency.CNY.getCode());
+        String systemCode = fromAccount.getSystemCode();
+        String companyCode = fromAccount.getSystemCode();
+
+        // 落地付款方和收款方流水信息
+        String jourCode = jourBO.addToChangeJour(systemCode,
+            fromAccount.getAccountNumber(), EChannelType.Alipay.getCode(),
+            bizType, fromBizNote, transAmount, payGroup);
+        jourBO.addToChangeJour(systemCode, toAccount.getAccountNumber(),
+            EChannelType.Alipay.getCode(), bizType, toBizNote, transAmount,
+            payGroup);
+
+        // 获取支付宝支付配置参数
+        CompanyChannel companyChannel = companyChannelBO.getCompanyChannel(
+            companyCode, systemCode, EChannelType.Alipay.getCode());
 
         // 生成业务参数(bizContent)json字符串
-        Map<String, String> bizParams = new HashMap<String, String>();
-        bizParams.put("subject", body); // 商品的标题 例如：大乐透
-        bizParams.put("out_trade_no", code); // 商户网站唯一订单号
-        bizParams.put("total_amount", String.valueOf(totalFee / 1000.00)); // 订单总金额，单位为元，精确到小数点后两位，取值范围[0.01,100000000]
-        bizParams.put("product_code", "QUICK_MSECURITY_PAY"); // 销售产品码，商家和支付宝签约的产品码，为固定值QUICK_MSECURITY_PAY
-        String bizContentJson = JsonUtil.Object2Json(bizParams);
-        logger.info("*****业务参数(bizContent)json字符串*****\n" + bizContentJson);
+        String bizContentJson = getBizContentJson(fromBizNote, jourCode,
+            transAmount);
 
         // 1、按照key=value&key=value方式拼接的未签名原始字符串
-        String appId = companyChannel.getPrivateKey3();
-        String method = "alipay.trade.app.pay";
-        String format = "JSON";
-        String charset = CHARSET;
-        String signType = "RSA2";
-        String timestamp = DateUtil.dateToStr(new Date(),
-            DateUtil.DATA_TIME_PATTERN_1);
-        String version = "1.0";
-        String notifyUrl = PropertiesUtil.Config.ALIPAY_APP_BACKURL;
-        String bizContent = bizContentJson;
-
-        String params = "app_id=%s&biz_content=%s&charset=%s&format=%s&method=%s&notify_url=%s&sign_type=%s&timestamp=%s&version=%s";
-        params = String.format(params, appId, bizContent, charset, format,
-            method, notifyUrl, signType, timestamp, version);
-        logger.info("*****未签名原始字符串*****\n" + params);
-        // 2、对原始字符串进行签名
+        Map<String, String> unsignedParamMap = getUnsignedParamMap(
+            companyChannel.getPrivateKey3(), bizContentJson);
         // 注意注意：获取所有请求参数，不包括字节类型参数，如文件、字节流，剔除sign字段，剔除值为空的参数，
         // 并按照第一个字符的键值ASCII码递增排序（字母升序排序），如果遇到相同字符则按照第二个字符的键值ASCII码递增排序，以此类推。
+        String unsignedContent = AlipayCore.createLinkString(unsignedParamMap);
+        logger.info("*****未签名原始字符串：*****\n" + unsignedContent);
+
+        // 2、对原始字符串进行签名
+        String sign = getSign(unsignedContent, companyChannel.getPrivateKey1());
+        logger.info("*****签名成功：*****\n" + sign);
+
+        // 3、对请求字符串的所有一级value（biz_content作为一个value）进行encode
+        String encodedParams = getEncodedparam(unsignedParamMap);
+        encodedParams = encodedParams + "&sign=" + WebUtils.encode(sign);
+        logger.info("*****签名并Encode后的请求字符串*****\n" + encodedParams);
+
+        XN002510Res res = new XN002510Res();
+        res.setJourCode(jourCode);
+        res.setSignOrder(encodedParams);
+        return res;
+    }
+
+    private String getEncodedparam(Map<String, String> unsignedParamMap) {
+        Map<String, String> encodedParamMap = new HashMap<String, String>();
+        Set<String> keys = unsignedParamMap.keySet();
+        for (String key : keys) {
+            encodedParamMap
+                .put(key, WebUtils.encode(unsignedParamMap.get(key)));
+        }
+        return AlipayCore.createLinkString(encodedParamMap);
+    }
+
+    private String getSign(String content, String privateKey) {
         String sign = null;
         try {
-            sign = AlipaySignature.rsaSign(params,
-                companyChannel.getPrivateKey1(), charset, signType);
+            sign = AlipaySignature.rsaSign(content, privateKey,
+                AlipayConfig.input_charset, AlipayConfig.sign_type);
             if (sign == null) {
                 throw new BizException("xn000000", "原始字符串签名失败");
             }
-            logger.info("*****原始字符串签名*****\n" + sign);
+            return sign;
         } catch (AlipayApiException e) {
             throw new BizException("xn000000", "原始字符串签名出错");
         }
 
-        // 3、对请求字符串的所有一级value（biz_content作为一个value）进行encode
-        // try {
-        appId = WebUtils.encode(appId);
-        method = WebUtils.encode(method);
-        format = WebUtils.encode(format);
-        charset = WebUtils.encode(charset);
-        signType = WebUtils.encode(signType);
-        timestamp = WebUtils.encode(timestamp);
-        version = WebUtils.encode(version);
-        notifyUrl = WebUtils.encode(notifyUrl);
-        bizContent = WebUtils.encode(bizContent);
-        sign = WebUtils.encode(sign);
-        String paramsEncoded = "app_id=%s&method=%s&format=%s&charset=%s&sign_type=%s&timestamp=%s&version=%s&notify_url=%s&biz_content=%s&sign=%s";
-        paramsEncoded = String.format(paramsEncoded, appId, method, format,
-            charset, signType, timestamp, version, notifyUrl, bizContent, sign);
-        logger.info("*****签名Encode后的请求字符串*****\n" + paramsEncoded);
+    }
 
-        XN802184Res res = new XN802184Res();
-        res.setJourCode(code);
-        res.setSignOrder(paramsEncoded);
-        return res;
-        // finalParamJson = URLEncoder.encode(params, CHARSET);
-        // } catch (UnsupportedEncodingException e) {
-        // throw new BizException("xn000000", "请求字符串encode出错");
-        // }
+    private Map<String, String> getUnsignedParamMap(String appId,
+            String bizContentJson) {
+        Map<String, String> paramMap = new HashMap<String, String>();
+        paramMap.put("app_id", appId);
+        paramMap.put("method", "alipay.trade.app.pay");
+        paramMap.put("format", "JSON");
+        paramMap.put("charset", CHARSET);
+        paramMap.put("sign_type", "RSA2");
+        paramMap.put("timestamp",
+            DateUtil.dateToStr(new Date(), DateUtil.DATA_TIME_PATTERN_1));
+        paramMap.put("version", "1.0");
+        paramMap.put("notify_url", PropertiesUtil.Config.ALIPAY_APP_BACKURL);
+        paramMap.put("biz_content", bizContentJson);
+        return paramMap;
+    }
 
-        // // 实例化客户端
-        // AlipayClient alipayClient = new DefaultAlipayClient(
-        // "https://openapi.alipaydev.com/gateway.do",
-        // companyChannel.getPrivateKey3()/* APPID即创建应用后生成 */,
-        // companyChannel.getPrivateKey1()/* 开发者应用私钥 */, "json", "UTF-8",
-        // companyChannel.getPrivateKey2()/* 支付宝公钥 */, "RSA2");
-        // //
-        // 实例化具体API对应的request类,类名称和接口名称对应,当前调用接口名称：alipay.open.public.template.message.industry.modify
-        // AlipayTradeAppPayRequest request = new AlipayTradeAppPayRequest();
-        // // SDK已经封装掉了公共参数，这里只需要传入业务参数
-        // // 此次只是参数展示，未进行字符串转义，实际情况下请转义
-        // try {
-        // request.setBizContent(URLEncoder.encode(bizContentJson, CHARSET));
-        // } catch (UnsupportedEncodingException e1) {
-        // e1.printStackTrace();
-        // }
-        // AlipayTradeAppPayResponse response;
-        // try {
-        // response = alipayClient.execute(request);
-        // // 调用成功，则处理业务逻辑
-        // if (response.isSuccess()) {
-        // logger.info("*****调用成功*****");
-        // }
-        // } catch (AlipayApiException e) {
-        // e.printStackTrace();
-        // }
-
+    private String getBizContentJson(String fromBizNote, String jourCode,
+            Long transAmount) {
+        Map<String, String> bizParams = new HashMap<String, String>();
+        bizParams.put("subject", fromBizNote); // 商品的标题 例如：大乐透
+        bizParams.put("out_trade_no", jourCode); // 商户网站唯一订单号
+        bizParams.put("total_amount", String.valueOf(transAmount / 1000.00)); // 订单总金额，单位为元，精确到小数点后两位，取值范围[0.01,100000000]
+        bizParams.put("product_code", "QUICK_MSECURITY_PAY"); // 销售产品码，商家和支付宝签约的产品码，为固定值QUICK_MSECURITY_PAY
+        return JsonUtil.Object2Json(bizParams);
     }
 
     /**
@@ -197,17 +187,8 @@ public class AlipayAOImpl implements IAlipayAO {
         String systemCode = "CD-CZH000001";
         String companyCode = "CD-CZH000001";
         // 目前只有正汇钱包使用支付宝，暂时写死 todo：如何判断公司编号和系统编号???
-        CompanyChannel condition = new CompanyChannel();
-        condition.setCompanyCode(companyCode);
-        condition.setSystemCode(systemCode);
-        condition.setChannelType(EChannelType.Alipay.getCode());
-        List<CompanyChannel> list = companyChannelBO
-            .queryCompanyChannelList(condition);
-        if (CollectionUtils.isEmpty(list)) {
-            throw new BizException("xn000000", "获取支付渠道配置失败，请仔细检查配置信息");
-        }
-        CompanyChannel companyChannel = list.get(0);
-
+        CompanyChannel companyChannel = companyChannelBO.getCompanyChannel(
+            companyCode, systemCode, EChannelType.Alipay.getCode());
         try {
             // 参数进行url_decode
             String params = URLDecoder.decode(result, CHARSET);
@@ -231,18 +212,49 @@ public class AlipayAOImpl implements IAlipayAO {
                 String totalAmount = paramsMap.get("total_amount");
                 String sellerId = paramsMap.get("seller_id");
                 String appId = paramsMap.get("app_id");
+                String alipayOrderNo = paramsMap.get("trade_no");
                 Jour fromJour = jourBO.getJour(outTradeNo, systemCode);
+                Jour toJour = jourBO.getRelativeJour(fromJour.getCode(),
+                    fromJour.getPayGroup());
+                if (!EJourStatus.todoCallBack.getCode().equals(
+                    fromJour.getStatus())) {
+                    throw new BizException("xn000000", "流水不处于待回调状态，重复回调");
+                }
+
+                // 数据正确性校验
                 if (fromJour.getTransAmount().equals(
                     StringValidater.toLong(CalculationUtil.mult(totalAmount)))
                         && sellerId.equals(companyChannel.getChannelCompany())
                         && appId.equals(companyChannel.getPrivateKey3())) {
-                    return new CallbackResult(isSuccess, fromJour.getBizType(),
-                        fromJour.getCode(), fromJour.getPayGroup(),
-                        fromJour.getTransAmount(), systemCode, companyCode,
-                        companyChannel.getBackUrl());
+                    isSuccess = true;
+                    jourBO.callBackChangeJour(fromJour.getCode(),
+                        EBoolean.YES.getCode(), "ALIPAY", "支付宝APP支付后台自动回调",
+                        alipayOrderNo);
+                    jourBO.callBackChangeJour(toJour.getCode(),
+                        EBoolean.YES.getCode(), "ALIPAY", "支付宝APP支付后台自动回调",
+                        alipayOrderNo);
+                    // 收款方账户加钱
+                    accountBO.transAmountNotJour(systemCode,
+                        toJour.getAccountNumber(), toJour.getTransAmount(),
+                        toJour.getCode());
                 } else {
-                    throw new BizException("xn000000", "校验通知数据的正确性失败，默认为非法回调");
+                    // 支付失败
+                    jourBO.callBackChangeJour(fromJour.getCode(),
+                        EBoolean.NO.getCode(), "ALIPAY", "支付宝APP支付后台自动回调",
+                        alipayOrderNo);
+                    jourBO.callBackChangeJour(toJour.getCode(),
+                        EBoolean.NO.getCode(), "ALIPAY", "支付宝APP支付后台自动回调",
+                        alipayOrderNo);
+                    if (!EJourStatus.todoCallBack.getCode().equals(
+                        fromJour.getStatus())) {
+                        throw new BizException("xn000000", "流水不处于待回调状态，重复回调");
+                    }
                 }
+
+                return new CallbackResult(isSuccess, fromJour.getBizType(),
+                    fromJour.getCode(), fromJour.getPayGroup(),
+                    fromJour.getTransAmount(), systemCode, companyCode,
+                    companyChannel.getBackUrl());
             } else {
                 throw new BizException("xn000000", "验签失败，默认为非法回调");
             }
