@@ -48,6 +48,9 @@ public class WXPrepay {
 
     private String openid;
 
+    // 扫码支付时必填
+    private String product_id;
+
     private String attach;
 
     // 预支付订单号
@@ -84,6 +87,38 @@ public class WXPrepay {
                 this.prepay_id = prepay_id;
                 if (prepay_id != null)
                     return prepay_id;
+            }
+            // 释放资源
+            closeableHttpClient.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return prepay_id;
+    }
+
+    public String submitXmlGetCodeUrl() {
+        // 创建HttpClientBuilder
+        HttpClientBuilder httpClientBuilder = HttpClientBuilder.create();
+        // HttpClient
+        CloseableHttpClient closeableHttpClient = httpClientBuilder.build();
+        HttpPost httpPost = new HttpPost(unifiedorder);
+        String xml = getPackage();
+        StringEntity entity;
+        try {
+            entity = new StringEntity(xml, "utf-8");
+            httpPost.setEntity(entity);
+            HttpResponse httpResponse;
+            // post请求
+            httpResponse = closeableHttpClient.execute(httpPost);
+            HttpEntity httpEntity = httpResponse.getEntity();
+            if (httpEntity != null) {
+                // 打印响应内容
+                String result = EntityUtils.toString(httpEntity, "UTF-8");
+                System.out.println(result);
+                // 过滤
+                result = result.replaceAll("<![CDATA[|]]>", "");
+                String code_url = Jsoup.parse(result).select("code_url").html();
+                return code_url;
             }
             // 释放资源
             closeableHttpClient.close();
@@ -144,6 +179,9 @@ public class WXPrepay {
         treeMap.put("notify_url", this.notify_url);
         if (StringUtils.isNotBlank(this.openid)) {
             treeMap.put("openid", this.openid);
+        }
+        if (StringUtils.isNotBlank(this.product_id)) {
+            treeMap.put("product_id", this.product_id);
         }
         treeMap.put("attach", this.attach);
         StringBuilder sb = new StringBuilder();
@@ -256,6 +294,14 @@ public class WXPrepay {
 
     public void setAttach(String attach) {
         this.attach = attach;
+    }
+
+    public String getProduct_id() {
+        return product_id;
+    }
+
+    public void setProduct_id(String product_id) {
+        this.product_id = product_id;
     }
 
 }
