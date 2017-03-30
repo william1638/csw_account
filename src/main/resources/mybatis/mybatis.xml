@@ -9,5 +9,6 @@
 		
 		<typeAlias alias="sysDict" type="com.std.account.domain.SYSDict" />
 		<typeAlias alias="bankcard" type="com.std.account.domain.Bankcard" />
+		<typeAlias alias="exchangeCurrency" type="com.std.account.domain.ExchangeCurrency" />
 	</typeAliases>
 </configuration>

@@ -17,9 +17,10 @@ public enum EBizType {
             "福利月卡分成"), AJ_FLYKHH("35", "福利月卡返还"), AJ_GMHZB("-36", "购买汇赚宝"), AJ_GMHZBFC(
             "37", "购买汇赚宝分成"), AJ_YYJL("38", "汇赚宝摇一摇奖励"), AJ_YYFC("39", "摇一摇分成"), AJ_HB2FR(
             "50", "红包兑分润"), AJ_HBYJ2FR("52", "红包业绩兑分润"), AJ_HBYJ2GXJL("54",
-            "红包业绩兑贡献值"), AJ_FR2RMB("56", "分润兑人民币"), AJ_GXJL2RMB("58", "贡献值兑人民币");
+            "红包业绩兑贡献值"), AJ_FR2RMB("56", "分润兑人民币"), AJ_GXJL2RMB("58", "贡献值兑人民币")
 
     // 取现审批和兑换币种，产生记录为冻结流水，故我的流水中排除这些情况
+    , EXCHANGE_CURRENCY("200", "币种兑换");
 
     public static Map<String, EBizType> getBizTypeMap() {
         Map<String, EBizType> map = new HashMap<String, EBizType>();

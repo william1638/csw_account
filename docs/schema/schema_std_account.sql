@@ -118,3 +118,23 @@ CREATE TABLE `tstd_channel_bank` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `tstd_exchange_currency`;
+CREATE TABLE `tstd_exchange_currency` (
+  `code` varchar(32) NOT NULL COMMENT '编号',
+  `to_user_id` varchar(32) DEFAULT NULL COMMENT '去方用户',
+  `to_amount` varchar(32) DEFAULT NULL COMMENT '去方金额',
+  `to_currency` varchar(32) DEFAULT NULL COMMENT '去方币种',
+  `from_user_id` varchar(32) DEFAULT NULL COMMENT '来方用户',
+  `from_amount` bigint(20) DEFAULT NULL COMMENT '来方金额',
+  `from_currency` bigint(20) DEFAULT NULL COMMENT '来方币种',
+  `create_datetime` datetime DEFAULT NULL COMMENT '产生时间',
+  `status` varchar(4) DEFAULT NULL COMMENT '状态',
+  `pay_type` varchar(4) DEFAULT NULL COMMENT '支付方式',
+  `pay_group` varchar(32) DEFAULT NULL COMMENT '支付组号',
+  `pay_code` varchar(32) DEFAULT NULL COMMENT '支付编号',
+  `pay_amount` bigint(20) DEFAULT NULL COMMENT '支付人民币',
+  `pay_datetime` datetime DEFAULT NULL COMMENT '支付时间',
+  `company_code` varchar(32) DEFAULT NULL COMMENT '公司编号',
+  `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
+  PRIMARY KEY (`code`) COMMENT '币种兑换'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

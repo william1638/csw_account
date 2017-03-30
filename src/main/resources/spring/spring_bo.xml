@@ -32,4 +32,8 @@
 	<bean id="bankcardBO" class="com.std.account.bo.impl.BankcardBOImpl">
 		<property name="paginableDAO" ref="bankcardDAOImpl"/>
 	</bean>	
+	
+	<bean id="exchangeCurrencyBO" class="com.std.account.bo.impl.ExchangeCurrencyBOImpl">
+		<property name="paginableDAO" ref="exchangeCurrencyDAOImpl"/>
+	</bean>	
 </beans>
