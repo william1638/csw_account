@@ -116,4 +116,12 @@ public class CallbackResult {
         this.url = url;
     }
 
+    @Override
+    public String toString() {
+        return "CallbackResult [isSuccess=" + isSuccess + ", bizType="
+                + bizType + ", jourCode=" + jourCode + ", payGroup=" + payGroup
+                + ", transAmount=" + transAmount + ", systemCode=" + systemCode
+                + ", companyCode=" + companyCode + ", url=" + url + "]";
+    }
+
 }

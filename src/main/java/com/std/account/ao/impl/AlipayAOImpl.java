@@ -8,8 +8,6 @@
  */
 package com.std.account.ao.impl;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -200,9 +198,9 @@ public class AlipayAOImpl implements IAlipayAO {
             companyCode, systemCode, EChannelType.Alipay.getCode());
         try {
             // 参数进行url_decode
-            String params = URLDecoder.decode(result, CHARSET);
+            // String params = URLDecoder.decode(result, CHARSET);
             // 将异步通知中收到的待验证所有参数都存放到map中
-            Map<String, String> paramsMap = split(params);
+            Map<String, String> paramsMap = split(result);
             // 过滤+排序
             Map<String, String> filterMap = AlipayCore.paraFilter(paramsMap);
             String content = AlipayCore.createLinkString(filterMap);
@@ -268,8 +266,6 @@ public class AlipayAOImpl implements IAlipayAO {
                 throw new BizException("xn000000", "验签失败，默认为非法回调");
             }
 
-        } catch (UnsupportedEncodingException e1) {
-            throw new BizException("xn000000", "回调参数url_decode异常");
         } catch (AlipayApiException e) {
             throw new BizException("xn000000", "支付结果通知验签异常");
         }
