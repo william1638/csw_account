@@ -120,9 +120,10 @@ public class CallbackConroller {
             outSteam.close();
             inStream.close();
             String result = new String(outSteam.toByteArray(), "utf-8");
-            logger.info("**** APP支付回调结果 ****：" + result);
+            logger.info("**** APP支付回调结果： ****：" + result);
             // 解析回调结果
             CallbackResult callbackResult = alipayAO.doCallbackAPP(result);
+            logger.info("**** 回调业务biz参数： ****：" + callbackResult);
             // 回调业务biz，通知支付结果
             alipayAO.doBizCallback(callbackResult);
             // 通知支付宝服务器(我已收到请求，不用再继续回调我了)
