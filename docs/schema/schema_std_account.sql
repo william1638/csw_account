@@ -36,6 +36,9 @@ CREATE TABLE `tstd_account` (
   `currency` varchar(8) DEFAULT NULL COMMENT '币种',
   `amount` bigint(32) DEFAULT NULL COMMENT '余额',
   `frozen_amount` bigint(32) DEFAULT NULL COMMENT '冻结金额',
+    `amount` bigint(32) DEFAULT NULL COMMENT '余额',
+  `amount` bigint(32) DEFAULT NULL COMMENT '余额',
+
   `md5` varchar(32) DEFAULT NULL COMMENT 'MD5',
   `create_datetime` datetime DEFAULT NULL COMMENT '创建时间',
   `last_order` varchar(32) DEFAULT NULL COMMENT '最近一次变动对应的流水编号',
@@ -137,4 +140,18 @@ CREATE TABLE `tstd_exchange_currency` (
   `company_code` varchar(32) DEFAULT NULL COMMENT '公司编号',
   `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
   PRIMARY KEY (`code`) COMMENT '币种兑换'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `tsys_config`;
+CREATE TABLE `tsys_config` (
+  `id` int(11) NOT NULL AUTO_INCREMENT COMMENT '编号',
+  `type` varchar(32) DEFAULT NULL COMMENT '类型',
+  `ckey` varchar(32) DEFAULT NULL COMMENT 'key值',
+  `cvalue` text COMMENT '值',
+  `updater` varchar(32) NOT NULL COMMENT '更新人',
+  `update_datetime` datetime NOT NULL COMMENT '更新时间',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  `company_code` varchar(32) DEFAULT NULL COMMENT '公司编号',
+  `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
+  PRIMARY KEY (`id`) COMMENT '系统参数'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

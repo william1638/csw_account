@@ -10,5 +10,6 @@
 		<typeAlias alias="sysDict" type="com.std.account.domain.SYSDict" />
 		<typeAlias alias="bankcard" type="com.std.account.domain.Bankcard" />
 		<typeAlias alias="exchangeCurrency" type="com.std.account.domain.ExchangeCurrency" />
+		<typeAlias alias="sysConfig" type="com.std.account.domain.SYSConfig" />
 	</typeAliases>
 </configuration>

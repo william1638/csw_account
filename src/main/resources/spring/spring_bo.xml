@@ -36,4 +36,8 @@
 	<bean id="exchangeCurrencyBO" class="com.std.account.bo.impl.ExchangeCurrencyBOImpl">
 		<property name="paginableDAO" ref="exchangeCurrencyDAOImpl"/>
 	</bean>	
+	
+	<bean id="sysConfigBO" class="com.std.account.bo.impl.SYSConfigBOImpl">
+		<property name="paginableDAO" ref="sysConfigDAOImpl"/>
+	</bean>	
 </beans>
