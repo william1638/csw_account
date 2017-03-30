@@ -36,6 +36,7 @@ import com.std.account.domain.CallbackResult;
 import com.std.account.domain.CompanyChannel;
 import com.std.account.domain.Jour;
 import com.std.account.dto.res.XN002510Res;
+import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
 import com.std.account.enums.ECurrency;
@@ -84,8 +85,16 @@ public class AlipayAOImpl implements IAlipayAO {
         // 获取来去方账户信息
         Account fromAccount = accountBO.getAccountByUser(fromUserId,
             ECurrency.CNY.getCode());
+        String toAcccoutCurrency = null;
+        // 如果是正汇系统的O2O消费买单，付款至分润账户
+        if ("CD-CZH000001".equals(fromAccount.getSystemCode())
+                && EBizType.AJ_DPXF.getCode().equals(bizType)) {
+            toAcccoutCurrency = ECurrency.FRB.getCode();
+        } else { // 其他系统，付款至现金账户
+            toAcccoutCurrency = ECurrency.CNY.getCode();
+        }
         Account toAccount = accountBO.getAccountByUser(toUserId,
-            ECurrency.CNY.getCode());
+            toAcccoutCurrency);
         String systemCode = fromAccount.getSystemCode();
         String companyCode = fromAccount.getSystemCode();
 
