@@ -151,7 +151,7 @@ public class WeChatAOImpl implements IWeChatAO {
             transAmount, payGroup);
         // 获取微信扫码支付codeURL
         CompanyChannel companyChannel = companyChannelBO.getCompanyChannel(
-            systemCode, systemCode, EChannelType.WeChat_H5.getCode());
+            systemCode, systemCode, EChannelType.WeChat_NATIVE.getCode());
         String codeUrl = wechatBO.getPrepayIdNative(companyChannel,
             fromBizNote, jourCode, transAmount, SysConstant.IP);
         // 返回微信APP支付所需信息
@@ -275,6 +275,69 @@ public class WeChatAOImpl implements IWeChatAO {
         }
         CompanyChannel companyChannel = companyChannelBO.getCompanyChannel(
             companyCode, systemCode, EChannelType.WeChat_H5.getCode());
+        return new CallbackResult(isSucc, fromJour.getBizType(),
+            fromJour.getCode(), fromJour.getPayGroup(),
+            fromJour.getTransAmount(), systemCode, companyCode,
+            companyChannel.getBackUrl());
+    }
+
+    @Override
+    public CallbackResult doCallbackNative(String result) {
+        String systemCode = null;
+        String companyCode = null;
+        String wechatOrderNo = null;
+        Jour fromJour = null;
+        Jour toJour = null;
+        Map<String, String> map = null;
+        try {
+            map = XMLUtil.doXMLParse(result);
+            String attach = map.get("attach");
+            String[] codes = attach.split("\\|\\|");
+            systemCode = codes[0];
+            companyCode = codes[1];
+            wechatOrderNo = map.get("transaction_id");
+            fromJour = jourBO.getJour(map.get("out_trade_no"), systemCode);
+            toJour = jourBO.getRelativeJour(fromJour.getCode(),
+                fromJour.getPayGroup());
+            if (!EJourStatus.todoCallBack.getCode()
+                .equals(fromJour.getStatus())) {
+                throw new BizException("xn000000", "流水不处于待回调状态，重复回调");
+            }
+        } catch (JDOMException | IOException e) {
+            throw new BizException("xn000000", "回调结果XML解析失败");
+        }
+
+        // 此处调用订单查询接口验证是否交易成功
+        boolean isSucc = reqOrderquery(map,
+            EChannelType.WeChat_NATIVE.getCode());
+        // 支付成功，商户处理后同步返回给微信参数
+        if (!isSucc) {
+            // 支付失败
+            System.out.println("支付失败");
+            jourBO.callBackChangeJour(fromJour.getCode(),
+                EBoolean.NO.getCode(), "WeChat_NATIVE", "微信公众号支付后台自动回调",
+                wechatOrderNo);
+            jourBO.callBackChangeJour(toJour.getCode(), EBoolean.NO.getCode(),
+                "WeChat_NATIVE", "微信扫码支付后台自动回调", wechatOrderNo);
+        } else {
+            System.out.println("===============付款成功==============");
+            // ------------------------------
+            // 处理业务开始
+            // ------------------------------
+            jourBO.callBackChangeJour(fromJour.getCode(),
+                EBoolean.YES.getCode(), "WeChat_NATIVE", "微信公众号支付后台自动回调",
+                wechatOrderNo);
+            jourBO.callBackChangeJour(toJour.getCode(), EBoolean.YES.getCode(),
+                "WeChat_NATIVE", "微信扫码支付后台自动回调", wechatOrderNo);
+            // 收款方账户加钱
+            accountBO.transAmountNotJour(systemCode, toJour.getAccountNumber(),
+                toJour.getTransAmount(), toJour.getCode());
+            // ------------------------------
+            // 处理业务完毕
+            // ------------------------------
+        }
+        CompanyChannel companyChannel = companyChannelBO.getCompanyChannel(
+            companyCode, systemCode, EChannelType.WeChat_NATIVE.getCode());
         return new CallbackResult(isSucc, fromJour.getBizType(),
             fromJour.getCode(), fromJour.getPayGroup(),
             fromJour.getTransAmount(), systemCode, companyCode,

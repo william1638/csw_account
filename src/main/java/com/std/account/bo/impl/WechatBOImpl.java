@@ -141,7 +141,7 @@ public class WechatBOImpl implements IWechatBO {
         prePay.setTotal_fee(Long.toString(transAmount / 10)); // 订单总金额，厘转化成分
         prePay.setSpbill_create_ip(ip); // 用户IP
         prePay.setTrade_type(EWeChatType.NATIVE.getCode()); // 交易类型
-        prePay.setNotify_url(PropertiesUtil.Config.WECHAT_H5_BACKURL);// 回调地址
+        prePay.setNotify_url(PropertiesUtil.Config.WECHAT_NATIVE_BACKURL);// 回调地址
         prePay.setPartnerKey(companyChannel.getPrivateKey1()); // 商户秘钥
         prePay.setProduct_id(code);
         prePay.setAttach(companyChannel.getSystemCode() + "||"

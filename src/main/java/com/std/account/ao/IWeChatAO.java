@@ -35,6 +35,8 @@ public interface IWeChatAO {
 
     public CallbackResult doCallbackH5(String result);
 
+    public CallbackResult doCallbackNative(String result);
+
     public String getAccessToken(String appId, String appSecret);
 
     public void doBizCallback(CallbackResult callbackResult);

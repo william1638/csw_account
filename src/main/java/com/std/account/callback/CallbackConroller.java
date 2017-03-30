@@ -2,6 +2,7 @@ package com.std.account.callback;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
 import java.nio.charset.Charset;
@@ -42,15 +43,7 @@ public class CallbackConroller {
             // 获取回调参数
             PrintWriter out = response.getWriter();
             InputStream inStream = request.getInputStream();
-            ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            int len = 0;
-            while ((len = inStream.read(buffer)) != -1) {
-                outSteam.write(buffer, 0, len);
-            }
-            outSteam.close();
-            inStream.close();
-            String result = new String(outSteam.toByteArray(), "utf-8");
+            String result = getReqResult(out, inStream);
             logger.info("**** APP支付回调结果 ****：" + result);
             // 解析回调结果
             CallbackResult callbackResult = weChatAO.doCallbackAPP(result);
@@ -73,15 +66,7 @@ public class CallbackConroller {
             // 获取回调参数
             PrintWriter out = response.getWriter();
             InputStream inStream = request.getInputStream();
-            ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            int len = 0;
-            while ((len = inStream.read(buffer)) != -1) {
-                outSteam.write(buffer, 0, len);
-            }
-            outSteam.close();
-            inStream.close();
-            String result = new String(outSteam.toByteArray(), "utf-8");
+            String result = getReqResult(out, inStream);
             logger.info("**** 公众号支付回调结果 ****：" + result);
             // 解析回调结果
             CallbackResult callbackResult = weChatAO.doCallbackH5(result);
@@ -96,10 +81,29 @@ public class CallbackConroller {
         }
     }
 
-    public String setXML(String return_code, String return_msg) {
-        return "<xml><return_code><![CDATA[" + return_code
-                + "]]></return_code><return_msg><![CDATA[" + return_msg
-                + "]]></return_msg></xml>";
+    // 微信扫码支付回调
+    @RequestMapping("/wechat/native/callback")
+    public synchronized void doCallbackWechatNative(HttpServletRequest request,
+            HttpServletResponse response) {
+        try {
+            // 获取回调参数
+            PrintWriter out = response.getWriter();
+            InputStream inStream = request.getInputStream();
+            String result = getReqResult(out, inStream);
+            logger.info("**** 扫码支付回调结果 ****：" + result);
+
+            // 解析回调结果
+            weChatAO.doCallbackNative(result);
+
+            // &&&&&& todo 加减虚拟币 &&&&&&&
+
+            // 通知微信服务器(我已收到请求，不用再继续回调我了)
+            String noticeStr = setXML("SUCCESS", "");
+            out.print(new ByteArrayInputStream(noticeStr.getBytes(Charset
+                .forName("UTF-8"))));
+        } catch (Exception e) {
+            logger.info("扫码支付支付回调异常,原因：" + e.getMessage());
+        }
     }
 
     // 支付宝APP支付回调
@@ -132,4 +136,24 @@ public class CallbackConroller {
             logger.info("APP支付回调异常,原因：" + e.getMessage());
         }
     }
+
+    private String getReqResult(PrintWriter out, InputStream inStream)
+            throws IOException {
+        ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
+        byte[] buffer = new byte[1024];
+        int len = 0;
+        while ((len = inStream.read(buffer)) != -1) {
+            outSteam.write(buffer, 0, len);
+        }
+        outSteam.close();
+        inStream.close();
+        return new String(outSteam.toByteArray(), "utf-8");
+    }
+
+    public String setXML(String return_code, String return_msg) {
+        return "<xml><return_code><![CDATA[" + return_code
+                + "]]></return_code><return_msg><![CDATA[" + return_msg
+                + "]]></return_msg></xml>";
+    }
+
 }
