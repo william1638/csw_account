@@ -36,7 +36,7 @@ public class XN002501 extends AProcessor {
         return weChatAO.getPrepayIdH5(req.getFromUserId(), req.getFromOpenId(),
             req.getToUserId(), req.getBizType(), req.getFromBizNote(),
             req.getToBizNote(), StringValidater.toLong(req.getTransAmount()),
-            req.getPayGroup());
+            req.getPayGroup(), req.getBackUrl());
     }
 
     /** 

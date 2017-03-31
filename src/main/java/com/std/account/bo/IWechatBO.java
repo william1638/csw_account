@@ -19,13 +19,14 @@ import com.std.account.dto.res.XN002501Res;
  */
 public interface IWechatBO {
     public String getPrepayIdApp(CompanyChannel companyChannel, String bizNote,
-            String code, Long transAmount, String ip);
+            String code, Long transAmount, String ip, String backUrl);
 
     public XN002500Res getPayInfoApp(CompanyChannel companyChannel,
             String payCode, String prepayId);
 
     public String getPrepayIdH5(CompanyChannel companyChannel, String openId,
-            String bizNote, String code, Long transAmount, String ip);
+            String bizNote, String code, Long transAmount, String ip,
+            String backUrl);
 
     public XN002501Res getPayInfoH5(CompanyChannel companyChannel,
             String payCode, String prepayId);

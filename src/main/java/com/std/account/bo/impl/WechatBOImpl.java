@@ -38,7 +38,7 @@ public class WechatBOImpl implements IWechatBO {
 
     @Override
     public String getPrepayIdApp(CompanyChannel companyChannel, String bizNote,
-            String code, Long transAmount, String ip) {
+            String code, Long transAmount, String ip, String backUrl) {
         WXPrepay prePay = new WXPrepay();
         prePay.setAppid(companyChannel.getPrivateKey2());// 微信开放平台审核通过的应用APPID
         prePay.setMch_id(companyChannel.getChannelCompany()); // 商户号
@@ -50,7 +50,7 @@ public class WechatBOImpl implements IWechatBO {
         prePay.setNotify_url(PropertiesUtil.Config.WECHAT_APP_BACKURL);// 回调地址
         prePay.setPartnerKey(companyChannel.getPrivateKey1()); // 商户秘钥
         prePay.setAttach(companyChannel.getSystemCode() + "||"
-                + companyChannel.getCompanyCode()); // 附加字段，回调时返回
+                + companyChannel.getCompanyCode() + "||" + backUrl); // 附加字段，回调时返回
         return prePay.submitXmlGetPrepayId();
     }
 
@@ -85,7 +85,8 @@ public class WechatBOImpl implements IWechatBO {
 
     @Override
     public String getPrepayIdH5(CompanyChannel companyChannel, String openId,
-            String bizNote, String code, Long transAmount, String ip) {
+            String bizNote, String code, Long transAmount, String ip,
+            String backUrl) {
         WXPrepay prePay = new WXPrepay();
         prePay.setAppid(companyChannel.getPrivateKey2());// 微信支付分配的公众账号ID
         prePay.setMch_id(companyChannel.getChannelCompany()); // 商户号
@@ -98,7 +99,7 @@ public class WechatBOImpl implements IWechatBO {
         prePay.setPartnerKey(companyChannel.getPrivateKey1()); // 商户秘钥
         prePay.setOpenid(openId); // 支付者openid
         prePay.setAttach(companyChannel.getSystemCode() + "||"
-                + companyChannel.getCompanyCode()); // 附加字段，回调时返回
+                + companyChannel.getCompanyCode() + "||" + backUrl); // 附加字段，回调时返回
         return prePay.submitXmlGetPrepayId();
     }
 

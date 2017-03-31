@@ -21,11 +21,11 @@ public interface IWeChatAO {
 
     public XN002500Res getPrepayIdApp(String fromUserId, String toUserId,
             String bizType, String fromBizNote, String toBizNote,
-            Long transAmount, String payGroup);
+            Long transAmount, String payGroup, String backUrl);
 
     public XN002501Res getPrepayIdH5(String fromUserId, String fromOpenId,
             String toUserId, String bizType, String fromBizNote,
-            String toBizNote, Long transAmount, String payGroup);
+            String toBizNote, Long transAmount, String payGroup, String backUrl);
 
     public String getPrepayIdNative(String fromUserId, String toUserId,
             String bizType, String fromBizNote, String toBizNote,

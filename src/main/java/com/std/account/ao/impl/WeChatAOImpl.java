@@ -68,7 +68,7 @@ public class WeChatAOImpl implements IWeChatAO {
     @Override
     public XN002500Res getPrepayIdApp(String fromUserId, String toUserId,
             String bizType, String fromBizNote, String toBizNote,
-            Long transAmount, String payGroup) {
+            Long transAmount, String payGroup, String backUrl) {
         if (transAmount.longValue() == 0l) {
             throw new BizException("xn000000", "发生金额为零，不能使用微信支付");
         }
@@ -92,7 +92,7 @@ public class WeChatAOImpl implements IWeChatAO {
             systemCode, systemCode, EChannelType.WeChat_APP.getCode());
         // 获取微信公众号支付prepayid
         String prepayId = wechatBO.getPrepayIdApp(companyChannel, fromBizNote,
-            jourCode, transAmount, SysConstant.IP);
+            jourCode, transAmount, SysConstant.IP, backUrl);
         // 返回微信APP支付所需信息
         return wechatBO.getPayInfoApp(companyChannel, jourCode, prepayId);
     }
@@ -101,7 +101,7 @@ public class WeChatAOImpl implements IWeChatAO {
     @Transactional
     public XN002501Res getPrepayIdH5(String fromUserId, String fromOpenId,
             String toUserId, String bizType, String fromBizNote,
-            String toBizNote, Long transAmount, String payGroup) {
+            String toBizNote, Long transAmount, String payGroup, String backUrl) {
         if (transAmount.longValue() == 0l) {
             throw new BizException("xn000000", "发生金额为零，不能使用微信支付");
         }
@@ -122,7 +122,7 @@ public class WeChatAOImpl implements IWeChatAO {
         CompanyChannel companyChannel = companyChannelBO.getCompanyChannel(
             systemCode, systemCode, EChannelType.WeChat_H5.getCode());
         String prepayId = wechatBO.getPrepayIdH5(companyChannel, fromOpenId,
-            fromBizNote, jourCode, transAmount, SysConstant.IP);
+            fromBizNote, jourCode, transAmount, SysConstant.IP, backUrl);
         // 返回微信APP支付所需信息
         return wechatBO.getPayInfoH5(companyChannel, jourCode, prepayId);
     }
@@ -162,6 +162,7 @@ public class WeChatAOImpl implements IWeChatAO {
     public CallbackResult doCallbackAPP(String result) {
         String systemCode = null;
         String companyCode = null;
+        String backUrl = null;
         String wechatOrderNo = null;
         Jour fromJour = null;
         Jour toJour = null;
@@ -172,6 +173,7 @@ public class WeChatAOImpl implements IWeChatAO {
             String[] codes = attach.split("\\|\\|");
             systemCode = codes[0];
             companyCode = codes[1];
+            backUrl = codes[2];
             wechatOrderNo = map.get("transaction_id");
             fromJour = jourBO.getJour(map.get("out_trade_no"), systemCode);
             toJour = jourBO.getRelativeJour(fromJour.getCode(),
@@ -211,18 +213,16 @@ public class WeChatAOImpl implements IWeChatAO {
             // 处理业务完毕
             // ------------------------------
         }
-        CompanyChannel companyChannel = companyChannelBO.getCompanyChannel(
-            companyCode, systemCode, EChannelType.WeChat_APP.getCode());
         return new CallbackResult(isSucc, fromJour.getBizType(),
             fromJour.getCode(), fromJour.getPayGroup(),
-            fromJour.getTransAmount(), systemCode, companyCode,
-            companyChannel.getBackUrl());
+            fromJour.getTransAmount(), systemCode, companyCode, backUrl);
     }
 
     @Override
     public CallbackResult doCallbackH5(String result) {
         String systemCode = null;
         String companyCode = null;
+        String backUrl = null;
         String wechatOrderNo = null;
         Jour fromJour = null;
         Jour toJour = null;
@@ -233,6 +233,7 @@ public class WeChatAOImpl implements IWeChatAO {
             String[] codes = attach.split("\\|\\|");
             systemCode = codes[0];
             companyCode = codes[1];
+            backUrl = codes[2];
             wechatOrderNo = map.get("transaction_id");
             fromJour = jourBO.getJour(map.get("out_trade_no"), systemCode);
             toJour = jourBO.getRelativeJour(fromJour.getCode(),
@@ -273,12 +274,9 @@ public class WeChatAOImpl implements IWeChatAO {
             // 处理业务完毕
             // ------------------------------
         }
-        CompanyChannel companyChannel = companyChannelBO.getCompanyChannel(
-            companyCode, systemCode, EChannelType.WeChat_H5.getCode());
         return new CallbackResult(isSucc, fromJour.getBizType(),
             fromJour.getCode(), fromJour.getPayGroup(),
-            fromJour.getTransAmount(), systemCode, companyCode,
-            companyChannel.getBackUrl());
+            fromJour.getTransAmount(), systemCode, companyCode, backUrl);
     }
 
     @Override
