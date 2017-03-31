@@ -1,6 +1,6 @@
 package com.std.account.dto.req;
 
-public class XN805902Req {
+public class XN001100Req {
     // 应用用户的唯一编号（目前暂用UserId,后期改进）
     private String tokenId;
 
