@@ -31,14 +31,12 @@ CREATE TABLE `tstd_account` (
   `account_number` varchar(32) NOT NULL DEFAULT '' COMMENT '账号',
   `user_id` varchar(32) DEFAULT NULL COMMENT '用户编号',
   `real_name` varchar(16) DEFAULT NULL COMMENT '真实姓名',
-  `type` varchar(4) DEFAULT NULL COMMENT  '类别（B端账号，C端账号，平台账号）',
+  `type` varchar(4) DEFAULT NULL COMMENT '类别（B端账号，C端账号，平台账号）',
   `status` varchar(2) DEFAULT NULL COMMENT '状态（正常/程序冻结/人工冻结）',
   `currency` varchar(8) DEFAULT NULL COMMENT '币种',
+  
   `amount` bigint(32) DEFAULT NULL COMMENT '余额',
   `frozen_amount` bigint(32) DEFAULT NULL COMMENT '冻结金额',
-    `amount` bigint(32) DEFAULT NULL COMMENT '余额',
-  `amount` bigint(32) DEFAULT NULL COMMENT '余额',
-
   `md5` varchar(32) DEFAULT NULL COMMENT 'MD5',
   `create_datetime` datetime DEFAULT NULL COMMENT '创建时间',
   `last_order` varchar(32) DEFAULT NULL COMMENT '最近一次变动对应的流水编号',
