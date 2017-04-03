@@ -167,4 +167,12 @@ public interface IAccountAO {
      * @history:
      */
     public List<Account> getAccountByUserId(String userId, String currency);
+
+    // 商户针对C端手机划转资金
+    public void doTransferB2C(String storeOwner, String mobile, Long amount,
+            String currency);
+
+    // 加盟商对商户划转资金
+    public void doTransferF2B(String franchiseeUser, String storeOwner,
+            Long amount, String currency);
 }

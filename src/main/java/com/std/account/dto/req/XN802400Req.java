@@ -1,26 +1,48 @@
 package com.std.account.dto.req;
 
 public class XN802400Req {
-    // 公司编号
-    private String companyCode;
+    // 商家编号(必填)
+    private String storeOwner;
 
-    // 渠道类型
-    private String channelType;
+    // 会员手机号(必填)
+    private String mobile;
 
-    public String getCompanyCode() {
-        return companyCode;
+    // 划转金额(必填)
+    private String amount;
+
+    // 币种(必填)
+    private String currency;
+
+    public String getStoreOwner() {
+        return storeOwner;
     }
 
-    public void setCompanyCode(String companyCode) {
-        this.companyCode = companyCode;
+    public void setStoreOwner(String storeOwner) {
+        this.storeOwner = storeOwner;
     }
 
-    public String getChannelType() {
-        return channelType;
+    public String getMobile() {
+        return mobile;
     }
 
-    public void setChannelType(String channelType) {
-        this.channelType = channelType;
+    public void setMobile(String mobile) {
+        this.mobile = mobile;
+    }
+
+    public String getAmount() {
+        return amount;
+    }
+
+    public void setAmount(String amount) {
+        this.amount = amount;
+    }
+
+    public String getCurrency() {
+        return currency;
+    }
+
+    public void setCurrency(String currency) {
+        this.currency = currency;
     }
 
 }
