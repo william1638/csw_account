@@ -34,7 +34,7 @@ public class XN802524 extends AProcessor {
         condition.setBizType(req.getBizType());
         condition.setAccountNumber(req.getAccountNumber());
         if (StringUtils.isBlank(req.getStatus())) {
-            condition.setStatus("effect_all");
+            condition.setStatus("effect");
         } else {
             condition.setStatus(req.getStatus());
         }
