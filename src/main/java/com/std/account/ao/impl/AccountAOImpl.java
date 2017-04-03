@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,10 +15,10 @@ import com.std.account.bo.IJourBO;
 import com.std.account.bo.IUserBO;
 import com.std.account.bo.base.Paginable;
 import com.std.account.domain.Account;
+import com.std.account.domain.User;
 import com.std.account.enums.EAccountType;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EChannelType;
-import com.std.account.enums.ECurrency;
 import com.std.account.enums.ESystemCode;
 import com.std.account.enums.EUserKind;
 import com.std.account.exception.BizException;
@@ -218,44 +217,50 @@ public class AccountAOImpl implements IAccountAO {
     @Override
     public void doTransferB2C(String storeOwner, String mobile, Long amount,
             String currency) {
-        // 验证参数
-
+        User storeUser = userBO.getRemoteUser(storeOwner);
         String toUserId = userBO.isUserExist(mobile, EUserKind.F1,
-            store.getSystemCode());
-        if (StringUtils.isBlank(toUserId)) {
-            throw new BizException("xn0000", "手机号用户不存在");
-        }
-        EBizType ebizType = null;
-        if (ECurrency.CG_CGB.getCode().equals(currency)) {
-            ebizType = EBizType.CG_GIVE_AMOUNT_DX;
-        } else if (ECurrency.JF.getCode().equals(currency)) {
-            ebizType = EBizType.CG_GIVE_AMOUNT_DF;
-        } else {
-            throw new BizException("xn0000", "兑换币种不支持");
-        }
-        ECurrency eCurrency = ECurrency.getResultMap().get(currency);
-        accountBO.doTransferAmountRemote(storeOwner, toUserId, eCurrency,
-            amount, ebizType, ebizType.getValue() + "，手机号用户《" + mobile + "》",
-            "商家《" + store.getName() + "》" + ebizType.getValue());
+            storeUser.getSystemCode());
+        Account fromAccount = accountBO.getAccountByUser(storeOwner, currency);
+        Account toAccount = accountBO.getAccountByUser(toUserId, currency);
+
+        String bizType = EBizType.Transfer_CURRENCY.getCode();
+        accountBO.transAmount(fromAccount.getSystemCode(),
+            fromAccount.getAccountNumber(), EChannelType.NBZ, null, -amount,
+            bizType, "商户针对C端手机划转资金");
+        accountBO.transAmount(toAccount.getSystemCode(),
+            toAccount.getAccountNumber(), EChannelType.NBZ, null, amount,
+            bizType, "商户针对C端手机划转资金");
+
     }
 
     @Override
     public void doTransferF2B(String fromUserId, String toUserId, Long amount,
             String currency) {
-        // 验证参数
-        userBO.getRemoteUser(fromUserId);
-        userBO.getRemoteUser(toUserId);
+        Account fromAccount = accountBO.getAccountByUser(fromUserId, currency);
+        Account toAccount = accountBO.getAccountByUser(toUserId, currency);
 
-        EBizType ebizType = null;
-        if (ECurrency.CG_CGB.getCode().equals(currency)) {
-            ebizType = EBizType.CG_GIVE_AMOUNT_DX;
-        } else if (ECurrency.JF.getCode().equals(currency)) {
-            ebizType = EBizType.CG_GIVE_AMOUNT_DF;
-        } else {
-            throw new BizException("xn0000", "兑换币种不支持");
-        }
-        ECurrency eCurrency = ECurrency.getResultMap().get(currency);
-        accountBO.doTransferAmountRemote(fromUserId, toUserId, eCurrency,
-            amount, ebizType, ebizType.getValue(), ebizType.getValue());
+        String bizType = EBizType.Transfer_CURRENCY.getCode();
+        accountBO.transAmount(fromAccount.getSystemCode(),
+            fromAccount.getAccountNumber(), EChannelType.NBZ, null, -amount,
+            bizType, "加盟商对商户划转资金");
+        accountBO.transAmount(toAccount.getSystemCode(),
+            toAccount.getAccountNumber(), EChannelType.NBZ, null, amount,
+            bizType, "加盟商对商户划转资金");
+    }
+
+    @Override
+    public void doTransferP2F(String fromUserId, String toUserId, Long amount,
+            String currency) {
+        Account fromAccount = accountBO.getAccountByUser(fromUserId, currency);
+        Account toAccount = accountBO.getAccountByUser(toUserId, currency);
+
+        String bizType = EBizType.Transfer_CURRENCY.getCode();
+        accountBO.transAmount(fromAccount.getSystemCode(),
+            fromAccount.getAccountNumber(), EChannelType.NBZ, null, -amount,
+            bizType, "平台对加盟商划转资金");
+        accountBO.transAmount(toAccount.getSystemCode(),
+            toAccount.getAccountNumber(), EChannelType.NBZ, null, amount,
+            bizType, "平台对加盟商划转资金");
+
     }
 }

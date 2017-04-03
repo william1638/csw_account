@@ -175,4 +175,8 @@ public interface IAccountAO {
     // 加盟商对商户划转资金
     public void doTransferF2B(String franchiseeUser, String storeOwner,
             Long amount, String currency);
+
+    // 平台对加盟商划转资金
+    public void doTransferP2F(String fromUserId, String toUserId, Long amount,
+            String currency);
 }

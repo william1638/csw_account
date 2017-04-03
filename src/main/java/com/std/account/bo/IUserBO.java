@@ -1,5 +1,6 @@
 package com.std.account.bo;
 
+import com.std.account.domain.User;
 import com.std.account.enums.EUserKind;
 
 /**
@@ -8,6 +9,7 @@ import com.std.account.enums.EUserKind;
  * @history:
  */
 public interface IUserBO {
+    public User getRemoteUser(String userId);
 
     /**
      * 校验支付密码

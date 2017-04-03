@@ -21,7 +21,7 @@ public enum EBizType {
             "60", "采购币售卖")
 
     // 取现审批和兑换币种，产生记录为冻结流水，故我的流水中排除这些情况
-    , EXCHANGE_CURRENCY("200", "币种兑换");
+    , EXCHANGE_CURRENCY("200", "币种兑换"), Transfer_CURRENCY("201", "同币种的划转");
 
     public static Map<String, EBizType> getBizTypeMap() {
         Map<String, EBizType> map = new HashMap<String, EBizType>();
