@@ -30,6 +30,13 @@
   cp ./std-account/WEB-INF/classes/config.properties .
   rm -rf std-account/
   mv /home/std-account.war .
+  
+  mv -f application.properties ./std-account/WEB-INF/classes/
+  mv -f config.properties ./std-account/WEB-INF/classes/
+  ../bin/shutdown.sh
+  ../bin/startup.sh
+  
+    http://121.43.101.148:8906/std-account/api
 
 
   cd /home/wwwroot/cswlm/tomcat_std_account/webapps
