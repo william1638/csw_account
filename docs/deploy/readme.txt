@@ -30,35 +30,11 @@
   cp ./std-account/WEB-INF/classes/config.properties .
   rm -rf std-account/
   mv /home/std-account.war .
-
-
-  cd /home/wwwroot/cswlm/tomcat_std_account/webapps
-  rm -rf std-account.war
-  cp ./std-account/WEB-INF/classes/application.properties .
-  cp ./std-account/WEB-INF/classes/config.properties .
-  rm -rf std-account/
-  mv /home/std-account.war .
-  
-  cd /home/wwwroot/zhpay/tomcat_std_account/webapps
-  rm -rf std-account.war
-  cp ./std-account/WEB-INF/classes/application.properties .
-  cp ./std-account/WEB-INF/classes/config.properties .
-  rm -rf std-account/
-  mv /home/std-account.war .
-  
-  http://121.43.101.148:5606/std-account/api
-  
-  cd /home/wwwroot/ride/tomcat_std_account/webapps
-  rm -rf std-account.war
-  cp ./std-account/WEB-INF/classes/application.properties .
-  cp ./std-account/WEB-INF/classes/config.properties .
-  rm -rf std-account/
-  mv /home/std-account.war .
-  
-  http://121.43.101.148:5706/std-account/api
   
 4,起停tomcat_STD_account
   mv -f application.properties ./std-account/WEB-INF/classes/
   mv -f config.properties ./std-account/WEB-INF/classes/
   ../bin/shutdown.sh
   ../bin/startup.sh
+  
+   http://121.43.101.148:8906/std-account/api
