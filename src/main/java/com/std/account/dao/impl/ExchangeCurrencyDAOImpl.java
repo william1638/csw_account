@@ -54,7 +54,7 @@ public class ExchangeCurrencyDAOImpl extends AMybatisTemplate implements
 
     @Override
     public int applyExchange(ExchangeCurrency data) {
-        return super.insert(NAMESPACE.concat("insert_applyExchange"), data);
+        return super.insert(NAMESPACE.concat("insert_payExchange"), data);
     }
 
     @Override

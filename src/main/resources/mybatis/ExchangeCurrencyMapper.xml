@@ -148,41 +148,7 @@
 		)
 	</insert>
 	
-	<insert id="insert_applyExchange" parameterType="exchangeCurrency">
-		INSERT INTO
-		tstd_exchange_currency(
-		code
-		
-		,to_user_id
-		,to_amount
-		,to_currency
-		,from_user_id
-		,from_amount
-		,from_currency
-		
-		,create_datetime
-		,status
-		
-		,company_code
-		,system_code
-		)
-		VALUES(
-		#{code}
-		
-		,#{toUserId}
-		,#{toAmount}
-		,#{toCurrency}
-		,#{fromUserId}
-		,#{fromAmount}
-		,#{fromCurrency}
-		
-		,#{createDatetime}
-		,#{status}
-		
-		,#{companyCode}
-		,#{systemCode}
-		)
-	</insert>
+	
 
 	<update id="update_paySuccess" parameterType="exchangeCurrency">
 		UPDATE tstd_exchange_currency

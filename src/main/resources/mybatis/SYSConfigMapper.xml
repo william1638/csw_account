@@ -54,11 +54,6 @@
 		FROM
 		tsys_config t 
 		<include refid="where_condition" />
-		<trim prefix="ORDER BY ">
-			<if test="order != null and order != '' ">
-				${order}
-			</if>
-		</trim>	
 	</select>
 
 	<select id="select_sysConfig_count" parameterType="sysConfig" resultType="java.lang.Long">
