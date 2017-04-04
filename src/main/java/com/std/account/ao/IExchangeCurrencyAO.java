@@ -8,7 +8,16 @@ import com.std.account.domain.ExchangeCurrency;
 public interface IExchangeCurrencyAO {
     static final String DEFAULT_ORDER_COLUMN = "code";
 
-    public Object payExchangeCurrency(ExchangeCurrency data);
+    // 获取虚拟币价值。1人民币等于多少虚拟币
+    public Double getExchangeRate(String currency);
+
+    public String applyExchange(String userId, Long amount, String currency);
+
+    public void approveExchange(String code, String approveResult,
+            String approver, String approveNote);
+
+    public Object payExchange(String userId, Long amount, String currency,
+            String payType);
 
     public void paySuccess(String payGroup, String payCode, Long transAmount);
 

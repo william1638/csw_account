@@ -7,6 +7,9 @@ public class User {
     // 手机号
     private String mobile;
 
+    // 公司编号
+    private String companyCode;
+
     // 系统编号
     private String systemCode;
 
@@ -32,6 +35,14 @@ public class User {
 
     public void setSystemCode(String systemCode) {
         this.systemCode = systemCode;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(String companyCode) {
+        this.companyCode = companyCode;
     }
 
 }

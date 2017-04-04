@@ -41,18 +41,18 @@ public interface ISYSConfigBO extends IPaginableBO<SYSConfig> {
      * @create: 2017年3月22日 下午3:45:54 myb858
      * @history:
      */
-    public SYSConfig getSYSConfig(String key, String systemCode);
+    public String getSYSConfig(String key, String systemCode);
 
     public SYSConfig getSYSConfig(String key, String companyCode,
             String systemCode);
 
-    // 获取人民币对菜狗积分配置值
-    public Double getCNY2CGJF();
+    // 获取人民币对正汇贡献值：1人民币=多少正汇贡献值
+    public Double getCNY2GXZ();
 
-    // 获取人民币对正汇贡献奖励配置值
-    public Double getCNY2ZHGXJL();
+    // 获取人民币对正汇分润配置值：1人民币=多少正汇分润
+    public Double getCNY2FRB();
 
-    // 获取人民币对正汇分润配置值
-    public Double getCNY2ZHFR();
+    // 获取人民币对菜狗币配置值：1人民币=多少菜狗币
+    public Double getCNY2CGB();
 
 }

@@ -42,7 +42,7 @@ public class AccountUtil {
             accountNumber = ESysAccount.CNY.getCode();
         } else if (ECurrency.FRB.getCode().equals(currency)) {
             accountNumber = ESysAccount.FRB.getCode();
-        } else if (ECurrency.GXJL.getCode().equals(currency)) {
+        } else if (ECurrency.GXZ.getCode().equals(currency)) {
             accountNumber = ESysAccount.GXJL.getCode();
         } else if (ECurrency.QBB.getCode().equals(currency)) {
             accountNumber = ESysAccount.QBB.getCode();

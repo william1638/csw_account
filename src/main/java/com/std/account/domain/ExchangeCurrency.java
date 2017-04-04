@@ -41,6 +41,15 @@ public class ExchangeCurrency extends ABaseDO {
     // 状态
     private String status;
 
+    // 更新人
+    private String updater;
+
+    // 更新时间
+    private Date updateDatetime;
+
+    // 备注
+    private String remark;
+
     // 支付方式
     private String payType;
 
@@ -188,6 +197,30 @@ public class ExchangeCurrency extends ABaseDO {
 
     public String getSystemCode() {
         return systemCode;
+    }
+
+    public String getUpdater() {
+        return updater;
+    }
+
+    public void setUpdater(String updater) {
+        this.updater = updater;
+    }
+
+    public Date getUpdateDatetime() {
+        return updateDatetime;
+    }
+
+    public void setUpdateDatetime(Date updateDatetime) {
+        this.updateDatetime = updateDatetime;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 
 }

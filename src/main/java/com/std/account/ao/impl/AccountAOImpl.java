@@ -261,6 +261,6 @@ public class AccountAOImpl implements IAccountAO {
         accountBO.transAmount(toAccount.getSystemCode(),
             toAccount.getAccountNumber(), EChannelType.NBZ, null, amount,
             bizType, "平台对加盟商划转资金");
-
     }
+
 }

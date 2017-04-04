@@ -14,7 +14,7 @@ public class ExchangeCurrencyDAOImpl extends AMybatisTemplate implements
 
     @Override
     public int insert(ExchangeCurrency data) {
-        return super.insert(NAMESPACE.concat("insert_exchangeCurrency"), data);
+        return 0;
     }
 
     @Override
@@ -47,11 +47,23 @@ public class ExchangeCurrencyDAOImpl extends AMybatisTemplate implements
             start, count, condition, ExchangeCurrency.class);
     }
 
-    /** 
-     * @see com.std.account.dao.IExchangeCurrencyDAO#updatePayStatus(com.std.account.domain.ExchangeCurrency)
-     */
     @Override
-    public int updatePayStatus(ExchangeCurrency data) {
-        return super.update(NAMESPACE.concat("update_payStatus"), data);
+    public int paySuccess(ExchangeCurrency data) {
+        return super.update(NAMESPACE.concat("update_paySuccess"), data);
+    }
+
+    @Override
+    public int applyExchange(ExchangeCurrency data) {
+        return super.insert(NAMESPACE.concat("insert_applyExchange"), data);
+    }
+
+    @Override
+    public int approveExchange(ExchangeCurrency data) {
+        return super.update(NAMESPACE.concat("update_approveExchange"), data);
+    }
+
+    @Override
+    public int payExchange(ExchangeCurrency data) {
+        return super.insert(NAMESPACE.concat("insert_payExchange"), data);
     }
 }

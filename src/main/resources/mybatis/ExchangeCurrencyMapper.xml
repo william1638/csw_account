@@ -4,21 +4,26 @@
 <mapper namespace="com.std.account.dao.IExchangeCurrencyDAO">
 	<resultMap id="exchangeCurrency_DB_Result" type="exchangeCurrency">
 		<result column="code" property="code" />
+		
 	    <result column="to_user_id" property="toUserId" />
 		<result column="to_amount" property="toAmount" />
 		<result column="to_currency" property="toCurrency" />
 	    <result column="from_user_id" property="fromUserId" />
-	    
 		<result column="from_amount" property="fromAmount" />
 		<result column="from_currency" property="fromCurrency" />
+		
 		<result column="create_datetime" property="createDatetime" />
 		<result column="status" property="status" />
-		<result column="pay_type" property="payType" />
+		<result column="updater" property="updater" />
+		<result column="update_datetime" property="updateDatetime" />
+		<result column="remark" property="remark" />
 		
+		<result column="pay_type" property="payType" />
 		<result column="pay_group" property="payGroup" />
 		<result column="pay_code" property="payCode" />
 		<result column="pay_amount" property="payAmount" />
 		<result column="pay_datetime" property="payDatetime" />
+		
 		<result column="company_code" property="companyCode" />
 		<result column="system_code" property="systemCode" />
 	</resultMap>
@@ -42,6 +47,9 @@
 			<if test="status != null and status != '' ">
 				AND t.status = #{status}
 			</if>
+			<if test="updater != null and updater != '' ">
+				AND t.updater = #{updater}
+			</if>
 			<if test="payType != null and payType != '' ">
 				AND t.pay_type = #{payType}
 			</if>
@@ -62,21 +70,26 @@
 	<select id="select_exchangeCurrency" parameterType="exchangeCurrency" resultMap="exchangeCurrency_DB_Result">
 		SELECT
 		t.code
+		
 		,t.to_user_id
 		,t.to_amount
 		,t.to_currency
 		,t.from_user_id
-		
 		,t.from_amount
 		,t.from_currency
+		
 		,t.create_datetime
 		,t.status
-		,t.pay_type
+		,updater
+		,update_datetime
+		,remark
 		
+		,t.pay_type
 		,t.pay_group
 		,t.pay_code
 		,t.pay_amount
 		,t.pay_datetime
+		
 		,t.company_code
 		,t.system_code
 		FROM
@@ -95,51 +108,100 @@
 		<include refid="where_condition" />
 	</select>
 
-	<insert id="insert_exchangeCurrency" parameterType="exchangeCurrency">
+	<insert id="insert_payExchange" parameterType="exchangeCurrency">
 		INSERT INTO
 		tstd_exchange_currency(
 		code
+		
 		,to_user_id
 		,to_amount
 		,to_currency
 		,from_user_id
-		
 		,from_amount
 		,from_currency
+		
 		,create_datetime
 		,status
-		,pay_type
 		
+		,pay_type
 		,pay_group
 		,company_code
 		,system_code
 		)
 		VALUES(
 		#{code}
+		
 		,#{toUserId}
 		,#{toAmount}
 		,#{toCurrency}
 		,#{fromUserId}
-		
 		,#{fromAmount}
 		,#{fromCurrency}
+		
 		,#{createDatetime}
 		,#{status}
-		,#{payType}
 		
+		,#{payType}
 		,#{payGroup}
 		,#{companyCode}
 		,#{systemCode}
 		)
 	</insert>
+	
+	<insert id="insert_applyExchange" parameterType="exchangeCurrency">
+		INSERT INTO
+		tstd_exchange_currency(
+		code
+		
+		,to_user_id
+		,to_amount
+		,to_currency
+		,from_user_id
+		,from_amount
+		,from_currency
+		
+		,create_datetime
+		,status
+		
+		,company_code
+		,system_code
+		)
+		VALUES(
+		#{code}
+		
+		,#{toUserId}
+		,#{toAmount}
+		,#{toCurrency}
+		,#{fromUserId}
+		,#{fromAmount}
+		,#{fromCurrency}
+		
+		,#{createDatetime}
+		,#{status}
+		
+		,#{companyCode}
+		,#{systemCode}
+		)
+	</insert>
 
-	<update id="update_payStatus" parameterType="exchangeCurrency">
+	<update id="update_paySuccess" parameterType="exchangeCurrency">
 		UPDATE tstd_exchange_currency
 		SET
 		status = #{status}
 		,pay_code = #{payCode}
 		,pay_amount = #{payAmount}
 		,pay_datetime = #{payDatetime}
+		WHERE code = #{code}
+	</update>
+	
+	
+	<update id="update_approveExchange" parameterType="exchangeCurrency">
+		UPDATE tstd_exchange_currency
+		SET
+		status = #{status}
+		,updater=#{updater}
+		,update_datetime=#{updateDatetime}
+		,remark=#{remark}
 		WHERE code = #{code}
 	</update>
 </mapper>

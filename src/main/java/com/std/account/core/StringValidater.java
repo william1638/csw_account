@@ -8,6 +8,9 @@
  */
 package com.std.account.core;
 
+import java.util.List;
+
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
 import com.std.account.exception.BizException;
@@ -31,6 +34,18 @@ public class StringValidater {
             } else {
                 validateEmoji(param);
             }
+        }
+    }
+
+    /** 
+     * 判断参数是否为空
+     * @param userId 
+     * @create: 2015-3-17 下午6:40:34 miyb
+     * @history: 
+     */
+    public static void validateListEmpty(List list) {
+        if (CollectionUtils.isEmpty(list)) {
+            throw new BizException("xn000000", "必填型入参，请按要求填写完整");
         }
     }
 

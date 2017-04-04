@@ -14,6 +14,8 @@ import com.std.account.bo.ISYSConfigBO;
 import com.std.account.bo.base.PaginableBOImpl;
 import com.std.account.dao.ISYSConfigDAO;
 import com.std.account.domain.SYSConfig;
+import com.std.account.enums.EExchangeRate;
+import com.std.account.enums.ESystemCode;
 import com.std.account.exception.BizException;
 
 /**
@@ -92,25 +94,25 @@ public class SYSConfigBOImpl extends PaginableBOImpl<SYSConfig> implements
     }
 
     @Override
-    public SYSConfig getSYSConfig(String key, String systemCode) {
-        return getSYSConfig(key, systemCode, systemCode);
+    public String getSYSConfig(String key, String systemCode) {
+        return getSYSConfig(key, systemCode, systemCode).getCvalue();
     }
 
     @Override
-    public Double getCNY2CGJF() {
-        // TODO Auto-generated method stub
-        return null;
+    public Double getCNY2GXZ() {
+        return Double.valueOf(this.getSYSConfig(
+            EExchangeRate.CNY2GXZ.getCode(), ESystemCode.ZHPAY.getCode()));
     }
 
     @Override
-    public Double getCNY2ZHGXJL() {
-        // TODO Auto-generated method stub
-        return null;
+    public Double getCNY2FRB() {
+        return Double.valueOf(this.getSYSConfig(
+            EExchangeRate.CNY2ZHFB.getCode(), ESystemCode.ZHPAY.getCode()));
     }
 
     @Override
-    public Double getCNY2ZHFR() {
-        // TODO Auto-generated method stub
-        return null;
+    public Double getCNY2CGB() {
+        return Double.valueOf(this.getSYSConfig(
+            EExchangeRate.CNY2CGB.getCode(), ESystemCode.CAIGO.getCode()));
     }
 }

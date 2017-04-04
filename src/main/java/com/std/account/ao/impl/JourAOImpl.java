@@ -302,7 +302,7 @@ public class JourAOImpl implements IJourAO {
         } else if (EBizType.AJ_HBYJ2FR.getCode().equals(bizType)) {
             toCurrency = ECurrency.FRB.getCode();
         } else if (EBizType.AJ_HBYJ2GXJL.getCode().equals(bizType)) {
-            toCurrency = ECurrency.GXJL.getCode();
+            toCurrency = ECurrency.GXZ.getCode();
         }
         toAccount = accountBO.getAccountByUser(data.getUserId(), toCurrency);
         Long toTransAmount = Double.valueOf(data.getTransAmount() / rate)
