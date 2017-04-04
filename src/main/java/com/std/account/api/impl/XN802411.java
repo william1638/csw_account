@@ -11,7 +11,7 @@ import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 审核虚拟币转人民币
+ * 审核虚拟币转化
  * @author: myb858 
  * @since: 2017年4月3日 下午9:02:11 
  * @history:
@@ -22,25 +22,6 @@ public class XN802411 extends AProcessor {
         .getBean(IExchangeCurrencyAO.class);
 
     private XN802411Req req = null;
-
-    /*
-     * String rate = null; String ckey = null; if
-     * (EBizType.AJ_HB2FR.getCode().equals(bizType)) { ckey =
-     * SysConstants.HB2FR; } else if
-     * (EBizType.AJ_HBYJ2FR.getCode().equals(bizType)) { ckey =
-     * SysConstants.HBYJ2FR; } else if
-     * (EBizType.HBYJ2GXJL.getCode().equals(bizType)) { ckey =
-     * SysConstants.HBYJ2GXJL; }
-     */
-    // rate = sysConfigBO.getConfigValue(ckey);
-    // if (StringUtils.isBlank(rate)) {
-    // throw new BizException("xn000000", "兑换比例不存在，请检查钱包汇率规则参数");
-    // }
-    // if (rate.equals(EBoolean.NO.getCode())) {
-    // throw new BizException("xn000000", "兑换比例为0，不能兑换");
-    // }
-    // accountBO.doExchangeAmount(systemCode, code, rate, approveResult,
-    // approver, approveNote);
 
     /** 
     * @see com.xnjr.base.api.IProcessor#doBusiness()

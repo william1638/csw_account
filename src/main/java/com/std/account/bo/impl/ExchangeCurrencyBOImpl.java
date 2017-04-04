@@ -73,35 +73,51 @@ public class ExchangeCurrencyBOImpl extends PaginableBOImpl<ExchangeCurrency>
     }
 
     @Override
-    public Double getExchangeRate(String currency) {
-        if (ECurrency.GXZ.getCode().equalsIgnoreCase(currency)) {
+    public Double getExchangeRate(String fromCurrency, String toCurrency) {
+        if (ECurrency.CNY.getCode().equalsIgnoreCase(fromCurrency)
+                && ECurrency.GXZ.getCode().equalsIgnoreCase(toCurrency)) {
             return sysConfigBO.getCNY2GXZ();
-        } else if (ECurrency.FRB.getCode().equalsIgnoreCase(currency)) {
+        } else if (ECurrency.CNY.getCode().equalsIgnoreCase(fromCurrency)
+                && ECurrency.FRB.getCode().equalsIgnoreCase(toCurrency)) {
             return sysConfigBO.getCNY2FRB();
-        } else if (ECurrency.CGB.getCode().equalsIgnoreCase(currency)) {
+        } else if (ECurrency.CNY.getCode().equalsIgnoreCase(fromCurrency)
+                && ECurrency.CGB.getCode().equalsIgnoreCase(toCurrency)) {
             return sysConfigBO.getCNY2CGB();
-        } else if (ECurrency.CGJF.getCode().equalsIgnoreCase(currency)) {
-            return sysConfigBO.getCNY2CGJF();
+        } else if (ECurrency.CNY.getCode().equalsIgnoreCase(fromCurrency)
+                && ECurrency.CGJF.getCode().equalsIgnoreCase(toCurrency)) {
+            Double a = sysConfigBO.getCNY2CGB();
+            Double b = sysConfigBO.getCGB2CGJF();
+            return a * b;
+        } else if (ECurrency.HBB.getCode().equalsIgnoreCase(fromCurrency)
+                && ECurrency.GXZ.getCode().equalsIgnoreCase(toCurrency)) {
+            return sysConfigBO.getHBB2GXZ();
+        } else if (ECurrency.HBYJ.getCode().equalsIgnoreCase(fromCurrency)
+                && ECurrency.GXZ.getCode().equalsIgnoreCase(toCurrency)) {
+            return sysConfigBO.getHBYJ2GXZ();
+        } else if (ECurrency.CGB.getCode().equalsIgnoreCase(fromCurrency)
+                && ECurrency.CGJF.getCode().equalsIgnoreCase(toCurrency)) {
+            return sysConfigBO.getCGB2CGJF();
         } else {
-            throw new BizException("xn000000", currency + "不支持转人民币");
+            throw new BizException("xn000000", "兑换比例不存在，请检查钱包汇率规则参数");
         }
     }
 
     @Override
-    public String applyExchange(User user, Long amount, String currency) {
+    public String applyExchange(User user, Long fromAmount,
+            String fromCurrency, String toCurrency) {
         String code = OrderNoGenerater
             .generate(EGeneratePrefix.EXCHANGE_CURRENCY.getCode());
-        Double rate = this.getExchangeRate(currency);
-        Long cny = Double.valueOf(amount / rate).longValue();
+        Double rate = this.getExchangeRate(fromCurrency, toCurrency);
+        Long toAmount = Double.valueOf(fromAmount * rate).longValue();
         ExchangeCurrency data = new ExchangeCurrency();
         data.setCode(code);
 
         data.setToUserId(user.getUserId());
-        data.setToAmount(cny);
-        data.setToCurrency(ECurrency.CNY.getCode());
+        data.setToAmount(toAmount);
+        data.setToCurrency(toCurrency);
         data.setFromUserId(user.getUserId());
-        data.setFromAmount(amount);
-        data.setFromCurrency(currency);
+        data.setFromAmount(fromAmount);
+        data.setFromCurrency(fromCurrency);
 
         data.setCreateDatetime(new Date());
         data.setStatus(EExchangeCurrencyStatus.TO_PAY.getCode());
@@ -139,7 +155,8 @@ public class ExchangeCurrencyBOImpl extends PaginableBOImpl<ExchangeCurrency>
         if (EPayType.WEIXIN.getCode().equals(payType)) {
             String code = OrderNoGenerater
                 .generate(EGeneratePrefix.EXCHANGE_CURRENCY.getCode());
-            Double rate = this.getExchangeRate(currency);
+            Double rate = this.getExchangeRate(ECurrency.CNY.getCode(),
+                currency);
             Long cny = Double.valueOf(amount / rate).longValue();
             String userId = user.getUserId();
             ExchangeCurrency data = new ExchangeCurrency();

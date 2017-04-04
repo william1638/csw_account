@@ -10,7 +10,7 @@ import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 申请虚拟币转人民币
+ * 申请虚拟币转化，目前支持转化的有：红包转贡献值（正汇），红包业绩转贡献值（正汇），菜狗币转积分（菜狗）
  * @author: myb858 
  * @since: 2017年4月3日 下午9:00:46 
  * @history:
@@ -27,7 +27,8 @@ public class XN802410 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         return exchangeCurrencyAO.applyExchange(req.getUserId(),
-            StringValidater.toLong(req.getAmount()), req.getCurrency());
+            StringValidater.toLong(req.getFromAmount()), req.getFromCurrency(),
+            req.getToCurrency());
     }
 
     /** 
@@ -36,8 +37,8 @@ public class XN802410 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802410Req.class);
-        StringValidater.validateBlank(req.getUserId(), req.getAmount(),
-            req.getCurrency());
+        StringValidater.validateBlank(req.getUserId(), req.getFromAmount(),
+            req.getFromCurrency(), req.getToCurrency());
     }
 
 }

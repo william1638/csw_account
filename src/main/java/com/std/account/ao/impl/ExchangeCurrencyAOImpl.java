@@ -69,25 +69,21 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
     }
 
     @Override
-    public List<ExchangeCurrency> queryExchangeCurrencyList(
-            ExchangeCurrency condition) {
-        return exchangeCurrencyBO.queryExchangeCurrencyList(condition);
-    }
-
-    @Override
     public ExchangeCurrency getExchangeCurrency(String code) {
         return exchangeCurrencyBO.getExchangeCurrency(code);
     }
 
     @Override
-    public Double getExchangeRate(String currency) {
-        return exchangeCurrencyBO.getExchangeRate(currency);
+    public Double getExchangeRate(String fromCurrency, String toCurrency) {
+        return exchangeCurrencyBO.getExchangeRate(fromCurrency, toCurrency);
     }
 
     @Override
-    public String applyExchange(String userId, Long amount, String currency) {
+    public String applyExchange(String userId, Long fromAmount,
+            String fromCurrency, String toCurrency) {
         User user = userBO.getRemoteUser(userId);
-        return exchangeCurrencyBO.applyExchange(user, amount, currency);
+        return exchangeCurrencyBO.applyExchange(user, fromAmount, fromCurrency,
+            toCurrency);
     }
 
     @Override
@@ -106,6 +102,7 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
         } else {
             throw new BizException("xn000000", code + "不处于待审批状态");
         }
+
     }
 
 }

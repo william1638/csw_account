@@ -111,14 +111,27 @@ public class SYSConfigBOImpl extends PaginableBOImpl<SYSConfig> implements
     }
 
     @Override
+    public Double getHBB2GXZ() {
+        return Double.valueOf(this.getSYSConfig(
+            EExchangeRate.HBB2GXZ.getCode(), ESystemCode.ZHPAY.getCode()));
+    }
+
+    @Override
+    public Double getHBYJ2GXZ() {
+        return Double.valueOf(this.getSYSConfig(
+            EExchangeRate.HBYJ2GXZ.getCode(), ESystemCode.ZHPAY.getCode()));
+    }
+
+    @Override
     public Double getCNY2CGB() {
         return Double.valueOf(this.getSYSConfig(
             EExchangeRate.CNY2CGB.getCode(), ESystemCode.CAIGO.getCode()));
     }
 
     @Override
-    public Double getCNY2CGJF() {
+    public Double getCGB2CGJF() {
         return Double.valueOf(this.getSYSConfig(
-            EExchangeRate.CNY2CGJF.getCode(), ESystemCode.CAIGO.getCode()));
+            EExchangeRate.CGB2CGJF.getCode(), ESystemCode.CAIGO.getCode()));
     }
+
 }

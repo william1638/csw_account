@@ -28,7 +28,8 @@ public class XN002051 extends AProcessor {
     */
     @Override
     public Object doBusiness() throws BizException {
-        Double rate = exchangeCurrencyAO.getExchangeRate(req.getCurrency());
+        Double rate = exchangeCurrencyAO.getExchangeRate(req.getFromCurrency(),
+            req.getToCurrency());
         return new XN002051Res(rate);
     }
 
@@ -38,7 +39,8 @@ public class XN002051 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN002051Req.class);
-        StringValidater.validateBlank(req.getCurrency());
+        StringValidater.validateBlank(req.getFromCurrency(),
+            req.getToCurrency());
     }
 
 }

@@ -20,9 +20,11 @@ public interface IExchangeCurrencyBO extends IPaginableBO<ExchangeCurrency> {
 
     public ExchangeCurrency getExchangeCurrency(String code);
 
-    public Double getExchangeRate(String currency);
+    // 1fromCurrency=多少toCurrency
+    public Double getExchangeRate(String fromCurrency, String toCurrency);
 
-    public String applyExchange(User user, Long amount, String currency);
+    public String applyExchange(User user, Long fromAmount,
+            String fromCurrency, String toCurrency);
 
     public void approveExchangeYes(ExchangeCurrency dbOrder, String approver,
             String approveNote);

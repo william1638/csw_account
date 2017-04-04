@@ -5,11 +5,14 @@ public class XN802410Req {
     // 申请人（必填）
     private String userId;
 
-    // 申请兑换的虚拟币金额（必填）
-    private String amount;
+    // 来方虚拟币金额（必填）
+    private String fromAmount;
 
-    // 虚拟币币种（必填）
-    private String currency;
+    // 来方虚拟币币种（必填）
+    private String fromCurrency;
+
+    // 去方虚拟币币种（必填）
+    private String toCurrency;
 
     public String getUserId() {
         return userId;
@@ -19,20 +22,28 @@ public class XN802410Req {
         this.userId = userId;
     }
 
-    public String getAmount() {
-        return amount;
+    public String getFromAmount() {
+        return fromAmount;
     }
 
-    public void setAmount(String amount) {
-        this.amount = amount;
+    public void setFromAmount(String fromAmount) {
+        this.fromAmount = fromAmount;
     }
 
-    public String getCurrency() {
-        return currency;
+    public String getFromCurrency() {
+        return fromCurrency;
     }
 
-    public void setCurrency(String currency) {
-        this.currency = currency;
+    public void setFromCurrency(String fromCurrency) {
+        this.fromCurrency = fromCurrency;
+    }
+
+    public String getToCurrency() {
+        return toCurrency;
+    }
+
+    public void setToCurrency(String toCurrency) {
+        this.toCurrency = toCurrency;
     }
 
 }
