@@ -123,16 +123,16 @@ DROP TABLE IF EXISTS `tstd_exchange_currency`;
 CREATE TABLE `tstd_exchange_currency` (
   `code` varchar(32) NOT NULL COMMENT '编号',
   `to_user_id` varchar(32) DEFAULT NULL COMMENT '去方用户',
-  `to_amount` varchar(32) DEFAULT NULL COMMENT '去方金额',
+  `to_amount` bigint(20) DEFAULT NULL COMMENT '去方金额',
   `to_currency` varchar(32) DEFAULT NULL COMMENT '去方币种',
   `from_user_id` varchar(32) DEFAULT NULL COMMENT '来方用户',
   `from_amount` bigint(20) DEFAULT NULL COMMENT '来方金额',
-  `from_currency` bigint(20) DEFAULT NULL COMMENT '来方币种',
+  `from_currency` varchar(32) DEFAULT NULL COMMENT '来方币种',
   
   `create_datetime` datetime DEFAULT NULL COMMENT '产生时间',
-  `status` varchar(4) DEFAULT NULL COMMENT '状态',
-  `updater` varchar(32) NOT NULL COMMENT '更新人',
-  `update_datetime` datetime NOT NULL COMMENT '更新时间',
+  `status` varchar(4) NOT NULL COMMENT '状态',
+  `updater` varchar(32) DEFAULT NULL COMMENT '更新人',
+  `update_datetime` datetime DEFAULT NULL COMMENT '更新时间',
   `remark` varchar(255) DEFAULT NULL COMMENT '备注',
   
   `pay_type` varchar(4) DEFAULT NULL COMMENT '支付方式',

@@ -88,6 +88,8 @@ public class SYSConfigBOImpl extends PaginableBOImpl<SYSConfig> implements
             List<SYSConfig> sysConfigList = sysConfigDAO.selectList(condition);
             if (CollectionUtils.isNotEmpty(sysConfigList)) {
                 sysConfig = sysConfigList.get(0);
+            } else {
+                throw new BizException("xn000000", key + "记录不存在");
             }
         }
         return sysConfig;
@@ -107,7 +109,7 @@ public class SYSConfigBOImpl extends PaginableBOImpl<SYSConfig> implements
     @Override
     public Double getCNY2FRB() {
         return Double.valueOf(this.getSYSConfig(
-            EExchangeRate.CNY2ZHFB.getCode(), ESystemCode.ZHPAY.getCode()));
+            EExchangeRate.CNY2FRB.getCode(), ESystemCode.ZHPAY.getCode()));
     }
 
     @Override

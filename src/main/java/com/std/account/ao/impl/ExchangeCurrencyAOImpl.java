@@ -9,13 +9,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.std.account.ao.IAccountAO;
 import com.std.account.ao.IExchangeCurrencyAO;
+import com.std.account.bo.IAccountBO;
 import com.std.account.bo.IExchangeCurrencyBO;
 import com.std.account.bo.IUserBO;
 import com.std.account.bo.base.Paginable;
+import com.std.account.domain.Account;
 import com.std.account.domain.ExchangeCurrency;
 import com.std.account.domain.User;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
+import com.std.account.enums.EChannelType;
 import com.std.account.enums.EExchangeCurrencyStatus;
 import com.std.account.exception.BizException;
 
@@ -27,6 +30,9 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
 
     @Autowired
     private IAccountAO accountAO;
+
+    @Autowired
+    private IAccountBO accountBO;
 
     @Autowired
     private IExchangeCurrencyBO exchangeCurrencyBO;
@@ -95,6 +101,22 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
             if (EBoolean.YES.equals(approveResult)) {
                 exchangeCurrencyBO.approveExchangeYes(dbOrder, approver,
                     approveNote);
+                // 开始资金划转
+                String remark = dbOrder.getFromAmount()
+                        + dbOrder.getFromCurrency() + "虚拟币转化为"
+                        + dbOrder.getToAmount() + dbOrder.getToCurrency();
+                Account fromAccount = accountBO.getAccountByUser(
+                    dbOrder.getFromUserId(), dbOrder.getFromCurrency());
+                Account toAccount = accountBO.getAccountByUser(
+                    dbOrder.getToUserId(), dbOrder.getToCurrency());
+                accountBO.transAmount(fromAccount.getSystemCode(),
+                    fromAccount.getAccountNumber(), EChannelType.NBZ, null,
+                    -dbOrder.getFromAmount(),
+                    EBizType.EXCHANGE_CURRENCY.getCode(), remark);
+                accountBO.transAmount(toAccount.getSystemCode(),
+                    toAccount.getAccountNumber(), EChannelType.NBZ, null,
+                    dbOrder.getToAmount(),
+                    EBizType.EXCHANGE_CURRENCY.getCode(), remark);
             } else {
                 exchangeCurrencyBO.approveExchangeNo(dbOrder, approver,
                     approveNote);
@@ -104,5 +126,4 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
         }
 
     }
-
 }

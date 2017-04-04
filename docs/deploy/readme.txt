@@ -9,9 +9,6 @@
 5，验证：项目跑起来。在浏览器输入“http://IP:端口/项目名/api”，出现版本信息即成功。
 
 
-
-
-
 部署步骤：
 1，切换到本地tomcat部署包所在目录,例如
   cd /Users/myb858/Documents/workspace/.metadata/.plugins/org.eclipse.wst.server.core/tmp5/wtpwebapps
@@ -31,41 +28,10 @@
   rm -rf std-account/
   mv /home/std-account.war .
   
-  mv -f application.properties ./std-account/WEB-INF/classes/
-  mv -f config.properties ./std-account/WEB-INF/classes/
-  ../bin/shutdown.sh
-  ../bin/startup.sh
-  
-    http://121.43.101.148:8906/std-account/api
-
-
-  cd /home/wwwroot/cswlm/tomcat_std_account/webapps
-  rm -rf std-account.war
-  cp ./std-account/WEB-INF/classes/application.properties .
-  cp ./std-account/WEB-INF/classes/config.properties .
-  rm -rf std-account/
-  mv /home/std-account.war .
-  
-  cd /home/wwwroot/zhpay/tomcat_std_account/webapps
-  rm -rf std-account.war
-  cp ./std-account/WEB-INF/classes/application.properties .
-  cp ./std-account/WEB-INF/classes/config.properties .
-  rm -rf std-account/
-  mv /home/std-account.war .
-  
-  http://121.43.101.148:5606/std-account/api
-  
-  cd /home/wwwroot/ride/tomcat_std_account/webapps
-  rm -rf std-account.war
-  cp ./std-account/WEB-INF/classes/application.properties .
-  cp ./std-account/WEB-INF/classes/config.properties .
-  rm -rf std-account/
-  mv /home/std-account.war .
-  
-  http://121.43.101.148:5706/std-account/api
-  
 4,起停tomcat_STD_account
   mv -f application.properties ./std-account/WEB-INF/classes/
   mv -f config.properties ./std-account/WEB-INF/classes/
   ../bin/shutdown.sh
   ../bin/startup.sh
+  
+   http://121.43.101.148:8906/std-account/api
