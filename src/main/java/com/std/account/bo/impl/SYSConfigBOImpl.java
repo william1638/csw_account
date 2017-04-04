@@ -115,4 +115,10 @@ public class SYSConfigBOImpl extends PaginableBOImpl<SYSConfig> implements
         return Double.valueOf(this.getSYSConfig(
             EExchangeRate.CNY2CGB.getCode(), ESystemCode.CAIGO.getCode()));
     }
+
+    @Override
+    public Double getCNY2CGJF() {
+        return Double.valueOf(this.getSYSConfig(
+            EExchangeRate.CNY2CGJF.getCode(), ESystemCode.CAIGO.getCode()));
+    }
 }

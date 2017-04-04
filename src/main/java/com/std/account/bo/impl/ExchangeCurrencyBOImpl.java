@@ -80,6 +80,8 @@ public class ExchangeCurrencyBOImpl extends PaginableBOImpl<ExchangeCurrency>
             return sysConfigBO.getCNY2FRB();
         } else if (ECurrency.CGB.getCode().equalsIgnoreCase(currency)) {
             return sysConfigBO.getCNY2CGB();
+        } else if (ECurrency.CGJF.getCode().equalsIgnoreCase(currency)) {
+            return sysConfigBO.getCNY2CGJF();
         } else {
             throw new BizException("xn000000", currency + "不支持转人民币");
         }

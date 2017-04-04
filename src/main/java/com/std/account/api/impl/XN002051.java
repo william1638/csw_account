@@ -5,6 +5,7 @@ import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.dto.req.XN002051Req;
+import com.std.account.dto.res.XN002051Res;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -27,7 +28,8 @@ public class XN002051 extends AProcessor {
     */
     @Override
     public Object doBusiness() throws BizException {
-        return exchangeCurrencyAO.getExchangeRate(req.getCurrency());
+        Double rate = exchangeCurrencyAO.getExchangeRate(req.getCurrency());
+        return new XN002051Res(rate);
     }
 
     /** 

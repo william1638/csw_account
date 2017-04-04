@@ -19,7 +19,7 @@ import java.util.Map;
 public enum ECurrency {
     CNY("CNY", "人民币"), JF("JF", "积分"), FRB("FRB", "分润币"), GXZ("GXJL", "贡献值"), QBB(
             "QBB", "钱包币"), GWB("GWB", "购物币"), HBB("HBB", "红包币"), HBYJ("HBYJ",
-            "红包业绩"), CGB("CGB", "菜狗币");
+            "红包业绩"), CGB("CGB", "菜狗币"), CGJF("CGJF", "菜狗积分");
 
     public static Map<String, ECurrency> getCurrencyMap() {
         Map<String, ECurrency> map = new HashMap<String, ECurrency>();
