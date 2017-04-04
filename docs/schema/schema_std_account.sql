@@ -128,13 +128,19 @@ CREATE TABLE `tstd_exchange_currency` (
   `from_user_id` varchar(32) DEFAULT NULL COMMENT '来方用户',
   `from_amount` bigint(20) DEFAULT NULL COMMENT '来方金额',
   `from_currency` bigint(20) DEFAULT NULL COMMENT '来方币种',
+  
   `create_datetime` datetime DEFAULT NULL COMMENT '产生时间',
   `status` varchar(4) DEFAULT NULL COMMENT '状态',
+  `updater` varchar(32) NOT NULL COMMENT '更新人',
+  `update_datetime` datetime NOT NULL COMMENT '更新时间',
+  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
+  
   `pay_type` varchar(4) DEFAULT NULL COMMENT '支付方式',
   `pay_group` varchar(32) DEFAULT NULL COMMENT '支付组号',
   `pay_code` varchar(32) DEFAULT NULL COMMENT '支付编号',
   `pay_amount` bigint(20) DEFAULT NULL COMMENT '支付人民币',
   `pay_datetime` datetime DEFAULT NULL COMMENT '支付时间',
+  
   `company_code` varchar(32) DEFAULT NULL COMMENT '公司编号',
   `system_code` varchar(32) DEFAULT NULL COMMENT '系统编号',
   PRIMARY KEY (`code`) COMMENT '币种兑换'
