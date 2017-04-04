@@ -76,7 +76,7 @@ public class AlipayAOImpl implements IAlipayAO {
     @Override
     public Object getSignedOrder(String fromUserId, String toUserId,
             String bizType, String fromBizNote, String toBizNote,
-            Long transAmount, String payGroup) {
+            Long transAmount, String payGroup, String backUrl) {
         if (transAmount.longValue() == 0l) {
             throw new BizException("xn000000", "发生金额为零，不能使用支付宝支付");
         }
@@ -110,7 +110,7 @@ public class AlipayAOImpl implements IAlipayAO {
 
         // 生成业务参数(bizContent)json字符串
         String bizContentJson = getBizContentJson(fromBizNote, jourCode,
-            transAmount);
+            transAmount, backUrl);
 
         // 1、按照key=value&key=value方式拼接的未签名原始字符串
         Map<String, String> unsignedParamMap = getUnsignedParamMap(
@@ -177,12 +177,13 @@ public class AlipayAOImpl implements IAlipayAO {
     }
 
     private String getBizContentJson(String fromBizNote, String jourCode,
-            Long transAmount) {
+            Long transAmount, String backUrl) {
         Map<String, String> bizParams = new HashMap<String, String>();
         bizParams.put("subject", fromBizNote); // 商品的标题 例如：大乐透
         bizParams.put("out_trade_no", jourCode); // 商户网站唯一订单号
         bizParams.put("total_amount", String.valueOf(transAmount / 1000.00)); // 订单总金额，单位为元，精确到小数点后两位，取值范围[0.01,100000000]
         bizParams.put("product_code", "QUICK_MSECURITY_PAY"); // 销售产品码，商家和支付宝签约的产品码，为固定值QUICK_MSECURITY_PAY
+        bizParams.put("passback_params", backUrl);
         return JsonUtil.Object2Json(bizParams);
     }
 
@@ -220,6 +221,7 @@ public class AlipayAOImpl implements IAlipayAO {
                 String sellerId = paramsMap.get("seller_id");
                 String appId = paramsMap.get("app_id");
                 String alipayOrderNo = paramsMap.get("trade_no");
+                String bizBackUrl = paramsMap.get("passback_params");
                 Jour fromJour = jourBO.getJour(outTradeNo, systemCode);
                 Jour toJour = jourBO.getRelativeJour(fromJour.getCode(),
                     fromJour.getPayGroup());
@@ -261,7 +263,7 @@ public class AlipayAOImpl implements IAlipayAO {
                 return new CallbackResult(isSuccess, fromJour.getBizType(),
                     fromJour.getCode(), fromJour.getPayGroup(),
                     fromJour.getTransAmount(), systemCode, companyCode,
-                    companyChannel.getBackUrl());
+                    bizBackUrl);
             } else {
                 throw new BizException("xn000000", "验签失败，默认为非法回调");
             }

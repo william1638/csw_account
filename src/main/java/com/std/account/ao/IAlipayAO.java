@@ -26,13 +26,14 @@ public interface IAlipayAO {
      * @param toBizNote
      * @param transAmount
      * @param payGroup
+     * @param backUrl
      * @return 
-     * @create: 2017年3月29日 上午10:01:59 haiqingzheng
+     * @create: 2017年4月4日 下午3:05:47 xieyj
      * @history:
      */
     public Object getSignedOrder(String fromUserId, String toUserId,
             String bizType, String fromBizNote, String toBizNote,
-            Long transAmount, String payGroup);
+            Long transAmount, String payGroup, String backUrl);
 
     /**
      * （支付宝APP支付）支付回调
