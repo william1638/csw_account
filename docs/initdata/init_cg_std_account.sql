@@ -1,9 +1,18 @@
 /*
+-- Query: SELECT `type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code` FROM std_account.tsys_config where system_code = 'CD-CCG000007'
+LIMIT 0, 10000
+
+-- Date: 2017-04-05 23:32
+*/
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('1','CNY2CGB','1.02','',now(),'1人民币兑换多少菜狗币','CD-CCG000007','CD-CCG000007');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('1','CGB2CGJF','5','',now(),'1人民币兑换多少积分','CD-CCG000007','CD-CCG000007');
+
+/*
 -- Query: SELECT * FROM std_account.tstd_account where user_id = 'SYS_USER_CAIGO'
 -- Date: 2016-12-29 15:08
 */
 INSERT INTO `tstd_account` (`account_number`,`user_id`,`real_name`,`type`,`status`,`currency`,`amount`,`frozen_amount`,`md5`,`create_datetime`,`last_order`,`system_code`) VALUES ('CGA2016100000000000000','SYS_USER_CAIGO','平台','P','0','CNY',0,0,'b99e0407fedc3d160f73fec8d1fa9a0c',now(),NULL,'CD-CCG000007');
-INSERT INTO `tstd_account` (`account_number`,`user_id`,`real_name`,`type`,`status`,`currency`,`amount`,`frozen_amount`,`md5`,`create_datetime`,`last_order`,`system_code`) VALUES ('CGA2016100000000000001','SYS_USER_CAIGO','平台','P','0','JF',0,0,'b99e0407fedc3d160f73fec8d1fa9a0c',now(),NULL,'CD-CCG000007');
+INSERT INTO `tstd_account` (`account_number`,`user_id`,`real_name`,`type`,`status`,`currency`,`amount`,`frozen_amount`,`md5`,`create_datetime`,`last_order`,`system_code`) VALUES ('CGA2016100000000000001','SYS_USER_CAIGO','平台','P','0','CGJF',0,0,'b99e0407fedc3d160f73fec8d1fa9a0c',now(),NULL,'CD-CCG000007');
 INSERT INTO `tstd_account` (`account_number`,`user_id`,`real_name`,`type`,`status`,`currency`,`amount`,`frozen_amount`,`md5`,`create_datetime`,`last_order`,`system_code`) VALUES ('CGA2016100000000000002','SYS_USER_CAIGO','平台','P','0','CGB',0,0,'b99e0407fedc3d160f73fec8d1fa9a0c',now(),NULL,'CD-CCG000007');
 
 /*
@@ -15,7 +24,7 @@ LIMIT 0, 50000
 INSERT INTO `tstd_company_channel` (`company_code`,`company_name`,`channel_type`,`status`,`channel_company`,`private_key1`,`private_key2`,`private_key3`,`private_key4`,`private_key5`,`page_url`,`error_url`,`back_url`,`fee`,`remark`,`system_code`) VALUES ('CD-CCG000007','菜狗商城','35','1','1400666002','r2jgDFSdiikklwlllejlwjio3242342n','wx8bc03dd744895352','44ebf0ef908dc54656573625a579ea82',NULL,NULL,NULL,NULL,'http://121.43.101.148:5602/xn-zhpay/zhpay/h5/callback',NULL,NULL,'CD-CCG000007');
 
 /*
--- Query: SELECT `type`,`parent_key`,`dkey`,`dvalue`,`updater`,now() as `update_datetime`,`remark`,`system_code` FROM std_account.tsys_dict
+-- Query: SELECT `type`,`parent_key`,`dkey`,`dvalue`,`updater`,now() as `update_datetime`,`remark`,`system_code` FROM std_account.tsys_dict where system_code ='CD-CCG000007'
 LIMIT 0, 10000
 
 -- Date: 2017-03-25 21:53
