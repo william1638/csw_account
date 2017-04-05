@@ -1,11 +1,13 @@
 /*
--- Query: SELECT `type`,`ckey`,`cvalue`,'admin' as `updater`,now() as `update_datetime` ,`remark`,`company_code`,`system_code` FROM tsys_config where system_code = 'CD-CZH000001'
+-- Query: SELECT `type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code` FROM std_account.tsys_config where system_code = 'CD-CZH000001'
 LIMIT 0, 10000
 
--- Date: 2017-04-04 20:16
+-- Date: 2017-04-05 11:05
 */
-INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('1','CNY2GXZ','1','admin',now(),NULL,'CD-CZH000001','CD-CZH000001');
-INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('1','CNY2ZHFB','1','admin',now(),NULL,'CD-CZH000001','CD-CZH000001');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('1','CNY2GXZ','1','',now(),'1人民币兑换贡献值比例','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('1','CNY2FRB','1','',now(),'1人民币兑换分润比例','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('1','HBB2GXZ','2','',now(),'1红包币兑换贡献值比例','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('1','HBYJ2GXZ','3','',now(),'1红包业绩兑换贡献值比例','CD-CZH000001','CD-CZH000001');
 
 /*
 -- Query: select `type`,`parent_key`,`dkey`,`dvalue`,`updater`,`update_datetime`,`remark`,`system_code` from tsys_dict
