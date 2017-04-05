@@ -66,4 +66,9 @@ public class ExchangeCurrencyDAOImpl extends AMybatisTemplate implements
     public int payExchange(ExchangeCurrency data) {
         return super.insert(NAMESPACE.concat("insert_payExchange"), data);
     }
+
+    @Override
+    public int doExchange(ExchangeCurrency data) {
+        return super.insert(NAMESPACE.concat("insert_payExchange"), data);
+    }
 }

@@ -85,6 +85,31 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
     }
 
     @Override
+    public String doExchange(String userId, Long fromAmount,
+            String fromCurrency, String toCurrency) {
+        User user = userBO.getRemoteUser(userId);
+        ExchangeCurrency dbOrder = exchangeCurrencyBO.doExchange(user,
+            fromAmount, fromCurrency, toCurrency);
+        // 开始资金划转
+        String remark = fromAmount + fromCurrency + "虚拟币转化为"
+                + dbOrder.getToAmount() + toCurrency;
+        Account fromAccount = accountBO.getAccountByUser(
+            dbOrder.getFromUserId(), dbOrder.getFromCurrency());
+        Account toAccount = accountBO.getAccountByUser(dbOrder.getToUserId(),
+            dbOrder.getToCurrency());
+        accountBO.transAmount(fromAccount.getSystemCode(),
+            fromAccount.getAccountNumber(), EChannelType.NBZ, null,
+            -dbOrder.getFromAmount(), EBizType.EXCHANGE_CURRENCY.getCode(),
+            remark);
+        accountBO
+            .transAmount(toAccount.getSystemCode(),
+                toAccount.getAccountNumber(), EChannelType.NBZ, null,
+                dbOrder.getToAmount(), EBizType.EXCHANGE_CURRENCY.getCode(),
+                remark);
+        return dbOrder.getCode();
+    }
+
+    @Override
     public String applyExchange(String userId, Long fromAmount,
             String fromCurrency, String toCurrency) {
         User user = userBO.getRemoteUser(userId);
@@ -126,4 +151,5 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
         }
 
     }
+
 }

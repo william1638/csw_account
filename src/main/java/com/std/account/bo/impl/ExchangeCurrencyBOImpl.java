@@ -103,6 +103,32 @@ public class ExchangeCurrencyBOImpl extends PaginableBOImpl<ExchangeCurrency>
     }
 
     @Override
+    public ExchangeCurrency doExchange(User user, Long fromAmount,
+            String fromCurrency, String toCurrency) {
+        String code = OrderNoGenerater
+            .generate(EGeneratePrefix.EXCHANGE_CURRENCY.getCode());
+        Double rate = this.getExchangeRate(fromCurrency, toCurrency);
+        Long toAmount = Double.valueOf(fromAmount * rate).longValue();
+        ExchangeCurrency data = new ExchangeCurrency();
+        data.setCode(code);
+
+        data.setToUserId(user.getUserId());
+        data.setToAmount(toAmount);
+        data.setToCurrency(toCurrency);
+        data.setFromUserId(user.getUserId());
+        data.setFromAmount(fromAmount);
+        data.setFromCurrency(fromCurrency);
+
+        data.setCreateDatetime(new Date());
+        data.setStatus(EExchangeCurrencyStatus.PAYED.getCode());
+
+        data.setSystemCode(user.getSystemCode());
+        data.setCompanyCode(user.getCompanyCode());
+        exchangeCurrencyDAO.doExchange(data);
+        return data;
+    }
+
+    @Override
     public String applyExchange(User user, Long fromAmount,
             String fromCurrency, String toCurrency) {
         String code = OrderNoGenerater
@@ -182,4 +208,5 @@ public class ExchangeCurrencyBOImpl extends PaginableBOImpl<ExchangeCurrency>
         }
         return result;
     }
+
 }

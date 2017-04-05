@@ -20,6 +20,9 @@ public interface IExchangeCurrencyAO {
 
     public void paySuccess(String payGroup, String payCode, Long transAmount);
 
+    public String doExchange(String userId, Long fromAmount,
+            String fromCurrency, String toCurrency);
+
     public Paginable<ExchangeCurrency> queryExchangeCurrencyPage(int start,
             int limit, ExchangeCurrency condition);
 
