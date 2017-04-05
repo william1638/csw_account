@@ -24,6 +24,7 @@ import com.alipay.api.internal.util.WebUtils;
 import com.std.account.ao.IAlipayAO;
 import com.std.account.bo.IAccountBO;
 import com.std.account.bo.ICompanyChannelBO;
+import com.std.account.bo.IExchangeCurrencyBO;
 import com.std.account.bo.IJourBO;
 import com.std.account.common.DateUtil;
 import com.std.account.common.JsonUtil;
@@ -41,6 +42,7 @@ import com.std.account.enums.ECurrency;
 import com.std.account.enums.EJourStatus;
 import com.std.account.exception.BizException;
 import com.std.account.http.PostSimulater;
+import com.std.account.util.AmountUtil;
 import com.std.account.util.CalculationUtil;
 import com.std.account.util.alipay.AlipayConfig;
 import com.std.account.util.alipay.AlipayCore;
@@ -65,6 +67,9 @@ public class AlipayAOImpl implements IAlipayAO {
     @Autowired
     IAccountBO accountBO;
 
+    @Autowired
+    IExchangeCurrencyBO exchangeCurrencyBO;
+
     /** 
      * @see com.std.account.ao.IAlipayAO#getPrepayIdApp(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Long, java.lang.String)
      */
@@ -84,10 +89,14 @@ public class AlipayAOImpl implements IAlipayAO {
         Account fromAccount = accountBO.getAccountByUser(fromUserId,
             ECurrency.CNY.getCode());
         String toAcccoutCurrency = null;
+        Long toTransAmount = transAmount;
         // 如果是正汇系统的O2O消费买单，付款至分润账户
         if ("CD-CZH000001".equals(fromAccount.getSystemCode())
-                && EBizType.AJ_DPXF.getCode().equals(bizType)) {
+                && EBizType.ZH_O2O.getCode().equals(bizType)) {
             toAcccoutCurrency = ECurrency.ZH_FRB.getCode();
+            toTransAmount = AmountUtil.mul(transAmount, exchangeCurrencyBO
+                .getExchangeRate(ECurrency.CNY.getCode(),
+                    ECurrency.ZH_FRB.getCode()));
         } else { // 其他系统，付款至现金账户
             toAcccoutCurrency = ECurrency.CNY.getCode();
         }
@@ -101,7 +110,7 @@ public class AlipayAOImpl implements IAlipayAO {
             fromAccount.getAccountNumber(), EChannelType.Alipay.getCode(),
             bizType, fromBizNote, transAmount, payGroup);
         jourBO.addToChangeJour(systemCode, toAccount.getAccountNumber(),
-            EChannelType.Alipay.getCode(), bizType, toBizNote, transAmount,
+            EChannelType.Alipay.getCode(), bizType, toBizNote, toTransAmount,
             payGroup);
 
         // 获取支付宝支付配置参数
