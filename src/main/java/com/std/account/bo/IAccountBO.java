@@ -123,6 +123,16 @@ public interface IAccountBO extends IPaginableBO<Account> {
     public Account getAccountByUser(String userId, String currency);
 
     /**
+     * 获取系统账户
+     * @param sysUser
+     * @param currency
+     * @return 
+     * @create: 2017年4月5日 下午9:19:34 xieyj
+     * @history:
+     */
+    public Account getSysAccount(String sysUser, String currency);
+
+    /**
      * 获取账户列表
      * @param data
      * @return 

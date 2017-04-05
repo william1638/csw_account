@@ -87,7 +87,7 @@ public class AlipayAOImpl implements IAlipayAO {
         // 如果是正汇系统的O2O消费买单，付款至分润账户
         if ("CD-CZH000001".equals(fromAccount.getSystemCode())
                 && EBizType.AJ_DPXF.getCode().equals(bizType)) {
-            toAcccoutCurrency = ECurrency.FRB.getCode();
+            toAcccoutCurrency = ECurrency.ZH_FRB.getCode();
         } else { // 其他系统，付款至现金账户
             toAcccoutCurrency = ECurrency.CNY.getCode();
         }

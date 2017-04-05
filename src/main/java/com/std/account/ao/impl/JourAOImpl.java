@@ -24,15 +24,14 @@ import com.std.account.bo.ICompanyChannelBO;
 import com.std.account.bo.IJourBO;
 import com.std.account.bo.IUserBO;
 import com.std.account.bo.base.Paginable;
-import com.std.account.core.AccountUtil;
 import com.std.account.domain.Account;
 import com.std.account.domain.Bankcard;
 import com.std.account.domain.Jour;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
-import com.std.account.enums.ECurrency;
 import com.std.account.enums.EJourStatus;
+import com.std.account.enums.ESysUser;
 import com.std.account.exception.BizException;
 
 /** 
@@ -214,8 +213,9 @@ public class JourAOImpl implements IJourAO {
             if (data.getTransAmount() > 0) {
                 eBizType = EBizType.AJ_LB;
             }
-            accountBO.transAmount(systemCode,
-                AccountUtil.getAccountNumber(account.getCurrency()),
+            Account sysAccount = accountBO.getSysAccount(
+                ESysUser.SYS_USER.getCode(), account.getCurrency());
+            accountBO.transAmount(systemCode, sysAccount.getAccountNumber(),
                 EChannelType.Adjust_ZH, null, -data.getTransAmount(),
                 eBizType.getCode(), eBizType.getValue() + "单号[" + code + "]");
         } else {
@@ -224,93 +224,6 @@ public class JourAOImpl implements IJourAO {
         }
         jourBO.refreshOrderStatus(data.getChannelOrder(), adjustUser, date,
             adjustNote);
-    }
-
-    @Override
-    @Transactional
-    public String applyExchangeAmount(String systemCode, String userId,
-            Long transAmount, String bizType) {
-        if (!EBizType.AJ_HB2FR.getCode().equals(bizType)
-                && !EBizType.AJ_HBYJ2FR.getCode().equals(bizType)
-                && !EBizType.AJ_HBYJ2GXJL.getCode().equals(bizType)) {
-            new BizException("XN0000", "兑换业务类型有误，请检查");
-        }
-        String currency = null;
-        if (EBizType.AJ_HB2FR.getCode().equals(bizType)) {
-            currency = ECurrency.HBB.getCode();
-        } else if (EBizType.AJ_HBYJ2FR.getCode().equals(bizType)) {
-            currency = ECurrency.HBYJ.getCode();
-        } else if (EBizType.AJ_HBYJ2GXJL.getCode().equals(bizType)) {
-            currency = ECurrency.HBYJ.getCode();
-        }
-        Account account = accountBO.getAccountByUser(userId, currency);
-        String accountNumber = account.getAccountNumber();
-        String code = jourBO
-            .addToChangeJour(systemCode, accountNumber,
-                EChannelType.BZDH.getCode(), bizType, EBizType.getBizTypeMap()
-                    .get(bizType).getValue(), transAmount, null);
-        accountBO.frozenAmount(systemCode, accountNumber, -transAmount, code);
-        return code;
-    }
-
-    @Override
-    @Transactional
-    public void approveExchangeAmount(String systemCode, String code,
-            Double rate, String approveResult, String approver,
-            String approveNote) {
-        Jour data = jourBO.getJour(code, systemCode);
-        if (!EChannelType.BZDH.getCode().equals(data.getChannelType())) {
-            new BizException("XN0000", "该申请记录不是币种兑换记录，无法审批");
-        }
-        if (!EJourStatus.todoCallBack.getCode().equals(data.getStatus())) {
-            throw new BizException("xn000000", "该记录状态不是刚生成待回调状态，无法审批");
-        }
-        Account account = accountBO.getAccount(systemCode,
-            data.getAccountNumber());
-        Long preAmount = null;
-        Long postAmount = null;
-        if (EBoolean.YES.getCode().equals(approveResult)) {
-            postAmount = account.getAmount();
-            preAmount = postAmount + data.getTransAmount();
-        } else {
-            postAmount = account.getAmount() - data.getTransAmount();
-            preAmount = postAmount;
-        }
-        accountBO.unfrozenAmount(systemCode, approveResult,
-            data.getAccountNumber(), -data.getTransAmount(), code);
-        jourBO.callBackChangeJour(code, approveResult, approver, approveNote,
-            preAmount, postAmount);
-        if (EBoolean.YES.getCode().equals(approveResult)) {
-            toAccountTransAmount(systemCode, rate, data);
-        }
-    }
-
-    /** 
-     * 审核通过时，将钱加入对方账号
-     * @param systemCode
-     * @param rate
-     * @param data 
-     * @create: 2017年2月28日 下午9:17:52 xieyj
-     * @history: 
-     */
-    private void toAccountTransAmount(String systemCode, Double rate, Jour data) {
-        String bizType = data.getBizType();
-        Account toAccount = null;
-        String toCurrency = null;
-        if (EBizType.AJ_HB2FR.getCode().equals(bizType)) {
-            toCurrency = ECurrency.FRB.getCode();
-        } else if (EBizType.AJ_HBYJ2FR.getCode().equals(bizType)) {
-            toCurrency = ECurrency.FRB.getCode();
-        } else if (EBizType.AJ_HBYJ2GXJL.getCode().equals(bizType)) {
-            toCurrency = ECurrency.GXZ.getCode();
-        }
-        toAccount = accountBO.getAccountByUser(data.getUserId(), toCurrency);
-        Long toTransAmount = Double.valueOf(data.getTransAmount() / rate)
-            .longValue();
-        // 去方账户更新记录流水
-        accountBO.transAmount(systemCode, toAccount.getAccountNumber(),
-            EChannelType.BZDH, data.getCode(), -toTransAmount, bizType,
-            EBizType.getBizTypeMap().get(bizType).getValue());
     }
 
     @Override
@@ -351,15 +264,5 @@ public class JourAOImpl implements IJourAO {
     @Override
     public Jour getJour(String code, String systemCode) {
         return jourBO.getJour(code, systemCode);
-    }
-
-    /**
-     * @see com.std.account.ao.IJourAO#getStatisticsTransAmount(java.lang.String, java.lang.String, java.lang.String, java.lang.String)
-     */
-    @Override
-    public Long getStatisticsTransAmount(String systemCode, String userId,
-            String currency, String bizType) {
-        return jourBO.getStatisticsTransAmount(systemCode, userId, currency,
-            bizType);
     }
 }

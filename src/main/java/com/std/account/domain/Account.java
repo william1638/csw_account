@@ -63,6 +63,17 @@ public class Account extends ABaseDO {
     // 户名模糊查询
     private String realNameQuery;
 
+    // 系统账户模糊查询字段
+    private String sysUser;
+
+    public String getSysUser() {
+        return sysUser;
+    }
+
+    public void setSysUser(String sysUser) {
+        this.sysUser = sysUser;
+    }
+
     public String getRealNameQuery() {
         return realNameQuery;
     }

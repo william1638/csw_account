@@ -24,6 +24,10 @@
 			<if test="userId != null and userId != '' ">
 				AND t.user_id = #{userId}
 			</if>
+			<!-- 模糊查询调账 -->
+			<if test="sysUser != null and sysUser != '' ">
+				AND t.user_id like "%"#{sysUser}"%"
+			</if>
 			<if test="realName != null and realName != '' ">
 				AND t.real_name = #{realName}
 			</if>

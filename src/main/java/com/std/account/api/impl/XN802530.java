@@ -40,7 +40,7 @@ public class XN802530 extends AProcessor {
         String bizType = null;
         String fromBizNote = null;
         String toBizNote = null;
-        if (ECurrency.CGB.getCode().equals(req.getCurrency())) {
+        if (ECurrency.CG_CGB.getCode().equals(req.getCurrency())) {
             bizType = EBizType.AJ_CGBSM.getCode();
             fromBizNote = "采购币购买";
             toBizNote = "菜狗币售卖";

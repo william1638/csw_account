@@ -219,4 +219,15 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         data.setRealName(realName);
         accountDAO.updateRealName(data);
     }
+
+    /** 
+     * @see com.std.account.bo.IAccountBO#getSysAccount(java.lang.String, java.lang.String)
+     */
+    @Override
+    public Account getSysAccount(String sysUser, String currency) {
+        Account condition = new Account();
+        condition.setSysUser(sysUser);
+        condition.setCurrency(currency);
+        return accountDAO.select(condition);
+    }
 }

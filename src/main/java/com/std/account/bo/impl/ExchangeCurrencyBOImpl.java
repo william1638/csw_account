@@ -75,27 +75,27 @@ public class ExchangeCurrencyBOImpl extends PaginableBOImpl<ExchangeCurrency>
     @Override
     public Double getExchangeRate(String fromCurrency, String toCurrency) {
         if (ECurrency.CNY.getCode().equalsIgnoreCase(fromCurrency)
-                && ECurrency.GXZ.getCode().equalsIgnoreCase(toCurrency)) {
+                && ECurrency.ZH_GXZ.getCode().equalsIgnoreCase(toCurrency)) {
             return sysConfigBO.getCNY2GXZ();
         } else if (ECurrency.CNY.getCode().equalsIgnoreCase(fromCurrency)
-                && ECurrency.FRB.getCode().equalsIgnoreCase(toCurrency)) {
+                && ECurrency.ZH_FRB.getCode().equalsIgnoreCase(toCurrency)) {
             return sysConfigBO.getCNY2FRB();
         } else if (ECurrency.CNY.getCode().equalsIgnoreCase(fromCurrency)
-                && ECurrency.CGB.getCode().equalsIgnoreCase(toCurrency)) {
+                && ECurrency.CG_CGB.getCode().equalsIgnoreCase(toCurrency)) {
             return sysConfigBO.getCNY2CGB();
         } else if (ECurrency.CNY.getCode().equalsIgnoreCase(fromCurrency)
-                && ECurrency.CGJF.getCode().equalsIgnoreCase(toCurrency)) {
+                && ECurrency.CG_JF.getCode().equalsIgnoreCase(toCurrency)) {
             Double a = sysConfigBO.getCNY2CGB();
             Double b = sysConfigBO.getCGB2CGJF();
             return a * b;
-        } else if (ECurrency.HBB.getCode().equalsIgnoreCase(fromCurrency)
-                && ECurrency.GXZ.getCode().equalsIgnoreCase(toCurrency)) {
+        } else if (ECurrency.ZH_HBB.getCode().equalsIgnoreCase(fromCurrency)
+                && ECurrency.ZH_GXZ.getCode().equalsIgnoreCase(toCurrency)) {
             return sysConfigBO.getHBB2GXZ();
-        } else if (ECurrency.HBYJ.getCode().equalsIgnoreCase(fromCurrency)
-                && ECurrency.GXZ.getCode().equalsIgnoreCase(toCurrency)) {
+        } else if (ECurrency.ZH_HBYJ.getCode().equalsIgnoreCase(fromCurrency)
+                && ECurrency.ZH_GXZ.getCode().equalsIgnoreCase(toCurrency)) {
             return sysConfigBO.getHBYJ2GXZ();
-        } else if (ECurrency.CGB.getCode().equalsIgnoreCase(fromCurrency)
-                && ECurrency.CGJF.getCode().equalsIgnoreCase(toCurrency)) {
+        } else if (ECurrency.CG_CGB.getCode().equalsIgnoreCase(fromCurrency)
+                && ECurrency.CG_JF.getCode().equalsIgnoreCase(toCurrency)) {
             return sysConfigBO.getCGB2CGJF();
         } else {
             throw new BizException("xn000000", "兑换比例不存在，请检查钱包汇率规则参数");
