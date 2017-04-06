@@ -74,6 +74,26 @@ public class ExchangeCurrency extends ABaseDO {
     // ******************************************
     private User fromUser;
 
+    private Date createDatetimeStart;
+
+    private Date createDatetimeEnd;
+
+    public Date getCreateDatetimeStart() {
+        return createDatetimeStart;
+    }
+
+    public void setCreateDatetimeStart(Date createDatetimeStart) {
+        this.createDatetimeStart = createDatetimeStart;
+    }
+
+    public Date getCreateDatetimeEnd() {
+        return createDatetimeEnd;
+    }
+
+    public void setCreateDatetimeEnd(Date createDatetimeEnd) {
+        this.createDatetimeEnd = createDatetimeEnd;
+    }
+
     public User getFromUser() {
         return fromUser;
     }

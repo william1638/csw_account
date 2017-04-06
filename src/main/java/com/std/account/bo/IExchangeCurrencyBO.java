@@ -41,4 +41,12 @@ public interface IExchangeCurrencyBO extends IPaginableBO<ExchangeCurrency> {
     public ExchangeCurrency doExchange(User user, Long fromAmount,
             String fromCurrency, String toCurrency);
 
+    /** 
+     * @param userId
+     * @param fromCurrency 
+     * @create: 2017年4月6日 下午5:07:06 xieyj
+     * @history: 
+     */
+    public void doCheckMonthTimes(String userId, String fromCurrency);
+
 }

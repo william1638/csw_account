@@ -20,6 +20,7 @@ import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
 import com.std.account.enums.EExchangeCurrencyStatus;
+import com.std.account.enums.ESystemCode;
 import com.std.account.exception.BizException;
 
 @Service
@@ -122,6 +123,10 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
     public String applyExchange(String userId, Long fromAmount,
             String fromCurrency, String toCurrency) {
         User user = userBO.getRemoteUser(userId);
+        // 判断每月次数是否超限制
+        if (ESystemCode.ZHPAY.getCode().equals(user.getSystemCode())) {
+            exchangeCurrencyBO.doCheckMonthTimes(userId, fromCurrency);
+        }
         return exchangeCurrencyBO.applyExchange(user, fromAmount, fromCurrency,
             toCurrency);
     }

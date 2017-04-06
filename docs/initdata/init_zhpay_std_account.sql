@@ -8,6 +8,7 @@ INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`r
 INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('1','CNY2FRB','1','',now(),'1人民币兑换分润比例','CD-CZH000001','CD-CZH000001');
 INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('1','HBB2GXZ','2','',now(),'1红包币兑换贡献值比例','CD-CZH000001','CD-CZH000001');
 INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('1','HBYJ2GXZ','3','',now(),'1红包业绩兑换贡献值比例','CD-CZH000001','CD-CZH000001');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('2','EXCTIMES','6','',now(),'币种兑换每个月申请次数','CD-CZH000001','CD-CZH000001');
 
 /*
 -- Query: select `type`,`parent_key`,`dkey`,`dvalue`,`updater`,`update_datetime`,`remark`,`system_code` from tsys_dict

@@ -10,14 +10,17 @@ import org.springframework.stereotype.Component;
 import com.std.account.bo.IExchangeCurrencyBO;
 import com.std.account.bo.ISYSConfigBO;
 import com.std.account.bo.base.PaginableBOImpl;
+import com.std.account.common.DateUtil;
 import com.std.account.core.OrderNoGenerater;
 import com.std.account.dao.IExchangeCurrencyDAO;
 import com.std.account.domain.ExchangeCurrency;
 import com.std.account.domain.User;
 import com.std.account.enums.ECurrency;
 import com.std.account.enums.EExchangeCurrencyStatus;
+import com.std.account.enums.EExchangeTimes;
 import com.std.account.enums.EGeneratePrefix;
 import com.std.account.enums.EPayType;
+import com.std.account.enums.ESystemCode;
 import com.std.account.exception.BizException;
 
 @Component
@@ -209,4 +212,26 @@ public class ExchangeCurrencyBOImpl extends PaginableBOImpl<ExchangeCurrency>
         return result;
     }
 
+    /** 
+     * @see com.std.account.bo.IExchangeCurrencyBO#doCheckMonthTimes(java.lang.String, java.lang.String)
+     */
+    @Override
+    public void doCheckMonthTimes(String fromUserId, String fromCurrency) {
+        ExchangeCurrency condition = new ExchangeCurrency();
+        condition.setFromUserId(fromUserId);
+        condition.setFromCurrency(fromCurrency);
+        condition.setCreateDatetimeStart(DateUtil.getCurrentMonthFirstDay());
+        condition.setCreateDatetimeEnd(DateUtil.getCurrentMonthLastDay());
+        long totalCount = exchangeCurrencyDAO.selectTotalCount(condition);
+        String exchangeTimes = sysConfigBO.getSYSConfig(
+            EExchangeTimes.EXCTIMES.getCode(), ESystemCode.ZHPAY.getCode());
+        if (StringUtils.isBlank(exchangeTimes)) {
+            throw new BizException("xn0000", "每月兑换最大次数未配置");
+        }
+        long maxMonthTimes = Double.valueOf(exchangeTimes).longValue();
+        if (totalCount >= maxMonthTimes) {
+            throw new BizException("xn0000", "每月最多兑换" + maxMonthTimes
+                    + "次,本月申请次数已用尽");
+        }
+    }
 }

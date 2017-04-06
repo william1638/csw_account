@@ -44,6 +44,12 @@
 			<if test="fromCurrency != null and fromCurrency != '' ">
 				AND t.from_currency = #{fromCurrency}
 			</if>
+			<if test="createDatetimeStart != null and createDatetimeStart != '' ">
+				<![CDATA[AND t.create_datetime >= #{createDatetimeStart}]]>
+			</if>
+			<if test="createDatetimeEnd != null and createDatetimeEnd != '' ">
+				<![CDATA[AND t.create_datetime <= #{createDatetimeEnd}]]>
+			</if>
 			<if test="status != null and status != '' ">
 				AND t.status = #{status}
 			</if>
