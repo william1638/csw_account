@@ -71,6 +71,17 @@ public class ExchangeCurrency extends ABaseDO {
     // 公司编号
     private String systemCode;
 
+    // ******************************************
+    private User fromUser;
+
+    public User getFromUser() {
+        return fromUser;
+    }
+
+    public void setFromUser(User fromUser) {
+        this.fromUser = fromUser;
+    }
+
     public void setCode(String code) {
         this.code = code;
     }

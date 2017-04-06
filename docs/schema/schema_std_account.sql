@@ -6,7 +6,7 @@ CREATE TABLE `tstd_jour` (
   `account_number` varchar(32) DEFAULT NULL COMMENT '账号',
   `channel_type` varchar(4) DEFAULT NULL COMMENT '渠道类型',
   `channel_order` varchar(32) DEFAULT NULL COMMENT '渠道单号',
-  `biz_type` varchar(4) DEFAULT NULL COMMENT '业务类型',
+  `biz_type` varchar(32) DEFAULT NULL COMMENT '业务类型',
   `biz_note` varchar(255) DEFAULT NULL COMMENT '业务类型',
   `trans_amount` bigint(32) DEFAULT NULL COMMENT '变动金额',
   `pre_amount` bigint(32) DEFAULT NULL COMMENT '变动前金额',

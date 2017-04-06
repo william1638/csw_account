@@ -71,7 +71,16 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
     @Override
     public Paginable<ExchangeCurrency> queryExchangeCurrencyPage(int start,
             int limit, ExchangeCurrency condition) {
-        return exchangeCurrencyBO.getPaginable(start, limit, condition);
+        Paginable<ExchangeCurrency> page = exchangeCurrencyBO.getPaginable(
+            start, limit, condition);
+        if (page != null && CollectionUtils.isNotEmpty(page.getList())) {
+            for (ExchangeCurrency exchangeCurrency : page.getList()) {
+                User fromUser = userBO.getRemoteUser(exchangeCurrency
+                    .getFromUserId());
+                exchangeCurrency.setFromUser(fromUser);
+            }
+        }
+        return page;
     }
 
     @Override
@@ -123,7 +132,7 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
         ExchangeCurrency dbOrder = exchangeCurrencyBO.getExchangeCurrency(code);
         if (EExchangeCurrencyStatus.TO_PAY.getCode()
             .equals(dbOrder.getStatus())) {
-            if (EBoolean.YES.equals(approveResult)) {
+            if (EBoolean.YES.getCode().equals(approveResult)) {
                 exchangeCurrencyBO.approveExchangeYes(dbOrder, approver,
                     approveNote);
                 // 开始资金划转
