@@ -19,7 +19,6 @@ import com.std.account.domain.User;
 import com.std.account.enums.EAccountType;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EChannelType;
-import com.std.account.enums.ESystemCode;
 import com.std.account.enums.EUserKind;
 import com.std.account.exception.BizException;
 
@@ -61,19 +60,15 @@ public class AccountAOImpl implements IAccountAO {
     @Override
     public void editAccountName(String userId, String realName,
             String systemCode) {
-        // 正汇不处理
-        if (ESystemCode.ZHPAY.getCode().equals(systemCode)) {
-            // 验证用户名和系统编号
-            Account data = new Account();
-            data.setUserId(userId);
-            data.setRealName(realName);
-            List<Account> accountList = accountBO.queryAccountList(data);
-            if (CollectionUtils.isEmpty(accountList)) {
-                new BizException("XN0000", "该用户无对应账号");
-            }
-            accountBO.refreshAccountName(userId, realName);
-
+        // 验证用户名和系统编号
+        Account data = new Account();
+        data.setUserId(userId);
+        data.setRealName(realName);
+        List<Account> accountList = accountBO.queryAccountList(data);
+        if (CollectionUtils.isEmpty(accountList)) {
+            new BizException("XN0000", "该用户无对应账号");
         }
+        accountBO.refreshAccountName(userId, realName);
     }
 
     @Override

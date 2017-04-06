@@ -64,6 +64,7 @@ public class UserBOImpl implements IUserBO {
         User user = new User();
         user.setUserId(res.getUserId());
         user.setMobile(res.getMobile());
+        user.setCompanyCode(res.getCompanyCode());
         user.setSystemCode(res.getSystemCode());
         return user;
     }

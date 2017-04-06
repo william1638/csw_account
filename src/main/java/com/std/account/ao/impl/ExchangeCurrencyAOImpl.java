@@ -22,6 +22,7 @@ import com.std.account.enums.EChannelType;
 import com.std.account.enums.EExchangeCurrencyStatus;
 import com.std.account.enums.ESystemCode;
 import com.std.account.exception.BizException;
+import com.std.account.util.CalculationUtil;
 
 @Service
 public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
@@ -86,7 +87,11 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
 
     @Override
     public ExchangeCurrency getExchangeCurrency(String code) {
-        return exchangeCurrencyBO.getExchangeCurrency(code);
+        ExchangeCurrency exchangeCurrency = exchangeCurrencyBO
+            .getExchangeCurrency(code);
+        User fromUser = userBO.getRemoteUser(exchangeCurrency.getFromUserId());
+        exchangeCurrency.setFromUser(fromUser);
+        return exchangeCurrency;
     }
 
     @Override
@@ -101,8 +106,9 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
         ExchangeCurrency dbOrder = exchangeCurrencyBO.doExchange(user,
             fromAmount, fromCurrency, toCurrency);
         // 开始资金划转
-        String remark = fromAmount + fromCurrency + "虚拟币转化为"
-                + dbOrder.getToAmount() + toCurrency;
+        String remark = CalculationUtil.divi(fromAmount) + fromCurrency
+                + "虚拟币转化为" + CalculationUtil.divi(dbOrder.getToAmount())
+                + toCurrency;
         Account fromAccount = accountBO.getAccountByUser(
             dbOrder.getFromUserId(), dbOrder.getFromCurrency());
         Account toAccount = accountBO.getAccountByUser(dbOrder.getToUserId(),
@@ -141,9 +147,10 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
                 exchangeCurrencyBO.approveExchangeYes(dbOrder, approver,
                     approveNote);
                 // 开始资金划转
-                String remark = dbOrder.getFromAmount()
+                String remark = CalculationUtil.divi(dbOrder.getFromAmount())
                         + dbOrder.getFromCurrency() + "虚拟币转化为"
-                        + dbOrder.getToAmount() + dbOrder.getToCurrency();
+                        + CalculationUtil.divi(dbOrder.getToAmount())
+                        + dbOrder.getToCurrency();
                 Account fromAccount = accountBO.getAccountByUser(
                     dbOrder.getFromUserId(), dbOrder.getFromCurrency());
                 Account toAccount = accountBO.getAccountByUser(
