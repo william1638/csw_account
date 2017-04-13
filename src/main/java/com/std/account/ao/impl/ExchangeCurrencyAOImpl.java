@@ -100,6 +100,7 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
     }
 
     @Override
+    @Transactional
     public String doExchange(String userId, Long fromAmount,
             String fromCurrency, String toCurrency) {
         User user = userBO.getRemoteUser(userId);
