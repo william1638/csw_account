@@ -55,6 +55,9 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
             data.setAmount(0L);
             data.setFrozenAmount(0L);
             data.setMd5(AccountUtil.md5(data.getAmount()));
+            data.setAddAmount(0L);
+            data.setInAmount(0L);
+            data.setOutAmount(0L);
             data.setCreateDatetime(new Date());
             accountDAO.insert(data);
         }
@@ -83,6 +86,10 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         data.setAmount(nowAmount);
         data.setMd5(AccountUtil.md5(dbAccount.getMd5(), dbAccount.getAmount(),
             nowAmount));
+        // 修改累计增加金额
+        if (transAmount > 0) {
+            data.setAddAmount(dbAccount.getAddAmount() + transAmount);
+        }
         data.setLastOrder(lastOrder);
         accountDAO.updateAmount(data);
     }
@@ -102,6 +109,10 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         data.setAmount(nowAmount);
         data.setMd5(AccountUtil.md5(dbAccount.getMd5(), dbAccount.getAmount(),
             nowAmount));
+        // 修改累计增加金额
+        if (transAmount > 0) {
+            data.setAddAmount(dbAccount.getAddAmount() + transAmount);
+        }
         data.setLastOrder(lastOrder);
         accountDAO.updateAmount(data);
     }

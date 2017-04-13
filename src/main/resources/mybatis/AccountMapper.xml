@@ -11,7 +11,10 @@
 		<result column="currency" property="currency" />	
 		<result column="amount" property="amount" />
 		<result column="frozen_amount" property="frozenAmount" />
-		<result column="md5" property="md5" />		
+		<result column="md5" property="md5" />	
+		<result column="add_amount" property="addAmount" />
+		<result column="in_amount" property="inAmount" />
+		<result column="out_amount" property="outAmount" />
 		<result column="create_datetime" property="createDatetime" />	
 		<result column="last_order" property="lastOrder" />	
 		<result column="system_code" property="systemCode" />
@@ -77,6 +80,10 @@
 		,t.amount
 		,t.frozen_amount
 		,t.md5
+		,t.add_amount
+		
+		,t.in_amount
+		,t.out_amount
 		,t.create_datetime
 		
 		,t.last_order
@@ -108,6 +115,10 @@
 		,amount
 		,frozen_amount
 		,md5
+		,add_amount
+		
+		,in_amount
+		,out_amount
 		,create_datetime
 		,system_code
 		)
@@ -122,6 +133,10 @@
 		,#{amount}
 		,#{frozenAmount}
 		,#{md5}
+		,#{addAmount}
+		
+		,#{inAmount}
+		,#{outAmount}
 		,#{createDatetime}
 		,#{systemCode}
 		)
@@ -139,6 +154,7 @@
 		UPDATE tstd_account
 		SET
 		amount= #{amount}
+		,add_amount= #{addAmount}
 		,md5 = #{md5}
 		,last_order = #{lastOrder}
 		WHERE

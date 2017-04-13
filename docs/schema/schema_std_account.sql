@@ -38,11 +38,16 @@ CREATE TABLE `tstd_account` (
   `amount` bigint(32) DEFAULT NULL COMMENT '余额',
   `frozen_amount` bigint(32) DEFAULT NULL COMMENT '冻结金额',
   `md5` varchar(32) DEFAULT NULL COMMENT 'MD5',
+  `add_amount` bigint(32) DEFAULT '0' COMMENT '累计增加金额',
+  `in_amount` bigint(32) DEFAULT '0' COMMENT '入金',
+  
+  `out_amount` bigint(32) DEFAULT '0' COMMENT '出金',
   `create_datetime` datetime DEFAULT NULL COMMENT '创建时间',
   `last_order` varchar(32) DEFAULT NULL COMMENT '最近一次变动对应的流水编号',
   `system_code` varchar(32) NOT NULL COMMENT '系统编号',
   PRIMARY KEY (`account_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 DROP TABLE IF EXISTS `tstd_bankcard`;
 CREATE TABLE `tstd_bankcard` (

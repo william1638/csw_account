@@ -43,6 +43,15 @@ public class Account extends ABaseDO {
     // md5
     private String md5;
 
+    // 累计增加金额
+    private Long addAmount;
+
+    // 入金
+    private Long inAmount;
+
+    // 出金
+    private Long outAmount;
+
     // 创建时间
     private Date createDatetime;
 
@@ -192,5 +201,29 @@ public class Account extends ABaseDO {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public Long getAddAmount() {
+        return addAmount;
+    }
+
+    public void setAddAmount(Long addAmount) {
+        this.addAmount = addAmount;
+    }
+
+    public Long getInAmount() {
+        return inAmount;
+    }
+
+    public void setInAmount(Long inAmount) {
+        this.inAmount = inAmount;
+    }
+
+    public Long getOutAmount() {
+        return outAmount;
+    }
+
+    public void setOutAmount(Long outAmount) {
+        this.outAmount = outAmount;
     }
 }
