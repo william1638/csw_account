@@ -1,5 +1,11 @@
 package com.std.account.dto.req;
 
+/**
+ * 商户针对C端手机划转资金
+ * @author: xieyj 
+ * @since: 2017年4月14日 下午12:59:47 
+ * @history:
+ */
 public class XN802400Req {
     // 商家编号(必填)
     private String storeOwner;

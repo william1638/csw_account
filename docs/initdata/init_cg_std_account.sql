@@ -11,9 +11,9 @@ INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`r
 -- Query: SELECT * FROM std_account.tstd_account where user_id = 'SYS_USER_CAIGO'
 -- Date: 2016-12-29 15:08
 */
-INSERT INTO `tstd_account` (`account_number`,`user_id`,`real_name`,`type`,`status`,`currency`,`amount`,`frozen_amount`,`md5`,`create_datetime`,`last_order`,`system_code`) VALUES ('CGA2016100000000000000','SYS_USER_CAIGO','平台','P','0','CNY',0,0,'b99e0407fedc3d160f73fec8d1fa9a0c',now(),NULL,'CD-CCG000007');
-INSERT INTO `tstd_account` (`account_number`,`user_id`,`real_name`,`type`,`status`,`currency`,`amount`,`frozen_amount`,`md5`,`create_datetime`,`last_order`,`system_code`) VALUES ('CGA2016100000000000001','SYS_USER_CAIGO','平台','P','0','CGJF',0,0,'b99e0407fedc3d160f73fec8d1fa9a0c',now(),NULL,'CD-CCG000007');
-INSERT INTO `tstd_account` (`account_number`,`user_id`,`real_name`,`type`,`status`,`currency`,`amount`,`frozen_amount`,`md5`,`create_datetime`,`last_order`,`system_code`) VALUES ('CGA2016100000000000002','SYS_USER_CAIGO','平台','P','0','CGB',0,0,'b99e0407fedc3d160f73fec8d1fa9a0c',now(),NULL,'CD-CCG000007');
+INSERT INTO `tstd_account` (`account_number`,`user_id`,`real_name`,`type`,`status`,`currency`,`amount`,`frozen_amount`,`md5`,`add_amount`,`in_amount,`out_amount`,create_datetime`,`last_order`,`system_code`) VALUES ('CGA2016100000000000000','SYS_USER_CAIGO','平台','P','0','CNY',0,0,'b99e0407fedc3d160f73fec8d1fa9a0c',0,0,0,now(),NULL,'CD-CCG000007');
+INSERT INTO `tstd_account` (`account_number`,`user_id`,`real_name`,`type`,`status`,`currency`,`amount`,`frozen_amount`,`md5`,`add_amount`,`in_amount,`out_amount`,`create_datetime`,`last_order`,`system_code`) VALUES ('CGA2016100000000000001','SYS_USER_CAIGO','平台','P','0','CGJF',0,0,'b99e0407fedc3d160f73fec8d1fa9a0c',0,0,0,now(),NULL,'CD-CCG000007');
+INSERT INTO `tstd_account` (`account_number`,`user_id`,`real_name`,`type`,`status`,`currency`,`amount`,`frozen_amount`,`md5`,`add_amount`,`in_amount,`out_amount`,`create_datetime`,`last_order`,`system_code`) VALUES ('CGA2016100000000000002','SYS_USER_CAIGO','平台','P','0','CGB',0,0,'b99e0407fedc3d160f73fec8d1fa9a0c',0,0,0,now(),NULL,'CD-CCG000007');
 
 /*
 -- Query: SELECT `company_code`,`company_name`,`channel_type`,`status`,`channel_company`,`private_key1`,`private_key2`,`private_key3`,`private_key4`,`private_key5`,`page_url`,`error_url`,`back_url`,`fee`,`remark`,`system_code` FROM std_account.tstd_company_channel where company_code = 'CD-CCG000007'

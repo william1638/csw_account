@@ -1,5 +1,11 @@
 package com.std.account.dto.req;
 
+/**
+ * 平台对加盟商划转资金
+ * @author: xieyj 
+ * @since: 2017年4月14日 下午1:00:41 
+ * @history:
+ */
 public class XN802402Req {
     // 上级用户编号
     private String fromUserId;
