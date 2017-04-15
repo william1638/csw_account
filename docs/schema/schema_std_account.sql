@@ -2,7 +2,7 @@ DROP TABLE IF EXISTS `tstd_jour`;
 CREATE TABLE `tstd_jour` (
   `code` varchar(32) NOT NULL COMMENT '编号',
   `user_id` varchar(32) DEFAULT NULL COMMENT '用户编号',
-  `real_name` varchar(16) DEFAULT NULL COMMENT '真实姓名',
+  `real_name` varchar(64) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '真实姓名',
   `account_number` varchar(32) DEFAULT NULL COMMENT '账号',
   `channel_type` varchar(4) DEFAULT NULL COMMENT '渠道类型',
   `channel_order` varchar(32) DEFAULT NULL COMMENT '渠道单号',
