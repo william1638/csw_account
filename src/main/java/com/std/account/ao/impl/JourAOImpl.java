@@ -128,7 +128,7 @@ public class JourAOImpl implements IJourAO {
         Account account = accountBO.getAccount(systemCode,
             data.getAccountNumber());
         Long preAmount = account.getAmount();
-        Long postAmount = null;
+        Long postAmount = preAmount;
         if (EBoolean.YES.getCode().equals(rollbackResult)) {
             if (EBizType.AJ_CZ.getCode().equals(data.getBizType())) {
                 accountBO.transAmountNotJour(data.getSystemCode(),
@@ -147,9 +147,9 @@ public class JourAOImpl implements IJourAO {
                 accountBO.unfrozenAmount(data.getSystemCode(),
                     EBoolean.NO.getCode(), data.getAccountNumber(),
                     -data.getTransAmount(), code);
+                postAmount = preAmount - data.getTransAmount();
             }
-            postAmount = preAmount - data.getTransAmount();
-            preAmount = postAmount;
+
         }
         jourBO.callBackChangeJour(code, rollbackResult, rollbackUser,
             rollbackNote, preAmount, postAmount);
