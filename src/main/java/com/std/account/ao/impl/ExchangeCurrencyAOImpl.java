@@ -19,6 +19,7 @@ import com.std.account.domain.User;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
+import com.std.account.enums.ECurrency;
 import com.std.account.enums.EExchangeCurrencyStatus;
 import com.std.account.enums.ESystemCode;
 import com.std.account.exception.BizException;
@@ -107,9 +108,10 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
         ExchangeCurrency dbOrder = exchangeCurrencyBO.doExchange(user,
             fromAmount, fromCurrency, toCurrency);
         // 开始资金划转
-        String remark = CalculationUtil.divi(fromAmount) + fromCurrency
-                + "虚拟币转化为" + CalculationUtil.divi(dbOrder.getToAmount())
-                + toCurrency;
+        String remark = CalculationUtil.divi(fromAmount)
+                + ECurrency.getCurrencyMap().get(fromCurrency).getValue()
+                + "转化为" + CalculationUtil.divi(dbOrder.getToAmount())
+                + ECurrency.getCurrencyMap().get(toCurrency).getValue();
         Account fromAccount = accountBO.getAccountByUser(
             dbOrder.getFromUserId(), dbOrder.getFromCurrency());
         Account toAccount = accountBO.getAccountByUser(dbOrder.getToUserId(),
