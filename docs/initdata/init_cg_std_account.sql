@@ -8,12 +8,14 @@ INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`r
 INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('1','CGB2CGJF','5','',now(),'1人民币兑换多少积分','CD-CCG000007','CD-CCG000007');
 
 /*
--- Query: SELECT * FROM std_account.tstd_account where user_id = 'SYS_USER_CAIGO'
--- Date: 2016-12-29 15:08
+-- Query: SELECT `account_number`,`user_id`,`real_name`,`type`,`status`,`currency`,0 `amount`,0 `frozen_amount`,`md5`,0 `add_amount`,0 `in_amount`,0 `out_amount`,`create_datetime`,'' `last_order`,`system_code` FROM std_account.tstd_account where user_id = 'SYS_USER_CAIGO'
+LIMIT 0, 400
+
+-- Date: 2017-04-20 10:34
 */
-INSERT INTO `tstd_account` (`account_number`,`user_id`,`real_name`,`type`,`status`,`currency`,`amount`,`frozen_amount`,`md5`,`add_amount`,`in_amount,`out_amount`,create_datetime`,`last_order`,`system_code`) VALUES ('CGA2016100000000000000','SYS_USER_CAIGO','平台','P','0','CNY',0,0,'b99e0407fedc3d160f73fec8d1fa9a0c',0,0,0,now(),NULL,'CD-CCG000007');
-INSERT INTO `tstd_account` (`account_number`,`user_id`,`real_name`,`type`,`status`,`currency`,`amount`,`frozen_amount`,`md5`,`add_amount`,`in_amount,`out_amount`,`create_datetime`,`last_order`,`system_code`) VALUES ('CGA2016100000000000001','SYS_USER_CAIGO','平台','P','0','CGJF',0,0,'b99e0407fedc3d160f73fec8d1fa9a0c',0,0,0,now(),NULL,'CD-CCG000007');
-INSERT INTO `tstd_account` (`account_number`,`user_id`,`real_name`,`type`,`status`,`currency`,`amount`,`frozen_amount`,`md5`,`add_amount`,`in_amount,`out_amount`,`create_datetime`,`last_order`,`system_code`) VALUES ('CGA2016100000000000002','SYS_USER_CAIGO','平台','P','0','CGB',0,0,'b99e0407fedc3d160f73fec8d1fa9a0c',0,0,0,now(),NULL,'CD-CCG000007');
+INSERT INTO `tstd_account` (`account_number`,`user_id`,`real_name`,`type`,`status`,`currency`,`amount`,`frozen_amount`,`md5`,`add_amount`,`in_amount`,`out_amount`,`create_datetime`,`last_order`,`system_code`) VALUES ('CGA2016100000000000000','SYS_USER_CAIGO','平台','P','0','CNY',0,0,'d3b907844e4c1c51573c6be663f57eaf',0,0,0,now(),'','CD-CCG000007');
+INSERT INTO `tstd_account` (`account_number`,`user_id`,`real_name`,`type`,`status`,`currency`,`amount`,`frozen_amount`,`md5`,`add_amount`,`in_amount`,`out_amount`,`create_datetime`,`last_order`,`system_code`) VALUES ('CGA2016100000000000001','SYS_USER_CAIGO','平台','P','0','CGJF',0,0,'9cd0c94334e9ad8889941cfb0b8ad1e3',0,0,0,now(),'','CD-CCG000007');
+INSERT INTO `tstd_account` (`account_number`,`user_id`,`real_name`,`type`,`status`,`currency`,`amount`,`frozen_amount`,`md5`,`add_amount`,`in_amount`,`out_amount`,`create_datetime`,`last_order`,`system_code`) VALUES ('CGA2016100000000000002','SYS_USER_CAIGO','平台','P','0','CGB',0,0,'6a3ea19778f8e415f8371457636abf7a',0,0,0,now(),'','CD-CCG000007');
 
 /*
 -- Query: SELECT `company_code`,`company_name`,`channel_type`,`status`,`channel_company`,`private_key1`,`private_key2`,`private_key3`,`private_key4`,`private_key5`,`page_url`,`error_url`,`back_url`,`fee`,`remark`,`system_code` FROM std_account.tstd_company_channel where company_code = 'CD-CCG000007'
