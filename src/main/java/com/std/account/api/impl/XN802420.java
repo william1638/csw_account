@@ -1,11 +1,3 @@
-/**
- * @Title XN802530.java 
- * @Package com.std.account.api.impl 
- * @Description 
- * @author leo(haiqing)  
- * @date 2017年3月30日 下午2:15:48 
- * @version V1.0   
- */
 package com.std.account.api.impl;
 
 import com.std.account.ao.IExchangeCurrencyAO;

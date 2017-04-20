@@ -155,6 +155,9 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
                 User fromUser = userBO.getRemoteUser(exchangeCurrency
                     .getFromUserId());
                 exchangeCurrency.setFromUser(fromUser);
+                User toUser = userBO.getRemoteUser(exchangeCurrency
+                    .getToUserId());
+                exchangeCurrency.setToUser(toUser);
             }
         }
         return page;
