@@ -21,7 +21,6 @@ import com.std.account.enums.EExchangeTimes;
 import com.std.account.enums.EGeneratePrefix;
 import com.std.account.enums.ESystemCode;
 import com.std.account.exception.BizException;
-import com.std.account.util.AmountUtil;
 
 @Component
 public class ExchangeCurrencyBOImpl extends PaginableBOImpl<ExchangeCurrency>
@@ -178,21 +177,19 @@ public class ExchangeCurrencyBOImpl extends PaginableBOImpl<ExchangeCurrency>
     }
 
     @Override
-    public String payExchange(User user, Long amount, String currency,
-            String payType) {
+    public String payExchange(String fromUserId, String toUserId,
+            Long rmbAmount, Long toAmount, String currency, String payType,
+            String systemCode) {
         String code = OrderNoGenerater
             .generate(EGeneratePrefix.EXCHANGE_CURRENCY.getCode());
-        Double rate = this.getExchangeRate(ECurrency.CNY.getCode(), currency);
-        Long cnyAmount = AmountUtil.mul(amount, 1 / rate);
-        String userId = user.getUserId();
         ExchangeCurrency data = new ExchangeCurrency();
         data.setCode(code);
 
-        data.setToUserId(userId);
-        data.setToAmount(amount);
+        data.setToUserId(toUserId);
+        data.setToAmount(toAmount);
         data.setToCurrency(currency);
-        data.setFromUserId(userId);
-        data.setFromAmount(cnyAmount);
+        data.setFromUserId(fromUserId);
+        data.setFromAmount(rmbAmount);
         data.setFromCurrency(ECurrency.CNY.getCode());
 
         data.setCreateDatetime(new Date());
@@ -201,8 +198,8 @@ public class ExchangeCurrencyBOImpl extends PaginableBOImpl<ExchangeCurrency>
         data.setPayType(payType);
         data.setPayGroup(code);
 
-        data.setSystemCode(user.getSystemCode());
-        data.setCompanyCode(user.getCompanyCode());
+        data.setSystemCode(systemCode);
+        data.setCompanyCode(systemCode);
         exchangeCurrencyDAO.payExchange(data);
         return code;
     }

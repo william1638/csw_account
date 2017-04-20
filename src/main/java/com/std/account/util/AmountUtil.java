@@ -9,6 +9,15 @@ public class AmountUtil {
         return a.multiply(b).longValue();
     }
 
+    public static Long rmbJinFen(Long amount) {
+        Long divideAmount = amount % 10;
+        if (divideAmount > 0) {
+            Long addAmount = 10 - divideAmount;
+            amount = amount + addAmount;
+        }
+        return amount;
+    }
+
     public static void main(String[] args) {
         System.out.println(mul(100000L, 0.009));
     }

@@ -11,7 +11,6 @@ import com.std.account.ao.IAccountAO;
 import com.std.account.ao.IExchangeCurrencyAO;
 import com.std.account.ao.IWeChatAO;
 import com.std.account.bo.IAccountBO;
-import com.std.account.bo.ICompanyChannelBO;
 import com.std.account.bo.IExchangeCurrencyBO;
 import com.std.account.bo.IUserBO;
 import com.std.account.bo.base.Paginable;
@@ -28,6 +27,7 @@ import com.std.account.enums.EPayType;
 import com.std.account.enums.ESysUser;
 import com.std.account.enums.ESystemCode;
 import com.std.account.exception.BizException;
+import com.std.account.util.AmountUtil;
 import com.std.account.util.CalculationUtil;
 
 @Service
@@ -46,9 +46,6 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
     private IExchangeCurrencyBO exchangeCurrencyBO;
 
     @Autowired
-    ICompanyChannelBO companyChannelBO;
-
-    @Autowired
     IWeChatAO weChatAO;
 
     @Override
@@ -56,25 +53,95 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
     public Object payExchange(String userId, Long amount, String currency,
             String payType) {
         User user = userBO.getRemoteUser(userId);
+        String systemUserId = null;
+        if (ESystemCode.CAIGO.getCode().equals(user.getSystemCode())) {
+            systemUserId = ESysUser.SYS_USER_CAIGO.getCode();
+        } else {
+            throw new BizException("XN000000", "现只支持菜狗平台系统");
+        }
         // 获取微信公众号支付prepayid
         if (EPayType.WEIXIN_H5.getCode().equals(payType)) {
-            String payGroup = exchangeCurrencyBO.payExchange(user, amount,
-                currency, payType);
-            String systemUserId = null;
-            if (ESystemCode.CAIGO.getCode().equals(user.getSystemCode())) {
-                systemUserId = ESysUser.SYS_USER_CAIGO.getCode();
-            } else {
-                throw new BizException("XN000000", "系统编号["
-                        + user.getSystemCode() + "]不支持人民币购买");
-            }
-            return weChatAO.getPrepayIdH5(user.getUserId(), user.getOpenId(),
-                systemUserId, EBizType.EXCHANGE_CURRENCY.getCode(),
-                EBizType.EXCHANGE_CURRENCY.getValue(),
-                EBizType.EXCHANGE_CURRENCY.getValue(), amount, payGroup,
-                PropertiesUtil.Config.SELF_PAY_BACKURL);
+            return weixinH5Pay(user, systemUserId, amount, currency, payType);
         } else {
-            throw new BizException("XN000000", "现只支持微信支付，其他方式不支持");
+            throw new BizException("XN000000", "现只支持微信H5，其他方式不支持");
         }
+    }
+
+    @Override
+    @Transactional
+    public Object payExchange(String fromUserId, String toUserId, Long amount,
+            String currency, String payType) {
+        User fromUser = userBO.getRemoteUser(fromUserId);
+        // 获取微信公众号支付prepayid
+        if (EPayType.WEIXIN_H5.getCode().equals(payType)) {
+            return weixinH5Pay(fromUser, toUserId, amount, currency, payType);
+        } else if (EPayType.WEIXIN_QR_CODE.getCode().equals(payType)) {
+            return weixinQrCodePay(fromUser, toUserId, amount, currency,
+                payType);
+        } else {
+            throw new BizException("XN000000", "现只支持微信H5和微信二维码，其他方式不支持");
+        }
+    }
+
+    /**
+     * 二维码扫描支付
+     * @param fromUserId
+     * @param toUserId
+     * @param amount
+     * @param currency
+     * @param payType
+     * @param systemCode
+     * @return 
+     * @create: 2017年4月20日 下午7:01:28 xieyj
+     * @history:
+     */
+    private Object weixinQrCodePay(User fromUser, String toUserId, Long amount,
+            String currency, String payType) {
+        String bizType = null;
+        String fromBizNote = null;
+        String toBizNote = null;
+        Long rmbAmount = 0L;
+        if (ECurrency.CG_CGB.getCode().equals(currency)) {
+            bizType = EBizType.AJ_CGBSM.getCode();
+            fromBizNote = "菜狗币购买";
+            toBizNote = "菜狗币售卖";
+            rmbAmount = AmountUtil.mul(amount, 1 / exchangeCurrencyBO
+                .getExchangeRate(ECurrency.CNY.getCode(), currency));
+        } else {
+            throw new BizException("xn000000", "暂未支持当前币种微信扫描支付");
+        }
+        String payGroup = exchangeCurrencyBO.payExchange(fromUser.getUserId(),
+            toUserId, rmbAmount, amount, currency, payType,
+            fromUser.getSystemCode());
+        return weChatAO.getPrepayIdNative(fromUser.getUserId(), toUserId,
+            bizType, fromBizNote, toBizNote, amount, payGroup);
+    }
+
+    /** 
+     * 微信H5支付
+     * @param user
+     * @param amount
+     * @param currency
+     * @param payType
+     * @return 
+     * @create: 2017年4月20日 下午6:02:46 xieyj
+     * @history: 
+     */
+    private Object weixinH5Pay(User fromUser, String toUser, Long amount,
+            String currency, String payType) {
+        Long rmbAmount = AmountUtil.mul(amount, 1 / exchangeCurrencyBO
+            .getExchangeRate(ECurrency.CNY.getCode(), currency));
+        rmbAmount = AmountUtil.rmbJinFen(rmbAmount);
+
+        String payGroup = exchangeCurrencyBO.payExchange(fromUser.getUserId(),
+            toUser, rmbAmount, amount, currency, payType,
+            fromUser.getSystemCode());
+
+        return weChatAO.getPrepayIdH5(fromUser.getUserId(),
+            fromUser.getOpenId(), toUser, EBizType.EXCHANGE_CURRENCY.getCode(),
+            EBizType.EXCHANGE_CURRENCY.getValue(),
+            EBizType.EXCHANGE_CURRENCY.getValue(), rmbAmount, payGroup,
+            PropertiesUtil.Config.SELF_PAY_BACKURL);
     }
 
     @Override
@@ -202,5 +269,4 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
         }
 
     }
-
 }

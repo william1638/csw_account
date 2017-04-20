@@ -93,9 +93,10 @@ public class CallbackConroller {
             logger.info("**** 扫码支付回调结果 ****：" + result);
 
             // 解析回调结果
-            weChatAO.doCallbackNative(result);
-
+            CallbackResult callbackResult = weChatAO.doCallbackNative(result);
             // &&&&&& todo 加减虚拟币 &&&&&&&
+            // 回调业务biz，通知支付结果
+            weChatAO.doBizCallback(callbackResult);
 
             // 通知微信服务器(我已收到请求，不用再继续回调我了)
             String noticeStr = setXML("SUCCESS", "");

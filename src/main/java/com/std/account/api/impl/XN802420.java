@@ -10,7 +10,7 @@ import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 人民币买虚拟币
+ * 人民币买虚拟币(菜狗：前端用户问平台购买)
  * @author: myb858 
  * @since: 2017年4月4日 上午11:52:14 
  * @history:

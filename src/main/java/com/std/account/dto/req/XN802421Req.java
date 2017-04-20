@@ -13,7 +13,7 @@ package com.std.account.dto.req;
  * @since: 2017年3月30日 下午2:17:07 
  * @history:
  */
-public class XN802530Req {
+public class XN802421Req {
     // 采购方用户编号
     private String fromUserId;
 
@@ -25,6 +25,17 @@ public class XN802530Req {
 
     // 购买虚拟币币种(必填)
     private String currency;
+
+    // 支付类型（必填）
+    private String payType;
+
+    public String getPayType() {
+        return payType;
+    }
+
+    public void setPayType(String payType) {
+        this.payType = payType;
+    }
 
     public String getFromUserId() {
         return fromUserId;

@@ -18,6 +18,9 @@ public interface IExchangeCurrencyAO {
     public Object payExchange(String userId, Long amount, String currency,
             String payType);
 
+    public Object payExchange(String fromUserId, String toUserId, Long amount,
+            String currency, String payType);
+
     public void paySuccess(String payGroup, String payCode, Long transAmount);
 
     public String doExchange(String userId, Long fromAmount,
