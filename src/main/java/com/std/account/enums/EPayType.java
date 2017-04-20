@@ -6,7 +6,7 @@ package com.std.account.enums;
  * @history:
  */
 public enum EPayType {
-    WEIXIN("2", "微信"), ALIPAY("3", "支付宝");
+    WEIXIN_APP("2", "微信"), WEIXIN_H5("5", "微信"), ALIPAY("3", "支付宝");
 
     EPayType(String code, String value) {
         this.code = code;

@@ -155,5 +155,4 @@ public class CallbackConroller {
                 + "]]></return_code><return_msg><![CDATA[" + return_msg
                 + "]]></return_msg></xml>";
     }
-
 }

@@ -19,9 +19,9 @@ import com.std.account.enums.ECurrency;
 import com.std.account.enums.EExchangeCurrencyStatus;
 import com.std.account.enums.EExchangeTimes;
 import com.std.account.enums.EGeneratePrefix;
-import com.std.account.enums.EPayType;
 import com.std.account.enums.ESystemCode;
 import com.std.account.exception.BizException;
+import com.std.account.util.AmountUtil;
 
 @Component
 public class ExchangeCurrencyBOImpl extends PaginableBOImpl<ExchangeCurrency>
@@ -178,38 +178,33 @@ public class ExchangeCurrencyBOImpl extends PaginableBOImpl<ExchangeCurrency>
     }
 
     @Override
-    public Object payExchange(User user, Long amount, String currency,
+    public String payExchange(User user, Long amount, String currency,
             String payType) {
-        Object result = null;
-        if (EPayType.WEIXIN.getCode().equals(payType)) {
-            String code = OrderNoGenerater
-                .generate(EGeneratePrefix.EXCHANGE_CURRENCY.getCode());
-            Double rate = this.getExchangeRate(ECurrency.CNY.getCode(),
-                currency);
-            Long cny = Double.valueOf(amount / rate).longValue();
-            String userId = user.getUserId();
-            ExchangeCurrency data = new ExchangeCurrency();
-            data.setCode(code);
+        String code = OrderNoGenerater
+            .generate(EGeneratePrefix.EXCHANGE_CURRENCY.getCode());
+        Double rate = this.getExchangeRate(ECurrency.CNY.getCode(), currency);
+        Long cnyAmount = AmountUtil.mul(amount, 1 / rate);
+        String userId = user.getUserId();
+        ExchangeCurrency data = new ExchangeCurrency();
+        data.setCode(code);
 
-            data.setToUserId(userId);
-            data.setToAmount(amount);
-            data.setToCurrency(currency);
-            data.setFromUserId(userId);
-            data.setFromAmount(cny);
-            data.setFromCurrency(ECurrency.CNY.getCode());
+        data.setToUserId(userId);
+        data.setToAmount(amount);
+        data.setToCurrency(currency);
+        data.setFromUserId(userId);
+        data.setFromAmount(cnyAmount);
+        data.setFromCurrency(ECurrency.CNY.getCode());
 
-            data.setCreateDatetime(new Date());
-            data.setStatus(EExchangeCurrencyStatus.TO_PAY.getCode());
+        data.setCreateDatetime(new Date());
+        data.setStatus(EExchangeCurrencyStatus.TO_PAY.getCode());
 
-            data.setPayType(EPayType.WEIXIN.getCode());
-            data.setPayGroup(code);
+        data.setPayType(payType);
+        data.setPayGroup(code);
 
-            data.setSystemCode(user.getSystemCode());
-            data.setCompanyCode(user.getCompanyCode());
-            exchangeCurrencyDAO.payExchange(data);
-
-        }
-        return result;
+        data.setSystemCode(user.getSystemCode());
+        data.setCompanyCode(user.getCompanyCode());
+        exchangeCurrencyDAO.payExchange(data);
+        return code;
     }
 
     /** 

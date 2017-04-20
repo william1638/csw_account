@@ -9,10 +9,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.std.account.ao.IAccountAO;
 import com.std.account.ao.IExchangeCurrencyAO;
+import com.std.account.ao.IWeChatAO;
 import com.std.account.bo.IAccountBO;
+import com.std.account.bo.ICompanyChannelBO;
 import com.std.account.bo.IExchangeCurrencyBO;
 import com.std.account.bo.IUserBO;
 import com.std.account.bo.base.Paginable;
+import com.std.account.common.PropertiesUtil;
 import com.std.account.domain.Account;
 import com.std.account.domain.ExchangeCurrency;
 import com.std.account.domain.User;
@@ -21,6 +24,8 @@ import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
 import com.std.account.enums.ECurrency;
 import com.std.account.enums.EExchangeCurrencyStatus;
+import com.std.account.enums.EPayType;
+import com.std.account.enums.ESysUser;
 import com.std.account.enums.ESystemCode;
 import com.std.account.exception.BizException;
 import com.std.account.util.CalculationUtil;
@@ -40,11 +45,36 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
     @Autowired
     private IExchangeCurrencyBO exchangeCurrencyBO;
 
+    @Autowired
+    ICompanyChannelBO companyChannelBO;
+
+    @Autowired
+    IWeChatAO weChatAO;
+
     @Override
+    @Transactional
     public Object payExchange(String userId, Long amount, String currency,
             String payType) {
         User user = userBO.getRemoteUser(userId);
-        return exchangeCurrencyBO.payExchange(user, amount, currency, payType);
+        // 获取微信公众号支付prepayid
+        if (EPayType.WEIXIN_H5.getCode().equals(payType)) {
+            String payGroup = exchangeCurrencyBO.payExchange(user, amount,
+                currency, payType);
+            String systemUserId = null;
+            if (ESystemCode.CAIGO.getCode().equals(user.getSystemCode())) {
+                systemUserId = ESysUser.SYS_USER_CAIGO.getCode();
+            } else {
+                throw new BizException("XN000000", "系统编号["
+                        + user.getSystemCode() + "]不支持人民币购买");
+            }
+            return weChatAO.getPrepayIdH5(user.getUserId(), user.getOpenId(),
+                systemUserId, EBizType.EXCHANGE_CURRENCY.getCode(),
+                EBizType.EXCHANGE_CURRENCY.getValue(),
+                EBizType.EXCHANGE_CURRENCY.getValue(), amount, payGroup,
+                PropertiesUtil.Config.SELF_PAY_BACKURL);
+        } else {
+            throw new BizException("XN000000", "现只支持微信支付，其他方式不支持");
+        }
     }
 
     @Override
@@ -62,10 +92,7 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
         // 更新状态
         exchangeCurrencyBO.paySuccess(exchangeCurrency.getCode(),
             EExchangeCurrencyStatus.PAYED.getCode(), payCode, transAmount);
-        // 双方划转
-        accountAO.transAmountCZB(exchangeCurrency.getFromUserId(),
-            exchangeCurrency.getToUserId(), exchangeCurrency.getFromCurrency(),
-            transAmount, EBizType.EXCHANGE_CURRENCY.getCode(), "币种兑换", "币种兑换");
+        // 去方币种兑换
         accountAO.transAmountCZB(exchangeCurrency.getToUserId(),
             exchangeCurrency.getFromUserId(), exchangeCurrency.getToCurrency(),
             transAmount, EBizType.EXCHANGE_CURRENCY.getCode(), "币种兑换", "币种兑换");

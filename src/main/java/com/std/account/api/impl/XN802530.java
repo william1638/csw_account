@@ -46,7 +46,7 @@ public class XN802530 extends AProcessor {
             toBizNote = "菜狗币售卖";
             amount = amount * 1; // todo根据汇率金额换算，目前1：1
         } else {
-            throw new BizException("xn000000", "未知别的币种");
+            throw new BizException("xn000000", "暂未支持当前币种微信支付");
         }
         return weChatAO.getPrepayIdNative(req.getFromUserId(),
             req.getToUserId(), bizType, fromBizNote, toBizNote, amount,

@@ -32,7 +32,7 @@ public interface IExchangeCurrencyBO extends IPaginableBO<ExchangeCurrency> {
     public void approveExchangeNo(ExchangeCurrency dbOrder, String approver,
             String approveNote);
 
-    public Object payExchange(User user, Long amount, String currency,
+    public String payExchange(User user, Long amount, String currency,
             String payType);
 
     public int paySuccess(String code, String status, String payCode,

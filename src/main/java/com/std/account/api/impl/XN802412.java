@@ -11,7 +11,7 @@ import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 申请虚拟币转化，不需要审核，目前支持转化的有：菜狗币转积分（菜狗）
+ * 申请虚拟币转化，不需要审核，目前支持转化的有：菜狗币转积分（菜狗），人民币余额转菜狗币（菜狗）
  * @author: myb858 
  * @since: 2017年4月5日 下午6:18:17 
  * @history:

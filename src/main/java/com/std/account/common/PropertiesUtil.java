@@ -46,5 +46,8 @@ public class PropertiesUtil {
 
         public static String ALIPAY_APP_BACKURL = props
             .getProperty("ALIPAY_APP_BACKURL");
+
+        public static String SELF_PAY_BACKURL = props
+            .getProperty("SELF_PAY_BACKURL");
     }
 }
