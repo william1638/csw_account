@@ -24,7 +24,6 @@ import com.std.account.enums.EChannelType;
 import com.std.account.enums.ECurrency;
 import com.std.account.enums.EExchangeCurrencyStatus;
 import com.std.account.enums.EPayType;
-import com.std.account.enums.ESysUser;
 import com.std.account.enums.ESystemCode;
 import com.std.account.exception.BizException;
 import com.std.account.util.AmountUtil;
@@ -47,25 +46,6 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
 
     @Autowired
     IWeChatAO weChatAO;
-
-    @Override
-    @Transactional
-    public Object payExchange(String userId, Long amount, String currency,
-            String payType) {
-        User user = userBO.getRemoteUser(userId);
-        String systemUserId = null;
-        if (ESystemCode.CAIGO.getCode().equals(user.getSystemCode())) {
-            systemUserId = ESysUser.SYS_USER_CAIGO.getCode();
-        } else {
-            throw new BizException("XN000000", "现只支持菜狗平台系统");
-        }
-        // 获取微信公众号支付prepayid
-        if (EPayType.WEIXIN_H5.getCode().equals(payType)) {
-            return weixinH5Pay(user, systemUserId, amount, currency, payType);
-        } else {
-            throw new BizException("XN000000", "现只支持微信H5，其他方式不支持");
-        }
-    }
 
     @Override
     @Transactional

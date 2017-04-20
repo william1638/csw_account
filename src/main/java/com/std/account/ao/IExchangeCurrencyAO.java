@@ -15,9 +15,6 @@ public interface IExchangeCurrencyAO {
     public void approveExchange(String code, String approveResult,
             String approver, String approveNote);
 
-    public Object payExchange(String userId, Long amount, String currency,
-            String payType);
-
     public Object payExchange(String fromUserId, String toUserId, Long amount,
             String currency, String payType);
 
