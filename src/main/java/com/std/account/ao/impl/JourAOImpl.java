@@ -23,14 +23,20 @@ import com.std.account.bo.IBankcardBO;
 import com.std.account.bo.ICompanyChannelBO;
 import com.std.account.bo.IJourBO;
 import com.std.account.bo.IUserBO;
+import com.std.account.bo.IWechatBO;
 import com.std.account.bo.base.Paginable;
+import com.std.account.common.SysConstant;
 import com.std.account.domain.Account;
 import com.std.account.domain.Bankcard;
+import com.std.account.domain.CompanyChannel;
 import com.std.account.domain.Jour;
+import com.std.account.domain.User;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
+import com.std.account.enums.ECurrency;
 import com.std.account.enums.EJourStatus;
+import com.std.account.enums.EPayType;
 import com.std.account.enums.ESysUser;
 import com.std.account.exception.BizException;
 
@@ -56,6 +62,55 @@ public class JourAOImpl implements IJourAO {
 
     @Autowired
     private IBankcardBO bankcardBO;
+
+    @Autowired
+    private IWechatBO wechatBO;
+
+    /** 
+     * @see com.std.account.ao.IJourAO#doRechargeOnline(java.lang.String, java.lang.String)
+     */
+    @Override
+    @Transactional
+    public Object doRechargeOnline(String userId, String payType, Long amount) {
+        if (EPayType.WEIXIN_H5.getCode().equals(payType)) {
+            doWeiXinH5Qz(userId, payType, amount);
+        } else if (EPayType.WEIXIN_APP.getCode().equals(payType)) {
+        } else if (EPayType.ALIPAY.getCode().equals(payType)) {
+        } else {
+            throw new BizException("xn000000", "暂不支持该支付方式");
+        }
+        return null;
+    }
+
+    /** 
+     * @param userId
+     * @param payType
+     * @param amount 
+     * @create: 2017年4月21日 下午4:45:47 xieyj
+     * @history: 
+     */
+    private Object doWeiXinH5Qz(String userId, String payType, Long transAmount) {
+        User user = userBO.getRemoteUser(userId);
+        if (transAmount.longValue() == 0l) {
+            throw new BizException("xn000000", "发生金额为零，不能使用微信支付");
+        }
+        Account account = accountBO.getAccountByUser(userId,
+            ECurrency.CNY.getCode());
+        String systemCode = account.getSystemCode();
+        // 落地付款方流水信息
+        String jourCode = jourBO.addToChangeJour(systemCode,
+            account.getAccountNumber(), EChannelType.WeChat_H5.getCode(),
+            EBizType.AJ_CZ.getCode(), EBizType.AJ_CZ.getValue(), transAmount,
+            null);
+        // 获取微信公众号支付prepayid
+        CompanyChannel companyChannel = companyChannelBO.getCompanyChannel(
+            systemCode, systemCode, EChannelType.WeChat_H5.getCode());
+        String prepayId = wechatBO.getPrepayIdH5(companyChannel,
+            user.getOpenId(), "微信公众号充值", jourCode, transAmount, SysConstant.IP,
+            null);
+        // 返回微信公众号支付所需信息
+        return wechatBO.getPayInfoH5(companyChannel, jourCode, prepayId);
+    }
 
     /*
      * 外部账支付：1、产生支付申请订单；2、返回支付链接；

@@ -123,7 +123,7 @@ public class WeChatAOImpl implements IWeChatAO {
             systemCode, systemCode, EChannelType.WeChat_H5.getCode());
         String prepayId = wechatBO.getPrepayIdH5(companyChannel, fromOpenId,
             fromBizNote, jourCode, transAmount, SysConstant.IP, backUrl);
-        // 返回微信APP支付所需信息
+        // 返回微信公众号支付所需信息
         return wechatBO.getPayInfoH5(companyChannel, jourCode, prepayId);
     }
 
@@ -277,6 +277,53 @@ public class WeChatAOImpl implements IWeChatAO {
         return new CallbackResult(isSucc, fromJour.getBizType(),
             fromJour.getCode(), fromJour.getPayGroup(),
             fromJour.getTransAmount(), systemCode, companyCode, backUrl);
+    }
+
+    /** 
+     * @see com.std.account.ao.IWeChatAO#doCallbackH5Qz(java.lang.String)
+     */
+    @Override
+    public void doCallbackH5Qz(String result) {
+        String systemCode = null;
+        String wechatOrderNo = null;
+        Jour jour = null;
+        Map<String, String> map = null;
+        try {
+            map = XMLUtil.doXMLParse(result);
+            String attach = map.get("attach");
+            String[] codes = attach.split("\\|\\|");
+            systemCode = codes[0];
+            wechatOrderNo = map.get("transaction_id");
+            jour = jourBO.getJour(map.get("out_trade_no"), systemCode);
+            if (!EJourStatus.todoCallBack.getCode().equals(jour.getStatus())) {
+                throw new BizException("xn000000", "充值流水不处于待回调状态，重复回调");
+            }
+        } catch (JDOMException | IOException e) {
+            throw new BizException("xn000000", "回调结果XML解析失败");
+        }
+
+        // 此处调用订单查询接口验证是否交易成功
+        boolean isSucc = reqOrderquery(map, EChannelType.WeChat_H5.getCode());
+        // 支付成功，商户处理后同步返回给微信参数
+        if (!isSucc) {
+            // 支付失败
+            System.out.println("支付失败");
+            jourBO.callBackChangeJour(jour.getCode(), EBoolean.NO.getCode(),
+                "WeChat_H5", "微信公众号充值后台自动回调", wechatOrderNo);
+        } else {
+            System.out.println("===============付款成功==============");
+            // ------------------------------
+            // 处理业务开始
+            // ------------------------------
+            jourBO.callBackChangeJour(jour.getCode(), EBoolean.YES.getCode(),
+                "WeChat_H5", "微信公众号充值后台自动回调", wechatOrderNo);
+            // 账户加钱
+            accountBO.transAmountNotJour(systemCode, jour.getAccountNumber(),
+                jour.getTransAmount(), jour.getCode());
+            // ------------------------------
+            // 处理业务完毕
+            // ------------------------------
+        }
     }
 
     @Override
