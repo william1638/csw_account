@@ -24,6 +24,7 @@ import com.std.account.bo.IJourBO;
 import com.std.account.bo.IUserBO;
 import com.std.account.bo.IWechatBO;
 import com.std.account.common.JsonUtil;
+import com.std.account.common.PropertiesUtil;
 import com.std.account.common.SysConstant;
 import com.std.account.domain.Account;
 import com.std.account.domain.CallbackResult;
@@ -101,7 +102,8 @@ public class WeChatAOImpl implements IWeChatAO {
     @Transactional
     public XN002501Res getPrepayIdH5(String fromUserId, String fromOpenId,
             String toUserId, String bizType, String fromBizNote,
-            String toBizNote, Long transAmount, String payGroup, String backUrl) {
+            String toBizNote, Long transAmount, String payGroup,
+            String bizBackUrl) {
         if (transAmount.longValue() == 0l) {
             throw new BizException("xn000000", "发生金额为零，不能使用微信支付");
         }
@@ -122,7 +124,8 @@ public class WeChatAOImpl implements IWeChatAO {
         CompanyChannel companyChannel = companyChannelBO.getCompanyChannel(
             systemCode, systemCode, EChannelType.WeChat_H5.getCode());
         String prepayId = wechatBO.getPrepayIdH5(companyChannel, fromOpenId,
-            fromBizNote, jourCode, transAmount, SysConstant.IP, backUrl);
+            fromBizNote, jourCode, transAmount, SysConstant.IP,
+            PropertiesUtil.Config.WECHAT_H5_BACKURL, bizBackUrl);
         // 返回微信公众号支付所需信息
         return wechatBO.getPayInfoH5(companyChannel, jourCode, prepayId);
     }

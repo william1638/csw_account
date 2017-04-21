@@ -25,6 +25,7 @@ import com.std.account.bo.IJourBO;
 import com.std.account.bo.IUserBO;
 import com.std.account.bo.IWechatBO;
 import com.std.account.bo.base.Paginable;
+import com.std.account.common.PropertiesUtil;
 import com.std.account.common.SysConstant;
 import com.std.account.domain.Account;
 import com.std.account.domain.Bankcard;
@@ -73,7 +74,7 @@ public class JourAOImpl implements IJourAO {
     @Transactional
     public Object doRechargeOnline(String userId, String payType, Long amount) {
         if (EPayType.WEIXIN_H5.getCode().equals(payType)) {
-            doWeiXinH5Qz(userId, payType, amount);
+            return doWeiXinH5Qz(userId, payType, amount);
         } else if (EPayType.WEIXIN_APP.getCode().equals(payType)) {
         } else if (EPayType.ALIPAY.getCode().equals(payType)) {
         } else {
@@ -94,6 +95,9 @@ public class JourAOImpl implements IJourAO {
         if (transAmount.longValue() == 0l) {
             throw new BizException("xn000000", "发生金额为零，不能使用微信支付");
         }
+        if (StringUtils.isBlank(user.getOpenId())) {
+            throw new BizException("xn000000", "请微信登录后再支付");
+        }
         Account account = accountBO.getAccountByUser(userId,
             ECurrency.CNY.getCode());
         String systemCode = account.getSystemCode();
@@ -107,7 +111,7 @@ public class JourAOImpl implements IJourAO {
             systemCode, systemCode, EChannelType.WeChat_H5.getCode());
         String prepayId = wechatBO.getPrepayIdH5(companyChannel,
             user.getOpenId(), "微信公众号充值", jourCode, transAmount, SysConstant.IP,
-            null);
+            PropertiesUtil.Config.WECHAT_H5_QzBACKURL, null);
         // 返回微信公众号支付所需信息
         return wechatBO.getPayInfoH5(companyChannel, jourCode, prepayId);
     }
