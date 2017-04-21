@@ -85,7 +85,7 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
             bizType = EBizType.AJ_CGBSM.getCode();
             fromBizNote = "菜狗币购买";
             toBizNote = "菜狗币售卖";
-            rmbAmount = AmountUtil.mul(amount, 1 / exchangeCurrencyBO
+            rmbAmount = AmountUtil.mulJinFen(amount, 1 / exchangeCurrencyBO
                 .getExchangeRate(ECurrency.CNY.getCode(), currency));
         } else {
             throw new BizException("xn000000", "暂未支持当前币种微信扫描支付");
@@ -94,7 +94,7 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
             toUserId, rmbAmount, amount, currency, payType,
             fromUser.getSystemCode());
         return weChatAO.getPrepayIdNative(fromUser.getUserId(), toUserId,
-            bizType, fromBizNote, toBizNote, amount, payGroup,
+            bizType, fromBizNote, toBizNote, rmbAmount, payGroup,
             PropertiesUtil.Config.SELF_PAY_BACKURL);
     }
 
@@ -110,9 +110,8 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
      */
     private Object weixinH5Pay(User fromUser, String toUser, Long amount,
             String currency, String payType) {
-        Long rmbAmount = AmountUtil.mul(amount, 1 / exchangeCurrencyBO
+        Long rmbAmount = AmountUtil.mulJinFen(amount, 1 / exchangeCurrencyBO
             .getExchangeRate(ECurrency.CNY.getCode(), currency));
-        rmbAmount = AmountUtil.rmbJinFen(rmbAmount);
 
         String payGroup = exchangeCurrencyBO.payExchange(fromUser.getUserId(),
             toUser, rmbAmount, amount, currency, payType,
