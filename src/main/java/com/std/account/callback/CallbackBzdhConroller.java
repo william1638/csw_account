@@ -50,6 +50,10 @@ public class CallbackBzdhConroller {
                     System.out.println("**** 进入币种兑换，服务器回调 start****");
                     exchangeCurrencyAO.paySuccess(payGroup, payCode, amount);
                     System.out.println("**** 进入币种兑换，服务器回调 end****");
+                } else if (EBizType.EXCHANGE_CURRENCY.getCode().equals(bizType)) {
+                    System.out.println("**** 进入币种兑换，服务器回调 start****");
+                    exchangeCurrencyAO.paySuccess(payGroup, payCode, amount);
+                    System.out.println("**** 进入币种兑换，服务器回调 end****");
                 }
             } catch (Exception e) {
                 logger.info("支付回调异常,原因：" + e.getMessage());

@@ -94,7 +94,6 @@ public class CallbackConroller {
 
             // 解析回调结果
             CallbackResult callbackResult = weChatAO.doCallbackNative(result);
-            // &&&&&& todo 加减虚拟币 &&&&&&&
             // 回调业务biz，通知支付结果
             weChatAO.doBizCallback(callbackResult);
 

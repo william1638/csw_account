@@ -94,7 +94,8 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
             toUserId, rmbAmount, amount, currency, payType,
             fromUser.getSystemCode());
         return weChatAO.getPrepayIdNative(fromUser.getUserId(), toUserId,
-            bizType, fromBizNote, toBizNote, amount, payGroup);
+            bizType, fromBizNote, toBizNote, amount, payGroup,
+            PropertiesUtil.Config.SELF_PAY_BACKURL);
     }
 
     /** 

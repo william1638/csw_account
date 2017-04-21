@@ -32,6 +32,7 @@ public interface IWechatBO {
             String payCode, String prepayId);
 
     public String getPrepayIdNative(CompanyChannel companyChannel,
-            String bizNote, String code, Long transAmount, String ip);
+            String bizNote, String code, Long transAmount, String ip,
+            String backUrl);
 
 }
