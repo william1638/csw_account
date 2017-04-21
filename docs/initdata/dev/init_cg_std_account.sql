@@ -23,8 +23,14 @@ LIMIT 0, 50000
 
 -- Date: 2017-01-15 20:51
 */
+delete from tstd_company_channel where company_code = 'CD-CCG000007';
 INSERT INTO `tstd_company_channel` (`company_code`,`company_name`,`channel_type`,`status`,`channel_company`,`private_key1`,`private_key2`,`private_key3`,`private_key4`,`private_key5`,`page_url`,`error_url`,`back_url`,`fee`,`remark`,`system_code`) VALUES ('CD-CCG000007','菜狗商城','35','1','1343848501','r2jgDFSdiikklwlllejlwjio3242342n','wx5b7c0f77fd657fee','10e1b1dccee7da4ae2efc1c500108a95',NULL,NULL,NULL,NULL,'',NULL,NULL,'CD-CCG000007');
 INSERT INTO `tstd_company_channel` (`company_code`,`company_name`,`channel_type`,`status`,`channel_company`,`private_key1`,`private_key2`,`private_key3`,`private_key4`,`private_key5`,`page_url`,`error_url`,`back_url`,`fee`,`remark`,`system_code`) VALUES ('CD-CCG000007','菜狗商城','37','1','1343848501','r2jgDFSdiikklwlllejlwjio3242342n','wx5b7c0f77fd657fee','10e1b1dccee7da4ae2efc1c500108a95',NULL,NULL,NULL,NULL,'',NULL,NULL,'CD-CCG000007');
+
+delete from tstd_company_channel where company_code = 'CD-CCG000007';
+INSERT INTO `tstd_company_channel` (`company_code`,`company_name`,`channel_type`,`status`,`channel_company`,`private_key1`,`private_key2`,`private_key3`,`private_key4`,`private_key5`,`page_url`,`error_url`,`back_url`,`fee`,`remark`,`system_code`) VALUES ('CD-CCG000007','菜狗商城','35','1','1400666002','r2jgDFSdiikklwlllejlwjio3242342n','wx8bc03dd744895352','44ebf0ef908dc54656573625a579ea82',NULL,NULL,NULL,NULL,'',NULL,NULL,'CD-CCG000007');
+INSERT INTO `tstd_company_channel` (`company_code`,`company_name`,`channel_type`,`status`,`channel_company`,`private_key1`,`private_key2`,`private_key3`,`private_key4`,`private_key5`,`page_url`,`error_url`,`back_url`,`fee`,`remark`,`system_code`) VALUES ('CD-CCG000007','菜狗商城','37','1','1400666002','r2jgDFSdiikklwlllejlwjio3242342n','wx8bc03dd744895352','44ebf0ef908dc54656573625a579ea82',NULL,NULL,NULL,NULL,'',NULL,NULL,'CD-CCG000007');
+
 
 /*
 -- Query: SELECT `type`,`parent_key`,`dkey`,`dvalue`,`updater`,now() as `update_datetime`,`remark`,`system_code` FROM std_account.tsys_dict where system_code ='CD-CCG000007'
