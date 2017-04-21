@@ -19,6 +19,7 @@ import com.std.account.enums.ECurrency;
 import com.std.account.enums.EExchangeCurrencyStatus;
 import com.std.account.enums.EExchangeTimes;
 import com.std.account.enums.EGeneratePrefix;
+import com.std.account.enums.EPayType;
 import com.std.account.enums.ESystemCode;
 import com.std.account.exception.BizException;
 
@@ -174,6 +175,32 @@ public class ExchangeCurrencyBOImpl extends PaginableBOImpl<ExchangeCurrency>
         dbOrder.setUpdateDatetime(new Date());
         dbOrder.setRemark(approveNote);
         exchangeCurrencyDAO.approveExchange(dbOrder);
+    }
+
+    @Override
+    public String saveExchange(String fromUserId, String toUserId,
+            Long transAmount, String currency, String systemCode) {
+        String code = OrderNoGenerater
+            .generate(EGeneratePrefix.EXCHANGE_CURRENCY.getCode());
+        ExchangeCurrency data = new ExchangeCurrency();
+        data.setCode(code);
+        data.setToUserId(toUserId);
+
+        data.setToAmount(transAmount);
+        data.setToCurrency(currency);
+        data.setFromUserId(fromUserId);
+        data.setFromAmount(transAmount);
+        data.setFromCurrency(currency);
+
+        data.setCreateDatetime(new Date());
+        data.setStatus(EExchangeCurrencyStatus.PAYED.getCode());
+        data.setPayType(EPayType.DBHZ.getCode());
+        data.setPayGroup(code);
+        data.setSystemCode(systemCode);
+
+        data.setCompanyCode(systemCode);
+        exchangeCurrencyDAO.doExchange(data);
+        return code;
     }
 
     @Override

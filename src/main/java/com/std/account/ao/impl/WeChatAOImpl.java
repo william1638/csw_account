@@ -12,6 +12,7 @@ import java.io.IOException;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jdom2.JDOMException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -106,6 +107,9 @@ public class WeChatAOImpl implements IWeChatAO {
             String bizBackUrl) {
         if (transAmount.longValue() == 0l) {
             throw new BizException("xn000000", "发生金额为零，不能使用微信支付");
+        }
+        if (StringUtils.isBlank(fromOpenId)) {
+            throw new BizException("xn0000", "请先微信登录再支付");
         }
         Account fromAccount = accountBO.getAccountByUser(fromUserId,
             ECurrency.CNY.getCode());

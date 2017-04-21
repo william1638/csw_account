@@ -25,6 +25,7 @@ import com.std.account.enums.ECurrency;
 import com.std.account.enums.EExchangeCurrencyStatus;
 import com.std.account.enums.EPayType;
 import com.std.account.enums.ESystemCode;
+import com.std.account.enums.EUserKind;
 import com.std.account.exception.BizException;
 import com.std.account.util.AmountUtil;
 import com.std.account.util.CalculationUtil;
@@ -250,6 +251,62 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
         } else {
             throw new BizException("xn000000", code + "不处于待审批状态");
         }
+    }
 
+    @Override
+    @Transactional
+    public void doTransferB2C(String storeOwner, String mobile, Long amount,
+            String currency) {
+        User storeUser = userBO.getRemoteUser(storeOwner);
+        String toUserId = userBO.isUserExist(mobile, EUserKind.F1,
+            storeUser.getSystemCode());
+        exchangeCurrencyBO.saveExchange(storeUser.getUserId(), toUserId,
+            amount, currency, storeUser.getSystemCode());
+
+        Account fromAccount = accountBO.getAccountByUser(storeOwner, currency);
+        Account toAccount = accountBO.getAccountByUser(toUserId, currency);
+        String bizType = EBizType.Transfer_CURRENCY.getCode();
+        accountBO.transAmount(fromAccount.getSystemCode(),
+            fromAccount.getAccountNumber(), EChannelType.NBZ, null, -amount,
+            bizType, "商户针对C端手机划转资金");
+        accountBO.transAmount(toAccount.getSystemCode(),
+            toAccount.getAccountNumber(), EChannelType.NBZ, null, amount,
+            bizType, "商户针对C端手机划转资金");
+    }
+
+    @Override
+    @Transactional
+    public void doTransferF2B(String fromUserId, String toUserId, Long amount,
+            String currency) {
+        Account fromAccount = accountBO.getAccountByUser(fromUserId, currency);
+        Account toAccount = accountBO.getAccountByUser(toUserId, currency);
+
+        exchangeCurrencyBO.saveExchange(fromUserId, toUserId, amount, currency,
+            fromAccount.getSystemCode());
+        String bizType = EBizType.Transfer_CURRENCY.getCode();
+        accountBO.transAmount(fromAccount.getSystemCode(),
+            fromAccount.getAccountNumber(), EChannelType.NBZ, null, -amount,
+            bizType, "加盟商对商户划转资金");
+        accountBO.transAmount(toAccount.getSystemCode(),
+            toAccount.getAccountNumber(), EChannelType.NBZ, null, amount,
+            bizType, "加盟商对商户划转资金");
+    }
+
+    @Override
+    @Transactional
+    public void doTransferP2F(String fromUserId, String toUserId, Long amount,
+            String currency) {
+        Account fromAccount = accountBO.getAccountByUser(fromUserId, currency);
+        Account toAccount = accountBO.getAccountByUser(toUserId, currency);
+
+        exchangeCurrencyBO.saveExchange(fromUserId, toUserId, amount, currency,
+            fromAccount.getSystemCode());
+        String bizType = EBizType.Transfer_CURRENCY.getCode();
+        accountBO.transAmount(fromAccount.getSystemCode(),
+            fromAccount.getAccountNumber(), EChannelType.NBZ, null, -amount,
+            bizType, "平台对加盟商划转资金");
+        accountBO.transAmount(toAccount.getSystemCode(),
+            toAccount.getAccountNumber(), EChannelType.NBZ, null, amount,
+            bizType, "平台对加盟商划转资金");
     }
 }

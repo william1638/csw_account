@@ -32,6 +32,12 @@ public interface IExchangeCurrencyBO extends IPaginableBO<ExchangeCurrency> {
     public void approveExchangeNo(ExchangeCurrency dbOrder, String approver,
             String approveNote);
 
+    /*
+     * 虚拟币划转兑换记录
+     */
+    public String saveExchange(String fromUserId, String toUserId,
+            Long transAmount, String currency, String systemCode);
+
     public String payExchange(String fromUserId, String toUserId,
             Long rmbAmount, Long toAmount, String currency, String payType,
             String systemCode);

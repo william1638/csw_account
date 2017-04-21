@@ -15,11 +15,8 @@ import com.std.account.bo.IJourBO;
 import com.std.account.bo.IUserBO;
 import com.std.account.bo.base.Paginable;
 import com.std.account.domain.Account;
-import com.std.account.domain.User;
 import com.std.account.enums.EAccountType;
-import com.std.account.enums.EBizType;
 import com.std.account.enums.EChannelType;
-import com.std.account.enums.EUserKind;
 import com.std.account.exception.BizException;
 
 @Service
@@ -208,54 +205,4 @@ public class AccountAOImpl implements IAccountAO {
         condition.setCurrency(currency);
         return accountBO.queryAccountList(condition);
     }
-
-    @Override
-    public void doTransferB2C(String storeOwner, String mobile, Long amount,
-            String currency) {
-        User storeUser = userBO.getRemoteUser(storeOwner);
-        String toUserId = userBO.isUserExist(mobile, EUserKind.F1,
-            storeUser.getSystemCode());
-        Account fromAccount = accountBO.getAccountByUser(storeOwner, currency);
-        Account toAccount = accountBO.getAccountByUser(toUserId, currency);
-
-        String bizType = EBizType.Transfer_CURRENCY.getCode();
-        accountBO.transAmount(fromAccount.getSystemCode(),
-            fromAccount.getAccountNumber(), EChannelType.NBZ, null, -amount,
-            bizType, "商户针对C端手机划转资金");
-        accountBO.transAmount(toAccount.getSystemCode(),
-            toAccount.getAccountNumber(), EChannelType.NBZ, null, amount,
-            bizType, "商户针对C端手机划转资金");
-
-    }
-
-    @Override
-    public void doTransferF2B(String fromUserId, String toUserId, Long amount,
-            String currency) {
-        Account fromAccount = accountBO.getAccountByUser(fromUserId, currency);
-        Account toAccount = accountBO.getAccountByUser(toUserId, currency);
-
-        String bizType = EBizType.Transfer_CURRENCY.getCode();
-        accountBO.transAmount(fromAccount.getSystemCode(),
-            fromAccount.getAccountNumber(), EChannelType.NBZ, null, -amount,
-            bizType, "加盟商对商户划转资金");
-        accountBO.transAmount(toAccount.getSystemCode(),
-            toAccount.getAccountNumber(), EChannelType.NBZ, null, amount,
-            bizType, "加盟商对商户划转资金");
-    }
-
-    @Override
-    public void doTransferP2F(String fromUserId, String toUserId, Long amount,
-            String currency) {
-        Account fromAccount = accountBO.getAccountByUser(fromUserId, currency);
-        Account toAccount = accountBO.getAccountByUser(toUserId, currency);
-
-        String bizType = EBizType.Transfer_CURRENCY.getCode();
-        accountBO.transAmount(fromAccount.getSystemCode(),
-            fromAccount.getAccountNumber(), EChannelType.NBZ, null, -amount,
-            bizType, "平台对加盟商划转资金");
-        accountBO.transAmount(toAccount.getSystemCode(),
-            toAccount.getAccountNumber(), EChannelType.NBZ, null, amount,
-            bizType, "平台对加盟商划转资金");
-    }
-
 }
