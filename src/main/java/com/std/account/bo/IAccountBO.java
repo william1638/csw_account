@@ -41,9 +41,9 @@ public interface IAccountBO extends IPaginableBO<Account> {
      * @create: 2016年12月23日 下午5:58:06 xieyj
      * @history:
      */
-    public void transAmount(String systemCode, String accountNumber,
-            EChannelType channelType, String channelOrder, Long transAmount,
-            String bizType, String bizNote);
+    public void transAmount(String accountNumber, EChannelType channelType,
+            String channelOrder, Long transAmount, String bizType,
+            String bizNote);
 
     /**
      * 改变账户金额，无流水
@@ -104,13 +104,12 @@ public interface IAccountBO extends IPaginableBO<Account> {
 
     /**
      * 获取账户
-     * @param systemCode
      * @param accountNumber
      * @return 
      * @create: 2016年12月23日 下午5:27:22 xieyj
      * @history:
      */
-    public Account getAccount(String systemCode, String accountNumber);
+    public Account getAccount(String accountNumber);
 
     /**
      * 通过用户编号和币种获取币种

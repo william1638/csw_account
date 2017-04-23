@@ -77,6 +77,10 @@ public class ExchangeCurrencyBOImpl extends PaginableBOImpl<ExchangeCurrency>
 
     @Override
     public Double getExchangeRate(String fromCurrency, String toCurrency) {
+        if (fromCurrency != null && fromCurrency.equalsIgnoreCase(toCurrency)) {
+            return 1.0;
+        }
+
         if (ECurrency.CNY.getCode().equalsIgnoreCase(fromCurrency)
                 && ECurrency.ZH_GXZ.getCode().equalsIgnoreCase(toCurrency)) {
             return sysConfigBO.getCNY2GXZ();

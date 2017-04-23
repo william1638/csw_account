@@ -6,8 +6,6 @@ package com.std.account.dto.req;
  * @history:
  */
 public class XN802512Req {
-    // 系统编号(必填)
-    private String systemCode;
 
     // 来方账号(必填)
     private String fromAccountNumber;
@@ -23,14 +21,6 @@ public class XN802512Req {
 
     // 业务说明
     private String bizNote;
-
-    public String getSystemCode() {
-        return systemCode;
-    }
-
-    public void setSystemCode(String systemCode) {
-        this.systemCode = systemCode;
-    }
 
     public String getFromAccountNumber() {
         return fromAccountNumber;
