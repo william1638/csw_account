@@ -33,9 +33,11 @@ public interface IAccountAO {
     public void editAccountName(String userId, String realName,
             String systemCode);
 
+    // 同样/不同账户间资金划转
     void transAmountCZB(String fromAccountNumber, String toAccountNumber,
             Long transAmount, String bizType, String bizNote);
 
+    // 同样币种不同用户间资金划转
     void transAmountCZB(String fromUserId, String toUserId, String currency,
             Long transAmount, String bizType, String fromBizNote,
             String toBizNote);
