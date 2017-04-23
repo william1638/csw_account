@@ -31,7 +31,7 @@ DROP TABLE IF EXISTS `tstd_account`;
 CREATE TABLE `tstd_account` (
   `account_number` varchar(32) NOT NULL DEFAULT '' COMMENT '账号',
   `user_id` varchar(32) DEFAULT NULL COMMENT '用户编号',
-  `real_name` varchar(16) DEFAULT NULL COMMENT '真实姓名',
+  `real_name` varchar(64) CHARACTER SET utf8mb4 DEFAULT NULL COMMENT '真实姓名',
   `type` varchar(4) DEFAULT NULL COMMENT '类别（B端账号，C端账号，平台账号）',
   `status` varchar(2) DEFAULT NULL COMMENT '状态（正常/程序冻结/人工冻结）',
   `currency` varchar(8) DEFAULT NULL COMMENT '币种',
