@@ -47,9 +47,9 @@ public class CallbackBzdhConroller {
             // ------------------------------
             try {
                 if (EBizType.AJ_CGBSM.getCode().equals(bizType)) {
-                    System.out.println("**** 进入币种兑换，服务器回调 start****");
+                    System.out.println("**** 进入菜狗币售卖，服务器回调 start****");
                     exchangeCurrencyAO.paySuccess(payGroup, payCode, amount);
-                    System.out.println("**** 进入币种兑换，服务器回调 end****");
+                    System.out.println("**** 进入菜狗币售卖，服务器回调 end****");
                 } else if (EBizType.EXCHANGE_CURRENCY.getCode().equals(bizType)) {
                     System.out.println("**** 进入币种兑换，服务器回调 start****");
                     exchangeCurrencyAO.paySuccess(payGroup, payCode, amount);
