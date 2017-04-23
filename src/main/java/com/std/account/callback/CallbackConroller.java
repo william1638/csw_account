@@ -81,6 +81,27 @@ public class CallbackConroller {
         }
     }
 
+    // 微信H5充值回调
+    @RequestMapping("/wechat/H5/callbackQz")
+    public synchronized void doCallbackWechatH5Qz(HttpServletRequest request,
+            HttpServletResponse response) {
+        try {
+            // 获取回调参数
+            PrintWriter out = response.getWriter();
+            InputStream inStream = request.getInputStream();
+            String result = getReqResult(out, inStream);
+            logger.info("**** 公众号充值回调结果 ****：" + result);
+            // 解析回调结果
+            weChatAO.doCallbackH5Qz(result);
+            // 通知微信服务器(我已收到请求，不用再继续回调我了)
+            String noticeStr = setXML("SUCCESS", "");
+            out.print(new ByteArrayInputStream(noticeStr.getBytes(Charset
+                .forName("UTF-8"))));
+        } catch (Exception e) {
+            logger.info("公众号充值回调异常,原因：" + e.getMessage());
+        }
+    }
+
     // 微信扫码支付回调
     @RequestMapping("/wechat/native/callback")
     public synchronized void doCallbackWechatNative(HttpServletRequest request,
@@ -93,9 +114,9 @@ public class CallbackConroller {
             logger.info("**** 扫码支付回调结果 ****：" + result);
 
             // 解析回调结果
-            weChatAO.doCallbackNative(result);
-
-            // &&&&&& todo 加减虚拟币 &&&&&&&
+            CallbackResult callbackResult = weChatAO.doCallbackNative(result);
+            // 回调业务biz，通知支付结果
+            weChatAO.doBizCallback(callbackResult);
 
             // 通知微信服务器(我已收到请求，不用再继续回调我了)
             String noticeStr = setXML("SUCCESS", "");
@@ -155,5 +176,4 @@ public class CallbackConroller {
                 + "]]></return_code><return_msg><![CDATA[" + return_msg
                 + "]]></return_msg></xml>";
     }
-
 }

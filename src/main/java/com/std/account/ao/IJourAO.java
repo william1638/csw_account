@@ -24,6 +24,17 @@ public interface IJourAO {
     String DEFAULT_ORDER_COLUMN = "code";
 
     /**
+     * 线上充值(微信，支付宝)
+     * @param userId
+     * @param payType
+     * @param amount
+     * @return 
+     * @create: 2017年4月21日 下午4:09:39 xieyj
+     * @history:
+     */
+    public Object doRechargeOnline(String userId, String payType, Long amount);
+
+    /**
      * 外部支付待回调
      * @param accountNumber
      * @param bankcardNumber

@@ -1,6 +1,6 @@
 package com.std.account.api.impl;
 
-//802为橙账本系统
+//802为橙账本系统。accountNumber全局唯一，跟userId一样
 public class Readme {
     // --------000-149为基础接口，共150个接口
     // 000-009数字字典的增删改3个查；

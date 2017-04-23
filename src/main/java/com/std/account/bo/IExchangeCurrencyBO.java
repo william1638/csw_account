@@ -32,8 +32,15 @@ public interface IExchangeCurrencyBO extends IPaginableBO<ExchangeCurrency> {
     public void approveExchangeNo(ExchangeCurrency dbOrder, String approver,
             String approveNote);
 
-    public Object payExchange(User user, Long amount, String currency,
-            String payType);
+    /*
+     * 虚拟币划转兑换记录
+     */
+    public String saveExchange(String fromUserId, String toUserId,
+            Long transAmount, String currency, String systemCode);
+
+    public String payExchange(String fromUserId, String toUserId,
+            Long rmbAmount, Long toAmount, String currency, String payType,
+            String systemCode);
 
     public int paySuccess(String code, String status, String payCode,
             Long payAmount);
@@ -41,12 +48,6 @@ public interface IExchangeCurrencyBO extends IPaginableBO<ExchangeCurrency> {
     public ExchangeCurrency doExchange(User user, Long fromAmount,
             String fromCurrency, String toCurrency);
 
-    /** 
-     * @param userId
-     * @param fromCurrency 
-     * @create: 2017年4月6日 下午5:07:06 xieyj
-     * @history: 
-     */
-    public void doCheckMonthTimes(String userId, String fromCurrency);
+    public void doCheckZH(String userId, String fromCurrency, String toCurrency);
 
 }

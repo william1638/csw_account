@@ -9,10 +9,10 @@ import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
-/**
- * 人民币买虚拟币
- * @author: myb858 
- * @since: 2017年4月4日 上午11:52:14 
+/** 
+ * 虚拟币售卖_微信h5和二维码扫码(菜狗相对用户购买，商家向加盟商，加盟商向平台购买，前端用户问平台购买)
+ * @author: haiqingzheng 
+ * @since: 2017年3月30日 下午2:15:48 
  * @history:
  */
 public class XN802420 extends AProcessor {
@@ -22,23 +22,23 @@ public class XN802420 extends AProcessor {
     private XN802420Req req = null;
 
     /** 
-    * @see com.xnjr.base.api.IProcessor#doBusiness()
-    */
+     * @see com.std.account.api.IProcessor#doBusiness()
+     */
     @Override
     public Object doBusiness() throws BizException {
-        return exchangeCurrencyAO.payExchange(req.getUserId(),
-            StringValidater.toLong(req.getAmount()), req.getCurrency(),
-            req.getPayType());
+        return exchangeCurrencyAO.payExchange(req.getFromUserId(),
+            req.getToUserId(), StringValidater.toLong(req.getAmount()),
+            req.getCurrency(), req.getPayType());
     }
 
     /** 
-    * @see com.xnjr.base.api.IProcessor#doCheck(java.lang.String)
-    */
+     * @see com.std.account.api.IProcessor#doCheck(java.lang.String)
+     */
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802420Req.class);
-        StringValidater.validateBlank(req.getUserId(), req.getAmount(),
-            req.getCurrency(), req.getPayType());
+        StringValidater.validateBlank(req.getFromUserId(), req.getToUserId(),
+            req.getAmount(), req.getCurrency());
     }
 
 }

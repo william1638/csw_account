@@ -29,11 +29,13 @@ public interface IWeChatAO {
 
     public String getPrepayIdNative(String fromUserId, String toUserId,
             String bizType, String fromBizNote, String toBizNote,
-            Long transAmount, String payGroup);
+            Long transAmount, String payGroup, String backUrl);
 
     public CallbackResult doCallbackAPP(String result);
 
     public CallbackResult doCallbackH5(String result);
+
+    public void doCallbackH5Qz(String result);
 
     public CallbackResult doCallbackNative(String result);
 

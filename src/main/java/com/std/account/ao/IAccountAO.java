@@ -33,64 +33,11 @@ public interface IAccountAO {
     public void editAccountName(String userId, String realName,
             String systemCode);
 
-    /**
-     * 通过橙账本划转资金，即内部划转资金
-     * @param systemCode
-     * @param fromAccountNumber
-     * @param toAccountNumber
-     * @param transAmount
-     * @param bizType
-     * @param bizNote 
-     * @create: 2016年12月25日 下午3:16:12 xieyj
-     * @history:
-     */
-    void transAmountCZB(String systemCode, String fromAccountNumber,
-            String toAccountNumber, Long transAmount, String bizType,
-            String bizNote);
+    // 同样/不同账户间资金划转
+    void transAmountCZB(String fromAccountNumber, String toAccountNumber,
+            Long transAmount, String bizType, String bizNote);
 
-    /**
-     * 通过橙账本不同币种账户之间划转资金，即以一定的比例内部划转资金
-     * @param systemCode
-     * @param fromAccountNumber
-     * @param toAccountNumber
-     * @param transAmount
-     * @param bizType
-     * @param bizNote 
-     * @create: 2016年12月25日 下午3:16:12 xieyj
-     * @history:
-     */
-    void transAmountCZB(String systemCode, String fromAccountNumber,
-            String toAccountNumber, Long transAmount, Double rate,
-            String bizType, String bizNote);
-
-    /**
-     * 通过用户编号以及指定币种进行账户划转
-     * @param systemCode
-     * @param fromUserId
-     * @param toUserId
-     * @param currency
-     * @param transAmount
-     * @param bizType
-     * @param bizNote 
-     * @create: 2016年12月28日 下午1:53:12 xieyj
-     * @history:
-     */
-    void transAmountCZB(String systemCode, String fromUserId, String toUserId,
-            String currency, Long transAmount, String bizType, String bizNote);
-
-    /**
-     * 通过橙账本划转资金，即内部划转资金
-     * @param systemCode
-     * @param fromUserId
-     * @param toUserId
-     * @param currency
-     * @param transAmount
-     * @param bizType
-     * @param fromBizNote
-     * @param toBizNote 
-     * @create: 2017年2月25日 下午12:41:05 xieyj
-     * @history:
-     */
+    // 同样币种不同用户间资金划转
     void transAmountCZB(String fromUserId, String toUserId, String currency,
             Long transAmount, String bizType, String fromBizNote,
             String toBizNote);
@@ -150,13 +97,12 @@ public interface IAccountAO {
 
     /**
      * 根据accountNumber查询账户
-     * @param systemCode
      * @param accountNumber
      * @return 
      * @create: 2016年12月23日 下午6:48:33 xieyj
      * @history:
      */
-    public Account getAccount(String systemCode, String accountNumber);
+    public Account getAccount(String accountNumber);
 
     /**
      * 根据用户编号,币种获取账户列表
@@ -167,17 +113,4 @@ public interface IAccountAO {
      * @history:
      */
     public List<Account> getAccountByUserId(String userId, String currency);
-
-    // 商户针对C端手机划转资金
-    public void doTransferB2C(String storeOwner, String mobile, Long amount,
-            String currency);
-
-    // 加盟商对商户划转资金
-    public void doTransferF2B(String franchiseeUser, String storeOwner,
-            Long amount, String currency);
-
-    // 平台对加盟商划转资金
-    public void doTransferP2F(String fromUserId, String toUserId, Long amount,
-            String currency);
-
 }
