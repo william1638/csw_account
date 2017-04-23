@@ -6,34 +6,21 @@ package com.std.account.dto.req;
  * @history:
  */
 public class XN802525Req {
-    // 系统编号(必填)
-    private String systemCode;
 
     // 来方账号(必填)
     private String fromAccountNumber;
 
-    // 划转资金(必填)
-    private String transAmount;
-
-    // 比例(必填)
-    private String rate;
-
     // 接收方账户(必填)
     private String toAccountNumber;
 
-    // 业务类型
+    // 划转资金(必填)
+    private String transAmount;
+
+    // 业务类型(必填)
     private String bizType;
 
-    // 业务说明
+    // 业务说明(必填)
     private String bizNote;
-
-    public String getSystemCode() {
-        return systemCode;
-    }
-
-    public void setSystemCode(String systemCode) {
-        this.systemCode = systemCode;
-    }
 
     public String getFromAccountNumber() {
         return fromAccountNumber;
@@ -43,28 +30,20 @@ public class XN802525Req {
         this.fromAccountNumber = fromAccountNumber;
     }
 
-    public String getTransAmount() {
-        return transAmount;
-    }
-
-    public void setTransAmount(String transAmount) {
-        this.transAmount = transAmount;
-    }
-
-    public String getRate() {
-        return rate;
-    }
-
-    public void setRate(String rate) {
-        this.rate = rate;
-    }
-
     public String getToAccountNumber() {
         return toAccountNumber;
     }
 
     public void setToAccountNumber(String toAccountNumber) {
         this.toAccountNumber = toAccountNumber;
+    }
+
+    public String getTransAmount() {
+        return transAmount;
+    }
+
+    public void setTransAmount(String transAmount) {
+        this.transAmount = transAmount;
     }
 
     public String getBizType() {

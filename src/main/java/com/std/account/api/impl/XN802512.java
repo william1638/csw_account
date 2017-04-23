@@ -26,9 +26,9 @@ public class XN802512 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         Long transAmount = StringValidater.toLong(req.getTransAmount());
-        accountAO.transAmountCZB(req.getSystemCode(),
-            req.getFromAccountNumber(), req.getToAccountNumber(), transAmount,
-            req.getBizType(), req.getBizNote());
+        accountAO.transAmountCZB(req.getFromAccountNumber(),
+            req.getToAccountNumber(), transAmount, req.getBizType(),
+            req.getBizNote());
         return new BooleanRes(true);
     }
 
@@ -36,8 +36,7 @@ public class XN802512 extends AProcessor {
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802512Req.class);
         StringValidater.validateBlank(req.getFromAccountNumber(),
-            req.getToAccountNumber(), req.getBizType(), req.getBizNote(),
-            req.getSystemCode());
+            req.getToAccountNumber(), req.getBizType(), req.getBizNote());
         StringValidater.validateAmount(req.getTransAmount());
     }
 }

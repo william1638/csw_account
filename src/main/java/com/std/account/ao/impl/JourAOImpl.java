@@ -123,7 +123,7 @@ public class JourAOImpl implements IJourAO {
     public String doChangeAmount(String accountNumber, String bankcardNumber,
             Long transAmount, String bizType, String bizNote,
             List<String> channelTypeList, String systemCode, String tradePwd) {
-        Account account = accountBO.getAccount(systemCode, accountNumber);
+        Account account = accountBO.getAccount(accountNumber);
         if (StringUtils.isNotBlank(tradePwd)) {
             userBO.checkTradePwd(account.getUserId(), tradePwd);
         }
@@ -184,8 +184,7 @@ public class JourAOImpl implements IJourAO {
         if (!EJourStatus.todoCallBack.getCode().equals(data.getStatus())) {
             throw new BizException("xn000000", "申请记录状态不是刚生成待回调状态，无法审批");
         }
-        Account account = accountBO.getAccount(systemCode,
-            data.getAccountNumber());
+        Account account = accountBO.getAccount(data.getAccountNumber());
         Long preAmount = account.getAmount();
         Long postAmount = preAmount;
         if (EBoolean.YES.getCode().equals(rollbackResult)) {
@@ -237,8 +236,7 @@ public class JourAOImpl implements IJourAO {
             throw new BizException("xn000000", "该单号不处于待对账状态");
         }
         if (checkAmount != 0) {
-            Account account = accountBO.getAccount(systemCode,
-                data.getAccountNumber());
+            Account account = accountBO.getAccount(data.getAccountNumber());
             String adjustCode = jourBO
                 .addAdjustJour(account, code, checkAmount);
             checkNote = checkNote + ",调账单号[" + adjustCode + "]";
@@ -253,8 +251,7 @@ public class JourAOImpl implements IJourAO {
     public void adjustJour(String code, String adjustResult, String adjustUser,
             String adjustNote, String systemCode) {
         Jour data = jourBO.getJour(code, systemCode);
-        Account account = accountBO.getAccount(systemCode,
-            data.getAccountNumber());
+        Account account = accountBO.getAccount(data.getAccountNumber());
         if (!EJourStatus.todoAdjust.getCode().equals(data.getStatus())) {
             throw new BizException("xn000000", "该单号不处于调账待审核状态");
         }
@@ -274,7 +271,7 @@ public class JourAOImpl implements IJourAO {
             }
             Account sysAccount = accountBO.getSysAccount(
                 ESysUser.SYS_USER.getCode(), account.getCurrency());
-            accountBO.transAmount(systemCode, sysAccount.getAccountNumber(),
+            accountBO.transAmount(sysAccount.getAccountNumber(),
                 EChannelType.Adjust_ZH, null, -data.getTransAmount(),
                 eBizType.getCode(), eBizType.getValue() + "单号[" + code + "]");
         } else {

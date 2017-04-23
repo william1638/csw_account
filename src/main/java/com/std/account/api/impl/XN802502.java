@@ -4,7 +4,6 @@ import com.std.account.ao.IAccountAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
-import com.std.account.domain.Account;
 import com.std.account.dto.req.XN802502Req;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
@@ -28,11 +27,8 @@ public class XN802502 extends AProcessor {
     */
     @Override
     public Object doBusiness() throws BizException {
-        Account condition = new Account();
-        condition.setAccountNumber(req.getAccountNumber());
-        condition.setSystemCode(req.getSystemCode());
-        return accountAO
-            .getAccount(req.getSystemCode(), req.getAccountNumber());
+
+        return accountAO.getAccount(req.getAccountNumber());
     }
 
     /** 
@@ -41,8 +37,7 @@ public class XN802502 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802502Req.class);
-        StringValidater.validateBlank(req.getSystemCode(),
-            req.getAccountNumber());
+        StringValidater.validateBlank(req.getAccountNumber());
     }
 
 }

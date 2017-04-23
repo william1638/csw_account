@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.std.account.ao.IAccountAO;
 import com.std.account.bo.IAccountBO;
 import com.std.account.bo.ICompanyChannelBO;
+import com.std.account.bo.IExchangeCurrencyBO;
 import com.std.account.bo.IJourBO;
 import com.std.account.bo.IUserBO;
 import com.std.account.bo.base.Paginable;
@@ -18,11 +19,15 @@ import com.std.account.domain.Account;
 import com.std.account.enums.EAccountType;
 import com.std.account.enums.EChannelType;
 import com.std.account.exception.BizException;
+import com.std.account.util.AmountUtil;
 
 @Service
 public class AccountAOImpl implements IAccountAO {
     @Autowired
     private IAccountBO accountBO;
+
+    @Autowired
+    private IExchangeCurrencyBO exchangeCurrencyBO;
 
     @Autowired
     private ICompanyChannelBO companyChannelBO;
@@ -70,43 +75,21 @@ public class AccountAOImpl implements IAccountAO {
 
     @Override
     @Transactional
-    public void transAmountCZB(String systemCode, String fromAccountNumber,
+    public void transAmountCZB(String fromAccountNumber,
             String toAccountNumber, Long transAmount, String bizType,
             String bizNote) {
         if (fromAccountNumber != null
                 && fromAccountNumber.equals(toAccountNumber)) {
             new BizException("XN0000", "来去双方账号一致，无需内部划转");
         }
-        accountBO.transAmount(systemCode, fromAccountNumber, EChannelType.NBZ,
-            null, -transAmount, bizType, bizNote);
-        accountBO.transAmount(systemCode, toAccountNumber, EChannelType.NBZ,
-            null, transAmount, bizType, bizNote);
-    }
-
-    @Override
-    @Transactional
-    public void transAmountCZB(String systemCode, String fromAccountNumber,
-            String toAccountNumber, Long transAmount, Double rate,
-            String bizType, String bizNote) {
-        if (fromAccountNumber != null
-                && fromAccountNumber.equals(toAccountNumber)) {
-            new BizException("XN0000", "来去双方账号一致，无需内部划转");
-        }
-        accountBO.transAmount(systemCode, fromAccountNumber, EChannelType.NBZ,
-            null, -transAmount, bizType, bizNote);
-        accountBO.transAmount(systemCode, toAccountNumber, EChannelType.NBZ,
-            null, Double.valueOf((transAmount * rate)).longValue(), bizType,
-            bizNote);
-    }
-
-    @Override
-    public void transAmountCZB(String systemCode, String fromUserId,
-            String toUserId, String currency, Long transAmount, String bizType,
-            String bizNote) {
-        Account fromAccount = accountBO.getAccountByUser(fromUserId, currency);
-        Account toAccount = accountBO.getAccountByUser(toUserId, currency);
-        this.transAmountCZB(systemCode, fromAccount.getAccountNumber(),
-            toAccount.getAccountNumber(), transAmount, bizType, bizNote);
+        Account fromAccount = accountBO.getAccount(fromAccountNumber);
+        Account toAccount = accountBO.getAccount(toAccountNumber);
+        Double rate = exchangeCurrencyBO.getExchangeRate(
+            fromAccount.getCurrency(), toAccount.getCurrency());
+        accountBO.transAmount(fromAccountNumber, EChannelType.NBZ, null,
+            -transAmount, bizType, bizNote);
+        accountBO.transAmount(toAccountNumber, EChannelType.NBZ, null,
+            AmountUtil.mul(transAmount, rate), bizType, bizNote);
     }
 
     @Override
@@ -116,12 +99,10 @@ public class AccountAOImpl implements IAccountAO {
             String fromBizNote, String toBizNote) {
         Account fromAccount = accountBO.getAccountByUser(fromUserId, currency);
         Account toAccount = accountBO.getAccountByUser(toUserId, currency);
-        accountBO.transAmount(fromAccount.getSystemCode(),
-            fromAccount.getAccountNumber(), EChannelType.NBZ, null,
-            -transAmount, bizType, fromBizNote);
-        accountBO.transAmount(toAccount.getSystemCode(),
-            toAccount.getAccountNumber(), EChannelType.NBZ, null, transAmount,
-            bizType, toBizNote);
+        accountBO.transAmount(fromAccount.getAccountNumber(), EChannelType.NBZ,
+            null, -transAmount, bizType, fromBizNote);
+        accountBO.transAmount(toAccount.getAccountNumber(), EChannelType.NBZ,
+            null, transAmount, bizType, toBizNote);
     }
 
     @Override
@@ -174,8 +155,8 @@ public class AccountAOImpl implements IAccountAO {
     }
 
     @Override
-    public Account getAccount(String systemCode, String accountNumber) {
-        return accountBO.getAccount(systemCode, accountNumber);
+    public Account getAccount(String accountNumber) {
+        return accountBO.getAccount(accountNumber);
     }
 
     /** 
