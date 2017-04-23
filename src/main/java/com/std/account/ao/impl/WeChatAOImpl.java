@@ -21,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.std.account.ao.IWeChatAO;
 import com.std.account.bo.IAccountBO;
 import com.std.account.bo.ICompanyChannelBO;
+import com.std.account.bo.IExchangeCurrencyBO;
 import com.std.account.bo.IJourBO;
 import com.std.account.bo.IUserBO;
 import com.std.account.bo.IWechatBO;
@@ -33,12 +34,15 @@ import com.std.account.domain.CompanyChannel;
 import com.std.account.domain.Jour;
 import com.std.account.dto.res.XN002500Res;
 import com.std.account.dto.res.XN002501Res;
+import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
 import com.std.account.enums.ECurrency;
 import com.std.account.enums.EJourStatus;
+import com.std.account.enums.ESystemCode;
 import com.std.account.exception.BizException;
 import com.std.account.http.PostSimulater;
+import com.std.account.util.AmountUtil;
 import com.std.account.util.HttpsUtil;
 import com.std.account.util.wechat.TokenResponse;
 import com.std.account.util.wechat.WXOrderQuery;
@@ -67,6 +71,9 @@ public class WeChatAOImpl implements IWeChatAO {
     @Autowired
     IUserBO userBO;
 
+    @Autowired
+    IExchangeCurrencyBO exchangeCurrencyBO;
+
     @Override
     public XN002500Res getPrepayIdApp(String fromUserId, String toUserId,
             String bizType, String fromBizNote, String toBizNote,
@@ -76,10 +83,21 @@ public class WeChatAOImpl implements IWeChatAO {
         }
         Account fromAccount = accountBO.getAccountByUser(fromUserId,
             ECurrency.CNY.getCode());
-        Account toAccount = accountBO.getAccountByUser(toUserId,
-            ECurrency.CNY.getCode());
-
         String systemCode = fromAccount.getSystemCode();
+        // 如果是正汇系统的O2O消费买单，付款至分润账户
+        String toAcccoutCurrency = ECurrency.CNY.getCode();
+        Long toTransAmount = transAmount;
+        if (ESystemCode.ZHPAY.getCode().equals(systemCode)
+                && EBizType.ZH_O2O.getCode().equals(bizType)) {
+            toAcccoutCurrency = ECurrency.ZH_FRB.getCode();
+            toTransAmount = AmountUtil.mul(transAmount, exchangeCurrencyBO
+                .getExchangeRate(ECurrency.CNY.getCode(),
+                    ECurrency.ZH_FRB.getCode()));
+        }
+        Account toAccount = accountBO.getAccountByUser(toUserId,
+            toAcccoutCurrency);
+        // Account toAccount = accountBO.getAccountByUser(toUserId,
+        // ECurrency.CNY.getCode());
 
         // 落地付款方流水信息
         String jourCode = jourBO.addToChangeJour(systemCode,
@@ -87,8 +105,8 @@ public class WeChatAOImpl implements IWeChatAO {
             bizType, fromBizNote, transAmount, payGroup);
         // 落地收款方流水信息
         jourBO.addToChangeJour(systemCode, toAccount.getAccountNumber(),
-            EChannelType.WeChat_APP.getCode(), bizType, toBizNote, transAmount,
-            payGroup);
+            EChannelType.WeChat_APP.getCode(), bizType, toBizNote,
+            toTransAmount, payGroup);
         // 获取微信支付配置信息
         CompanyChannel companyChannel = companyChannelBO.getCompanyChannel(
             systemCode, systemCode, EChannelType.WeChat_APP.getCode());
