@@ -231,22 +231,29 @@ public class ExchangeCurrencyBOImpl extends PaginableBOImpl<ExchangeCurrency>
         return code;
     }
 
-    /** 
-     * @see com.std.account.bo.IExchangeCurrencyBO#doCheckMonthTimes(java.lang.String, java.lang.String)
-     */
     @Override
-    public void doCheckMonthTimes(String fromUserId, String fromCurrency) {
+    public void doCheckZH(String userId, String fromCurrency, String toCurrency) {
         ExchangeCurrency condition = new ExchangeCurrency();
-        condition.setFromUserId(fromUserId);
+        condition.setFromUserId(userId);
         condition.setFromCurrency(fromCurrency);
-        condition.setCreateDatetimeStart(DateUtil.getCurrentMonthFirstDay());
-        condition.setCreateDatetimeEnd(DateUtil.getCurrentMonthLastDay());
+        condition.setToUserId(userId);
+        condition.setToCurrency(toCurrency);
+        // 已经有申请
+        condition.setStatus(EExchangeCurrencyStatus.TO_PAY.getCode());
         long totalCount = exchangeCurrencyDAO.selectTotalCount(condition);
+        if (totalCount > 0) {
+            throw new BizException("xn0000", "已经有未审核转化订单不能重复提交");
+        }
+        // 每月的转化次数是有限制的
         String exchangeTimes = sysConfigBO.getSYSConfig(
             EExchangeTimes.EXCTIMES.getCode(), ESystemCode.ZHPAY.getCode());
         if (StringUtils.isBlank(exchangeTimes)) {
             throw new BizException("xn0000", "每月兑换最大次数未配置");
         }
+        condition.setStatus(null);
+        condition.setCreateDatetimeStart(DateUtil.getCurrentMonthFirstDay());
+        condition.setCreateDatetimeEnd(DateUtil.getCurrentMonthLastDay());
+        totalCount = exchangeCurrencyDAO.selectTotalCount(condition);
         long maxMonthTimes = Double.valueOf(exchangeTimes).longValue();
         if (totalCount >= maxMonthTimes) {
             throw new BizException("xn0000", "每月最多兑换" + maxMonthTimes

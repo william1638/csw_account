@@ -210,9 +210,9 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
     public String applyExchange(String userId, Long fromAmount,
             String fromCurrency, String toCurrency) {
         User user = userBO.getRemoteUser(userId);
-        // 判断每月次数是否超限制
+        // 判断是否生成条件是否满足
         if (ESystemCode.ZHPAY.getCode().equals(user.getSystemCode())) {
-            exchangeCurrencyBO.doCheckMonthTimes(userId, fromCurrency);
+            exchangeCurrencyBO.doCheckZH(userId, fromCurrency, toCurrency);
         }
         return exchangeCurrencyBO.applyExchange(user, fromAmount, fromCurrency,
             toCurrency);
