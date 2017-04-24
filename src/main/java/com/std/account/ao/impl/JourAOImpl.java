@@ -120,7 +120,28 @@ public class JourAOImpl implements IJourAO {
      * 外部账支付：1、产生支付申请订单；2、返回支付链接；
      */
     @Override
-    public String doChangeAmount(String accountNumber, String bankcardNumber,
+    @Transactional
+    public String doCzQxAmount(String accountNumber, String bankcardNumber,
+            Long transAmount, String bizType, String bizNote,
+            List<String> channelTypeList, String systemCode, String tradePwd) {
+        return doChangeAmount(accountNumber, bankcardNumber, transAmount,
+            bizType, bizNote, channelTypeList, systemCode, tradePwd);
+    }
+
+    /** 
+     * @param accountNumber
+     * @param bankcardNumber
+     * @param transAmount
+     * @param bizType
+     * @param bizNote
+     * @param channelTypeList
+     * @param systemCode
+     * @param tradePwd
+     * @return 
+     * @create: 2017年4月24日 下午10:48:58 xieyj
+     * @history: 
+     */
+    private String doChangeAmount(String accountNumber, String bankcardNumber,
             Long transAmount, String bizType, String bizNote,
             List<String> channelTypeList, String systemCode, String tradePwd) {
         Account account = accountBO.getAccount(accountNumber);

@@ -46,7 +46,7 @@ public interface IJourAO {
      * @create: 2016年12月23日 下午9:09:43 xieyj
      * @history:
      */
-    public String doChangeAmount(String accountNumber, String bankcardNumber,
+    public String doCzQxAmount(String accountNumber, String bankcardNumber,
             Long transAmount, String bizType, String bizNote,
             List<String> channelTypeList, String systemCode, String tradePwd);
 
