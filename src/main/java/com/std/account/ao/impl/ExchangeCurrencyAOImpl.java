@@ -216,6 +216,7 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
     }
 
     @Override
+    @Transactional
     public void approveExchange(String code, String approveResult,
             String approver, String approveNote) {
         ExchangeCurrency dbOrder = exchangeCurrencyBO.getExchangeCurrency(code);
