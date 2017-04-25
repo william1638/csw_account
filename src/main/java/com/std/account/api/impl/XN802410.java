@@ -5,6 +5,7 @@ import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
 import com.std.account.dto.req.XN802410Req;
+import com.std.account.dto.res.PKCodeRes;
 import com.std.account.exception.BizException;
 import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
@@ -26,9 +27,9 @@ public class XN802410 extends AProcessor {
     */
     @Override
     public Object doBusiness() throws BizException {
-        return exchangeCurrencyAO.applyExchange(req.getUserId(),
+        return new PKCodeRes(exchangeCurrencyAO.applyExchange(req.getUserId(),
             StringValidater.toLong(req.getFromAmount()), req.getFromCurrency(),
-            req.getToCurrency());
+            req.getToCurrency()));
     }
 
     /** 

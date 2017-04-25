@@ -1,6 +1,6 @@
 package com.std.account.api.impl;
 
-import com.std.account.ao.IAccountAO;
+import com.std.account.ao.IExchangeCurrencyAO;
 import com.std.account.api.AProcessor;
 import com.std.account.common.JsonUtil;
 import com.std.account.core.StringValidater;
@@ -17,8 +17,8 @@ import com.std.account.spring.SpringContextHolder;
  * @history:
  */
 public class XN802401 extends AProcessor {
-    private IAccountAO accountAO = SpringContextHolder
-        .getBean(IAccountAO.class);
+    private IExchangeCurrencyAO exchangeCurrencyAO = SpringContextHolder
+        .getBean(IExchangeCurrencyAO.class);
 
     private XN802401Req req = null;
 
@@ -28,8 +28,8 @@ public class XN802401 extends AProcessor {
     @Override
     public Object doBusiness() throws BizException {
         Long amount = StringValidater.toLong(req.getAmount());
-        accountAO.doTransferF2B(req.getFromUserId(), req.getToUserId(),
-            amount, req.getCurrency());
+        exchangeCurrencyAO.doTransferF2B(req.getFromUserId(),
+            req.getToUserId(), amount, req.getCurrency());
         return new BooleanRes(true);
     }
 

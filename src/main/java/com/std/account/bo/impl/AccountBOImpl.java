@@ -65,10 +65,11 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
     }
 
     @Override
-    public void transAmount(String systemCode, String accountNumber,
-            EChannelType channelType, String channelOrder, Long transAmount,
-            String bizType, String bizNote) {
-        Account dbAccount = this.getAccount(systemCode, accountNumber);
+    public void transAmount(String accountNumber, EChannelType channelType,
+            String channelOrder, Long transAmount, String bizType,
+            String bizNote) {
+        Account dbAccount = this.getAccount(accountNumber);
+        String systemCode = dbAccount.getSystemCode();
         Long nowAmount = dbAccount.getAmount() + transAmount;
         // 特定账户余额可为负
         // !ESysAccount.getResultMap().containsKey(accountNumber)
@@ -98,7 +99,7 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
     @Override
     public void transAmountNotJour(String systemCode, String accountNumber,
             Long transAmount, String lastOrder) {
-        Account dbAccount = this.getAccount(systemCode, accountNumber);
+        Account dbAccount = this.getAccount(accountNumber);
         Long nowAmount = dbAccount.getAmount() + transAmount;
         if (!dbAccount.getUserId().contains(ESysUser.SYS_USER.getCode())
                 && nowAmount < 0) {
@@ -129,7 +130,7 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         if (freezeAmount <= 0) {
             throw new BizException("xn000000", "冻结金额需大于0");
         }
-        Account dbAccount = this.getAccount(systemCode, accountNumber);
+        Account dbAccount = this.getAccount(accountNumber);
         Long nowAmount = dbAccount.getAmount() - freezeAmount;
         if (!dbAccount.getUserId().contains(ESysUser.SYS_USER.getCode())
                 && nowAmount < 0) {
@@ -152,7 +153,7 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         if (unfreezeAmount <= 0) {
             throw new BizException("xn000000", "解冻金额需大于0");
         }
-        Account dbAccount = this.getAccount(systemCode, accountNumber);
+        Account dbAccount = this.getAccount(accountNumber);
         // 审核通过，扣除冻结金额，审核不通过冻结资金原路返回
         Long nowAmount = dbAccount.getAmount();
         if (EBoolean.NO.getCode().equals(unfrozenResult)) {
@@ -184,11 +185,10 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
     }
 
     @Override
-    public Account getAccount(String systemCode, String accountNumber) {
+    public Account getAccount(String accountNumber) {
         Account data = null;
         if (StringUtils.isNotBlank(accountNumber)) {
             Account condition = new Account();
-            condition.setSystemCode(systemCode);
             condition.setAccountNumber(accountNumber);
             data = accountDAO.select(condition);
             if (data == null) {

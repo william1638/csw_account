@@ -4,6 +4,9 @@ public class User {
     // userId
     private String userId;
 
+    // openId
+    private String openId;
+
     // 手机号
     private String mobile;
 
@@ -19,6 +22,14 @@ public class User {
 
     public void setUserId(String userId) {
         this.userId = userId;
+    }
+
+    public String getOpenId() {
+        return openId;
+    }
+
+    public void setOpenId(String openId) {
+        this.openId = openId;
     }
 
     public String getMobile() {

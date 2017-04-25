@@ -77,6 +77,10 @@ public class ExchangeCurrencyBOImpl extends PaginableBOImpl<ExchangeCurrency>
 
     @Override
     public Double getExchangeRate(String fromCurrency, String toCurrency) {
+        if (fromCurrency != null && fromCurrency.equalsIgnoreCase(toCurrency)) {
+            return 1.0;
+        }
+
         if (ECurrency.CNY.getCode().equalsIgnoreCase(fromCurrency)
                 && ECurrency.ZH_GXZ.getCode().equalsIgnoreCase(toCurrency)) {
             return sysConfigBO.getCNY2GXZ();
@@ -178,56 +182,82 @@ public class ExchangeCurrencyBOImpl extends PaginableBOImpl<ExchangeCurrency>
     }
 
     @Override
-    public Object payExchange(User user, Long amount, String currency,
-            String payType) {
-        Object result = null;
-        if (EPayType.WEIXIN.getCode().equals(payType)) {
-            String code = OrderNoGenerater
-                .generate(EGeneratePrefix.EXCHANGE_CURRENCY.getCode());
-            Double rate = this.getExchangeRate(ECurrency.CNY.getCode(),
-                currency);
-            Long cny = Double.valueOf(amount / rate).longValue();
-            String userId = user.getUserId();
-            ExchangeCurrency data = new ExchangeCurrency();
-            data.setCode(code);
+    public String saveExchange(String fromUserId, String toUserId,
+            Long transAmount, String currency, String systemCode) {
+        String code = OrderNoGenerater
+            .generate(EGeneratePrefix.EXCHANGE_CURRENCY.getCode());
+        ExchangeCurrency data = new ExchangeCurrency();
+        data.setCode(code);
+        data.setToUserId(toUserId);
 
-            data.setToUserId(userId);
-            data.setToAmount(amount);
-            data.setToCurrency(currency);
-            data.setFromUserId(userId);
-            data.setFromAmount(cny);
-            data.setFromCurrency(ECurrency.CNY.getCode());
+        data.setToAmount(transAmount);
+        data.setToCurrency(currency);
+        data.setFromUserId(fromUserId);
+        data.setFromAmount(transAmount);
+        data.setFromCurrency(currency);
 
-            data.setCreateDatetime(new Date());
-            data.setStatus(EExchangeCurrencyStatus.TO_PAY.getCode());
+        data.setCreateDatetime(new Date());
+        data.setStatus(EExchangeCurrencyStatus.PAYED.getCode());
+        data.setPayType(EPayType.DBHZ.getCode());
+        data.setPayGroup(code);
+        data.setSystemCode(systemCode);
 
-            data.setPayType(EPayType.WEIXIN.getCode());
-            data.setPayGroup(code);
-
-            data.setSystemCode(user.getSystemCode());
-            data.setCompanyCode(user.getCompanyCode());
-            exchangeCurrencyDAO.payExchange(data);
-
-        }
-        return result;
+        data.setCompanyCode(systemCode);
+        exchangeCurrencyDAO.doExchange(data);
+        return code;
     }
 
-    /** 
-     * @see com.std.account.bo.IExchangeCurrencyBO#doCheckMonthTimes(java.lang.String, java.lang.String)
-     */
     @Override
-    public void doCheckMonthTimes(String fromUserId, String fromCurrency) {
+    public String payExchange(String fromUserId, String toUserId,
+            Long rmbAmount, Long toAmount, String currency, String payType,
+            String systemCode) {
+        String code = OrderNoGenerater
+            .generate(EGeneratePrefix.EXCHANGE_CURRENCY.getCode());
+        ExchangeCurrency data = new ExchangeCurrency();
+        data.setCode(code);
+
+        data.setToUserId(toUserId);
+        data.setToAmount(toAmount);
+        data.setToCurrency(currency);
+        data.setFromUserId(fromUserId);
+        data.setFromAmount(rmbAmount);
+        data.setFromCurrency(ECurrency.CNY.getCode());
+
+        data.setCreateDatetime(new Date());
+        data.setStatus(EExchangeCurrencyStatus.TO_PAY.getCode());
+
+        data.setPayType(payType);
+        data.setPayGroup(code);
+
+        data.setSystemCode(systemCode);
+        data.setCompanyCode(systemCode);
+        exchangeCurrencyDAO.payExchange(data);
+        return code;
+    }
+
+    @Override
+    public void doCheckZH(String userId, String fromCurrency, String toCurrency) {
         ExchangeCurrency condition = new ExchangeCurrency();
-        condition.setFromUserId(fromUserId);
+        condition.setFromUserId(userId);
         condition.setFromCurrency(fromCurrency);
-        condition.setCreateDatetimeStart(DateUtil.getCurrentMonthFirstDay());
-        condition.setCreateDatetimeEnd(DateUtil.getCurrentMonthLastDay());
+        condition.setToUserId(userId);
+        condition.setToCurrency(toCurrency);
+        // 已经有申请
+        condition.setStatus(EExchangeCurrencyStatus.TO_PAY.getCode());
         long totalCount = exchangeCurrencyDAO.selectTotalCount(condition);
+        if (totalCount > 0) {
+            throw new BizException("xn0000", "已经有未审核转化订单不能重复提交");
+        }
+        // 每月的转化次数是有限制的
         String exchangeTimes = sysConfigBO.getSYSConfig(
             EExchangeTimes.EXCTIMES.getCode(), ESystemCode.ZHPAY.getCode());
         if (StringUtils.isBlank(exchangeTimes)) {
             throw new BizException("xn0000", "每月兑换最大次数未配置");
         }
+        condition.setStatus(null);
+        condition.setCreateDatetimeStart(DateUtil.getCurrentMonthFirstDay());
+        condition.setCreateDatetimeEnd(DateUtil.getCurrentMonthLastDay());
+        totalCount = exchangeCurrencyDAO.selectTotalCount(condition);
         long maxMonthTimes = Double.valueOf(exchangeTimes).longValue();
         if (totalCount >= maxMonthTimes) {
             throw new BizException("xn0000", "每月最多兑换" + maxMonthTimes

@@ -81,7 +81,7 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
     public String addToChangeJour(String systemCode, String accountNumber,
             String channelType, String bizType, String bizNote,
             Long transAmount, String payGroup) {
-        Account account = accountBO.getAccount(systemCode, accountNumber);
+        Account account = accountBO.getAccount(accountNumber);
         String code = OrderNoGenerater
             .generate(EGeneratePrefix.AJour.getCode());
         Jour data = new Jour();
@@ -152,7 +152,7 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
     public String addChangedJour(String systemCode, String accountNumber,
             EChannelType channelType, String channelOrder, String bizType,
             String bizNote, Long preAmount, Long transAmount) {
-        Account account = accountBO.getAccount(systemCode, accountNumber);
+        Account account = accountBO.getAccount(accountNumber);
         String code = OrderNoGenerater
             .generate(EGeneratePrefix.AJour.getCode());
         Long postAmount = preAmount + transAmount;

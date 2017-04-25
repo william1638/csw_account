@@ -25,8 +25,7 @@ public class XN802600 extends AProcessor {
 
     @Override
     public Object doBusiness() throws BizException {
-        Account account = accountAO.getAccount(req.getSystemCode(),
-            req.getAccountNumber());
+        Account account = accountAO.getAccount(req.getAccountNumber());
         XN802600Res res = new XN802600Res();
         res.setSystemCode(account.getSystemCode());
         res.setAccountName(account.getRealName());
@@ -41,7 +40,7 @@ public class XN802600 extends AProcessor {
     @Override
     public void doCheck(String inputparams) throws ParaException {
         req = JsonUtil.json2Bean(inputparams, XN802600Req.class);
-        StringValidater.validateBlank(req.getSystemCode(),
-            req.getAccountName(), req.getAccountNumber());
+        StringValidater.validateBlank(req.getAccountName(),
+            req.getAccountNumber());
     }
 }
