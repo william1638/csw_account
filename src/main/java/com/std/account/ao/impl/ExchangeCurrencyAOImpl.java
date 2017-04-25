@@ -207,6 +207,10 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
     public String applyExchange(String userId, Long fromAmount,
             String fromCurrency, String toCurrency) {
         User user = userBO.getRemoteUser(userId);
+        Account account = accountBO.getAccountByUser(userId, fromCurrency);
+        if (fromAmount > account.getAmount()) {
+            new BizException("xn000000", "余额不足");
+        }
         // 判断是否生成条件是否满足
         if (ESystemCode.ZHPAY.getCode().equals(user.getSystemCode())) {
             exchangeCurrencyBO.doCheckZH(userId, fromCurrency, toCurrency);
@@ -216,6 +220,7 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
     }
 
     @Override
+    @Transactional
     public void approveExchange(String code, String approveResult,
             String approver, String approveNote) {
         ExchangeCurrency dbOrder = exchangeCurrencyBO.getExchangeCurrency(code);

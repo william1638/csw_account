@@ -32,7 +32,7 @@ public class XN802526 extends AProcessor {
         Long transAmount = StringValidater.toLong(req.getTransAmount());
         List<String> channelTypeList = new ArrayList<String>();
         channelTypeList.add(EChannelType.CZB.getCode());
-        jourAO.doChangeAmount(req.getAccountNumber(), req.getBankcardNumber(),
+        jourAO.doCzQxAmount(req.getAccountNumber(), req.getBankcardNumber(),
             transAmount, EBizType.AJ_QX.getCode(), EBizType.AJ_QX.getValue(),
             channelTypeList, req.getSystemCode(), req.getTradePwd());
         return new BooleanRes(true);
