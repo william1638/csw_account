@@ -14,10 +14,10 @@ package com.std.account.dto.req;
  * @history:
  */
 public class XN802420Req {
-    // 采购方用户编号
+    // 采购方用户编号(必填)
     private String fromUserId;
 
-    // 售卖方用户编号
+    // 售卖方用户编号(必填)
     private String toUserId;
 
     // 购买数量(必填)
