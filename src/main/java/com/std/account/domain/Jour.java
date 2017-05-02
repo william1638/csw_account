@@ -93,6 +93,9 @@ public class Jour extends ABaseDO {
     // 备注
     private String remark;
 
+    // 手续费
+    private Long fee;
+
     // 系统编号
     private String systemCode;
 
@@ -112,6 +115,14 @@ public class Jour extends ABaseDO {
 
     // 币种
     private String currency;
+
+    public Long getFee() {
+        return fee;
+    }
+
+    public void setFee(Long fee) {
+        this.fee = fee;
+    }
 
     public String getCurrency() {
         return currency;

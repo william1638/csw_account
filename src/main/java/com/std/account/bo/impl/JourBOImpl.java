@@ -11,6 +11,7 @@ package com.std.account.bo.impl;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -98,6 +99,33 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
         data.setStatus(EJourStatus.todoCallBack.getCode());
         data.setWorkDate(DateUtil.dateToStr(new Date(),
             DateUtil.DB_DATE_FORMAT_STRING));
+        data.setSystemCode(systemCode);
+        jourDAO.insert(data);
+        return code;
+    }
+
+    @Override
+    public String addWithChangeJour(String systemCode, String accountNumber,
+            String channelType, String bizType, String bizNote,
+            Long transAmount, Long fee, String payGroup) {
+        Account account = accountBO.getAccount(accountNumber);
+        String code = OrderNoGenerater
+            .generate(EGeneratePrefix.AJour.getCode());
+        Jour data = new Jour();
+        data.setCode(code);
+        data.setPayGroup(payGroup);
+        data.setUserId(account.getUserId());
+        data.setRealName(account.getRealName());
+        data.setAccountNumber(accountNumber);
+        data.setChannelType(channelType);
+        data.setBizType(bizType);
+        data.setBizNote(bizNote);
+        data.setTransAmount(transAmount);
+        data.setCreateDatetime(new Date());
+        data.setStatus(EJourStatus.todoCallBack.getCode());
+        data.setWorkDate(DateUtil.dateToStr(new Date(),
+            DateUtil.DB_DATE_FORMAT_STRING));
+        data.setFee(fee);
         data.setSystemCode(systemCode);
         jourDAO.insert(data);
         return code;
@@ -294,4 +322,18 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
         return totalAmount;
     }
 
+    /** 
+     * @see com.std.account.bo.IJourBO#doCheckExistJour(java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public void doCheckExistApplyJour(String accountNumber, String bizType) {
+        Jour condition = new Jour();
+        condition.setAccountNumber(accountNumber);
+        condition.setBizType(bizType);
+        condition.setStatus(EJourStatus.todoCallBack.getCode());
+        List<Jour> list = jourDAO.selectList(condition);
+        if (CollectionUtils.isNotEmpty(list)) {
+            throw new BizException("xn000000", "已有申请记录，请审批后再申请");
+        }
+    }
 }

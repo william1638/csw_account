@@ -13,9 +13,9 @@ import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 外部账批量支付
+ * 线下充值申请
  * @author: xieyj 
- * @since: 2016年12月23日 下午8:56:59 
+ * @since: 2017年5月2日 下午2:03:08 
  * @history:
  */
 public class XN802510 extends AProcessor {
@@ -31,7 +31,7 @@ public class XN802510 extends AProcessor {
         Long transAmount = StringValidater.toLong(req.getTransAmount());
         jourAO.doChangeAmountList(req.getAccountNumberList(),
             req.getBankcardNumber(), transAmount, req.getBizType(),
-            req.getBizNote(), req.getChannelTypeList(), req.getSystemCode());
+            req.getBizNote(), req.getSystemCode());
         return new BooleanRes(true);
     }
 

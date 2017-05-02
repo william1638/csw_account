@@ -21,9 +21,6 @@ public class XN802510Req {
     // 业务备注
     private String bizNote;
 
-    // 渠道类型列表
-    private List<String> channelTypeList;
-
     public String getSystemCode() {
         return systemCode;
     }
@@ -70,13 +67,5 @@ public class XN802510Req {
 
     public void setBizNote(String bizNote) {
         this.bizNote = bizNote;
-    }
-
-    public List<String> getChannelTypeList() {
-        return channelTypeList;
-    }
-
-    public void setChannelTypeList(List<String> channelTypeList) {
-        this.channelTypeList = channelTypeList;
     }
 }

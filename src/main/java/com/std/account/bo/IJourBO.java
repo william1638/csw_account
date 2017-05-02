@@ -33,8 +33,12 @@ public interface IJourBO extends IPaginableBO<Jour> {
             String channelType, String bizType, String bizNote,
             Long transAmount, String payGroup);
 
+    public String addWithChangeJour(String systemCode, String accountNumber,
+            String channelType, String bizType, String bizNote,
+            Long transAmount, Long fee, String payGroup);
+
     /**
-     *  回调处理流水
+     * 回调处理流水
      * @param code
      * @param rollbackResult
      * @param rollbackUser
@@ -142,6 +146,15 @@ public interface IJourBO extends IPaginableBO<Jour> {
      * @history:
      */
     public List<Jour> queryJourList(Jour condition);
+
+    /**
+     * 判断申请记录是否存在
+     * @param accountNumber
+     * @param bizType 
+     * @create: 2017年5月2日 下午2:24:39 xieyj
+     * @history:
+     */
+    public void doCheckExistApplyJour(String accountNumber, String bizType);
 
     /**
      * 获取详情
