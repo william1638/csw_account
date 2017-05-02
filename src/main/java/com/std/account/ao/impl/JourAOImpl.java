@@ -205,13 +205,12 @@ public class JourAOImpl implements IJourAO {
             String systemCode) {
         Map<String, String> argsMap = sysConfigBO.getConfigsMap(systemCode);
         String qxBsValue = argsMap.get(qxbs);
-        // 取现金额倍数
-        Long qxBs = 0L;
         if (StringUtils.isNotBlank(qxBsValue)) {
-            qxBs = AmountUtil.mul(1000L, Double.valueOf(qxBsValue));
-        }
-        if (-transAmount % qxBs > 0) {
-            throw new BizException("xn000000", "请取" + qxBsValue + "的倍数");
+            // 取现金额倍数
+            Long qxBs = AmountUtil.mul(1000L, Double.valueOf(qxBsValue));
+            if (qxBs > 0 && -transAmount % qxBs > 0) {
+                throw new BizException("xn000000", "请取" + qxBsValue + "的倍数");
+            }
         }
         String feeRateValue = argsMap.get(qxfl);
         Double feeRate = 0D;
