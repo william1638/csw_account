@@ -11,6 +11,7 @@ package com.std.account.ao.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -175,30 +176,12 @@ public class JourAOImpl implements IJourAO {
             String systemCode, Account account) {
         // 手续费
         Long fee = 0L;
-        // 取现金额倍数
-        Long qxBs = 0L;
         if (EAccountType.Customer.getCode().equals(account.getType())) {
-            String qxBsValue = sysConfigBO.getSYSConfig(SysConstant.CUSERQXBS,
-                account.getSystemCode());
-            qxBs = Long.valueOf(qxBsValue) * 1000;
-            if (-transAmount % qxBs > 0) {
-                throw new BizException("xn000000", "请取" + qxBsValue + "的倍数");
-            }
-            String feeRateValue = sysConfigBO.getSYSConfig(
-                SysConstant.CUSERQXFL, account.getSystemCode());
-            Double feeRate = Double.valueOf(feeRateValue);
-            fee = AmountUtil.mul(-transAmount, feeRate);
+            fee = doCheckWithArgs(transAmount, SysConstant.CUSERQXBS,
+                SysConstant.CUSERQXFL, systemCode);
         } else if (EAccountType.Business.getCode().equals(account.getType())) {
-            String qxBsValue = sysConfigBO.getSYSConfig(SysConstant.BUSERQXBS,
-                account.getSystemCode());
-            qxBs = Long.valueOf(qxBsValue) * 1000;
-            if (-transAmount % qxBs > 0) {
-                throw new BizException("xn000000", "请取" + qxBsValue + "的倍数");
-            }
-            String feeRateValue = sysConfigBO.getSYSConfig(
-                SysConstant.BUSERQXFL, account.getSystemCode());
-            Double feeRate = Double.valueOf(feeRateValue);
-            fee = AmountUtil.mul(-transAmount, feeRate);
+            fee = doCheckWithArgs(transAmount, SysConstant.BUSERQXBS,
+                SysConstant.BUSERQXFL, systemCode);
         }
         // 取现冻结
         String code = jourBO.addWithChangeJour(systemCode, accountNumber,
@@ -206,6 +189,36 @@ public class JourAOImpl implements IJourAO {
             fee, null);
         accountBO.frozenAmount(systemCode, accountNumber, -transAmount + fee,
             code);
+    }
+
+    /**
+     * 取现申请检查，验证参数，返回手续费
+     * @param transAmount
+     * @param qxbs
+     * @param qxfl
+     * @param systemCode
+     * @return 
+     * @create: 2017年5月2日 下午4:15:01 xieyj
+     * @history:
+     */
+    private Long doCheckWithArgs(Long transAmount, String qxbs, String qxfl,
+            String systemCode) {
+        Map<String, String> argsMap = sysConfigBO.getConfigsMap(systemCode);
+        String qxBsValue = argsMap.get(qxbs);
+        // 取现金额倍数
+        Long qxBs = 0L;
+        if (StringUtils.isNotBlank(qxBsValue)) {
+            qxBs = AmountUtil.mul(1000L, Double.valueOf(qxBsValue));
+        }
+        if (-transAmount % qxBs > 0) {
+            throw new BizException("xn000000", "请取" + qxBsValue + "的倍数");
+        }
+        String feeRateValue = argsMap.get(qxfl);
+        Double feeRate = 0D;
+        if (StringUtils.isNotBlank(feeRateValue)) {
+            feeRate = Double.valueOf(feeRateValue);
+        }
+        return AmountUtil.mul(-transAmount, feeRate);
     }
 
     /** 
