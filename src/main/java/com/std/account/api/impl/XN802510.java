@@ -13,7 +13,7 @@ import com.std.account.exception.ParaException;
 import com.std.account.spring.SpringContextHolder;
 
 /**
- * 线下充值申请
+ * 线下充值取现申请
  * @author: xieyj 
  * @since: 2017年5月2日 下午2:03:08 
  * @history:
