@@ -349,4 +349,26 @@ public class ExchangeCurrencyAOImpl implements IExchangeCurrencyAO {
         accountBO.transAmount(toAccount.getAccountNumber(), EChannelType.NBZ,
             null, amount, bizType, "平台对加盟商划转资金");
     }
+
+    /** 
+     * @see com.std.account.ao.IExchangeCurrencyAO#doTransferP2C(java.lang.String, java.lang.String, java.lang.Long, java.lang.String)
+     */
+    @Override
+    public void doTransferP2C(String fromUserId, String toUserId, Long amount,
+            String currency) {
+        if (!ECurrency.CG_CGB.getCode().equals(currency)
+                && !ECurrency.CG_JF.getCode().equals(currency)) {
+            throw new BizException("xn000000", "币种需传菜狗币或积分");
+        }
+        Account fromAccount = accountBO.getAccountByUser(fromUserId, currency);
+        Account toAccount = accountBO.getAccountByUser(toUserId, currency);
+
+        exchangeCurrencyBO.saveExchange(fromUserId, toUserId, amount, currency,
+            fromAccount.getSystemCode());
+        String bizType = EBizType.Transfer_CURRENCY.getCode();
+        accountBO.transAmount(fromAccount.getAccountNumber(), EChannelType.NBZ,
+            null, -amount, bizType, "平台对C端划转资金");
+        accountBO.transAmount(toAccount.getAccountNumber(), EChannelType.NBZ,
+            null, amount, bizType, "平台对C端划转资金");
+    }
 }
