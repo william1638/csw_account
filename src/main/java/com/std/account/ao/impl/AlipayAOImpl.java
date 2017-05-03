@@ -245,8 +245,8 @@ public class AlipayAOImpl implements IAlipayAO {
                         && sellerId.equals(companyChannel.getChannelCompany())
                         && appId.equals(companyChannel.getPrivateKey3())) {
                     isSuccess = true;
-                    jourBO.callBackChangeJour(fromJour, EBoolean.YES.getCode(),
-                        "ALIPAY", "支付宝APP支付后台自动回调", alipayOrderNo);
+                    jourBO.callBackFromChangeJour(fromJour, "ALIPAY",
+                        "支付宝APP支付后台自动回调", alipayOrderNo);
                     jourBO.callBackChangeJour(toJour, EBoolean.YES.getCode(),
                         "ALIPAY", "支付宝APP支付后台自动回调", alipayOrderNo);
                     // 收款方账户加钱

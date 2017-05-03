@@ -132,7 +132,29 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
     }
 
     /**
-     * @see com.std.account.bo.IJourBO#callBackChangeJour(java.lang.String, java.lang.String, java.lang.String)
+     * @see com.std.account.bo.IJourBO#callBackChangeJour(com.std.account.domain.Jour, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
+     */
+    @Override
+    public int callBackFromChangeJour(Jour data, String rollbackUser,
+            String rollbackNote, String channelOrder) {
+        EJourStatus eJourStatus = EJourStatus.todoCheck;
+        data.setStatus(eJourStatus.getCode());
+        Account account = accountBO.getAccount(data.getAccountNumber());
+        Long preAmount = account.getAmount();
+        Long postAmount = preAmount;
+
+        data.setPreAmount(preAmount);
+        data.setPostAmount(postAmount);
+        data.setRollbackUser(rollbackUser);
+        data.setRollbackDatetime(new Date());
+        data.setRemark(rollbackNote);
+
+        data.setChannelOrder(channelOrder);
+        return jourDAO.updateCallback(data);
+    }
+
+    /**
+     * @see com.std.account.bo.IJourBO#callBackChangeJour(com.std.account.domain.Jour, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
     public int callBackChangeJour(Jour data, String rollBackResult,

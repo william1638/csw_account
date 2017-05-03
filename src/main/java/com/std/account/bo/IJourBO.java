@@ -38,7 +38,20 @@ public interface IJourBO extends IPaginableBO<Jour> {
             Long transAmount, Long fee, String payGroup);
 
     /**
-     * 线上充值/线上划账回调处理流水(发生前金额，发生后金额内部设置)
+     * from线上划账成功回调处理流水(发生前金额，发生后金额不变)
+     * @param data
+     * @param rollbackUser
+     * @param rollbackNote
+     * @param channelOrder
+     * @return 
+     * @create: 2017年5月3日 下午1:04:33 xieyj
+     * @history:
+     */
+    public int callBackFromChangeJour(Jour data, String rollbackUser,
+            String rollbackNote, String channelOrder);
+
+    /**
+     * 线上充值/to线上划账回调处理流水(发生前金额，发生后金额内部设置)
      * @param data
      * @param rollBackResult
      * @param rollbackUser
