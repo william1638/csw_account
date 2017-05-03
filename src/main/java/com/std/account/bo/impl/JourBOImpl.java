@@ -135,31 +135,36 @@ public class JourBOImpl extends PaginableBOImpl<Jour> implements IJourBO {
      * @see com.std.account.bo.IJourBO#callBackChangeJour(java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public int callBackChangeJour(String code, String rollBackResult,
+    public int callBackChangeJour(Jour data, String rollBackResult,
             String rollbackUser, String rollbackNote, String channelOrder) {
-        Jour data = new Jour();
-        data.setCode(code);
+        Account account = accountBO.getAccount(data.getAccountNumber());
+        Long preAmount = account.getAmount();
+        Long postAmount = preAmount;
         EJourStatus eJourStatus = EJourStatus.todoCheck;
         if (EBoolean.NO.getCode().equals(rollBackResult)) {
             eJourStatus = EJourStatus.callBack_NO;
+        } else {
+            postAmount = preAmount + data.getTransAmount();
         }
+
         data.setStatus(eJourStatus.getCode());
+        data.setPreAmount(preAmount);
+        data.setPostAmount(postAmount);
         data.setRollbackUser(rollbackUser);
         data.setRollbackDatetime(new Date());
+
         data.setRemark(rollbackNote);
         data.setChannelOrder(channelOrder);
         return jourDAO.updateCallback(data);
     }
 
     /**
-     * @see com.std.account.bo.IJourBO#callBackChangeJour(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Long, java.lang.Long)
+     * @see com.std.account.bo.IJourBO#callBackOffChangeJour(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.Long, java.lang.Long)
      */
     @Override
-    public int callBackChangeJour(String code, String rollbackResult,
+    public int callBackOffChangeJour(Jour data, String rollbackResult,
             String rollbackUser, String rollbackNote, Long preAmount,
             Long postAmount) {
-        Jour data = new Jour();
-        data.setCode(code);
         EJourStatus eJourStatus = EJourStatus.todoCheck;
         if (EBoolean.NO.getCode().equals(rollbackResult)) {
             eJourStatus = EJourStatus.callBack_NO;

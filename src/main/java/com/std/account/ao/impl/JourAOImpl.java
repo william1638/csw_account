@@ -284,7 +284,7 @@ public class JourAOImpl implements IJourAO {
      */
     @Override
     @Transactional
-    public void doCallBackChange(String code, String rollbackResult,
+    public void doCallBackOffChange(String code, String rollbackResult,
             String rollbackUser, String rollbackNote, String systemCode) {
         Jour data = jourBO.getJour(code, systemCode);
         // 判断流水状态
@@ -315,7 +315,7 @@ public class JourAOImpl implements IJourAO {
                 postAmount = preAmount - data.getTransAmount();
             }
         }
-        jourBO.callBackChangeJour(code, rollbackResult, rollbackUser,
+        jourBO.callBackOffChangeJour(data, rollbackResult, rollbackUser,
             rollbackNote, preAmount, postAmount);
     }
 
@@ -325,7 +325,7 @@ public class JourAOImpl implements IJourAO {
             String rollbackResult, String rollbackUser, String rollbackNote,
             String systemCode) {
         for (String code : codeList) {
-            this.doCallBackChange(code, rollbackResult, rollbackUser,
+            this.doCallBackOffChange(code, rollbackResult, rollbackUser,
                 rollbackNote, systemCode);
         }
     }

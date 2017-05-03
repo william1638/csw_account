@@ -216,20 +216,18 @@ public class WeChatAOImpl implements IWeChatAO {
         if (!isSucc) {
             // 支付失败
             System.out.println("支付失败");
-            jourBO.callBackChangeJour(fromJour.getCode(),
-                EBoolean.NO.getCode(), "WeChat_APP", "微信APP支付后台自动回调",
-                wechatOrderNo);
-            jourBO.callBackChangeJour(toJour.getCode(), EBoolean.NO.getCode(),
+            jourBO.callBackChangeJour(fromJour, EBoolean.NO.getCode(),
+                "WeChat_APP", "微信APP支付后台自动回调", wechatOrderNo);
+            jourBO.callBackChangeJour(toJour, EBoolean.NO.getCode(),
                 "WeChat_APP", "微信APP支付后台自动回调", wechatOrderNo);
         } else {
             System.out.println("===============付款成功==============");
             // ------------------------------
             // 处理业务开始
             // ------------------------------
-            jourBO.callBackChangeJour(fromJour.getCode(),
-                EBoolean.YES.getCode(), "WeChat_APP", "微信APP支付后台自动回调",
-                wechatOrderNo);
-            jourBO.callBackChangeJour(toJour.getCode(), EBoolean.YES.getCode(),
+            jourBO.callBackChangeJour(fromJour, EBoolean.YES.getCode(),
+                "WeChat_APP", "微信APP支付后台自动回调", wechatOrderNo);
+            jourBO.callBackChangeJour(toJour, EBoolean.YES.getCode(),
                 "WeChat_APP", "微信APP支付后台自动回调", wechatOrderNo);
             // 收款方账户加钱
             accountBO.transAmountNotJour(systemCode, toJour.getAccountNumber(),
@@ -277,20 +275,18 @@ public class WeChatAOImpl implements IWeChatAO {
         if (!isSucc) {
             // 支付失败
             System.out.println("支付失败");
-            jourBO.callBackChangeJour(fromJour.getCode(),
-                EBoolean.NO.getCode(), "WeChat_H5", "微信公众号支付后台自动回调",
-                wechatOrderNo);
-            jourBO.callBackChangeJour(toJour.getCode(), EBoolean.NO.getCode(),
+            jourBO.callBackChangeJour(fromJour, EBoolean.NO.getCode(),
+                "WeChat_H5", "微信公众号支付后台自动回调", wechatOrderNo);
+            jourBO.callBackChangeJour(toJour, EBoolean.NO.getCode(),
                 "WeChat_H5", "微信公众号支付后台自动回调", wechatOrderNo);
         } else {
             System.out.println("===============付款成功==============");
             // ------------------------------
             // 处理业务开始
             // ------------------------------
-            jourBO.callBackChangeJour(fromJour.getCode(),
-                EBoolean.YES.getCode(), "WeChat_H5", "微信公众号支付后台自动回调",
-                wechatOrderNo);
-            jourBO.callBackChangeJour(toJour.getCode(), EBoolean.YES.getCode(),
+            jourBO.callBackChangeJour(fromJour, EBoolean.YES.getCode(),
+                "WeChat_H5", "微信公众号支付后台自动回调", wechatOrderNo);
+            jourBO.callBackChangeJour(toJour, EBoolean.YES.getCode(),
                 "WeChat_H5", "微信公众号支付后台自动回调", wechatOrderNo);
             // 收款方账户加钱
             accountBO.transAmountNotJour(systemCode, toJour.getAccountNumber(),
@@ -333,14 +329,14 @@ public class WeChatAOImpl implements IWeChatAO {
         if (!isSucc) {
             // 支付失败
             System.out.println("支付失败");
-            jourBO.callBackChangeJour(jour.getCode(), EBoolean.NO.getCode(),
-                "WeChat_H5", "微信公众号充值后台自动回调", wechatOrderNo);
+            jourBO.callBackChangeJour(jour, EBoolean.NO.getCode(), "WeChat_H5",
+                "微信公众号充值后台自动回调", wechatOrderNo);
         } else {
             System.out.println("===============付款成功==============");
             // ------------------------------
             // 处理业务开始
             // ------------------------------
-            jourBO.callBackChangeJour(jour.getCode(), EBoolean.YES.getCode(),
+            jourBO.callBackChangeJour(jour, EBoolean.YES.getCode(),
                 "WeChat_H5", "微信公众号充值后台自动回调", wechatOrderNo);
             // 账户加钱
             accountBO.transAmountNotJour(systemCode, jour.getAccountNumber(),
@@ -386,20 +382,18 @@ public class WeChatAOImpl implements IWeChatAO {
         if (!isSucc) {
             // 支付失败
             System.out.println("支付失败");
-            jourBO.callBackChangeJour(fromJour.getCode(),
-                EBoolean.NO.getCode(), "WeChat_NATIVE", "微信公众号支付后台自动回调",
-                wechatOrderNo);
-            jourBO.callBackChangeJour(toJour.getCode(), EBoolean.NO.getCode(),
+            jourBO.callBackChangeJour(fromJour, EBoolean.NO.getCode(),
+                "WeChat_NATIVE", "微信公众号支付后台自动回调", wechatOrderNo);
+            jourBO.callBackChangeJour(toJour, EBoolean.NO.getCode(),
                 "WeChat_NATIVE", "微信扫码支付后台自动回调", wechatOrderNo);
         } else {
             System.out.println("===============付款成功==============");
             // ------------------------------
             // 处理业务开始
             // ------------------------------
-            jourBO.callBackChangeJour(fromJour.getCode(),
-                EBoolean.YES.getCode(), "WeChat_NATIVE", "微信公众号支付后台自动回调",
-                wechatOrderNo);
-            jourBO.callBackChangeJour(toJour.getCode(), EBoolean.YES.getCode(),
+            jourBO.callBackChangeJour(fromJour, EBoolean.YES.getCode(),
+                "WeChat_NATIVE", "微信公众号支付后台自动回调", wechatOrderNo);
+            jourBO.callBackChangeJour(toJour, EBoolean.YES.getCode(),
                 "WeChat_NATIVE", "微信扫码支付后台自动回调", wechatOrderNo);
             // 收款方账户加钱
             accountBO.transAmountNotJour(systemCode, toJour.getAccountNumber(),

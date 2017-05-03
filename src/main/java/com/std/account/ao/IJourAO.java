@@ -71,7 +71,7 @@ public interface IJourAO {
      * @create: 2016年12月24日 上午8:21:37 xieyj
      * @history:
      */
-    public void doCallBackChange(String code, String rollbackResult,
+    public void doCallBackOffChange(String code, String rollbackResult,
             String rollbackUser, String rollbackNote, String systemCode);
 
     /**
