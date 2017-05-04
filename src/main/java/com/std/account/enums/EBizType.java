@@ -15,7 +15,7 @@ public enum EBizType {
             "正汇O2O支付")
     // 取现审批和兑换币种，产生记录为冻结流水，故我的流水中排除这些情况
     , EXCHANGE_CURRENCY("200", "币种兑换"), Transfer_CURRENCY("201", "同币种的划转"), AJ_CGBGM(
-            "210", "采购币购买"), CG_HB2CGB("211", "嗨币兑换菜狗币");
+            "210", "菜狗币购买"), CG_HB2CGB("211", "嗨币兑换菜狗币");
 
     public static Map<String, EBizType> getBizTypeMap() {
         Map<String, EBizType> map = new HashMap<String, EBizType>();
