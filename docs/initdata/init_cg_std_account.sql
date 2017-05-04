@@ -10,9 +10,9 @@ INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`r
 INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('2','cuserQxbs','100','',now(),'C端取现金额倍数','CD-CCG000007','CD-CCG000007');
 INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('2','cuserQxfl','0.02','',now(),'C端取现手续费率','CD-CCG000007','CD-CCG000007');
 INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('2','cuserQxsx','1','',now(),'C端取现时效(单位：天)','CD-CCG000007','CD-CCG000007');
-INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('2','buserQxbs','100','',now(),'B端取现金额倍数','CD-CCG000007','CD-CCG000007');
-INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('2','buserQxfl','0.02','',now(),'B端取现手续费率','CD-CCG000007','CD-CCG000007');
-INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('2','buserQxsx','1','',now(),'B端取现时效(单位：天)','CD-CCG000007','CD-CCG000007');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('3','buserQxbs','100','',now(),'B端取现金额倍数','CD-CCG000007','CD-CCG000007');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('3','buserQxfl','0.02','',now(),'B端取现手续费率','CD-CCG000007','CD-CCG000007');
+INSERT INTO `tsys_config` (`type`,`ckey`,`cvalue`,`updater`,`update_datetime`,`remark`,`company_code`,`system_code`) VALUES ('3','buserQxsx','1','',now(),'B端取现时效(单位：天)','CD-CCG000007','CD-CCG000007');
 
 /*
 -- Query: SELECT `account_number`,`user_id`,`real_name`,`type`,`status`,`currency`,0 `amount`,0 `frozen_amount`,`md5`,0 `add_amount`,0 `in_amount`,0 `out_amount`,`create_datetime`,'' `last_order`,`system_code` FROM std_account.tstd_account where user_id = 'SYS_USER_CAIGO'
