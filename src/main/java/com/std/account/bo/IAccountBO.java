@@ -139,4 +139,8 @@ public interface IAccountBO extends IPaginableBO<Account> {
      * @history:
      */
     public List<Account> queryAccountList(Account data);
+
+    public void transAmount(String accountNumber, String channelType,
+            String channelOrder, Long transAmount, String bizType,
+            String bizNote);
 }
