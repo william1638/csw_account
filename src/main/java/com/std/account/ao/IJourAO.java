@@ -35,37 +35,31 @@ public interface IJourAO {
     public Object doRechargeOnline(String userId, String payType, Long amount);
 
     /**
-     * 外部支付待回调
-     * @param accountNumber
-     * @param bankcardNumber
-     * @param transAmount
-     * @param bizType
-     * @param bizNote
-     * @param channelTypeList
-     * @param systemCode 
-     * @create: 2016年12月23日 下午9:09:43 xieyj
-     * @history:
-     */
-    public String doChangeAmount(String accountNumber, String bankcardNumber,
-            Long transAmount, String bizType, String bizNote,
-            List<String> channelTypeList, String systemCode, String tradePwd);
-
-    /**
-     * 外部批量支付
+     * 线下充值申请
      * @param accountNumberList
      * @param bankcardNumber
      * @param transAmount
      * @param bizType
      * @param bizNote
-     * @param channelTypeList
-     * @param systemCode
-     * @return 
-     * @create: 2017年1月4日 下午4:49:29 xieyj
+     * @param systemCode 
+     * @create: 2017年5月2日 下午2:04:59 xieyj
      * @history:
      */
     public void doChangeAmountList(List<String> accountNumberList,
             String bankcardNumber, Long transAmount, String bizType,
-            String bizNote, List<String> channelTypeList, String systemCode);
+            String bizNote, String systemCode);
+
+    /**
+     * 取现申请
+     * @param accountNumber
+     * @param bankcardNumber
+     * @param transAmount
+     * @param systemCode 
+     * @create: 2016年12月23日 下午9:09:43 xieyj
+     * @history:
+     */
+    public void doOfflineWith(String accountNumber, String bankcardNumber,
+            Long transAmount, String systemCode, String tradePwd);
 
     /**
      * 回调支付
@@ -77,7 +71,7 @@ public interface IJourAO {
      * @create: 2016年12月24日 上午8:21:37 xieyj
      * @history:
      */
-    public void doCallBackChange(String code, String rollbackResult,
+    public void doCallBackOffChange(String code, String rollbackResult,
             String rollbackUser, String rollbackNote, String systemCode);
 
     /**

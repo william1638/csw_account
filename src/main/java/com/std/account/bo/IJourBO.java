@@ -33,33 +33,50 @@ public interface IJourBO extends IPaginableBO<Jour> {
             String channelType, String bizType, String bizNote,
             Long transAmount, String payGroup);
 
+    public String addWithChangeJour(String systemCode, String accountNumber,
+            String channelType, String bizType, String bizNote,
+            Long transAmount, Long fee, String payGroup);
+
     /**
-     *  回调处理流水
-     * @param code
-     * @param rollbackResult
+     * from线上划账成功回调处理流水(发生前金额，发生后金额不变)
+     * @param data
      * @param rollbackUser
      * @param rollbackNote
+     * @param channelOrder
      * @return 
-     * @create: 2016年12月25日 下午2:43:24 xieyj
+     * @create: 2017年5月3日 下午1:04:33 xieyj
      * @history:
      */
-    public int callBackChangeJour(String code, String rollbackResult,
+    public int callBackFromChangeJour(Jour data, String rollbackUser,
+            String rollbackNote, String channelOrder);
+
+    /**
+     * 线上充值/to线上划账回调处理流水(发生前金额，发生后金额内部设置)
+     * @param data
+     * @param rollBackResult
+     * @param rollbackUser
+     * @param rollbackNote
+     * @param channelOrder
+     * @return 
+     * @create: 2017年5月3日 上午11:07:35 xieyj
+     * @history:
+     */
+    public int callBackChangeJour(Jour data, String rollBackResult,
             String rollbackUser, String rollbackNote, String channelOrder);
 
     /**
-     * 回调处理流水
-     * @param code
+     * 线下充值取现回调处理流水
+     * @param data
      * @param rollbackResult
      * @param rollbackUser
      * @param rollbackNote
      * @param preAmount
      * @param postAmount
-     * @param channelOrder
      * @return 
-     * @create: 2016年12月26日 下午8:37:30 xieyj
+     * @create: 2017年5月3日 上午11:09:27 xieyj
      * @history:
      */
-    public int callBackChangeJour(String code, String rollbackResult,
+    public int callBackOffChangeJour(Jour data, String rollbackResult,
             String rollbackUser, String rollbackNote, Long preAmount,
             Long postAmount);
 
@@ -142,6 +159,15 @@ public interface IJourBO extends IPaginableBO<Jour> {
      * @history:
      */
     public List<Jour> queryJourList(Jour condition);
+
+    /**
+     * 判断申请记录是否存在
+     * @param accountNumber
+     * @param bizType 
+     * @create: 2017年5月2日 下午2:24:39 xieyj
+     * @history:
+     */
+    public void doCheckExistApplyJour(String accountNumber, String bizType);
 
     /**
      * 获取详情

@@ -11,6 +11,7 @@ package com.std.account.ao.impl;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import com.std.account.bo.IAccountBO;
 import com.std.account.bo.IBankcardBO;
 import com.std.account.bo.ICompanyChannelBO;
 import com.std.account.bo.IJourBO;
+import com.std.account.bo.ISYSConfigBO;
 import com.std.account.bo.IUserBO;
 import com.std.account.bo.IWechatBO;
 import com.std.account.bo.base.Paginable;
@@ -32,6 +34,7 @@ import com.std.account.domain.Bankcard;
 import com.std.account.domain.CompanyChannel;
 import com.std.account.domain.Jour;
 import com.std.account.domain.User;
+import com.std.account.enums.EAccountType;
 import com.std.account.enums.EBizType;
 import com.std.account.enums.EBoolean;
 import com.std.account.enums.EChannelType;
@@ -40,6 +43,7 @@ import com.std.account.enums.EJourStatus;
 import com.std.account.enums.EPayType;
 import com.std.account.enums.ESysUser;
 import com.std.account.exception.BizException;
+import com.std.account.util.AmountUtil;
 
 /** 
  * @author: xieyj 
@@ -66,6 +70,9 @@ public class JourAOImpl implements IJourAO {
 
     @Autowired
     private IWechatBO wechatBO;
+
+    @Autowired
+    private ISYSConfigBO sysConfigBO;
 
     /** 
      * @see com.std.account.ao.IJourAO#doRechargeOnline(java.lang.String, java.lang.String)
@@ -116,25 +123,28 @@ public class JourAOImpl implements IJourAO {
         return wechatBO.getPayInfoH5(companyChannel, jourCode, prepayId);
     }
 
-    /*
-     * 外部账支付：1、产生支付申请订单；2、返回支付链接；
+    /**
+     * 取现申请
+     * @see com.std.account.ao.IJourAO#doOfflineWith(java.lang.String, java.lang.String, java.lang.Long, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     @Override
-    public String doChangeAmount(String accountNumber, String bankcardNumber,
-            Long transAmount, String bizType, String bizNote,
-            List<String> channelTypeList, String systemCode, String tradePwd) {
+    @Transactional
+    public void doOfflineWith(String accountNumber, String bankcardNumber,
+            Long transAmount, String systemCode, String tradePwd) {
         Account account = accountBO.getAccount(accountNumber);
         if (StringUtils.isNotBlank(tradePwd)) {
             userBO.checkTradePwd(account.getUserId(), tradePwd);
         }
-        String payUrl = null;
-        EChannelType channelType = companyChannelBO.getBestChannel(systemCode,
-            channelTypeList);
-        // 业务备注前端没有传进来，由程序生成
+        String bizType = EBizType.AJ_QX.getCode();
+        // 判断是否有取现申请待批准记录
+        jourBO.doCheckExistApplyJour(accountNumber, bizType);
+        // 业务备注由程序生成
+        String bizNote = "";
         if (StringUtils.isNotBlank(bankcardNumber)) {
             Bankcard bankcard = bankcardBO
                 .getBankcardByBankcardNumber(bankcardNumber);
             if (bankcard != null) {
+                bizNote += "户名：" + bankcard.getRealName() + " ";
                 bizNote += "卡号：" + bankcardNumber + " ";
                 bizNote += "银行：" + bankcard.getBankName() + " ";
                 if (StringUtils.isNotBlank(bankcard.getSubbranch())) {
@@ -146,16 +156,113 @@ public class JourAOImpl implements IJourAO {
         } else {
             bizNote = EBizType.getBizTypeMap().get(bizType).getValue();
         }
-        String code = jourBO.addToChangeJour(systemCode, accountNumber,
-            channelType.getCode(), bizType, bizNote, transAmount, null);
+        doOfflineWith(accountNumber, bankcardNumber, transAmount, bizType,
+            bizNote, systemCode, account);
+    }
+
+    /** 
+     * @param accountNumber
+     * @param bankcardNumber
+     * @param transAmount
+     * @param bizType
+     * @param bizNote
+     * @param systemCode
+     * @param account 
+     * @create: 2017年5月2日 下午2:12:52 xieyj
+     * @history: 
+     */
+    private void doOfflineWith(String accountNumber, String bankcardNumber,
+            Long transAmount, String bizType, String bizNote,
+            String systemCode, Account account) {
+        // 手续费
+        Long fee = 0L;
+        if (EAccountType.Customer.getCode().equals(account.getType())) {
+            fee = doCheckWithArgs(transAmount, SysConstant.CUSERQXBS,
+                SysConstant.CUSERQXFL, systemCode);
+        } else if (EAccountType.Business.getCode().equals(account.getType())) {
+            fee = doCheckWithArgs(transAmount, SysConstant.BUSERQXBS,
+                SysConstant.BUSERQXFL, systemCode);
+        }
         // 取现冻结
-        if (EBizType.AJ_QX.getCode().equals(bizType)) {
-            if (EChannelType.CZB.getCode().equals(channelType.getCode())) {
-                accountBO.frozenAmount(systemCode, accountNumber, -transAmount,
-                    code);
+        String code = jourBO.addWithChangeJour(systemCode, accountNumber,
+            EChannelType.CZB.getCode(), bizType, bizNote, transAmount - fee,
+            fee, null);
+        accountBO.frozenAmount(systemCode, accountNumber, -transAmount + fee,
+            code);
+    }
+
+    /**
+     * 取现申请检查，验证参数，返回手续费
+     * @param transAmount
+     * @param qxbs
+     * @param qxfl
+     * @param systemCode
+     * @return 
+     * @create: 2017年5月2日 下午4:15:01 xieyj
+     * @history:
+     */
+    private Long doCheckWithArgs(Long transAmount, String qxbs, String qxfl,
+            String systemCode) {
+        Map<String, String> argsMap = sysConfigBO.getConfigsMap(systemCode);
+        String qxBsValue = argsMap.get(qxbs);
+        if (StringUtils.isNotBlank(qxBsValue)) {
+            // 取现金额倍数
+            Long qxBs = AmountUtil.mul(1000L, Double.valueOf(qxBsValue));
+            if (qxBs > 0 && -transAmount % qxBs > 0) {
+                throw new BizException("xn000000", "请取" + qxBsValue + "的倍数");
             }
         }
-        return payUrl;
+        String feeRateValue = argsMap.get(qxfl);
+        Double feeRate = 0D;
+        if (StringUtils.isNotBlank(feeRateValue)) {
+            feeRate = Double.valueOf(feeRateValue);
+        }
+        return AmountUtil.mul(-transAmount, feeRate);
+    }
+
+    /** 
+     * @param accountNumber
+     * @param bankcardNumber
+     * @param transAmount
+     * @param bizType
+     * @param bizNote
+     * @param channelTypeList
+     * @param systemCode
+     * @param tradePwd
+     * @return 
+     * @create: 2017年4月24日 下午10:48:58 xieyj
+     * @history: 
+     */
+    private void doChangeAmount(String accountNumber, String bankcardNumber,
+            Long transAmount, String bizType, String bizNote, String systemCode) {
+        Account account = accountBO.getAccount(accountNumber);
+        // 业务备注由程序生成
+        if (StringUtils.isNotBlank(bankcardNumber)) {
+            Bankcard bankcard = bankcardBO
+                .getBankcardByBankcardNumber(bankcardNumber);
+            if (bankcard != null) {
+                bizNote += "户名：" + bankcard.getRealName() + " ";
+                bizNote += "卡号：" + bankcardNumber + " ";
+                bizNote += "银行：" + bankcard.getBankName() + " ";
+                if (StringUtils.isNotBlank(bankcard.getSubbranch())) {
+                    bizNote += "支行：" + bankcard.getSubbranch();
+                }
+            } else {
+                bizNote = bankcardNumber;
+            }
+        } else {
+            bizNote = EBizType.getBizTypeMap().get(bizType).getValue();
+        }
+        // 取现冻结
+        if (EBizType.AJ_QX.getCode().equals(bizType)) {
+            this.doOfflineWith(accountNumber, bankcardNumber, transAmount,
+                bizType, bizNote, systemCode, account);
+        } else {
+            jourBO
+                .addToChangeJour(systemCode, accountNumber,
+                    EChannelType.CZB.getCode(), bizType, bizNote, transAmount,
+                    null);
+        }
     }
 
     /*
@@ -165,10 +272,10 @@ public class JourAOImpl implements IJourAO {
     @Transactional
     public void doChangeAmountList(List<String> accountNumberList,
             String bankcardNumber, Long transAmount, String bizType,
-            String bizNote, List<String> channelTypeList, String systemCode) {
+            String bizNote, String systemCode) {
         for (String accountNumber : accountNumberList) {
             this.doChangeAmount(accountNumber, bankcardNumber, transAmount,
-                bizType, bizNote, channelTypeList, systemCode, null);
+                bizType, bizNote, systemCode);
         }
     }
 
@@ -177,7 +284,7 @@ public class JourAOImpl implements IJourAO {
      */
     @Override
     @Transactional
-    public void doCallBackChange(String code, String rollbackResult,
+    public void doCallBackOffChange(String code, String rollbackResult,
             String rollbackUser, String rollbackNote, String systemCode) {
         Jour data = jourBO.getJour(code, systemCode);
         // 判断流水状态
@@ -207,9 +314,8 @@ public class JourAOImpl implements IJourAO {
                     -data.getTransAmount(), code);
                 postAmount = preAmount - data.getTransAmount();
             }
-
         }
-        jourBO.callBackChangeJour(code, rollbackResult, rollbackUser,
+        jourBO.callBackOffChangeJour(data, rollbackResult, rollbackUser,
             rollbackNote, preAmount, postAmount);
     }
 
@@ -219,7 +325,7 @@ public class JourAOImpl implements IJourAO {
             String rollbackResult, String rollbackUser, String rollbackNote,
             String systemCode) {
         for (String code : codeList) {
-            this.doCallBackChange(code, rollbackResult, rollbackUser,
+            this.doCallBackOffChange(code, rollbackResult, rollbackUser,
                 rollbackNote, systemCode);
         }
     }

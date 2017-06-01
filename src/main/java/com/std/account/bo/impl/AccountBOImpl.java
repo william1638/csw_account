@@ -2,6 +2,7 @@ package com.std.account.bo.impl;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -243,4 +244,41 @@ public class AccountBOImpl extends PaginableBOImpl<Account> implements
         condition.setCurrency(currency);
         return accountDAO.select(condition);
     }
+
+    @Override
+    public void transAmount(String accountNumber, String channelType,
+            String channelOrder, Long transAmount, String bizType,
+            String bizNote) {
+        Map<String, EChannelType> type = EChannelType.getChannelTypeResultMap();
+        EChannelType echannelType = type.get(channelType);
+        System.out.println(accountNumber
+                + ".........................................");
+        Account dbAccount = this.getAccount(accountNumber);
+        String systemCode = dbAccount.getSystemCode();
+        Long nowAmount = dbAccount.getAmount() + transAmount;
+        // 特定账户余额可为负
+        // !ESysAccount.getResultMap().containsKey(accountNumber)
+        if (!dbAccount.getUserId().contains(ESysUser.SYS_USER.getCode())
+                && nowAmount < 0) {
+            throw new BizException("xn000000", "账户余额不足");
+        }
+        // 记录流水
+        String lastOrder = jourBO.addChangedJour(systemCode, accountNumber,
+            echannelType, channelOrder, bizType, bizNote,
+            dbAccount.getAmount(), transAmount);
+        // 更改余额
+        Account data = new Account();
+        data.setAccountNumber(accountNumber);
+        data.setAmount(nowAmount);
+        data.setMd5(AccountUtil.md5(dbAccount.getMd5(), dbAccount.getAmount(),
+            nowAmount));
+        // 修改累计增加金额
+        data.setAddAmount(dbAccount.getAddAmount());
+        if (transAmount > 0) {
+            data.setAddAmount(dbAccount.getAddAmount() + transAmount);
+        }
+        data.setLastOrder(lastOrder);
+        accountDAO.updateAmount(data);
+    }
+
 }

@@ -245,24 +245,20 @@ public class AlipayAOImpl implements IAlipayAO {
                         && sellerId.equals(companyChannel.getChannelCompany())
                         && appId.equals(companyChannel.getPrivateKey3())) {
                     isSuccess = true;
-                    jourBO.callBackChangeJour(fromJour.getCode(),
-                        EBoolean.YES.getCode(), "ALIPAY", "支付宝APP支付后台自动回调",
-                        alipayOrderNo);
-                    jourBO.callBackChangeJour(toJour.getCode(),
-                        EBoolean.YES.getCode(), "ALIPAY", "支付宝APP支付后台自动回调",
-                        alipayOrderNo);
+                    jourBO.callBackFromChangeJour(fromJour, "ALIPAY",
+                        "支付宝APP支付后台自动回调", alipayOrderNo);
+                    jourBO.callBackChangeJour(toJour, EBoolean.YES.getCode(),
+                        "ALIPAY", "支付宝APP支付后台自动回调", alipayOrderNo);
                     // 收款方账户加钱
                     accountBO.transAmountNotJour(systemCode,
                         toJour.getAccountNumber(), toJour.getTransAmount(),
                         toJour.getCode());
                 } else {
                     // 支付失败
-                    jourBO.callBackChangeJour(fromJour.getCode(),
-                        EBoolean.NO.getCode(), "ALIPAY", "支付宝APP支付后台自动回调",
-                        alipayOrderNo);
-                    jourBO.callBackChangeJour(toJour.getCode(),
-                        EBoolean.NO.getCode(), "ALIPAY", "支付宝APP支付后台自动回调",
-                        alipayOrderNo);
+                    jourBO.callBackChangeJour(fromJour, EBoolean.NO.getCode(),
+                        "ALIPAY", "支付宝APP支付后台自动回调", alipayOrderNo);
+                    jourBO.callBackChangeJour(toJour, EBoolean.NO.getCode(),
+                        "ALIPAY", "支付宝APP支付后台自动回调", alipayOrderNo);
                     if (!EJourStatus.todoCallBack.getCode().equals(
                         fromJour.getStatus())) {
                         throw new BizException("xn000000", "流水不处于待回调状态，重复回调");

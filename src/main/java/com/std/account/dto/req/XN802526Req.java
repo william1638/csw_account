@@ -6,19 +6,19 @@ package com.std.account.dto.req;
  * @history:
  */
 public class XN802526Req {
-    // 系统编号
+    // 系统编号(必填)
     private String systemCode;
 
-    // 银行卡号
+    // 银行卡号(必填)
     private String bankcardNumber;
 
-    // 发生金额
+    // 发生金额(必填)
     private String transAmount;
 
-    // 账户编号
+    // 账户编号(必填)
     private String accountNumber;
 
-    // 交易密码
+    // 交易密码(选填)
     private String tradePwd;
 
     public String getTradePwd() {
